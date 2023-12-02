@@ -54,6 +54,11 @@ public class Constants {
 
             public static final int backLeftTurnEncoderChannel = 1;
             public static final int backRightTurnEncoderChannel = 2;
+
+            public static final double frontLeftOffset = 1.509;
+            public static final double backLeftOffset = 3.981;
+            public static final double frontRightOffset = 2.129;
+            public static final double backRightOffset = 0.636;
         }
     }
 }
