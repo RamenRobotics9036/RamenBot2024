@@ -7,6 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+/**
+ * The `Robot` class extends `TimedRobot` and is the main class for controlling the robot's
+ * operations. It initializes the robot, runs periodic tasks, and handles the teleoperation
+ * control period of the robot. It uses a `RobotContainer` instance to manage the robot's
+ * subsystems and commands.
+ */
 public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer = new RobotContainer();
 
