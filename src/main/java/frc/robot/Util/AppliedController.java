@@ -9,7 +9,7 @@ public class AppliedController extends XboxController {
 
     public AppliedController(int port) {
         super(port);
-        this.controllerDeadband = OperatorConstants.controllerDeadband;
+        this.controllerDeadband = OperatorConstants.controllerDeadbandPercent;
     }
 
     @Override
