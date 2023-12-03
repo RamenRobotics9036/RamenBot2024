@@ -20,10 +20,10 @@ public class DriveSwerveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double xSpeed = m_controller.getLeftX();
-        double ySpeed = m_controller.getLeftY();
+        double forwardBackSpeed = m_controller.getLeftY();
+        double leftRightSpeed = m_controller.getLeftX();
         double rot = m_controller.getRightX();
-        m_swerveDrive.drive(xSpeed, ySpeed, rot);
+        m_swerveDrive.drive(forwardBackSpeed, leftRightSpeed, rot);
     }
 
     @Override
