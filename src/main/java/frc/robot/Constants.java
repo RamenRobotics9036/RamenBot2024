@@ -21,13 +21,11 @@ public class Constants {
         public static final double turningPID_I = 0;
         public static final double turningPID_D = 1;
 
-        public static final double turningFeedForward_S = 0;
-        public static final double turningFeedForward_V = 0;
+        public static final double drivingFeedForward_S = 0.11095;
+        public static final double drivingFeedForward_V = 2.3901;
+        public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double drivingFeedForward_S = 1;
-        public static final double drivingFeedForward_V = 0.5;
-
-        public static final double maxSpeedMetersPerSecond = 3.0;
+        public static final double maxSpeedMetersPerSecond = 2.0;
         public static final double maxAngularSpeed = Math.PI;
         public static final double maxAngularAcceleration = 2 * Math.PI;
 
