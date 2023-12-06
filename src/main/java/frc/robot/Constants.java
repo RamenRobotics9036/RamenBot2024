@@ -10,16 +10,16 @@ public class Constants {
         public static final double frameDistanceToModulesMeters = 0.28;
         public static final double wheelRadiusMeters = 0.051;
 
-        public static final int gyroChannelPWM = 0;
+        public static final int gyroCanID = 7;
         public static final double maxOutputPercentage = 1;
 
         public static final double drivingPID_P = 0.05;
         public static final double drivingPID_I = 0;
         public static final double drivingPID_D = 0;
 
-        public static final double turningPID_P = 1.5;
+        public static final double turningPID_P = 2.82;
         public static final double turningPID_I = 0;
-        public static final double turningPID_D = 0.3;
+        public static final double turningPID_D = 1;
 
         public static final double turningFeedForward_S = 0;
         public static final double turningFeedForward_V = 0;
@@ -56,9 +56,9 @@ public class Constants {
             public static final int backRightTurnEncoderChannel = 2;
 
             public static final double frontLeftOffset = 1.509;
-            public static final double backLeftOffset = 3.981;
+            public static final double backLeftOffset = 3.981 - Math.PI;
             public static final double frontRightOffset = 2.129;
-            public static final double backRightOffset = 0.636;
+            public static final double backRightOffset = 0.636 + Math.PI;
         }
     }
 }

@@ -96,7 +96,6 @@ public class SwerveModule {
     ShuffleboardTab tab = Shuffleboard.getTab(tabName);
     tab.addDouble("Desired Angle Setpoint", () -> m_turningPIDController.getSetpoint().position);
     tab.addDouble("Desired Velocty Setpoint", () -> m_drivePIDController.getSetpoint());
-    tab.addDouble("Test", () -> 12);
     tab.addDouble("Offset", () -> getOffset());
   }
 
@@ -120,6 +119,7 @@ public class SwerveModule {
   }
 
   public double getTurnEncoderValue() {
+    // TODO: use MathUtil unit conversion functions to make code more readable
     return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - m_offSet) % (2 * Math.PI);
   }
 
