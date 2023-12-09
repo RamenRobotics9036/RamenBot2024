@@ -8,20 +8,20 @@ public class Constants {
 
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
-        
+
         public static final double frameDistanceToModulesMeters = 0.28;
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
         public static final double maxOutputPercentage = 1;
 
-        public static final double drivingPID_P = 0.05;
+        public static final double drivingPID_P = 0.7;
         public static final double drivingPID_I = 0;
         public static final double drivingPID_D = 0;
 
         public static final double turningPID_P = 1;
         public static final double turningPID_I = 0;
-        public static final double turningPID_D = 0;
+        public static final double turningPID_D = 0.05;
 
         public static final double drivingFeedForward_S = 0.11095;
         public static final double drivingFeedForward_V = 2.3901;
