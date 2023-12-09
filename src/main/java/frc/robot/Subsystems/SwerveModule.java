@@ -16,8 +16,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Util.AppliedEncoder;
 
@@ -36,14 +37,22 @@ public class SwerveModule {
   private final RelativeEncoder m_driveRelativeEncoder;
   private final RelativeEncoder m_turnRelativeEncoder;
 
+  public static final double pidDriveP = SwerveSystemConstants.drivingPID_P;
+  public static final double pidDriveI = SwerveSystemConstants.drivingPID_I;
+  public static final double pidDriveD = SwerveSystemConstants.drivingPID_D;
+
+  public static final double pidTurnP = SwerveSystemConstants.turningPID_P;
+  public static final double pidTurnI = SwerveSystemConstants.turningPID_I;
+  public static final double pidTurnD = SwerveSystemConstants.turningPID_D;
+
   private final double m_offSet;
   private double m_driveSetPoint = 0;
   private double m_turnSetPoint = 0;
 
   private final PIDController m_drivePIDController = new PIDController(
-    SwerveSystemConstants.drivingPID_P,
-    SwerveSystemConstants.drivingPID_I,
-    SwerveSystemConstants.drivingPID_D);
+    pidDriveP,
+    pidDriveI,
+    pidDriveD);
     
   private final SparkMaxPIDController m_turnPIDController;
 
@@ -61,10 +70,10 @@ public class SwerveModule {
     
     m_driveMotor.restoreFactoryDefaults();
     m_turningMotor.restoreFactoryDefaults();
-    m_turningMotor.setInverted(true);
 
     m_driveMotor.setSmartCurrentLimit(currentLimit);
     m_turningMotor.setSmartCurrentLimit(currentLimit);
+    m_turningMotor.setInverted(true);
     
     m_driveRelativeEncoder = m_driveMotor.getEncoder();
     m_turnRelativeEncoder = m_turningMotor.getEncoder();
@@ -80,9 +89,9 @@ public class SwerveModule {
     m_turningAbsoluteEncoder.setDistancePerRotation(turnGearRatio * Math.PI * 2);
 
     m_turnPIDController = m_turningMotor.getPIDController();
-    m_turnPIDController.setP(SwerveSystemConstants.turningPID_P);
-    m_turnPIDController.setI(SwerveSystemConstants.turningPID_I);
-    m_turnPIDController.setD(SwerveSystemConstants.turningPID_D);
+    m_turnPIDController.setP(pidTurnP);
+    m_turnPIDController.setI(pidTurnI);
+    m_turnPIDController.setD(pidTurnD);
 
     m_turnPIDController.setPositionPIDWrappingEnabled(true);
     m_turnPIDController.setPositionPIDWrappingMinInput(0);
@@ -100,15 +109,22 @@ public class SwerveModule {
   }
 
   public void displayDesiredStateToDashBoard(String tabName) {
-    ShuffleboardTab tab = Shuffleboard.getTab(tabName);
-    tab.addDouble("Desired Angle Setpoint", () -> m_turnSetPoint);
-    tab.addDouble("Desired Velocty Setpoint", () -> m_driveSetPoint);
-    tab.addDouble("Offset", () -> getOffset());
+    ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout("Driving", BuiltInLayouts.kList);
+    ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout("Turning", BuiltInLayouts.kList);
 
-    tab.addDouble("Drive Encoder Position Percent", () -> getDriveEncoderPosition());
-    tab.addDouble("Absolute Encoder Percent", () -> getTurnEncoderValue());
-    tab.addDouble("Drive Encoder Position Meters", () -> getDriveEncoderPosition());
-    tab.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
+    ShuffleboardLayout pidTurningLayout = Shuffleboard.getTab(tabName).getLayout("PID Tuning Turn", BuiltInLayouts.kList);
+    ShuffleboardLayout pidDrivingLayout = Shuffleboard.getTab(tabName).getLayout("PID Tuning Drive", BuiltInLayouts.kList);
+    
+    pidTurningLayout.addDouble("Desired Angle Setpoint Radians", () -> m_turnSetPoint);
+    pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderValue());
+
+    pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
+    pidDrivingLayout.addDouble("Drive Encoder Position Rotations", () -> getDriveEncoderPosition());
+
+    drivingLayout.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
+    drivingLayout.addDouble("Drive Encoder Position Rotations", () -> getDriveEncoderPosition());
+
+    turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderValue());
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -125,6 +141,16 @@ public class SwerveModule {
     
     m_driveSetPoint = state.speedMetersPerSecond;
     m_turnSetPoint = state.angle.getRadians();
+  }
+
+  public void updateDrivePID(double pidP, double pidD) {
+    m_drivePIDController.setP(pidP);
+    m_drivePIDController.setD(pidD);
+  }
+
+  public void updateTurnPID(double pidP, double pidD) {
+    m_turnPIDController.setP(pidP);
+    m_turnPIDController.setD(pidD);
   }
 
   public double getOffset() {

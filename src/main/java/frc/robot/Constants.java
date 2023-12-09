@@ -7,6 +7,8 @@ public class Constants {
     }
 
     public static class SwerveSystemConstants {
+        public static final boolean isPIDTuning = true;
+        
         public static final double frameDistanceToModulesMeters = 0.28;
         public static final double wheelRadiusMeters = 0.051;
 
