@@ -17,9 +17,9 @@ public class Constants {
         public static final double drivingPID_I = 0;
         public static final double drivingPID_D = 0;
 
-        public static final double turningPID_P = 2.82;
+        public static final double turningPID_P = 1;
         public static final double turningPID_I = 0;
-        public static final double turningPID_D = 1;
+        public static final double turningPID_D = 0;
 
         public static final double drivingFeedForward_S = 0.11095;
         public static final double drivingFeedForward_V = 2.3901;
@@ -32,7 +32,7 @@ public class Constants {
         public static final int swerveMotorCurrentLimit = 20;
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
-        public static final int turnMotorGearBoxRatio = 1;
+        public static final double turnMotorGearBoxRatio = 6.12 * 2;
 
         public static class SwerveSystemDeviceConstants {
             public static final int frontLeftDriveMotorID = 11;

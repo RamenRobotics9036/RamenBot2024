@@ -84,11 +84,6 @@ public class SwerveDriveSystem extends SubsystemBase {
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
     m_backRight.displayDesiredStateToDashBoard("Back Right");
-
-    displayModuleToDashBoard("Front Left", m_frontLeft);
-    displayModuleToDashBoard("Front Right", m_frontRight);
-    displayModuleToDashBoard("Back Left", m_backLeft);
-    displayModuleToDashBoard("Back Right", m_backRight);
   }
 
   public void drive(double forwardBackSpeed, double leftRightSpeed, double rot) {
@@ -139,14 +134,6 @@ public class SwerveDriveSystem extends SubsystemBase {
 
   public Rotation2d makeRotation2d() {
     return Rotation2d.fromRotations(getAnglePosition());
-  }
-
-  public void displayModuleToDashBoard(String name, SwerveModule module) {
-    ShuffleboardTab tab = Shuffleboard.getTab(name);
-    tab.addDouble("Drive Encoder Position Percent", module::getDriveEncoderPosition);
-    tab.addDouble("Absolute Encoder Percent", module::getTurnEncoderValue);
-    tab.addDouble("Drive Encoder Position Meters", module::getDriveEncoderPosition);
-    tab.addDouble("Drive Encoder Velocity Meters", module::getDriveEncoderVelocity);
   }
 
   @Override
