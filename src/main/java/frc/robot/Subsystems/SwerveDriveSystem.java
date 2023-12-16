@@ -92,7 +92,7 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void drive(double forwardBackSpeed, double leftRightSpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates = m_kinematics.toSwerveModuleStates(
+    SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(forwardBackSpeed, leftRightSpeed, rot, makeRotation2d())
             : new ChassisSpeeds(forwardBackSpeed, leftRightSpeed, rot));
@@ -103,6 +103,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  // $TODO - Is this called anywhere?
   public void displaySwerveStateToDashBoard(String name, SwerveModuleState state) {
     ShuffleboardTab tab = Shuffleboard.getTab(name);
     tab.add("Angle", state.angle);
