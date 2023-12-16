@@ -7,34 +7,34 @@ public class Constants {
     }
 
     public static class SwerveSystemConstants {
-        public static final boolean isPIDTuning = true;
-
         public static final double frameDistanceToModulesMeters = 0.28;
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
         public static final double maxOutputPercentage = 1;
 
-        public static final double drivingPID_P = 0.7;
+        public static final double drivingPID_P = 0.05;
         public static final double drivingPID_I = 0;
         public static final double drivingPID_D = 0;
 
-        public static final double turningPID_P = 1;
+        public static final double turningPID_P = 1.5;
         public static final double turningPID_I = 0;
-        public static final double turningPID_D = 0.05;
+        public static final double turningPID_D = 0.1;
 
-        public static final double drivingFeedForward_S = 0.11095;
-        public static final double drivingFeedForward_V = 2.3901;
-        public static final double drivingFeedForward_A = 0.1212;
+        public static final double turningFeedForward_S = 0;
+        public static final double turningFeedForward_V = 0;
 
-        public static final double maxSpeedMetersPerSecond = 2.0;
+        public static final double drivingFeedForward_S = 1;
+        public static final double drivingFeedForward_V = 0.5;
+
+        public static final double maxSpeedMetersPerSecond = 3.0;
         public static final double maxAngularSpeed = Math.PI;
         public static final double maxAngularAcceleration = 2 * Math.PI;
 
         public static final int swerveMotorCurrentLimit = 20;
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
-        public static final double turnMotorGearBoxRatio = 6.12 * 2;
+        public static final int turnMotorGearBoxRatio = 1;
 
         public static class SwerveSystemDeviceConstants {
             public static final int frontLeftDriveMotorID = 11;

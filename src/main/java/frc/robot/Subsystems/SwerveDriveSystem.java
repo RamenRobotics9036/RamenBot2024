@@ -13,9 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,14 +22,6 @@ import frc.robot.Constants.SwerveSystemConstants.SwerveSystemDeviceConstants;
 import frc.robot.Util.AppliedController;
 
 public class SwerveDriveSystem extends SubsystemBase {
-  GenericEntry m_getPIDDriveP;
-  GenericEntry m_getPIDDriveD;
-
-  GenericEntry m_getPIDTurnP;
-  GenericEntry m_getPIDTurnD;
-
-  public static final boolean isPIDTuning = SwerveSystemConstants.isPIDTuning;
-
   private final double maxSpeed = SwerveSystemConstants.maxSpeedMetersPerSecond;
 
   private final Translation2d m_frontLeftLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, SwerveSystemConstants.frameDistanceToModulesMeters);
@@ -87,37 +76,31 @@ public class SwerveDriveSystem extends SubsystemBase {
           });
 
   public SwerveDriveSystem(AppliedController controller) {
-    initShuffleBoard();
     setDefaultCommand(
         new DriveSwerveCommand(this, controller)
     );
-  }
 
-  public void initShuffleBoard() {
     m_frontLeft.displayDesiredStateToDashBoard("Front Left");
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
     m_backRight.displayDesiredStateToDashBoard("Back Right");
 
-    if (isPIDTuning) {
-      m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDDriveD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive D", SwerveModule.pidDriveD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-
-      m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    }
+    displayModuleToDashBoard("Front Left", m_frontLeft);
+    displayModuleToDashBoard("Front Right", m_frontRight);
+    displayModuleToDashBoard("Back Left", m_backLeft);
+    displayModuleToDashBoard("Back Right", m_backRight);
   }
 
-  public void drive(double xSpeed, double ySpeed, double rot) {
-    drive(xSpeed, ySpeed, rot, false);
+  public void drive(double forwardBackSpeed, double leftRightSpeed, double rot) {
+    drive(forwardBackSpeed, leftRightSpeed, rot, false);
   }
 
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+  public void drive(double forwardBackSpeed, double leftRightSpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, makeRotation2d())
-                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(forwardBackSpeed, leftRightSpeed, rot, makeRotation2d())
+                : new ChassisSpeeds(forwardBackSpeed, leftRightSpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -158,29 +141,16 @@ public class SwerveDriveSystem extends SubsystemBase {
     return Rotation2d.fromRotations(getAnglePosition());
   }
 
-  public void updatePIDFromShuffleBoard() {
-    if (isPIDTuning) {
-      double pidDriveP = m_getPIDDriveP.getDouble(SwerveModule.pidDriveP);
-      double pidDriveD = m_getPIDDriveD.getDouble(SwerveModule.pidDriveD);
-
-      double pidTurnP = m_getPIDTurnP.getDouble(SwerveModule.pidTurnP);
-      double pidTurnD = m_getPIDTurnD.getDouble(SwerveModule.pidTurnD);
-
-      m_frontLeft.updateDrivePID(pidDriveP, pidDriveD);
-      m_frontRight.updateDrivePID(pidDriveP, pidDriveD);
-      m_backLeft.updateDrivePID(pidDriveP, pidDriveD);
-      m_backRight.updateDrivePID(pidDriveP, pidDriveD);
-
-      m_frontLeft.updateTurnPID(pidTurnP, pidTurnD);
-      m_frontRight.updateTurnPID(pidTurnP, pidTurnD);
-      m_backLeft.updateTurnPID(pidTurnP, pidTurnD);
-      m_backRight.updateTurnPID(pidTurnP, pidTurnD);
-    }
+  public void displayModuleToDashBoard(String name, SwerveModule module) {
+    ShuffleboardTab tab = Shuffleboard.getTab(name);
+    tab.addDouble("Drive Encoder Position Percent", module::getDriveEncoderPosition);
+    tab.addDouble("Absolute Encoder Percent", module::getTurnEncoderValue);
+    tab.addDouble("Drive Encoder Position Meters", module::getDriveEncoderPosition);
+    tab.addDouble("Drive Encoder Velocity Meters", module::getDriveEncoderVelocity);
   }
 
   @Override
   public void periodic() {
-      updatePIDFromShuffleBoard();
       updateOdometry();
   }
 
