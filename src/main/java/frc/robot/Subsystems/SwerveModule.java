@@ -77,6 +77,7 @@ public class SwerveModule {
 
     m_driveRelativeEncoder = m_driveMotor.getEncoder();
     m_turnRelativeEncoder = m_turningMotor.getEncoder();
+
     m_turningAbsoluteEncoder = new AppliedEncoder(turnEncoderChannel);
 
     m_driveRelativeEncoder.setVelocityConversionFactor(wheelRadius * driveGearRatio * Math.PI * 2 / 60);
@@ -167,7 +168,7 @@ public class SwerveModule {
   }
 
   public double getRawTurnEncoderRadians() {
-    return m_turningAbsoluteEncoder.getAbsolutePosition();
+    return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - m_offSet) % (2 * Math.PI);
   }
 
   public double getDriveEncoderPosition() {
