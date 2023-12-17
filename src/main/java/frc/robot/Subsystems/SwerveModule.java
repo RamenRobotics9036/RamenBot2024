@@ -21,8 +21,6 @@ import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Util.AppliedEncoder;
 
 public class SwerveModule {
-  private static final double moduleMaxAngularVelocity = SwerveSystemConstants.maxAngularSpeed;
-  private static final double moduleMaxAngularAcceleration = SwerveSystemConstants.maxAngularAcceleration;
   private static final int currentLimit = SwerveSystemConstants.swerveMotorCurrentLimit;
   private static final double maxOutput = MathUtil.clamp(SwerveSystemConstants.maxOutputPercentage, 0, 1);
 
