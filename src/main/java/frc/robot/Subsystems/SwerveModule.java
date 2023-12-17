@@ -45,7 +45,8 @@ public class SwerveModule {
       Constants.SwerveSystemConstants.drivingPID_D);
 
   private final SparkMaxPIDController m_turningPIDController;
-  private double turningSetpoint;
+  private double unoptimizedTurningSetpointRadians;
+  private double turningSetpointRadians;
 
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(
       SwerveSystemConstants.drivingFeedForward_S, SwerveSystemConstants.drivingFeedForward_V);
@@ -102,6 +103,8 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
+    unoptimizedTurningSetpointRadians = desiredState.angle.getRadians();
+
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getTurnEncoderValue()));
 
     final double driveOutput = m_drivePIDController.calculate(m_turningAbsoluteEncoder.getRate(),
@@ -109,13 +112,17 @@ public class SwerveModule {
 
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
     m_turningPIDController.setReference(state.angle.getRadians(), ControlType.kPosition);
-    turningSetpoint = state.angle.getRadians();
+    turningSetpointRadians = state.angle.getRadians();
 
     m_driveMotor.setVoltage((driveOutput + driveFeedforward) * maxOutput);
   }
 
-  public double getTurningSetpoint() {
-    return turningSetpoint;
+  public double getUnoptimizedTurningSetpointRotations() {
+    return unoptimizedTurningSetpointRadians / (2 * Math.PI);
+  }
+
+  public double getTurningSetpointRotations() {
+    return turningSetpointRadians / (2 * Math.PI);
   }
 
   public double getOffset() {

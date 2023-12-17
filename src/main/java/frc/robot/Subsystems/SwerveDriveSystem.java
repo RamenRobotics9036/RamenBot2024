@@ -141,7 +141,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         .withPosition(0, 0)
         .withProperties(Map.of("Label position", "HIDDEN",
             "Number of columns", 2,
-            "Number of rows", 4));
+            "Number of rows", 5));
 
     // $TODO - Make a helper function for this that we can reuse
     String str1 = "Turn Abs Encoder";
@@ -158,18 +158,25 @@ public class SwerveDriveSystem extends SubsystemBase {
     grid.addDouble(str2, () -> roundTo2Digits(module.getDriveEncoderVelocity()))
         .withPosition(1, row);
 
-    String str3 = "Turn setpoint";
+    String str3 = "Unoptimized setpoint";
     row += 1;
     grid.addString("Label" + Integer.toString(row), () -> str3)
         .withPosition(0, row);
-    grid.addDouble(str3, () -> roundTo2Digits(module.getTurningSetpoint()))
+    grid.addDouble(str3, () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()))
         .withPosition(1, row);
 
-    String str4 = "Turn offset";
+    String str4 = "Turn setpoint";
     row += 1;
     grid.addString("Label" + Integer.toString(row), () -> str4)
         .withPosition(0, row);
-    grid.addDouble(str4, () -> roundTo2Digits(module.getOffset()))
+    grid.addDouble(str4, () -> roundTo2Digits(module.getTurningSetpointRotations()))
+        .withPosition(1, row);
+
+    String str5 = "Turn offset";
+    row += 1;
+    grid.addString("Label" + Integer.toString(row), () -> str5)
+        .withPosition(0, row);
+    grid.addDouble(str5, () -> roundTo2Digits(module.getOffset()))
         .withPosition(1, row);
   }
 
