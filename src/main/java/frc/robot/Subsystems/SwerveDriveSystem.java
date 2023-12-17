@@ -170,19 +170,21 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     // Create a List widget to hold the formatted strings
+    int numGridItems = 6;
     ShuffleboardLayout grid = tab.getLayout(name, BuiltInLayouts.kGrid)
         .withPosition(pos.x, pos.y)
         .withSize(4, 2)
         .withProperties(Map.of("Label position", "HIDDEN",
             "Number of columns", 2,
-            "Number of rows", 5));
+            "Number of rows", numGridItems));
 
     addItemToGrid(grid, "Turn Rel Encoder", () -> roundTo2Digits(module.getTurnEncoderRotations()), 0);
-    addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 1);
+    addItemToGrid(grid, "Turn Abs Encoder", () -> roundTo2Digits(module.getAbsoluteTurnEncoderRotations()), 1);
+    addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 2);
     addItemToGrid(grid, "Unoptimized setpoint",
-        () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 2);
-    addItemToGrid(grid, "Turn setpoint", () -> roundTo2Digits(module.getTurningSetpointRotations()), 3);
-    addItemToGrid(grid, "Turn offset", () -> roundTo2Digits(module.getOffset()), 4);
+        () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 3);
+    addItemToGrid(grid, "Turn setpoint", () -> roundTo2Digits(module.getTurningSetpointRotations()), 4);
+    addItemToGrid(grid, "Turn offset", () -> roundTo2Digits(module.getOffset()), 5);
   }
 
   @Override
