@@ -71,11 +71,17 @@ public class SwerveModule {
     m_driveRelativeEncoder.setPositionConversionFactor(wheelRadius * driveGearRatio * Math.PI * 2);
 
     m_turningMotor.setInverted(true);
+
+    // $TODO - What is this 12.8?
     m_turningRelativencoder.setVelocityConversionFactor(((Math.PI * 2) / 12.8) / 60);
     m_turningRelativencoder.setPositionConversionFactor((Math.PI * 2) / 12.8);
+
+    // $TODO - What are the units on offset?
+    // $TODO - Is Relative encoder storing values in Rotations?  If so, why are we multiplying by 2*Pi and modding to radians?
     m_turningRelativencoder
         .setPosition((m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - offSet) % (2 * Math.PI));
 
+    // $TODO - What does distance have to do with turning?  I.e. what does setDistancePerRotation mean?
     m_turningAbsoluteEncoder.setDistancePerRotation(turnGearRatio * 2 * Math.PI);
 
     m_turningPIDController = m_turningMotor.getPIDController();
@@ -108,6 +114,8 @@ public class SwerveModule {
     // SwerveModuleState state = SwerveModuleState.optimize(desiredState, new
     // Rotation2d(getTurnEncoderValue()));
 
+    // $TODO - Is the turning absolute encoder rate the right value to calculate driveOutput?  Shouldn't it be the
+    // rate for the driveEncoder?
     final double driveOutput = m_drivePIDController.calculate(m_turningAbsoluteEncoder.getRate(),
         state.speedMetersPerSecond);
 
