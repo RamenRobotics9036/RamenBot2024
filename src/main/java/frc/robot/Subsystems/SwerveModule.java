@@ -162,6 +162,10 @@ public class SwerveModule {
     return m_turnRelativeEncoder.getPosition();
   }
 
+  public double getTurnEncoderRotations() {
+    return getTurnEncoderValue() / (Math.PI * 2);
+  }
+
   public double getTurnEncoderRadians() {
     return m_turnRelativeEncoder.getPosition() % (Math.PI * 2);
   }

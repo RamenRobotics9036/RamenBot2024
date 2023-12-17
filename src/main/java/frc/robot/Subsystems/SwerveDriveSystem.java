@@ -142,8 +142,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     tab.add("Speed Meters", state.speedMetersPerSecond);
   }
 
-  private double roundTo2Digits(double value) {
-    return Math.round(value * 100.0) / 100.0;
+  private double roundTo3Digits(double value) {
+    return Math.round(value * 1000.0) / 1000.0;
   }
 
   private void addItemToGrid(ShuffleboardLayout grid, String name, DoubleSupplier valueSupplier, int row) {
@@ -188,14 +188,14 @@ public class SwerveDriveSystem extends SubsystemBase {
             "Number of columns", 2,
             "Number of rows", numGridItems));
 
-    addItemToGrid(grid, "Turn Rel Encoder", () -> roundTo2Digits(module.getTurnEncoderValue()), 0);
-    addItemToGrid(grid, "Turn Abs Encoder", () -> roundTo2Digits(module.getAbsoluteTurnEncoderRotations()), 1);
-    addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 2);
+    addItemToGrid(grid, "Turn Relative Encoder", () -> roundTo3Digits(module.getTurnEncoderRotations()), 0);
+    addItemToGrid(grid, "Turn Absolute Encoder", () -> roundTo3Digits(module.getRawTurnEncoderValue()), 1);
+    addItemToGrid(grid, "Drive Velocity", () -> roundTo3Digits(module.getDriveEncoderVelocity()), 2);
     // addItemToGrid(grid, "Unoptimized setpoint",
     // () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 3);
     // addItemToGrid(grid, "Turn setpoint", () ->
     // roundTo2Digits(module.getTurningSetpointRotations()), 4);
-    addItemToGrid(grid, "Turn offset", () -> roundTo2Digits(module.getOffset()), 3);
+    addItemToGrid(grid, "Turn offset", () -> roundTo3Digits(module.getOffset()), 3);
   }
 
   public void updateOdometry() {
