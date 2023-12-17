@@ -105,7 +105,10 @@ public class SwerveModule {
   public void setDesiredState(SwerveModuleState desiredState) {
     unoptimizedTurningSetpointRadians = desiredState.angle.getRadians();
 
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getTurnEncoderValue()));
+    // $TODO - This is a hack to TEST the swerve drive without rotation-optimization
+    SwerveModuleState state = desiredState;
+    // SwerveModuleState state = SwerveModuleState.optimize(desiredState, new
+    // Rotation2d(getTurnEncoderValue()));
 
     final double driveOutput = m_drivePIDController.calculate(m_turningAbsoluteEncoder.getRate(),
         state.speedMetersPerSecond);
