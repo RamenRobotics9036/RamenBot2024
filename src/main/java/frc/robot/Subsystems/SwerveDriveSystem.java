@@ -38,6 +38,7 @@ public class SwerveDriveSystem extends SubsystemBase {
   public static final boolean isPIDTuning = SwerveSystemConstants.isPIDTuning;
 
   private final double maxSpeed = SwerveSystemConstants.maxSpeedMetersPerSecond;
+  private final double maxAngularSpeed = SwerveSystemConstants.maxAngularSpeed;
 
   private final Translation2d m_frontLeftLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, SwerveSystemConstants.frameDistanceToModulesMeters);
   private final Translation2d m_frontRightLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, -SwerveSystemConstants.frameDistanceToModulesMeters);
@@ -126,8 +127,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     var swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, makeRotation2d())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed, makeRotation2d())
+                : new ChassisSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);

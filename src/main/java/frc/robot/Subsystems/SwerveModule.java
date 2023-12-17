@@ -124,7 +124,8 @@ public class SwerveModule {
     drivingLayout.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
     drivingLayout.addDouble("Drive Encoder Position Rotations", () -> getDriveEncoderPosition());
 
-    turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderValue());
+    turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
+    turningLayout.addDouble("Raw Absolute Encoder Radians", () -> getRawTurnEncoderValue());
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -161,8 +162,12 @@ public class SwerveModule {
     return m_turnRelativeEncoder.getPosition();
   }
 
-  public double getAbsoluteTurnEncoderRotations() {
-    return m_turningAbsoluteEncoder.getAbsolutePosition();
+  public double getTurnEncoderRadians() {
+    return m_turnRelativeEncoder.getPosition() % (Math.PI * 2);
+  }
+
+  public double getRawTurnEncoderValue() {
+    return m_turnRelativeEncoder.getPosition();
   }
 
   public double getDriveEncoderPosition() {

@@ -28,7 +28,7 @@ public class Constants {
         public static final double drivingFeedForward_A = 0.1212;
 
         public static final double maxSpeedMetersPerSecond = 2.0;
-        public static final double maxAngularSpeed = Math.PI;
+        public static final double maxAngularSpeed = 2.5;
         public static final double maxAngularAcceleration = 2 * Math.PI;
 
         public static final int swerveMotorCurrentLimit = 20;
@@ -54,11 +54,11 @@ public class Constants {
 
             public static final int backLeftTurnEncoderChannel = 1;
             public static final int backRightTurnEncoderChannel = 2;
-
-            public static final double frontLeftOffset = 1.509;
-            public static final double backLeftOffset = 3.981 - Math.PI;
-            public static final double frontRightOffset = 2.129;
-            public static final double backRightOffset = 0.636 + Math.PI;
+            
+            public static final double frontLeftOffset = 1.327;
+            public static final double backLeftOffset = 2.06;
+            public static final double frontRightOffset = -1.67;
+            public static final double backRightOffset = -0.238;
         }
     }
 }
