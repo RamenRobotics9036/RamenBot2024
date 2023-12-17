@@ -101,12 +101,12 @@ public class SwerveModule {
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        getDriveEncoderVelocity(), new Rotation2d(getTurnEncoderValue()));
+        getDriveEncoderVelocity(), new Rotation2d(getTurnEncoderRadians()));
   }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        getDriveEncoderPosition(), new Rotation2d(getTurnEncoderValue()));
+        getDriveEncoderPosition(), new Rotation2d(getTurnEncoderRadians()));
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -144,7 +144,7 @@ public class SwerveModule {
     return m_offSet;
   }
 
-  public double getTurnEncoderValue() {
+  public double getTurnEncoderRadians() {
     // TODO: use MathUtil unit conversion functions to make code more readable
     // return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI -
     // m_offSet) % (2 * Math.PI);
@@ -153,6 +153,15 @@ public class SwerveModule {
     // Note that below doesn't use offset, but TODO does use offset. Is that ok?
     // OR, is the comment just stale, since we set a conversion factor above?
     return m_turningRelativencoder.getPosition();
+  }
+
+  public double getTurnEncoderRotations() {
+    return getTurnEncoderRadians() / (2 * Math.PI);
+
+  }
+
+  public double getAbsoluteTurnEncoderRotations() {
+    return m_turningAbsoluteEncoder.getAbsolutePosition();
   }
 
   public double getDriveEncoderPosition() {

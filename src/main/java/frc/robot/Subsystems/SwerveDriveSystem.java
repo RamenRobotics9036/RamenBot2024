@@ -177,7 +177,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             "Number of columns", 2,
             "Number of rows", 5));
 
-    addItemToGrid(grid, "Turn Abs Encoder", () -> roundTo2Digits(module.getTurnEncoderValue()), 0);
+    addItemToGrid(grid, "Turn Rel Encoder", () -> roundTo2Digits(module.getTurnEncoderRotations()), 0);
     addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 1);
     addItemToGrid(grid, "Unoptimized setpoint",
         () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 2);
