@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystems;
 
+import java.util.Map;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,6 +20,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.DriveSwerveCommand;
@@ -78,13 +82,13 @@ public class SwerveDriveSystem extends SubsystemBase {
   private final SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           m_kinematics,
-          Rotation2d.fromDegrees(-getAnglePosition()),
-          new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_backLeft.getPosition(),
-            m_backRight.getPosition()
-          });
+      Rotation2d.fromDegrees(-getAnglePosition()),
+      new SwerveModulePosition[] {
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_backLeft.getPosition(),
+          m_backRight.getPosition()
+      });
 
   public SwerveDriveSystem(AppliedController controller) {
     initShuffleBoard();
@@ -98,6 +102,12 @@ public class SwerveDriveSystem extends SubsystemBase {
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
     m_backRight.displayDesiredStateToDashBoard("Back Right");
+
+    // Also display all Swerve values on a SINGLE dashboard using a Grid layout
+    displayModuleToSingleSwerveDashV2("Front Left", m_frontLeft);
+    displayModuleToSingleSwerveDashV2("Back Left", m_backLeft);
+    displayModuleToSingleSwerveDashV2("Front Right", m_frontRight);
+    displayModuleToSingleSwerveDashV2("Back Right", m_backRight);
 
     if (isPIDTuning) {
       m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
@@ -116,8 +126,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     var swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, makeRotation2d())
-                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, makeRotation2d())
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -131,14 +141,70 @@ public class SwerveDriveSystem extends SubsystemBase {
     tab.add("Speed Meters", state.speedMetersPerSecond);
   }
 
+  private double roundTo2Digits(double value) {
+    return Math.round(value * 100.0) / 100.0;
+  }
+
+  private void addItemToGrid(ShuffleboardLayout grid, String name, DoubleSupplier valueSupplier, int row) {
+    grid.addString("Label" + Integer.toString(row), () -> name)
+        .withPosition(0, row);
+    grid.addDouble(name, valueSupplier)
+        .withPosition(1, row);
+  }
+
+  // Class to hold two integers, x,y
+  private class IntPos {
+    public int x;
+    public int y;
+
+    private IntPos(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  private void displayModuleToSingleSwerveDashV2(String name, SwerveModule module) {
+    ShuffleboardTab tab = Shuffleboard.getTab("Swerve");
+    final Map<String, IntPos> gridPositions = Map.of(
+        "Front Left", new IntPos(2, 2),
+        "Front Right", new IntPos(6, 2),
+        "Back Left", new IntPos(2, 4),
+        "Back Right", new IntPos(6, 4));
+
+    // Get the desired position of the grid widget, based on the name
+    // of the module. If the name is not found, use 0,0.
+    IntPos pos = gridPositions.get(name);
+    if (pos == null) {
+      pos = new IntPos(0, 0);
+    }
+
+    // Create a List widget to hold the formatted strings
+    int numGridItems = 4;
+    ShuffleboardLayout grid = tab.getLayout(name, BuiltInLayouts.kGrid)
+        .withPosition(pos.x, pos.y)
+        .withSize(4, 2)
+        .withProperties(Map.of("Label position", "HIDDEN",
+            "Number of columns", 2,
+            "Number of rows", numGridItems));
+
+    addItemToGrid(grid, "Turn Rel Encoder", () -> roundTo2Digits(module.getTurnEncoderValue()), 0);
+    addItemToGrid(grid, "Turn Abs Encoder", () -> roundTo2Digits(module.getAbsoluteTurnEncoderRotations()), 1);
+    addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 2);
+    // addItemToGrid(grid, "Unoptimized setpoint",
+    // () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 3);
+    // addItemToGrid(grid, "Turn setpoint", () ->
+    // roundTo2Digits(module.getTurningSetpointRotations()), 4);
+    addItemToGrid(grid, "Turn offset", () -> roundTo2Digits(module.getOffset()), 3);
+  }
+
   public void updateOdometry() {
     m_odometry.update(
         makeRotation2d(),
         new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_backLeft.getPosition(),
-          m_backRight.getPosition()
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_backLeft.getPosition(),
+            m_backRight.getPosition()
         });
   }
 
@@ -180,8 +246,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-      updatePIDFromShuffleBoard();
-      updateOdometry();
+    updatePIDFromShuffleBoard();
+    updateOdometry();
   }
 
   public void stopSystem() {

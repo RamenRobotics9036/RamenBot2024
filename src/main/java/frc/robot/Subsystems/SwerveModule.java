@@ -50,9 +50,9 @@ public class SwerveModule {
   private double m_turnSetPoint = 0;
 
   private final PIDController m_drivePIDController = new PIDController(
-    pidDriveP,
-    pidDriveI,
-    pidDriveD);
+      pidDriveP,
+      pidDriveI,
+      pidDriveD);
     
   private final SparkMaxPIDController m_turnPIDController;
 
@@ -67,14 +67,14 @@ public class SwerveModule {
     m_offSet = offSet;
     m_driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
     m_turningMotor = new CANSparkMax(turningMotorID, MotorType.kBrushless);
-    
+
     m_driveMotor.restoreFactoryDefaults();
     m_turningMotor.restoreFactoryDefaults();
 
     m_driveMotor.setSmartCurrentLimit(currentLimit);
     m_turningMotor.setSmartCurrentLimit(currentLimit);
     m_turningMotor.setInverted(true);
-    
+
     m_driveRelativeEncoder = m_driveMotor.getEncoder();
     m_turnRelativeEncoder = m_turningMotor.getEncoder();
     m_turningAbsoluteEncoder = new AppliedEncoder(turnEncoderChannel);
@@ -100,12 +100,12 @@ public class SwerveModule {
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-      getDriveEncoderVelocity(), new Rotation2d(getTurnEncoderValue()));
+        getDriveEncoderVelocity(), new Rotation2d(getTurnEncoderValue()));
   }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-      getDriveEncoderPosition(), new Rotation2d(getTurnEncoderValue()));
+        getDriveEncoderPosition(), new Rotation2d(getTurnEncoderValue()));
   }
 
   public void displayDesiredStateToDashBoard(String tabName) {
@@ -137,8 +137,8 @@ public class SwerveModule {
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
     m_turnPIDController.setReference(state.angle.getRadians(), ControlType.kPosition);
 
-    m_driveMotor.setVoltage((driveOutput + driveFeedforward) * maxOutput);  
-    
+    m_driveMotor.setVoltage((driveOutput + driveFeedforward) * maxOutput);
+
     m_driveSetPoint = state.speedMetersPerSecond;
     m_turnSetPoint = state.angle.getRadians();
   }
@@ -159,6 +159,10 @@ public class SwerveModule {
 
   public double getTurnEncoderValue() {
     return m_turnRelativeEncoder.getPosition();
+  }
+
+  public double getAbsoluteTurnEncoderRotations() {
+    return m_turningAbsoluteEncoder.getAbsolutePosition();
   }
 
   public double getDriveEncoderPosition() {
