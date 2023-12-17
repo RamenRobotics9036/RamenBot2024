@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems;
 
+import java.util.Map;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,7 +15,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.DriveSwerveCommand;
@@ -76,11 +80,6 @@ public class SwerveDriveSystem extends SubsystemBase {
     setDefaultCommand(
         new DriveSwerveCommand(this, controller));
 
-    m_frontLeft.displayDesiredStateToDashBoard("Front Left");
-    m_backLeft.displayDesiredStateToDashBoard("Back Left");
-    m_frontRight.displayDesiredStateToDashBoard("Front Right");
-    m_backRight.displayDesiredStateToDashBoard("Back Right");
-
     displayModuleToDashBoard("Front Left", m_frontLeft);
     displayModuleToDashBoard("Front Right", m_frontRight);
     displayModuleToDashBoard("Back Left", m_backLeft);
@@ -101,13 +100,6 @@ public class SwerveDriveSystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_backLeft.setDesiredState(swerveModuleStates[2]);
     m_backRight.setDesiredState(swerveModuleStates[3]);
-  }
-
-  // $TODO - Is this called anywhere?
-  public void displaySwerveStateToDashBoard(String name, SwerveModuleState state) {
-    ShuffleboardTab tab = Shuffleboard.getTab(name);
-    tab.add("Angle", state.angle);
-    tab.add("Speed Meters", state.speedMetersPerSecond);
   }
 
   public void updateOdometry() {
@@ -137,12 +129,48 @@ public class SwerveDriveSystem extends SubsystemBase {
     return Rotation2d.fromRotations(getAnglePosition());
   }
 
-  public void displayModuleToDashBoard(String name, SwerveModule module) {
-    ShuffleboardTab tab = Shuffleboard.getTab(name);
-    tab.addDouble("Drive Encoder Position Percent", module::getDriveEncoderPosition);
-    tab.addDouble("Absolute Encoder Percent", module::getTurnEncoderValue);
-    tab.addDouble("Drive Encoder Position Meters", module::getDriveEncoderPosition);
-    tab.addDouble("Drive Encoder Velocity Meters", module::getDriveEncoderVelocity);
+  private double roundTo2Digits(double value) {
+    return Math.round(value * 100.0) / 100.0;
+  }
+
+  private void displayModuleToDashBoard(String name, SwerveModule module) {
+    ShuffleboardTab tab = Shuffleboard.getTab("Swerve");
+
+    // Create a List widget to hold the formatted strings
+    ShuffleboardLayout grid = tab.getLayout(name, BuiltInLayouts.kGrid)
+        .withPosition(0, 0)
+        .withProperties(Map.of("Label position", "HIDDEN",
+            "Number of columns", 2,
+            "Number of rows", 4));
+
+    // $TODO - Make a helper function for this that we can reuse
+    String str1 = "Turn Abs Encoder";
+    int row = 0;
+    grid.addString("Label" + Integer.toString(row), () -> str1)
+        .withPosition(0, row);
+    grid.addDouble(str1, () -> roundTo2Digits(module.getTurnEncoderValue()))
+        .withPosition(1, row);
+
+    String str2 = "Drive Velocity";
+    row += 1;
+    grid.addString("Label" + Integer.toString(row), () -> str2)
+        .withPosition(0, row);
+    grid.addDouble(str2, () -> roundTo2Digits(module.getDriveEncoderVelocity()))
+        .withPosition(1, row);
+
+    String str3 = "Turn setpoint";
+    row += 1;
+    grid.addString("Label" + Integer.toString(row), () -> str3)
+        .withPosition(0, row);
+    grid.addDouble(str3, () -> roundTo2Digits(module.getTurningSetpoint()))
+        .withPosition(1, row);
+
+    String str4 = "Turn offset";
+    row += 1;
+    grid.addString("Label" + Integer.toString(row), () -> str4)
+        .withPosition(0, row);
+    grid.addDouble(str4, () -> roundTo2Digits(module.getOffset()))
+        .withPosition(1, row);
   }
 
   @Override
