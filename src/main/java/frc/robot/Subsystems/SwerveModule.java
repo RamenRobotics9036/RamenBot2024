@@ -76,12 +76,15 @@ public class SwerveModule {
     m_turningRelativencoder.setVelocityConversionFactor(((Math.PI * 2) / 12.8) / 60);
     m_turningRelativencoder.setPositionConversionFactor((Math.PI * 2) / 12.8);
 
-    // $TODO - What are the units on offset?
-    // $TODO - Is Relative encoder storing values in Rotations?  If so, why are we multiplying by 2*Pi and modding to radians?
+    // $TODO - What are the units on offset? We should put units into variable name
+    // $TODO - Is absolute encoder using Rotations of wheel-angle as units? And
+    // relative encoder is using Radians of wheel-angle? We should put units into
+    // variable names
     m_turningRelativencoder
         .setPosition((m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - offSet) % (2 * Math.PI));
 
-    // $TODO - What does distance have to do with turning?  I.e. what does setDistancePerRotation mean?
+    // $TODO - What does distance have to do with turning? I.e. what does
+    // setDistancePerRotation mean?
     m_turningAbsoluteEncoder.setDistancePerRotation(turnGearRatio * 2 * Math.PI);
 
     m_turningPIDController = m_turningMotor.getPIDController();
@@ -107,6 +110,8 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
+    // $TODO - We usually do calculations in Rotations. Why are we getting radians
+    // here?
     unoptimizedTurningSetpointRadians = desiredState.angle.getRadians();
 
     // $TODO - This is a hack to TEST the swerve drive without rotation-optimization
@@ -114,7 +119,8 @@ public class SwerveModule {
     // SwerveModuleState state = SwerveModuleState.optimize(desiredState, new
     // Rotation2d(getTurnEncoderValue()));
 
-    // $TODO - Is the turning absolute encoder rate the right value to calculate driveOutput?  Shouldn't it be the
+    // $TODO - Is the turning absolute encoder rate the right value to calculate
+    // driveOutput? Shouldn't it be the
     // rate for the driveEncoder?
     final double driveOutput = m_drivePIDController.calculate(m_turningAbsoluteEncoder.getRate(),
         state.speedMetersPerSecond);
@@ -142,6 +148,10 @@ public class SwerveModule {
     // TODO: use MathUtil unit conversion functions to make code more readable
     // return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI -
     // m_offSet) % (2 * Math.PI);
+    // $TODO - I can't tell if the Todo here is for readability, or would actually
+    // change the value returned?
+    // Note that below doesn't use offset, but TODO does use offset. Is that ok?
+    // OR, is the comment just stale, since we set a conversion factor above?
     return m_turningRelativencoder.getPosition();
   }
 
