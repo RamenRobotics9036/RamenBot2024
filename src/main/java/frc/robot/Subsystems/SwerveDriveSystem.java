@@ -4,10 +4,13 @@
 
 package frc.robot.Subsystems;
 
+import java.util.Dictionary;
 import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -133,51 +136,53 @@ public class SwerveDriveSystem extends SubsystemBase {
     return Math.round(value * 100.0) / 100.0;
   }
 
+  private void addItemToGrid(ShuffleboardLayout grid, String name, DoubleSupplier valueSupplier, int row) {
+    grid.addString("Label" + Integer.toString(row), () -> name)
+        .withPosition(0, row);
+    grid.addDouble(name, valueSupplier)
+        .withPosition(1, row);
+  }
+
+  // Class to hold two integers, x,y
+  private class IntPos {
+    public int x;
+    public int y;
+
+    private IntPos(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+
   private void displayModuleToDashBoard(String name, SwerveModule module) {
     ShuffleboardTab tab = Shuffleboard.getTab("Swerve");
+    final Map<String, IntPos> gridPositions = Map.of(
+        "Front Left", new IntPos(2, 2),
+        "Front Right", new IntPos(6, 2),
+        "Back Left", new IntPos(2, 4),
+        "Back Right", new IntPos(6, 4));
+
+    // Get the desired position of the grid widget, based on the name
+    // of the module. If the name is not found, use 0,0.
+    IntPos pos = gridPositions.get(name);
+    if (pos == null) {
+      pos = new IntPos(0, 0);
+    }
 
     // Create a List widget to hold the formatted strings
     ShuffleboardLayout grid = tab.getLayout(name, BuiltInLayouts.kGrid)
-        .withPosition(0, 0)
+        .withPosition(pos.x, pos.y)
+        .withSize(4, 2)
         .withProperties(Map.of("Label position", "HIDDEN",
             "Number of columns", 2,
             "Number of rows", 5));
 
-    // $TODO - Make a helper function for this that we can reuse
-    String str1 = "Turn Abs Encoder";
-    int row = 0;
-    grid.addString("Label" + Integer.toString(row), () -> str1)
-        .withPosition(0, row);
-    grid.addDouble(str1, () -> roundTo2Digits(module.getTurnEncoderValue()))
-        .withPosition(1, row);
-
-    String str2 = "Drive Velocity";
-    row += 1;
-    grid.addString("Label" + Integer.toString(row), () -> str2)
-        .withPosition(0, row);
-    grid.addDouble(str2, () -> roundTo2Digits(module.getDriveEncoderVelocity()))
-        .withPosition(1, row);
-
-    String str3 = "Unoptimized setpoint";
-    row += 1;
-    grid.addString("Label" + Integer.toString(row), () -> str3)
-        .withPosition(0, row);
-    grid.addDouble(str3, () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()))
-        .withPosition(1, row);
-
-    String str4 = "Turn setpoint";
-    row += 1;
-    grid.addString("Label" + Integer.toString(row), () -> str4)
-        .withPosition(0, row);
-    grid.addDouble(str4, () -> roundTo2Digits(module.getTurningSetpointRotations()))
-        .withPosition(1, row);
-
-    String str5 = "Turn offset";
-    row += 1;
-    grid.addString("Label" + Integer.toString(row), () -> str5)
-        .withPosition(0, row);
-    grid.addDouble(str5, () -> roundTo2Digits(module.getOffset()))
-        .withPosition(1, row);
+    addItemToGrid(grid, "Turn Abs Encoder", () -> roundTo2Digits(module.getTurnEncoderValue()), 0);
+    addItemToGrid(grid, "Drive Velocity", () -> roundTo2Digits(module.getDriveEncoderVelocity()), 1);
+    addItemToGrid(grid, "Unoptimized setpoint",
+        () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 2);
+    addItemToGrid(grid, "Turn setpoint", () -> roundTo2Digits(module.getTurningSetpointRotations()), 3);
+    addItemToGrid(grid, "Turn offset", () -> roundTo2Digits(module.getOffset()), 4);
   }
 
   @Override
