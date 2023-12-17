@@ -188,8 +188,8 @@ public class SwerveDriveSystem extends SubsystemBase {
             "Number of columns", 2,
             "Number of rows", numGridItems));
 
-    addItemToGrid(grid, "Turn Relative Encoder", () -> roundTo3Digits(module.getTurnEncoderRotations()), 0);
-    addItemToGrid(grid, "Turn Absolute Encoder", () -> roundTo3Digits(module.getRawTurnEncoderValue()), 1);
+    addItemToGrid(grid, "Turn Relative Encoder Radians", () -> roundTo3Digits(module.getTurnEncoderRadians()), 0);
+    addItemToGrid(grid, "Turn Absolute Encoder Radians", () -> roundTo3Digits(module.getRawTurnEncoderRadians()), 1);
     addItemToGrid(grid, "Drive Velocity", () -> roundTo3Digits(module.getDriveEncoderVelocity()), 2);
     // addItemToGrid(grid, "Unoptimized setpoint",
     // () -> roundTo2Digits(module.getUnoptimizedTurningSetpointRotations()), 3);

@@ -116,7 +116,7 @@ public class SwerveModule {
     ShuffleboardLayout pidDrivingLayout = Shuffleboard.getTab(tabName).getLayout("PID Tuning Drive", BuiltInLayouts.kList);
     
     pidTurningLayout.addDouble("Desired Angle Setpoint Radians", () -> m_turnSetPoint);
-    pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderValue());
+    pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
 
     pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
     pidDrivingLayout.addDouble("Drive Encoder Position Rotations", () -> getDriveEncoderPosition());
@@ -125,7 +125,7 @@ public class SwerveModule {
     drivingLayout.addDouble("Drive Encoder Position Rotations", () -> getDriveEncoderPosition());
 
     turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
-    turningLayout.addDouble("Raw Absolute Encoder Radians", () -> getRawTurnEncoderValue());
+    turningLayout.addDouble("Raw Absolute Encoder Radians", () -> getRawTurnEncoderRadians());
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -162,16 +162,12 @@ public class SwerveModule {
     return m_turnRelativeEncoder.getPosition();
   }
 
-  public double getTurnEncoderRotations() {
-    return getTurnEncoderValue() / (Math.PI * 2);
-  }
-
   public double getTurnEncoderRadians() {
     return m_turnRelativeEncoder.getPosition() % (Math.PI * 2);
   }
 
-  public double getRawTurnEncoderValue() {
-    return m_turnRelativeEncoder.getPosition();
+  public double getRawTurnEncoderRadians() {
+    return m_turningAbsoluteEncoder.getAbsolutePosition();
   }
 
   public double getDriveEncoderPosition() {
