@@ -34,7 +34,7 @@ public class Constants {
         public static final int swerveMotorCurrentLimit = 20;
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
-        public static final double turnMotorGearBoxRatio = 6.12 * 2;
+        public static final double turnMotorGearBoxRatio = 12.8;
 
         public static class SwerveSystemDeviceConstants {
             public static final int frontLeftDriveMotorID = 11;
