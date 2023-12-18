@@ -55,9 +55,10 @@ public class Constants {
             public static final int backLeftTurnEncoderChannel = 1;
             public static final int backRightTurnEncoderChannel = 2;
             
+            // Wheel should be facing inwards
             public static final double frontLeftOffset = 0;
             public static final double backLeftOffset = 0;
-            public static final double frontRightOffset = 0;
+            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2;
             public static final double backRightOffset =  0;
         }
     }
