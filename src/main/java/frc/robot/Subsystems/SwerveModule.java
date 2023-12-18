@@ -86,7 +86,7 @@ public class SwerveModule {
     m_turnRelativeEncoder.setPositionConversionFactor((Math.PI * 2) / turnGearRatio);
     m_turnRelativeEncoder.setVelocityConversionFactor(((Math.PI * 2) / turnGearRatio) / 60);
 
-    m_turnRelativeEncoder.setPosition((m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - m_offSet) % (2 * Math.PI));
+    m_turnRelativeEncoder.setPosition((m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI + m_offSet) % (2 * Math.PI));
     m_turningAbsoluteEncoder.setDistancePerRotation(turnGearRatio * Math.PI * 2);
 
     m_turnPIDController = m_turningMotor.getPIDController();
@@ -168,7 +168,7 @@ public class SwerveModule {
   }
 
   public double getRawTurnEncoderRadians() {
-    return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI - m_offSet) % (2 * Math.PI);
+    return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI + m_offSet) % (2 * Math.PI);
   }
 
   public double getDriveEncoderPosition() {
