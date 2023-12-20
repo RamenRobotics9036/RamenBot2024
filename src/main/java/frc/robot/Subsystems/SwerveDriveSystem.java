@@ -124,6 +124,8 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    //System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
+
     var swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
