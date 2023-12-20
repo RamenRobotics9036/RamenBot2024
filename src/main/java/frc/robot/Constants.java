@@ -27,7 +27,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 2.0;
+        public static final double maxSpeedMetersPerSecond = 0.25; // $TODO - Normally, this was 2.0 but for now we want robot to crawlssss
         public static final double maxAngularSpeed = 2.5;
         public static final double maxAngularAcceleration = 2 * Math.PI;
 
