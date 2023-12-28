@@ -129,9 +129,9 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void setFieldRelative(boolean fieldRelative){
-    m_fieldRelative = fieldRelative;
+    m_fieldRelative = fieldRelative; // Sets field relative to true or false dependent on right bumper being pressed
   }
-  
+
   public void drive(double xSpeed, double ySpeed, double rot) {
     drive(xSpeed, ySpeed, rot, m_fieldRelative); 
   }

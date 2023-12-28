@@ -28,9 +28,9 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 0.25; // $TODO - Normally, this was 2.0 but for now we want robot to crawlssss
-        public static final double maxAngularSpeed = 0.574*10; // 2.5
-        public static final double maxAngularAcceleration = 0.574*10; // 2 * Math.PI;
+        public static final double maxSpeedMetersPerSecond = .25; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
+        public static final double maxAngularSpeed = 0.574*10; // 2.5 (THESE VALUES ARE PRETTY RANDOM)
+        public static final double maxAngularAcceleration = 0.574*10; // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
 
         public static final int swerveMotorCurrentLimit = 20;
 
@@ -56,11 +56,17 @@ public class Constants {
             public static final int backLeftTurnEncoderChannel = 1;
             public static final int backRightTurnEncoderChannel = 2;
             
-            // Wheel should be facing inwards
-            public static final double frontLeftOffset = -Math.PI + .1 + Math.PI/2;
-            public static final double backLeftOffset = 0.744 + Math.PI + Math.PI/2;
-            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2 + Math.PI/2;
-            public static final double backRightOffset =  0.928 + Math.PI/2;
+            // Math.PI/2 offsets all wheels by 90 degrees which lets the rotation work. Before, the wheels were facing inwards which
+            //means when the robot tried to rotate, all the wheels were facing inwards which would cancel out the rotation.
+            // The wheels go from basically creating an X to creating an O because now all wheels are facing outwards when rotating
+            public static final double rotationOffset = Math.PI/2;
+            // NOTE: This makes the front of the robot the right side. (the side of the radio), but it does not neceassrily matter because
+            // of field relativity
+
+            public static final double frontLeftOffset = -Math.PI + .1 + rotationOffset;
+            public static final double backLeftOffset = 0.744 + Math.PI + rotationOffset;
+            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2 + rotationOffset;
+            public static final double backRightOffset =  0.928 + rotationOffset;
         }
     }
 }
