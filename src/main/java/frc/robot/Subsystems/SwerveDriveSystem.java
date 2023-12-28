@@ -80,6 +80,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
         );
 
+
   private final SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           m_kinematics,
@@ -91,6 +92,8 @@ public class SwerveDriveSystem extends SubsystemBase {
           m_backRight.getPosition()
       });
 
+
+
   public SwerveDriveSystem(AppliedController controller) {
     initShuffleBoard();
     setDefaultCommand(
@@ -99,10 +102,14 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void initShuffleBoard() {
+
+
+
     m_frontLeft.displayDesiredStateToDashBoard("Front Left");
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
     m_backRight.displayDesiredStateToDashBoard("Back Right");
+
 
     // Also display all Swerve values on a SINGLE dashboard using a Grid layout
     displayModuleToSingleSwerveDashV2("Front Left", m_frontLeft);
@@ -120,7 +127,7 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double rot) {
-    drive(xSpeed, ySpeed, rot, false);
+    drive(xSpeed, ySpeed, rot, true); 
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -131,6 +138,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed, makeRotation2d())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed));
+    
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -219,12 +227,13 @@ public class SwerveDriveSystem extends SubsystemBase {
     return m_odometry.getPoseMeters().getX();
   }
 
+  
   public double getAnglePosition() {
-    return m_gyro.getRoll();
+    return m_gyro.getYaw(); // rotation in horizontal plane
   }
 
   public Rotation2d makeRotation2d() {
-    return Rotation2d.fromRotations(getAnglePosition());
+    return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees 
   }
 
   public void updatePIDFromShuffleBoard() {

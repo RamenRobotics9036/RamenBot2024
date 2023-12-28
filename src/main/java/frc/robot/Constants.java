@@ -3,7 +3,7 @@ package frc.robot;
 public class Constants {
     public static class OperatorConstants {
         public static final int driveControllerPort = 0;
-        public static final double controllerDeadbandPercent = 0.08;
+        public static final double controllerDeadbandPercent = 0.2;
     }
 
     public static class SwerveSystemConstants {
@@ -19,6 +19,7 @@ public class Constants {
         public static final double drivingPID_I = 0;
         public static final double drivingPID_D = 0;
 
+        // public static final double turningPID_P = 0.01;
         public static final double turningPID_P = 1;
         public static final double turningPID_I = 0;
         public static final double turningPID_D = 0.05;
@@ -28,8 +29,8 @@ public class Constants {
         public static final double drivingFeedForward_A = 0.1212;
 
         public static final double maxSpeedMetersPerSecond = 0.25; // $TODO - Normally, this was 2.0 but for now we want robot to crawlssss
-        public static final double maxAngularSpeed = 2.5;
-        public static final double maxAngularAcceleration = 2 * Math.PI;
+        public static final double maxAngularSpeed = 0.574*10; // 2.5
+        public static final double maxAngularAcceleration = 0.574*10; // 2 * Math.PI;
 
         public static final int swerveMotorCurrentLimit = 20;
 
@@ -56,10 +57,10 @@ public class Constants {
             public static final int backRightTurnEncoderChannel = 2;
             
             // Wheel should be facing inwards
-            public static final double frontLeftOffset = -Math.PI + .1;
-            public static final double backLeftOffset = 0.844 - 0.1 + Math.PI;
-            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2;
-            public static final double backRightOffset =  0.628 + .3;
+            public static final double frontLeftOffset = -Math.PI + .1 + Math.PI/2;
+            public static final double backLeftOffset = 0.744 + Math.PI + Math.PI/2;
+            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2 + Math.PI/2;
+            public static final double backRightOffset =  0.928 + Math.PI/2;
         }
     }
 }

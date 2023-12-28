@@ -24,7 +24,6 @@ public class DriveSwerveCommand extends CommandBase {
         double ySpeed = m_controller.getLeftY();
         double rot = m_controller.getRightX();
         // m_swerveDrive.drive(0, 0.2, 0);
-
         // $TODO - Inverting y on joystick is a hack right now!
         m_swerveDrive.drive(xSpeed, -ySpeed, rot);
     }
