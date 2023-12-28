@@ -7,6 +7,7 @@ package frc.robot.Subsystems;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -39,6 +40,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
   private final double maxSpeed = SwerveSystemConstants.maxSpeedMetersPerSecond;
   private final double maxAngularSpeed = SwerveSystemConstants.maxAngularSpeed;
+  private boolean m_fieldRelative = true;
 
   private final Translation2d m_frontLeftLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, SwerveSystemConstants.frameDistanceToModulesMeters);
   private final Translation2d m_frontRightLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, -SwerveSystemConstants.frameDistanceToModulesMeters);
@@ -126,8 +128,12 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
   }
 
+  public void setFieldRelative(boolean fieldRelative){
+    m_fieldRelative = fieldRelative;
+  }
+  
   public void drive(double xSpeed, double ySpeed, double rot) {
-    drive(xSpeed, ySpeed, rot, true); 
+    drive(xSpeed, ySpeed, rot, m_fieldRelative); 
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -227,7 +233,11 @@ public class SwerveDriveSystem extends SubsystemBase {
     return m_odometry.getPoseMeters().getX();
   }
 
-  
+  public boolean resetGyroFieldRelative(){
+    return ErrorCode.OK == m_gyro.setYaw(0.0);
+  }
+
+
   public double getAnglePosition() {
     return m_gyro.getYaw(); // rotation in horizontal plane
   }

@@ -20,12 +20,20 @@ public class DriveSwerveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double xSpeed = m_controller.getLeftX();
-        double ySpeed = m_controller.getLeftY();
-        double rot = m_controller.getRightX();
-        // m_swerveDrive.drive(0, 0.2, 0);
-        // $TODO - Inverting y on joystick is a hack right now!
-        m_swerveDrive.drive(xSpeed, -ySpeed, rot);
+        if (m_controller.getLeftBumper()){
+            m_swerveDrive.resetGyroFieldRelative();
+            System.out.println("GYRO HOPEFULLY RESET");
+        } else {
+            double xSpeed = m_controller.getLeftX();
+            double ySpeed = m_controller.getLeftY();
+            double rot = m_controller.getRightX();
+            // m_swerveDrive.drive(0, 0.2, 0);
+            // $TODO - Inverting y on joystick is a hack right now!
+            m_swerveDrive.setFieldRelative(!m_controller.getRightBumper());
+            m_swerveDrive.drive(xSpeed, -ySpeed, rot);
+        }
+        
+        
     }
 
     @Override
