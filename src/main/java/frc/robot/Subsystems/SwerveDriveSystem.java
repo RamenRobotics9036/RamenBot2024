@@ -120,11 +120,11 @@ public class SwerveDriveSystem extends SubsystemBase {
     displayModuleToSingleSwerveDashV2("Back Right", m_backRight);
 
     if (isPIDTuning) {
-      m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDDriveD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive D", SwerveModule.pidDriveD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+      m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+      m_getPIDDriveD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive D", SwerveModule.pidDriveD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
 
-      m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+      m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+      m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
     }
   }
 
