@@ -3,6 +3,8 @@ package frc.robot;
 public class Constants {
     public static class OperatorConstants {
         public static final int driveControllerPort = 0;
+        public static final double controllerExpo = 4;
+        public static final double controllerExpoRatio = 0.4; // Change this variable if you want to change exponent
         public static final double controllerDeadbandPercent = 0.07; // 0.2
     }
 
@@ -29,7 +31,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 4; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
+        public static final double maxSpeedMetersPerSecond = 2; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
         public static final double maxAngularSpeed = 0.574*100; // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularAcceleration = 0.574*100; // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
 
