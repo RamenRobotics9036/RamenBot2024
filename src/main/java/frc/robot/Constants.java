@@ -4,8 +4,8 @@ public class Constants {
     public static class OperatorConstants {
         public static final int driveControllerPort = 0;
         public static final double controllerExpo = 4;
-        public static final double controllerExpoRatio = 0.4; // Change this variable if you want to change exponent
-        public static final double controllerDeadbandPercent = 0.07; // 0.2
+        public static final double controllerExpoRatio = 0.6; // Change this variable if you want to change exponent
+        public static final double controllerDeadbandPercent = 0.03; // 0.2
     }
 
     public static class SwerveSystemConstants {
