@@ -222,6 +222,9 @@ public class SwerveDriveSystem extends SubsystemBase {
   public double getAnglePosition() {
     return m_gyro.getRoll();
   }
+  public double getYO() {
+    return m_gyro.getYaw();
+  }
 
   public Rotation2d makeRotation2d() {
     return Rotation2d.fromRotations(getAnglePosition());
