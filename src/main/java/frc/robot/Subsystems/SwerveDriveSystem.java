@@ -7,6 +7,7 @@ package frc.robot.Subsystems;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -39,6 +40,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
   private final double maxSpeed = SwerveSystemConstants.maxSpeedMetersPerSecond;
   private final double maxAngularSpeed = SwerveSystemConstants.maxAngularSpeed;
+  private boolean m_fieldRelative = true;
 
   private final Translation2d m_frontLeftLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, SwerveSystemConstants.frameDistanceToModulesMeters);
   private final Translation2d m_frontRightLocation = new Translation2d(SwerveSystemConstants.frameDistanceToModulesMeters, -SwerveSystemConstants.frameDistanceToModulesMeters);
@@ -80,6 +82,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
         );
 
+
   private final SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           m_kinematics,
@@ -91,6 +94,8 @@ public class SwerveDriveSystem extends SubsystemBase {
           m_backRight.getPosition()
       });
 
+
+
   public SwerveDriveSystem(AppliedController controller) {
     initShuffleBoard();
     setDefaultCommand(
@@ -99,10 +104,14 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public void initShuffleBoard() {
+
+
+
     m_frontLeft.displayDesiredStateToDashBoard("Front Left");
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
     m_backRight.displayDesiredStateToDashBoard("Back Right");
+
 
     // Also display all Swerve values on a SINGLE dashboard using a Grid layout
     displayModuleToSingleSwerveDashV2("Front Left", m_frontLeft);
@@ -111,16 +120,20 @@ public class SwerveDriveSystem extends SubsystemBase {
     displayModuleToSingleSwerveDashV2("Back Right", m_backRight);
 
     if (isPIDTuning) {
-      m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDDriveD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive D", SwerveModule.pidDriveD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+      m_getPIDDriveP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive P", SwerveModule.pidDriveP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+      m_getPIDDriveD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Drive Values", BuiltInLayouts.kList).add("Drive D", SwerveModule.pidDriveD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
 
-      m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-      m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+      m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+      m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
     }
   }
 
+  public void setFieldRelative(boolean fieldRelative){
+    m_fieldRelative = fieldRelative; // Sets field relative to true or false dependent on right bumper being pressed
+  }
+
   public void drive(double xSpeed, double ySpeed, double rot) {
-    drive(xSpeed, ySpeed, rot, false);
+    drive(xSpeed, ySpeed, rot, m_fieldRelative); 
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -131,6 +144,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed, makeRotation2d())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot * maxAngularSpeed));
+    
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
@@ -219,12 +233,17 @@ public class SwerveDriveSystem extends SubsystemBase {
     return m_odometry.getPoseMeters().getX();
   }
 
+  public boolean resetGyroFieldRelative(){
+    return ErrorCode.OK == m_gyro.setYaw(0.0);
+  }
+
+
   public double getAnglePosition() {
-    return m_gyro.getRoll();
+    return m_gyro.getYaw(); // rotation in horizontal plane
   }
 
   public Rotation2d makeRotation2d() {
-    return Rotation2d.fromRotations(getAnglePosition());
+    return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees 
   }
 
   public void updatePIDFromShuffleBoard() {

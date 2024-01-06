@@ -20,13 +20,20 @@ public class DriveSwerveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double xSpeed = m_controller.getLeftX();
-        double ySpeed = m_controller.getLeftY();
-        double rot = m_controller.getRightX();
-        // m_swerveDrive.drive(0, 0.2, 0);
+        if (m_controller.getLeftBumper()){
+            m_swerveDrive.resetGyroFieldRelative(); //GYRO FIELD RELATIVE RESET in terms of the right side of the robot (radio side)
+        } else {
+            double xSpeed = m_controller.getLeftX();
+            double ySpeed = m_controller.getLeftY();
+            double rot = m_controller.getRightX();
 
-        // $TODO - Inverting y on joystick is a hack right now!
-        m_swerveDrive.drive(xSpeed, -ySpeed, rot);
+            m_swerveDrive.setFieldRelative(!m_controller.getRightBumper()); // Turns off field relative while pressed 
+            
+            // $TODO - Inverting y on joystick is a hack right now!
+            m_swerveDrive.drive(xSpeed, -ySpeed, rot);
+        }
+        
+        
     }
 
     @Override

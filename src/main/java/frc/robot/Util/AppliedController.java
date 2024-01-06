@@ -6,30 +6,37 @@ import frc.robot.Constants.OperatorConstants;
 
 public class AppliedController extends XboxController {
     private double controllerDeadband;
+    private double controllerExponent;
 
     public AppliedController(int port) {
         super(port);
         this.controllerDeadband = OperatorConstants.controllerDeadbandPercent;
+        this.controllerExponent = Math.pow(OperatorConstants.controllerExpo, OperatorConstants.controllerExpoRatio);
+    }
+
+    public double expo(double input){
+        double expo = Math.pow(Math.abs(input), controllerExponent);
+        return input < 0 ? -expo : expo;
     }
 
     @Override
     public double getLeftY() {
-        return MathUtil.applyDeadband(super.getLeftY(), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getLeftY()), controllerDeadband);
     }
 
     @Override
     public double getRightY() {
-        return MathUtil.applyDeadband(super.getRightY(), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getRightY()), controllerDeadband);
     }
 
     @Override
     public double getLeftX() {
-        return MathUtil.applyDeadband(super.getLeftX(), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getLeftX()), controllerDeadband);
     }
 
     @Override
     public double getRightX() {
-        return MathUtil.applyDeadband(super.getRightX(), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getRightX()), controllerDeadband);
     }
 
     public boolean commandCancel() {
