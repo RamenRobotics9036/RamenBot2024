@@ -9,11 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -107,21 +103,6 @@ public class SwerveDriveSystem extends SubsystemBase {
 
 
   public SwerveDriveSystem(AppliedController controller) {
-    AutoBuilder.configureHolonomic(
-      this::getPoseMeters,
-      this::resetPoseMeters, 
-      this::getSpeeds, 
-      this::driveFromChassisSpeeds, 
-      new HolonomicPathFollowerConfig(
-        new PIDConstants(SwerveSystemConstants.drivingPID_P, SwerveSystemConstants.drivingPID_I, SwerveSystemConstants.drivingPID_D),
-        new PIDConstants(SwerveSystemConstants.turningPID_P, SwerveSystemConstants.turningPID_I, SwerveSystemConstants.turningPID_D),
-        maxSpeed,
-        m_frontLeftLocation.getNorm(),
-        new ReplanningConfig()
-      ),
-      this
-    );
-
     PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
 
     initShuffleBoard();
@@ -321,6 +302,14 @@ public class SwerveDriveSystem extends SubsystemBase {
 
   public ChassisSpeeds getSpeeds() {
     return m_kinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  public double getDriveBaseRadius() {
+    return m_frontLeftLocation.getNorm();
+  }
+
+  public double getMaxSpeed() {
+    return maxSpeed;
   }
 
   public boolean getIsFieldRelative() {
