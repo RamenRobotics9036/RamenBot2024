@@ -9,7 +9,13 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -23,6 +29,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.DriveSwerveCommand;
 import frc.robot.Constants.SwerveSystemConstants;
@@ -30,6 +37,8 @@ import frc.robot.Constants.SwerveSystemConstants.SwerveSystemDeviceConstants;
 import frc.robot.Util.AppliedController;
 
 public class SwerveDriveSystem extends SubsystemBase {
+  private Field2d field = new Field2d();
+
   GenericEntry m_getPIDDriveP;
   GenericEntry m_getPIDDriveD;
 
@@ -83,6 +92,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         );
 
 
+
   private final SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           m_kinematics,
@@ -97,6 +107,23 @@ public class SwerveDriveSystem extends SubsystemBase {
 
 
   public SwerveDriveSystem(AppliedController controller) {
+    AutoBuilder.configureHolonomic(
+      this::getPoseMeters,
+      this::resetPoseMeters, 
+      this::getSpeeds, 
+      this::driveFromChassisSpeeds, 
+      new HolonomicPathFollowerConfig(
+        new PIDConstants(SwerveSystemConstants.drivingPID_P, SwerveSystemConstants.drivingPID_I, SwerveSystemConstants.drivingPID_D),
+        new PIDConstants(SwerveSystemConstants.turningPID_P, SwerveSystemConstants.turningPID_I, SwerveSystemConstants.turningPID_D),
+        maxSpeed,
+        m_frontLeftLocation.getNorm(),
+        new ReplanningConfig()
+      ),
+      this
+    );
+
+    PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
+
     initShuffleBoard();
     setDefaultCommand(
         new DriveSwerveCommand(this, controller)
@@ -266,10 +293,49 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
   }
 
+  public Pose2d getPoseMeters() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public void resetPoseMeters(Pose2d pose) {
+      m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
+  }
+
+  public SwerveModulePosition[] getModulePositions() {
+    return new SwerveModulePosition[] {
+      m_frontLeft.getPosition(),
+      m_frontRight.getPosition(),
+      m_backLeft.getPosition(),
+      m_backRight.getPosition(),
+    };
+  }
+
+  public SwerveModuleState[] getModuleStates() {
+    return new SwerveModuleState[] {
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_backLeft.getState(),
+      m_backRight.getState(),
+    };
+  }
+
+  public ChassisSpeeds getSpeeds() {
+    return m_kinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  public boolean getIsFieldRelative() {
+    return m_fieldRelative;
+  }
+
+  public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+    drive(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+  }
+
   @Override
   public void periodic() {
     updatePIDFromShuffleBoard();
     updateOdometry();
+    field.setRobotPose(getPoseMeters());
   }
 
   public void stopSystem() {
