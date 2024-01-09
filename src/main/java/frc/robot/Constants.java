@@ -15,7 +15,7 @@ public class Constants {
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
-        public static final double maxOutputPercentage = 1;
+        public static final double maxOutputPercentage = 0.7;
 
         // PID tunes for 51.5 pounds 
         public static final double drivingPID_P = 3;
@@ -32,7 +32,7 @@ public class Constants {
         public static final double drivingFeedForward_A = 0.1212;
 
         public static final double maxSpeedMetersPerSecond = 2; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
-        public static final double maxAngularSpeed = 0.574*100; // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
+        public static final double maxAngularSpeed = 0.574*10; // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularAcceleration = 0.574*100; // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
 
         public static final int swerveMotorCurrentLimit = 20;
