@@ -24,31 +24,18 @@ public class RobotContainer {
 
     public void scheduleAutonomousCommand() {
         PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-    AutoBuilder.configureHolonomic(
-      m_swerveDrive::getPoseMeters,
-      m_swerveDrive::resetPoseMeters, 
-      m_swerveDrive::getSpeeds, 
-      m_swerveDrive::driveFromChassisSpeeds, 
-      new HolonomicPathFollowerConfig(
-        new PIDConstants(SwerveSystemConstants.drivingPID_P, SwerveSystemConstants.drivingPID_I, SwerveSystemConstants.drivingPID_D),
-        new PIDConstants(SwerveSystemConstants.turningPID_P, SwerveSystemConstants.turningPID_I, SwerveSystemConstants.turningPID_D),
-        m_swerveDrive.getMaxSpeed(),
-        m_swerveDrive.getDriveBaseRadius(),
-        new ReplanningConfig()
-      ),
-      this
-    );
 
         new FollowPathHolonomic(
             path,
             m_swerveDrive::getPoseMeters,
             m_swerveDrive::getSpeeds,
             m_swerveDrive::driveFromChassisSpeeds,
-            null,
-            null, 
-            0, 
-            0, 
-            null,
+            new HolonomicPathFollowerConfig(
+                SwerveSystemConstants.maxSpeedMetersPerSecond,
+                m_swerveDrive.getDriveBaseRadius(),
+                new ReplanningConfig()
+            ),
+            () -> false,
             m_swerveDrive
         ).schedule();
     }
