@@ -106,7 +106,8 @@ public class SwerveDriveSystem extends SubsystemBase {
   public void initShuffleBoard() {
 
 
-
+    Shuffleboard.getTab("Swerve").addDouble("X Pose Meters", () -> getXPosition());
+    Shuffleboard.getTab("Swerve").addDouble("Y Pose Meters", () -> getYPosition());
     m_frontLeft.displayDesiredStateToDashBoard("Front Left");
     m_backLeft.displayDesiredStateToDashBoard("Back Left");
     m_frontRight.displayDesiredStateToDashBoard("Front Right");
@@ -125,6 +126,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
       m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
       m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+        
     }
   }
 
@@ -226,11 +228,12 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public double getXPosition() {
+    
     return m_odometry.getPoseMeters().getX();
   }
 
   public double getYPosition() {
-    return m_odometry.getPoseMeters().getX();
+    return m_odometry.getPoseMeters().getY();
   }
 
   public boolean resetGyroFieldRelative(){
@@ -270,6 +273,8 @@ public class SwerveDriveSystem extends SubsystemBase {
   public void periodic() {
     updatePIDFromShuffleBoard();
     updateOdometry();
+   //  Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX());
+    
   }
 
   public void stopSystem() {
