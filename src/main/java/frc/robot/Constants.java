@@ -70,6 +70,12 @@ public class Constants {
             public static final double backLeftOffset = 0.744 + Math.PI + rotationOffset;
             public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2 + rotationOffset;
             public static final double backRightOffset =  0.928 + rotationOffset;
+
+        }
+    }
+    public static class CommandsConstants {
+        public static class SetAxisConstants {
+            public static final double errorMargin = 0.125;
         }
     }
 }
