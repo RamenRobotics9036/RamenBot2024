@@ -83,9 +83,9 @@ public class Constants {
             public static final double translationPID_I = 0;
             public static final double translationPID_D = 0;
 
-            public static final double rotationPID_P = 1.1;
+            public static final double rotationPID_P = 0.05;
             public static final double rotationPID_I = 0;
-            public static final double rotationPID_D = 0.1;
+            public static final double rotationPID_D = 0;
             public static final double timeLimit = 8.0;
         }
     }

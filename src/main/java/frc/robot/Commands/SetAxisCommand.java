@@ -61,7 +61,7 @@ public class SetAxisCommand extends CommandBase {
             SmartDashboard.putNumber("Y Speed", ySpeed);
             SmartDashboard.putNumber("Rot Speed", rotSpeed);
 
-            m_swerveDrive.drive(xSpeed, ySpeed, -rotSpeed);
+            m_swerveDrive.drive(-xSpeed, -ySpeed, -rotSpeed);
             
         }
       
