@@ -3,10 +3,13 @@ package frc.robot.Util;
 public class Coords {
     private double x;
     private double y;
+    private double rotation;
 
-    public Coords(double xValue, double yValue) {
+    public Coords(double xValue, double yValue, double rotationValue) {
         x = xValue;
         y = yValue;
+        rotation = rotationValue;
+
     }
 
     public double getX(){
@@ -14,6 +17,12 @@ public class Coords {
     }
     public double getY(){
         return y;
+    }
+    public double getRotation() {
+        return rotation;
+    }
+    public void setRotation(double newRotation) {
+        rotation = newRotation;
     }
     public void setY(double newY) {
         y=newY;
