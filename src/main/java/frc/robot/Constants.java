@@ -15,7 +15,7 @@ public class Constants {
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
-        public static final double maxOutputPercentage = 1;
+        public static final double maxOutputPercentage = 0.6;
 
         // PID tunes for 51.5 pounds 
         public static final double drivingPID_P = 0.03;
@@ -75,15 +75,15 @@ public class Constants {
     }
     public static class CommandsConstants {
         public static class SetAxisConstants {
-            public static final double errorMargin = 0.125;
-            public static final double percentPower = 0.2;
+            public static final double errorMargin = 0.05;
+            public static final double percentPower = 1;
             public static final double translationPID_P = 1;
             public static final double translationPID_I = 0;
             public static final double translationPID_D = 0;
             public static final double rotationPID_P = 1;
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
-            public static final double timeLimit = 8.0;
+            public static final double timeLimit = 3.0;
 
         }
     }

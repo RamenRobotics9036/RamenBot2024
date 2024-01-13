@@ -3,6 +3,7 @@ package frc.robot.Commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.CommandsConstants;
 import frc.robot.Constants.CommandsConstants.SetAxisConstants;
@@ -25,6 +26,7 @@ public class SetAxisCommand extends CommandBase {
         m_swerveDrive = swerveDrive;
         m_coordinates = coordinates;
         m_timer = new Timer();
+        addRequirements(m_swerveDrive);
     }
 
     
@@ -42,11 +44,23 @@ public class SetAxisCommand extends CommandBase {
         
             double xSpeed = m_translationXPID.calculate(m_swerveDrive.getXPosition(), m_coordinates.getX());
             double ySpeed = m_translationYPID.calculate(m_swerveDrive.getYPosition(), m_coordinates.getY());
-            xSpeed=MathUtil.clamp(xSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
-            ySpeed=MathUtil.clamp(ySpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
-            double rotSpeed = m_rotationYPID.calculate(m_swerveDrive.getAnglePosition(),m_coordinates.getRotation());
-            rotSpeed=MathUtil.clamp(rotSpeed,-SetAxisConstants.percentPower, SetAxisConstants.percentPower);
-            m_swerveDrive.drive(xSpeed, ySpeed, SetAxisConstants.percentPower);
+            // xSpeed=MathUtil.clamp(xSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+            // ySpeed=MathUtil.clamp(ySpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+            double rotSpeed = m_rotationYPID.calculate(m_swerveDrive.getAnglePositionAbsoluteRadians(),m_coordinates.getRotation());
+            // rotSpeed=MathUtil.clamp(rotSpeed,-SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+            // double xSpeed=m_coordinates.getX()-m_swerveDrive.getXPosition();
+            // double ySpeed=m_coordinates.getY()-m_swerveDrive.getYPosition();
+            // double rotSpeed=m_coordinates.getRotation()-m_swerveDrive.getAnglePositionAbsoluteRadians();
+
+            // xSpeed=MathUtil.clamp(xSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+            // ySpeed=MathUtil.clamp(ySpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+            // rotSpeed=MathUtil.clamp(rotSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
+
+            SmartDashboard.putNumber("X Speed", xSpeed);
+            SmartDashboard.putNumber("Y Speed", ySpeed);
+            SmartDashboard.putNumber("Rot Speed", rotSpeed);
+
+            m_swerveDrive.drive(xSpeed, ySpeed, rotSpeed);
             
         }
       
@@ -57,11 +71,12 @@ public class SetAxisCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(MathUtil.applyDeadband(m_swerveDrive.getXPosition(), m_coordinates.getX()) <= CommandsConstants.SetAxisConstants.errorMargin && 
-        MathUtil.applyDeadband(m_swerveDrive.getYPosition(), m_coordinates.getY()) <= CommandsConstants.SetAxisConstants.errorMargin) {
-            return true;
-        }
-        if(m_timer.get() >= SetAxisConstants.timeLimit) {
+        // if(MathUtil.applyDeadband(m_swerveDrive.getXPosition(), m_coordinates.getX()) <= CommandsConstants.SetAxisConstants.errorMargin && 
+        // MathUtil.applyDeadband(m_swerveDrive.getYPosition(), m_coordinates.getY()) <= CommandsConstants.SetAxisConstants.errorMargin &&
+        // MathUtil.applyDeadband(m_swerveDrive.getAnglePositionAbsoluteRadians(), m_coordinates.getRotation()) <= CommandsConstants.SetAxisConstants.errorMargin) {
+        //     return true;
+        // }
+       if(m_timer.get() >= SetAxisConstants.timeLimit) {
             return true;
         }
         return false;
