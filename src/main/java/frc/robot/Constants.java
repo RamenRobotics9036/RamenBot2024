@@ -75,16 +75,18 @@ public class Constants {
     }
     public static class CommandsConstants {
         public static class SetAxisConstants {
-            public static final double errorMargin = 0.05;
+            public static final double errorMarginXY = 0.05;
+            public static final double errorMarginRot = 0.02;
             public static final double percentPower = 1;
+
             public static final double translationPID_P = 1;
             public static final double translationPID_I = 0;
             public static final double translationPID_D = 0;
-            public static final double rotationPID_P = 1;
-            public static final double rotationPID_I = 0;
-            public static final double rotationPID_D = 0;
-            public static final double timeLimit = 3.0;
 
+            public static final double rotationPID_P = 1.1;
+            public static final double rotationPID_I = 0;
+            public static final double rotationPID_D = 0.1;
+            public static final double timeLimit = 8.0;
         }
     }
 }
