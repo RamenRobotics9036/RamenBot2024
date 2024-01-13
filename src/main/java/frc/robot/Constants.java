@@ -34,7 +34,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 2; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
+        public static final double maxSpeedMetersPerSecond = 3; // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
         public static final double maxAngularSpeed = 0.574*10; // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularAcceleration = 0.574*100; // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
 
@@ -73,6 +73,23 @@ public class Constants {
             public static final double backLeftOffset = 0.744 + Math.PI + rotationOffset;
             public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708) + 0.2 + rotationOffset;
             public static final double backRightOffset =  0.928 + rotationOffset;
+
+        }
+    }
+    public static class CommandsConstants {
+        public static class SetAxisConstants {
+            public static final double errorMarginXY = 0.05;
+            public static final double errorMarginRot = 0.02;
+            public static final double percentPower = 1;
+
+            public static final double translationPID_P = 1;
+            public static final double translationPID_I = 0;
+            public static final double translationPID_D = 0;
+
+            public static final double rotationPID_P = 0.03;
+            public static final double rotationPID_I = 0;
+            public static final double rotationPID_D = 0;
+            public static final double timeLimit = 8.0;
         }
     }
 }

@@ -106,11 +106,14 @@ public class SwerveDriveSystem extends SubsystemBase {
   public void initShuffleBoard() {
 
 
+    Shuffleboard.getTab("Position").addDouble("X Pose Meters", () -> getXPosition());
+    Shuffleboard.getTab("Position").addDouble("Y Pose Meters", () -> getYPosition());
+    Shuffleboard.getTab("Position").addDouble("Rotation", () -> getAnglePositionAbsoluteRadians());
 
-    m_frontLeft.displayDesiredStateToDashBoard("Front Left");
-    m_backLeft.displayDesiredStateToDashBoard("Back Left");
-    m_frontRight.displayDesiredStateToDashBoard("Front Right");
-    m_backRight.displayDesiredStateToDashBoard("Back Right");
+    // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
+    // m_backLeft.displayDesiredStateToDashBoard("Back Left");
+    // m_frontRight.displayDesiredStateToDashBoard("Front Right");
+    // m_backRight.displayDesiredStateToDashBoard("Back Right");
 
 
     // Also display all Swerve values on a SINGLE dashboard using a Grid layout
@@ -125,6 +128,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
       m_getPIDTurnP = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn P", SwerveModule.pidTurnP).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
       m_getPIDTurnD = Shuffleboard.getTab("Swerve Tuning").getLayout("PID Tuning Turn Values", BuiltInLayouts.kList).add("Turn D", SwerveModule.pidTurnD).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 5)).getEntry();
+        
     }
   }
 
@@ -226,11 +230,12 @@ public class SwerveDriveSystem extends SubsystemBase {
   }
 
   public double getXPosition() {
+    
     return m_odometry.getPoseMeters().getX();
   }
 
   public double getYPosition() {
-    return m_odometry.getPoseMeters().getX();
+    return m_odometry.getPoseMeters().getY();
   }
 
   public boolean resetGyroFieldRelative(){
@@ -239,7 +244,15 @@ public class SwerveDriveSystem extends SubsystemBase {
 
 
   public double getAnglePosition() {
-    return m_gyro.getYaw(); // rotation in horizontal plane
+    return Math.abs(m_gyro.getYaw()); // rotation in horizontal plane
+  }
+
+  public double getAnglePositionAbsolute() {
+    return getAnglePosition() % 360; // rotation in horizontal plane
+  }
+
+  public double getAnglePositionAbsoluteRadians() {
+    return Math.toRadians(getAnglePositionAbsolute()); // rotation in horizontal plane
   }
 
   public Rotation2d makeRotation2d() {
@@ -270,6 +283,8 @@ public class SwerveDriveSystem extends SubsystemBase {
   public void periodic() {
     updatePIDFromShuffleBoard();
     updateOdometry();
+   //  Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX());
+    
   }
 
   public void stopSystem() {
