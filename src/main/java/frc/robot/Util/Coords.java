@@ -28,7 +28,7 @@ public class Coords {
         y=newY;
     }
      public void setX(double newX) {
-        y=newX;
+        x=newX;
     }
     public double getDistance(Coords coords){
         double xDistance;
