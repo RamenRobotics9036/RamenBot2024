@@ -7,32 +7,35 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+/**
+ * Robot is timed, meaning that it will run the periodic methods at a fixed of 20ms.
+ */
 public class Robot extends TimedRobot {
-  private RobotContainer m_robotContainer = new RobotContainer();
+    private RobotContainer m_robotContainer = new RobotContainer();
 
-  @Override
-  public void robotInit() {
-  }
+    @Override
+    public void robotInit() {
+    }
 
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+    }
 
-  @Override
-  public void teleopInit() {
-    m_robotContainer.bindCommands();
-  }
+    @Override
+    public void teleopInit() {
+        m_robotContainer.bindCommands();
+    }
 
-  @Override
-  public void teleopPeriodic() {
-  }
+    @Override
+    public void teleopPeriodic() {
+    }
 
-  @Override
-  public void autonomousInit() {
-  }
+    @Override
+    public void autonomousInit() {
+    }
 
-  @Override
-  public void autonomousPeriodic() {
-  }
+    @Override
+    public void autonomousPeriodic() {
+    }
 }

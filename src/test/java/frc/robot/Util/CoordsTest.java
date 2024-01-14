@@ -1,4 +1,4 @@
-package frc.robot.Util;
+package frc.robot.util;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class CoordsTest {
-  @BeforeEach
-  void setup() {
-  }
+    @BeforeEach
+    void setup() {
+    }
 
-  @Test
-  public void testShouldSucceed() {
-    assertTrue(true);
-  }
+    @Test
+    public void testShouldSucceed() {
+        assertTrue(true);
+    }
 }

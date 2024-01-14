@@ -1,44 +1,54 @@
-package frc.robot.Util;
+package frc.robot.util;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OperatorConstants;
 
+/**
+ * AppliedController.
+ */
 public class AppliedController extends XboxController {
-    private double controllerDeadband;
-    private double controllerExponent;
+    private double m_controllerDeadband;
+    private double m_controllerExponent;
 
+    /**
+     * Constructor.
+     */
     public AppliedController(int port) {
         super(port);
-        this.controllerDeadband = OperatorConstants.controllerDeadbandPercent;
-        this.controllerExponent = Math.pow(OperatorConstants.controllerExpo, OperatorConstants.controllerExpoRatio);
+        this.m_controllerDeadband = OperatorConstants.controllerDeadbandPercent;
+        this.m_controllerExponent = Math.pow(OperatorConstants.controllerExpo,
+                OperatorConstants.controllerExpoRatio);
     }
 
-    public double expo(double input){
-        double expo = Math.pow(Math.abs(input), controllerExponent);
+    public double expo(double input) {
+        double expo = Math.pow(Math.abs(input), m_controllerExponent);
         return input < 0 ? -expo : expo;
     }
 
     @Override
     public double getLeftY() {
-        return MathUtil.applyDeadband(expo(super.getLeftY()), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getLeftY()), m_controllerDeadband);
     }
 
     @Override
     public double getRightY() {
-        return MathUtil.applyDeadband(expo(super.getRightY()), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getRightY()), m_controllerDeadband);
     }
 
     @Override
     public double getLeftX() {
-        return MathUtil.applyDeadband(expo(super.getLeftX()), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getLeftX()), m_controllerDeadband);
     }
 
     @Override
     public double getRightX() {
-        return MathUtil.applyDeadband(expo(super.getRightX()), controllerDeadband);
+        return MathUtil.applyDeadband(expo(super.getRightX()), m_controllerDeadband);
     }
 
+    /**
+     * Returns true if any of the joystick axes are not zero.
+     */
     public boolean commandCancel() {
         if (getLeftY() != 0) {
             return true;

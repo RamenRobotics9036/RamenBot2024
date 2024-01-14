@@ -1,55 +1,74 @@
-package frc.robot.Util;
+package frc.robot.util;
 
+/**
+ * Defines the position of the robot.
+ */
 public class Coords {
+    @SuppressWarnings("MemberNameCheck")
     private double x;
+
+    @SuppressWarnings("MemberNameCheck")
     private double y;
+
+    @SuppressWarnings("MemberNameCheck")
     private double rotation;
 
-    public Coords(double xValue, double yValue, double rotationValue) {
-        x = xValue;
-        y = yValue;
+    /**
+     * Constructor.
+     */
+    public Coords(double xvalue, double yvalue, double rotationValue) {
+        x = xvalue;
+        y = yvalue;
         rotation = rotationValue;
 
     }
 
-    public double getX(){
+    public double getX() {
         return x;
     }
-    public double getY(){
+
+    public double getY() {
         return y;
     }
+
     public double getRotation() {
         return rotation;
     }
+
     public void setRotation(double newRotation) {
         rotation = newRotation;
     }
+
     public void setY(double newY) {
-        y=newY;
+        y = newY;
     }
-     public void setX(double newX) {
-        x=newX;
+
+    public void setX(double newX) {
+        x = newX;
     }
-    public double getDistance(Coords coords){
-        double xDistance;
-        double yDistance;
-        if (x>coords.getX()){
-            xDistance=x-coords.getX();
-        } else{
-            xDistance=coords.getX()-x;
+
+    /**
+     * Returns the distance between two points.
+     */
+    public double getDistance(Coords coords) {
+        double xdistance;
+        double ydistance;
+        if (x > coords.getX()) {
+            xdistance = x - coords.getX();
         }
-        if (y>coords.getY()){
-            yDistance=y-coords.getY();
-        } else{
-            yDistance=coords.getY()-y;
+        else {
+            xdistance = coords.getX() - x;
         }
-        double a=Math.pow(xDistance,2);
-        double b=Math.pow(yDistance,2);
-        double c=a+b;
+        if (y > coords.getY()) {
+            ydistance = y - coords.getY();
+        }
+        else {
+            ydistance = coords.getY() - y;
+        }
+        double a = Math.pow(xdistance, 2);
+        double b = Math.pow(ydistance, 2);
+        double c = a + b;
         return Math.sqrt(c);
     }
-  
-    
-    
+
 }
-    
