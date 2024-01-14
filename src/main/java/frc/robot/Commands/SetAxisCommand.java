@@ -78,6 +78,7 @@ public class SetAxisCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        // $TODO - Can this be made more readable by breaking it up?
         if (MathUtil.applyDeadband(m_swerveDrive.getxPosition() - m_coordinates.getX(),
                 SetAxisConstants.errorMarginXY) == 0
                 && MathUtil.applyDeadband(m_swerveDrive.getyPosition() - m_coordinates.getY(),

@@ -47,7 +47,6 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        // $TODO - Normally, this was 2.0 but for now we want robot to move slowly
         public static final double maxSpeedMetersPerSecond = 3;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
