@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetAxisCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
 import frc.robot.util.Coords;
 
@@ -14,6 +15,7 @@ public class RobotContainer {
     private AppliedController m_driveController = new AppliedController(
             OperatorConstants.driveControllerPort);
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
+    private VisionSystem m_limeLight = new VisionSystem();
 
     public RobotContainer() {
     }
@@ -33,5 +35,6 @@ public class RobotContainer {
 
     public void stopRobot() {
         m_swerveDrive.stopSystem();
+        m_limeLight.stopSystem();
     }
 }

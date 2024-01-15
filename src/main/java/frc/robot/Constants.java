@@ -100,6 +100,12 @@ public class Constants {
         }
     }
 
+    public static class VisionConstants {
+        public static final double limelightMountAngleRadians = 0.25;
+        public static final double limelightLensHeightMeters = 0.5;
+        public static final double aprilTagHeightMeters = 1;
+    }
+
     /**
      * Constants for the commands.
      */
