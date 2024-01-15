@@ -122,8 +122,10 @@ public class Constants {
             public static final double timeLimit = 8.0;
         }
     }
+
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
-        
+        public static final int intakeMotorID = 21;
+        public static final int reflectChannel = 4;
     }
 }

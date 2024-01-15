@@ -12,12 +12,12 @@ import frc.robot.util.Coords;
  * RobotContainer.
  */
 public class RobotContainer {
-    private AppliedController m_driveController = new AppliedController(
+    private final AppliedController m_driveController = new AppliedController(
             OperatorConstants.driveControllerPort);
 
-    // $TODO - Create subsystems here
-    private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
-    private ShooterSystem m_shooter = new ShooterSystem();
+    private final SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
+    private final ShooterSystem m_shooter = new ShooterSystem();
+
     public RobotContainer() {
     }
 
@@ -35,7 +35,7 @@ public class RobotContainer {
     }
 
     public void stopRobot() {
-        // $TODO - Subsystems are stopped here
         m_swerveDrive.stopSystem();
+        m_shooter.stopSystem();
     }
 }

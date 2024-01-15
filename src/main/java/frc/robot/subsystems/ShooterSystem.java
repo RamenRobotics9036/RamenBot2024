@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -36,38 +37,59 @@ import java.util.function.DoubleSupplier;
 /**
  * SwerveDriveSystem.
  */
- // $TODO - Copy this to a new file called ShooterSystem.java.  And in that file, rename the class
 public class ShooterSystem extends SubsystemBase {
 
-
-    public final CANSparkMax m_max = new CANSparkMax(ShooterConstants.shooterMotorID, MotorType.kBrushless);
+    public final CANSparkMax m_intakeMotor = new CANSparkMax(ShooterConstants.intakeMotorID,
+            MotorType.kBrushless);
+    public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
+            MotorType.kBrushless);
+    public DigitalInput refelectometer = new DigitalInput(ShooterConstants.reflectChannel);
     public double speed;
+
     public ShooterSystem() {
-      
+        initShuffleBoard();
+
     }
+
     public void setShootSpeed(double SPEED) {
         speed = SPEED;
-        m_max.set(speed);
-      
+        m_shooterMotor.set(speed);
+
     }
+
     public double getShootSpeed() {
-        return speed;
+        return m_shooterMotor.get();
     }
 
-  
+    public void setIntakeSpeed(double SPEED) {
+        speed = SPEED;
+        m_intakeMotor.set(speed);
+    }
 
+    public double getIntakeSpeed() {
+        return m_intakeMotor.get();
+
+    }
 
     @Override
     public void periodic() {
-    
+        // Shuffleboard.getTab("Sensor").addBoolean(getName(), null);
         // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX())
 
+    }
+
+    public void initShuffleBoard() {
+
+        Shuffleboard.getTab("Digital Input Sensor").add("Sensor Value: ", refelectometer.get());
+        Shuffleboard.getTab("Digital Input Sensor").add("Channel Value: ",
+                refelectometer.getChannel());
     }
 
     /**
      * Stop the swerve drive system.
      */
     public void stopSystem() {
-    m_max.stopMotor();
+        m_intakeMotor.stopMotor();
+        m_shooterMotor.stopMotor();
     }
 }
