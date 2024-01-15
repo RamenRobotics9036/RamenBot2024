@@ -51,24 +51,11 @@ public class Coords {
      * Returns the distance between two points.
      */
     public double getDistance(Coords coords) {
-        double xdistance;
-        double ydistance;
-        if (x > coords.getX()) {
-            xdistance = x - coords.getX();
-        }
-        else {
-            xdistance = coords.getX() - x;
-        }
-        if (y > coords.getY()) {
-            ydistance = y - coords.getY();
-        }
-        else {
-            ydistance = coords.getY() - y;
-        }
+        double xdistance = Math.abs(x - coords.getX());
+        double ydistance = Math.abs(y - coords.getY());
         double a = Math.pow(xdistance, 2);
         double b = Math.pow(ydistance, 2);
         double c = a + b;
         return Math.sqrt(c);
     }
-
 }
