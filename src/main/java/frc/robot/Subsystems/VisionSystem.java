@@ -1,18 +1,23 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
-    Pose2d pose;
     private final double limelightMountAngleRadians = VisionConstants.limelightMountAngleRadians;
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
+
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(VisionConstants.limelightName);
+    private NetworkTableEntry tableX = limelightTable.getEntry("tx");
+    private NetworkTableEntry tableY = limelightTable.getEntry("ty");
+    private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
 
     public VisionSystem() {
         displayToShuffleBoard();
@@ -21,41 +26,32 @@ public class VisionSystem extends SubsystemBase {
     private void displayToShuffleBoard() {
         ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
                 .getLayout("April Tags", BuiltInLayouts.kList);
-        visionLayout.addDouble("Distance Meters", () -> getDistanceMetersToGoal());
         visionLayout.addDouble("X Displacement", () -> getX());
         visionLayout.addDouble("Y Displacement", () -> getY());
-        visionLayout.addDouble("Angle Displacement", () -> getAngleRadians());
+        visionLayout.addDouble("Area", () -> getArea());
+
     }
 
     public double getX() {
-        return pose.getX();
+        return tableX.getDouble(0);
     }
 
     public double getY() {
-        return pose.getY();
+        return tableY.getDouble(0);
     }
 
-    public double getAngleRadians() {
-        return pose.getRotation().getRadians();
-    }
-
-    public double getAngleDegrees() {
-        return pose.getRotation().getDegrees();
-    }
-
-    public Pose2d getPose() {
-        return pose;
+    public double getArea() {
+        return tableArea.getDouble(0);
     }
 
     public double getDistanceMetersToGoal() {
-        double angleToGoalRadians = limelightMountAngleRadians + getAngleRadians();
+        double angleToGoalRadians = limelightMountAngleRadians + getY();
         double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 
     @Override
     public void periodic() {
-        pose = LimelightHelpers.getBotPose2d("");
     }
 
     public void stopSystem() { 
