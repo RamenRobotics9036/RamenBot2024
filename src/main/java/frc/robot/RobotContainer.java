@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetAxisCommand;
+import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
 import frc.robot.util.Coords;
@@ -16,7 +17,7 @@ public class RobotContainer {
 
     // $TODO - Create subsystems here
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
-
+    private ShooterSystem m_shooter = new ShooterSystem();
     public RobotContainer() {
     }
 
