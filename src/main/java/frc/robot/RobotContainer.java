@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetAxisCommand;
+import frc.robot.subsystems.ArmAndIntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
@@ -17,6 +18,7 @@ public class RobotContainer {
 
     private final SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
     private final ShooterSystem m_shooter = new ShooterSystem();
+    private final ArmAndIntakeSystem m_ArmAndIntakeSystem = new ArmAndIntakeSystem();
 
     public RobotContainer() {
     }
@@ -37,5 +39,6 @@ public class RobotContainer {
     public void stopRobot() {
         m_swerveDrive.stopSystem();
         m_shooter.stopSystem();
+        m_ArmAndIntakeSystem.stopSystem();
     }
 }
