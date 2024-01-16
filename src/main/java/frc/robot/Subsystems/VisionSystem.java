@@ -32,18 +32,30 @@ public class VisionSystem extends SubsystemBase {
 
     }
 
+    /**
+     * X angle, left-right, from April tag. X cross-hair angle.
+     */
     public double getX() {
         return tableX.getDouble(0);
     }
 
+    /**
+     * Y angle, up-down, to April tag. Y cross-hair angle.
+     */
     public double getY() {
         return tableY.getDouble(0);
     }
 
+    /**
+     * Area of April tag in view.
+     */
     public double getArea() {
         return tableArea.getDouble(0);
     }
 
+    /**
+     * Distance to April tag in meters.
+     */
     public double getDistanceMetersToGoal() {
         double angleToGoalRadians = limelightMountAngleRadians + getY();
         double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
