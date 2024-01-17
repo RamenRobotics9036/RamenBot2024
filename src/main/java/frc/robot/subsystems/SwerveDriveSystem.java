@@ -156,11 +156,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
 
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xspeed,
-                        yspeed,
-                        rot * m_maxAngularSpeed,
-                        getAngleRotation())
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds
+                .fromFieldRelativeSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed, makeRotation2d())
                 : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
@@ -257,7 +254,7 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Update the field relative position of the robot.
      */
     public void updateOdometry() {
-        m_odometry.update(getAngleRotation(), new SwerveModulePosition[] {
+        m_odometry.update(makeRotation2d(), new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
                 m_backLeft.getPosition(),
@@ -279,18 +276,18 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public double getAnglePosition() {
-        return m_gyro.getYaw(); // rotation in horizontal plane
+        return Math.abs(m_gyro.getYaw()); // rotation in horizontal plane
     }
 
     public double getAnglePositionAbsolute() {
-        return getAngleRotation().getDegrees(); // rotation in horizontal plane
+        return getAnglePosition() % 360; // rotation in horizontal plane
     }
 
     public double getAnglePositionAbsoluteRadians() {
-        return getAngleRotation().getRadians(); // rotation in horizontal plane
+        return Math.toRadians(getAnglePositionAbsolute()); // rotation in horizontal plane
     }
 
-    public Rotation2d getAngleRotation() {
+    public Rotation2d makeRotation2d() {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
     }
 
