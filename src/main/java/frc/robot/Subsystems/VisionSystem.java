@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
@@ -29,7 +30,15 @@ public class VisionSystem extends SubsystemBase {
         visionLayout.addDouble("X Displacement", () -> getX());
         visionLayout.addDouble("Y Displacement", () -> getY());
         visionLayout.addDouble("Area", () -> getArea());
+        visionLayout.addDouble("Distance Meters", () -> getDistanceMetersToGoal());
+    }
 
+    public double getXPose() {
+        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getX();
+    }
+
+    public double getYPose() {
+        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getY();
     }
 
     public double getX() {
