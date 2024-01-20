@@ -105,8 +105,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
         Shuffleboard.getTab("Position").addDouble("X Pose Meters", () -> getxPosition());
         Shuffleboard.getTab("Position").addDouble("Y Pose Meters", () -> getyPosition());
-        Shuffleboard.getTab("Position").addDouble("Rotation",
-                () -> getAnglePositionAbsoluteRadians());
+        Shuffleboard.getTab("Position").addDouble("Rotation", () -> getAnglePosition());
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
@@ -157,7 +156,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
 
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds
-                .fromFieldRelativeSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed, makeRotation2d())
+                .fromFieldRelativeSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed, getRotation2d())
                 : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
@@ -254,7 +253,7 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Update the field relative position of the robot.
      */
     public void updateOdometry() {
-        m_odometry.update(makeRotation2d(), new SwerveModulePosition[] {
+        m_odometry.update(getRotation2d(), new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
                 m_backLeft.getPosition(),
@@ -276,18 +275,10 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public double getAnglePosition() {
-        return Math.abs(m_gyro.getYaw()); // rotation in horizontal plane
+        return m_gyro.getYaw(); // rotation in horizontal plane
     }
 
-    public double getAnglePositionAbsolute() {
-        return getAnglePosition() % 360; // rotation in horizontal plane
-    }
-
-    public double getAnglePositionAbsoluteRadians() {
-        return Math.toRadians(getAnglePositionAbsolute()); // rotation in horizontal plane
-    }
-
-    public Rotation2d makeRotation2d() {
+    public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
     }
 
