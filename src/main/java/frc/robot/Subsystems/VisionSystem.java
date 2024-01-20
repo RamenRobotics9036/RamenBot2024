@@ -32,7 +32,8 @@ public class VisionSystem extends SubsystemBase {
         visionLayout.addDouble("X Displacement", () -> getX());
         visionLayout.addDouble("Y Displacement", () -> getY());
         visionLayout.addDouble("Area", () -> getArea());
-        visionLayout.addDouble("Distance Meters", () -> getDistanceMetersX());
+        visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
+        visionLayout.addDouble("Distance Meters Y", () -> getDistanceMetersY());
     }
 
     public double getXPose() {
