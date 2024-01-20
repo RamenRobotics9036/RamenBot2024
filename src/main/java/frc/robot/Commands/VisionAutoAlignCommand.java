@@ -49,6 +49,8 @@ public class VisionAutoAlignCommand extends CommandBase {
                 .clamp(yspeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
         rotSpeed = MathUtil
                 .clamp(rotSpeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
+
+        m_swerveDrive.drive(xspeed, yspeed, rotSpeed, true);
     }
 
     @Override
