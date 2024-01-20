@@ -15,7 +15,7 @@ public class RobotContainer {
     private AppliedController m_driveController = new AppliedController(
             OperatorConstants.driveControllerPort);
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
-    private VisionSystem m_limeLight = new VisionSystem();
+    private VisionSystem m_visionSystem = new VisionSystem();
 
     public RobotContainer() {
     }
@@ -35,6 +35,6 @@ public class RobotContainer {
 
     public void stopRobot() {
         m_swerveDrive.stopSystem();
-        m_limeLight.stopSystem();
+        m_visionSystem.stopSystem();
     }
 }

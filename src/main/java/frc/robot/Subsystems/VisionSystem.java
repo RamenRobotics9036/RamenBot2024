@@ -11,7 +11,9 @@ import frc.robot.LimelightHelpers;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
-    private final double limelightMountAngleRadians = VisionConstants.limelightMountAngleRadians;
+    private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
+    private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
+
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
@@ -30,7 +32,7 @@ public class VisionSystem extends SubsystemBase {
         visionLayout.addDouble("X Displacement", () -> getX());
         visionLayout.addDouble("Y Displacement", () -> getY());
         visionLayout.addDouble("Area", () -> getArea());
-        visionLayout.addDouble("Distance Meters", () -> getDistanceMetersToGoal());
+        visionLayout.addDouble("Distance Meters", () -> getDistanceMetersX());
     }
 
     public double getXPose() {
@@ -72,11 +74,20 @@ public class VisionSystem extends SubsystemBase {
     }
 
     /**
-     * Distance to April tag in meters.
+     * Distance to April tag in meters Y.
      */
-    public double getDistanceMetersToGoal() {
-        double angleToGoalRadians = limelightMountAngleRadians + getY();
+    public double getDistanceMetersY() {
+        double angleToGoalRadians = limelightMountAngleRadiansY + getY();
         double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
+        return distanceFromLimelightToGoalMeters;
+    }
+
+    /**
+     * Distance to April tag in meters X.
+     */
+    public double getDistanceMetersX() {
+        double angleToGoalRadians = limelightMountAngleRadiansX + getX();
+        double distanceFromLimelightToGoalMeters = getDistanceMetersY() / Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 

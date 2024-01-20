@@ -101,7 +101,15 @@ public class Constants {
     }
 
     public static class VisionConstants {
-        public static final double limelightMountAngleRadians = 0.25;
+        /**
+         * Angle of camera pointing upwards.
+         */
+        public static final double limelightMountAngleRadiansY = 0.25;
+        /**
+         * Angle of camera pointing side-to-side.
+         */
+        public static final double limelightMountAngleRadiansX = 0.25;
+
         public static final double limelightLensHeightMeters = 0.5;
         public static final double aprilTagHeightMeters = 1;
 
@@ -112,6 +120,14 @@ public class Constants {
      * Constants for the commands.
      */
     public static class CommandsConstants {
+        public static final double translationPID_P = 1;
+        public static final double translationPid_I = 0;
+        public static final double translationPID_D = 0;
+
+        public static final double rotationPID_P = 0.03;
+        public static final double rotationPID_I = 0;
+        public static final double rotationPID_D = 0;
+        
         /**
          * Constants for command to drive to a specific location.
          */
@@ -131,18 +147,13 @@ public class Constants {
         }
 
         public static class VisionAutoAlignConstants {
-            public static final double errorMarginXY = 0.05;
+            public static final double errorMarginDistance = 0.02;
             public static final double errorMarginRot = 0.02;
             public static final double percentPower = 1;
 
-            public static final double translationPID_P = 1;
-            public static final double translationPid_I = 0;
-            public static final double translationPID_D = 0;
-
-            public static final double rotationPID_P = 0.03;
-            public static final double rotationPID_I = 0;
-            public static final double rotationPID_D = 0;
             public static final double timeLimit = 4.0;
+
+            public static final double distanceMeters = 0.2;
         }
     }
 }
