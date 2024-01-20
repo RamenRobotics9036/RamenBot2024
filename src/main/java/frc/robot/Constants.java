@@ -104,14 +104,14 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = 0.25;
+        public static final double limelightMountAngleRadiansY = 0.05;
         /**
          * Angle of camera pointing side-to-side.
          */
-        public static final double limelightMountAngleRadiansX = 0.25;
+        public static final double limelightMountAngleRadiansX = 0.05;
 
-        public static final double limelightLensHeightMeters = 0.5;
-        public static final double aprilTagHeightMeters = 1;
+        public static final double limelightLensHeightMeters = 0.1;
+        public static final double aprilTagHeightMeters = 0.25;
 
         public static final String limelightName = "limelight-ramen";
     }

@@ -22,6 +22,8 @@ public class VisionSystem extends SubsystemBase {
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
 
+    private final double EPSILON = 0.00001;
+
     public VisionSystem() {
         displayToShuffleBoard();
     }
@@ -29,11 +31,14 @@ public class VisionSystem extends SubsystemBase {
     private void displayToShuffleBoard() {
         ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
                 .getLayout("April Tags", BuiltInLayouts.kList);
-        visionLayout.addDouble("X Displacement", () -> getX());
-        visionLayout.addDouble("Y Displacement", () -> getY());
+        visionLayout.addDouble("X Displacement", () -> getXRadians());
+        visionLayout.addDouble("Y Displacement", () -> getYRadians());
         visionLayout.addDouble("Area", () -> getArea());
         visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
         visionLayout.addDouble("Distance Meters Y", () -> getDistanceMetersY());
+
+        visionLayout.addDouble("X tangent", () -> Math.tan(getXRadians()));
+        visionLayout.addDouble("Y tangent", () -> Math.tan(getYRadians()));
     }
 
     public double getXPose() {
@@ -58,6 +63,14 @@ public class VisionSystem extends SubsystemBase {
         return tableY.getDouble(0);
     }
 
+    public double getXRadians() {
+        return Math.toRadians(getX());
+    }
+
+    public double getYRadians() {
+        return Math.toRadians(getY());
+    }
+
     /**
      * Area of April tag in view.
      */
@@ -78,8 +91,8 @@ public class VisionSystem extends SubsystemBase {
      * Distance to April tag in meters Y.
      */
     public double getDistanceMetersY() {
-        double angleToGoalRadians = limelightMountAngleRadiansY + getY();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
+        double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
+        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -87,8 +100,8 @@ public class VisionSystem extends SubsystemBase {
      * Distance to April tag in meters X.
      */
     public double getDistanceMetersX() {
-        double angleToGoalRadians = limelightMountAngleRadiansX + getX();
-        double distanceFromLimelightToGoalMeters = getDistanceMetersY() / Math.tan(angleToGoalRadians);
+        double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
+        double distanceFromLimelightToGoalMeters = getDistanceMetersY() * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 

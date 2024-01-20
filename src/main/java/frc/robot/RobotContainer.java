@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetAxisCommand;
+import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
@@ -31,6 +32,9 @@ public class RobotContainer {
                 new Coords(m_swerveDrive.getxPosition() + 2, m_swerveDrive.getyPosition(),
                         m_swerveDrive.getAnglePositionAbsolute()),
                 m_swerveDrive));
+
+        new Trigger(() -> m_driveController.getYButton()).onTrue(
+            new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
     }
 
     public void stopRobot() {
