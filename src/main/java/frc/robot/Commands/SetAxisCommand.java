@@ -53,7 +53,7 @@ public class SetAxisCommand extends CommandBase {
         // SetAxisConstants.percentPower);
         // ySpeed=MathUtil.clamp(ySpeed, -SetAxisConstants.percentPower,
         // SetAxisConstants.percentPower);
-        double rotSpeed = m_rotationPid.calculate(m_swerveDrive.getAnglePositionAbsoluteRadians(),
+        double rotSpeed = m_rotationPid.calculate(m_swerveDrive.getAnglePositionAbsolute(),
                 m_coordinates.getRotation());
         // rotSpeed=MathUtil.clamp(rotSpeed,-SetAxisConstants.percentPower,
         // SetAxisConstants.percentPower);
@@ -86,7 +86,7 @@ public class SetAxisCommand extends CommandBase {
                 && (MathUtil.applyDeadband(m_swerveDrive.getAnglePositionAbsoluteRadians()
                         - m_coordinates.getRotation(), SetAxisConstants.errorMarginRot) == 0
                         || MathUtil.applyDeadband(
-                                Math.PI * 2 - m_swerveDrive.getAnglePositionAbsoluteRadians(),
+                                Math.PI * 2 - m_swerveDrive.getAnglePositionAbsolute(),
                                 SetAxisConstants.errorMarginRot) <= m_coordinates.getRotation())) {
             return true;
         }

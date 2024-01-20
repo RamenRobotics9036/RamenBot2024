@@ -153,7 +153,7 @@ public class Constants {
 
             public static final double timeLimit = 4.0;
 
-            public static final double distanceMeters = 0.2;
+            public static final double targetDistanceMeters = 0.2;
         }
     }
 }

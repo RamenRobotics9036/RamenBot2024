@@ -20,7 +20,7 @@ public class VisionAutoAlignCommand extends CommandBase {
         CommandsConstants.rotationPID_I, CommandsConstants.rotationPID_D);
 
     private VisionSystem m_visionSystem;
-    private double m_distanceMeters = VisionAutoAlignConstants.distanceMeters;
+    private double m_targetDistanceMeters = VisionAutoAlignConstants.targetDistanceMeters;
 
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
         m_swerveDrive = swerveDrive;
@@ -38,8 +38,8 @@ public class VisionAutoAlignCommand extends CommandBase {
     public void execute() {
         double xspeed = m_translationXpid.calculate(m_visionSystem.getDistanceMetersX(),
                 0);
-        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY() - m_distanceMeters,
-                m_distanceMeters);
+        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
+                m_targetDistanceMeters);
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(),
                 0);
 
@@ -55,12 +55,15 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        if (!m_visionSystem.isDetected()) {
+            return true;
+        }
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
         if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
         VisionAutoAlignConstants.errorMarginDistance) == 0 && 
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_distanceMeters,
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
         VisionAutoAlignConstants.errorMarginDistance) == 0 &&
         MathUtil.applyDeadband(m_visionSystem.getX(),
         VisionAutoAlignConstants.errorMarginRot) == 0) {

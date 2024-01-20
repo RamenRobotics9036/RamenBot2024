@@ -106,7 +106,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("X Pose Meters", () -> getxPosition());
         Shuffleboard.getTab("Position").addDouble("Y Pose Meters", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation",
-                () -> getAnglePositionAbsoluteRadians());
+                () -> getAnglePositionAbsolute());
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
@@ -276,15 +276,11 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public double getAnglePosition() {
-        return Math.abs(m_gyro.getYaw()); // rotation in horizontal plane
+        return m_gyro.getYaw(); // rotation in horizontal plane
     }
 
     public double getAnglePositionAbsolute() {
-        return getAnglePosition() % 360; // rotation in horizontal plane
-    }
-
-    public double getAnglePositionAbsoluteRadians() {
-        return Math.toRadians(getAnglePositionAbsolute()); // rotation in horizontal plane
+        return makeRotation2d().getRadians(); // rotation in horizontal plane
     }
 
     public Rotation2d makeRotation2d() {

@@ -29,7 +29,7 @@ public class RobotContainer {
 
         new Trigger(() -> m_driveController.getBButton()).onTrue(new SetAxisCommand(
                 new Coords(m_swerveDrive.getxPosition() + 2, m_swerveDrive.getyPosition(),
-                        m_swerveDrive.getAnglePositionAbsoluteRadians()),
+                        m_swerveDrive.getAnglePositionAbsolute()),
                 m_swerveDrive));
     }
 
