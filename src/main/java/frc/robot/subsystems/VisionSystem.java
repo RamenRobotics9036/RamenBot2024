@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
@@ -15,7 +14,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(VisionConstants.limelightName);
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+            .getTable(VisionConstants.limelightName);
     private NetworkTableEntry tableX = limelightTable.getEntry("tx");
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
@@ -25,8 +25,8 @@ public class VisionSystem extends SubsystemBase {
     }
 
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
-                .getLayout("April Tags", BuiltInLayouts.kList);
+        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout("April Tags",
+                BuiltInLayouts.kList);
         visionLayout.addDouble("X Displacement", () -> getX());
         visionLayout.addDouble("Y Displacement", () -> getY());
         visionLayout.addDouble("Area", () -> getArea());
@@ -67,7 +67,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersToGoal() {
         double angleToGoalRadians = limelightMountAngleRadians + getY();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
+        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
+                - limelightLensHeightMeters) / Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -75,6 +76,6 @@ public class VisionSystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void stopSystem() { 
+    public void stopSystem() {
     }
 }
