@@ -62,6 +62,15 @@ public class VisionSystem extends SubsystemBase {
         return tableArea.getDouble(0);
     }
 
+    public boolean isDetected() {
+        if ((getX() + getY() + getArea()) == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     /**
      * Distance to April tag in meters.
      */
