@@ -15,12 +15,11 @@ public class VisionAutoAlignCommand extends CommandBase {
     private PIDController m_translationXpid = new PIDController(CommandsConstants.translationPID_P,
             CommandsConstants.translationPid_I, CommandsConstants.translationPID_D);
     private PIDController m_translationYpid = new PIDController(CommandsConstants.translationPID_P,
-    CommandsConstants.translationPid_I, CommandsConstants.translationPID_D);
+        CommandsConstants.translationPid_I, CommandsConstants.translationPID_D);
     private PIDController m_rotationPid = new PIDController(CommandsConstants.rotationPID_P,
-    CommandsConstants.rotationPID_I, CommandsConstants.rotationPID_D);
+        CommandsConstants.rotationPID_I, CommandsConstants.rotationPID_D);
 
     private VisionSystem m_visionSystem;
-
     private double m_distanceMeters = VisionAutoAlignConstants.distanceMeters;
 
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
@@ -39,7 +38,7 @@ public class VisionAutoAlignCommand extends CommandBase {
     public void execute() {
         double xspeed = m_translationXpid.calculate(m_visionSystem.getDistanceMetersX(),
                 0);
-        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersX(),
+        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY() - m_distanceMeters,
                 m_distanceMeters);
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(),
                 0);
@@ -50,8 +49,6 @@ public class VisionAutoAlignCommand extends CommandBase {
                 .clamp(yspeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
         rotSpeed = MathUtil
                 .clamp(rotSpeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
-
-        m_swerveDrive.drive(xspeed, yspeed, rotSpeed, true);
     }
 
     @Override
@@ -59,12 +56,12 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
-        if (MathUtil.applyDeadband(m_visionSystem.getX(),
-        VisionAutoAlignConstants.errorMarginRot) == 0 && 
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_distanceMeters,
+        if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
         VisionAutoAlignConstants.errorMarginDistance) == 0 && 
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
-        VisionAutoAlignConstants.errorMarginDistance) == 0) {
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_distanceMeters,
+        VisionAutoAlignConstants.errorMarginDistance) == 0 &&
+        MathUtil.applyDeadband(m_visionSystem.getX(),
+        VisionAutoAlignConstants.errorMarginRot) == 0) {
             return true;
         }
         return false;
