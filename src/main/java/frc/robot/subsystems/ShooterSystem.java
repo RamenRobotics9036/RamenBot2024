@@ -19,11 +19,9 @@ public class ShooterSystem extends SubsystemBase {
 
     public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
-    public DigitalInput refelectometer = new DigitalInput(ShooterConstants.reflectChannel);
     public double speed;
 
     public ShooterSystem() {
-        initShuffleBoard();
 
     }
 

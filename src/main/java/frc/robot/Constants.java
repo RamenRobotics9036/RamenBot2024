@@ -125,9 +125,17 @@ public class Constants {
 
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
+    }
 
+    public static class ArmConstants {
+        public static final int armMotorID = 22;
+        public static final int armEncoderChannel = 23;
+    }
+
+    public static class IntakeConstants {
+        public static final int intakeMotorID = 21;
         public static final int reflectChannel = 4;
-
+        public static final double intakeSpeed = 0.2;
     }
 
     public static class ArmConstants {

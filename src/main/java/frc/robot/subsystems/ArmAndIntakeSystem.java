@@ -6,11 +6,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShooterConstants;
 
 /**
  * SwerveDriveSystem.
@@ -21,19 +24,19 @@ public class ArmAndIntakeSystem extends SubsystemBase {
             MotorType.kBrushless);
     public final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
             MotorType.kBrushless);
-    public final DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(
+    public final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
-    // public DigitalInput refelectometer = new DigitalInput(ShooterConstants.reflectChannel);
-    public double m_speed;
+    public DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
+    public double Speed;
 
     public ArmAndIntakeSystem() {
         initShuffleBoard();
 
     }
 
-    public void setIntakeSpeed(double speed) {
-        m_speed = speed;
-        m_intakeMotor.set(m_speed);
+    public void setIntakeSpeed(double SPEED) {
+        Speed = SPEED;
+        m_intakeMotor.set(Speed);
     }
 
     public double getIntakeSpeed() {
@@ -42,8 +45,12 @@ public class ArmAndIntakeSystem extends SubsystemBase {
     }
 
     public double getArmangle() {
-        return m_armEncoder.getAbsolutePosition();
+        return m_ArmEncoder.getAbsolutePosition();
 
+    }
+
+    public boolean getReflectometer() {
+        return refelectometer.get();
     }
 
     @Override
@@ -53,13 +60,10 @@ public class ArmAndIntakeSystem extends SubsystemBase {
 
     }
 
-    /**
-     * Initialize the Shuffleboard.
-     */
     public void initShuffleBoard() {
 
         Shuffleboard.getTab("Arm and Intake").add("Arm Angle: ",
-                m_armEncoder.getAbsolutePosition());
+                m_ArmEncoder.getAbsolutePosition());
         Shuffleboard.getTab("Arm and Intake").add("Intake Speed: ", getIntakeSpeed());
 
     }
