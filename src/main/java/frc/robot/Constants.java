@@ -138,12 +138,4 @@ public class Constants {
         public static final double intakeSpeed = 0.2;
     }
 
-    public static class ArmConstants {
-        public static final int armMotorID = 22;
-        public static final int armEncoderChannel = 23;
-    }
-
-    public static class IntakeConstants {
-        public static final int intakeMotorID = 21;
-    }
 }
