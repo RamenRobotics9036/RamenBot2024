@@ -83,7 +83,7 @@ public class SetAxisCommand extends CommandBase {
                 SetAxisConstants.errorMarginXY) == 0
                 && MathUtil.applyDeadband(m_swerveDrive.getyPosition() - m_coordinates.getY(),
                         SetAxisConstants.errorMarginXY) == 0
-                && (MathUtil.applyDeadband(m_swerveDrive.getAnglePositionAbsoluteRadians()
+                && (MathUtil.applyDeadband(m_swerveDrive.getAnglePositionAbsolute()
                         - m_coordinates.getRotation(), SetAxisConstants.errorMarginRot) == 0
                         || MathUtil.applyDeadband(
                                 Math.PI * 2 - m_swerveDrive.getAnglePositionAbsolute(),
