@@ -43,11 +43,9 @@ public class ShooterSystem extends SubsystemBase {
             MotorType.kBrushless);
     public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
-    public DigitalInput refelectometer = new DigitalInput(ShooterConstants.reflectChannel);
     public double speed;
 
     public ShooterSystem() {
-        initShuffleBoard();
 
     }
 
@@ -76,13 +74,6 @@ public class ShooterSystem extends SubsystemBase {
         // Shuffleboard.getTab("Sensor").addBoolean(getName(), null);
         // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX())
 
-    }
-
-    public void initShuffleBoard() {
-
-        Shuffleboard.getTab("Digital Input Sensor").add("Sensor Value: ", refelectometer.get());
-        Shuffleboard.getTab("Digital Input Sensor").add("Channel Value: ",
-                refelectometer.getChannel());
     }
 
     /**
