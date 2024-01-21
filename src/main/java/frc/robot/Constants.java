@@ -31,7 +31,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.5;
+        public static final double maxOutputPercentage = 0.25;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 0.03;
@@ -104,14 +104,14 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = 0.05;
+        public static final double limelightMountAngleRadiansY = 0;
         /**
          * Angle of camera pointing side-to-side.
          */
-        public static final double limelightMountAngleRadiansX = 0.05;
+        public static final double limelightMountAngleRadiansX = 0;
 
-        public static final double limelightLensHeightMeters = 0.1;
-        public static final double aprilTagHeightMeters = 0.25;
+        public static final double limelightLensHeightMeters = 0.35;
+        public static final double aprilTagHeightMeters = 0.6;
 
         public static final String limelightName = "limelight-ramen";
     }
@@ -120,7 +120,7 @@ public class Constants {
      * Constants for the commands.
      */
     public static class CommandsConstants {
-        public static final double translationPID_P = 1;
+        public static final double translationPID_P = 2;
         public static final double translationPid_I = 0;
         public static final double translationPID_D = 0;
 
@@ -147,13 +147,13 @@ public class Constants {
         }
 
         public static class VisionAutoAlignConstants {
-            public static final double errorMarginDistance = 0.02;
-            public static final double errorMarginRot = 0.02;
+            public static final double errorMarginDistance = 0.01;
+            public static final double errorMarginRot = 0.001;
             public static final double percentPower = 1;
 
             public static final double timeLimit = 4.0;
 
-            public static final double targetDistanceMeters = 0.2;
+            public static final double targetDistanceMeters = 0.8;
         }
     }
 }

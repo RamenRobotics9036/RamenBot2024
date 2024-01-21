@@ -34,6 +34,7 @@ public class VisionSystem extends SubsystemBase {
         visionLayout.addDouble("X Displacement", () -> getXRadians());
         visionLayout.addDouble("Y Displacement", () -> getYRadians());
         visionLayout.addDouble("Area", () -> getArea());
+        visionLayout.addBoolean("Is Detecting", () -> isDetected());
         visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
         visionLayout.addDouble("Distance Meters Y", () -> getDistanceMetersY());
 
@@ -79,12 +80,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public boolean isDetected() {
-        if ((getX() + getY() + getArea()) == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return getX() + getY() + getArea() != 0;
     }
 
     /**

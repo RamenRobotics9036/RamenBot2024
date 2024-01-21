@@ -38,19 +38,12 @@ public class VisionAutoAlignCommand extends CommandBase {
     public void execute() {
         double xspeed = m_translationXpid.calculate(m_visionSystem.getDistanceMetersX(),
                 0);
-        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
+        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY(),
                 m_targetDistanceMeters);
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(),
                 0);
 
-        xspeed = MathUtil
-                .clamp(xspeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
-        yspeed = MathUtil
-                .clamp(yspeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
-        rotSpeed = MathUtil
-                .clamp(rotSpeed, -VisionAutoAlignConstants.percentPower, VisionAutoAlignConstants.percentPower);
-
-        m_swerveDrive.drive(xspeed, yspeed, rotSpeed, true);
+        m_swerveDrive.drive(xspeed, yspeed, -rotSpeed, true);
     }
 
     @Override
@@ -61,12 +54,10 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
-        if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
-        VisionAutoAlignConstants.errorMarginDistance) == 0 && 
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
-        VisionAutoAlignConstants.errorMarginDistance) == 0 &&
-        MathUtil.applyDeadband(m_visionSystem.getX(),
-        VisionAutoAlignConstants.errorMarginRot) == 0) {
+        if (
+        MathUtil.applyDeadband(m_visionSystem.getX(), VisionAutoAlignConstants.errorMarginRot) == 0 &&
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistance) == 0 &&
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistance) == 0) {
             return true;
         }
         return false;
