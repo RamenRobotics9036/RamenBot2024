@@ -22,7 +22,7 @@ public class VisionSystem extends SubsystemBase {
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
 
-    private final double EPSILON = 0.00001;
+    private final double EPSILON = 0.0000001;
 
     public VisionSystem() {
         displayToShuffleBoard();
