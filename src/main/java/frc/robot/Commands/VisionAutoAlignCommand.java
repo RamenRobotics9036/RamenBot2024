@@ -4,7 +4,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.CommandsConstants;
 import frc.robot.Constants.CommandsConstants.VisionAutoAlignConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
@@ -12,12 +11,12 @@ import frc.robot.subsystems.VisionSystem;
 public class VisionAutoAlignCommand extends CommandBase {
     private SwerveDriveSystem m_swerveDrive;
     private Timer m_timer;
-    private PIDController m_translationXpid = new PIDController(CommandsConstants.translationPID_P,
-            CommandsConstants.translationPid_I, CommandsConstants.translationPID_D);
-    private PIDController m_translationYpid = new PIDController(CommandsConstants.translationPID_P,
-        CommandsConstants.translationPid_I, CommandsConstants.translationPID_D);
-    private PIDController m_rotationPid = new PIDController(CommandsConstants.rotationPID_P,
-        CommandsConstants.rotationPID_I, CommandsConstants.rotationPID_D);
+    private PIDController m_translationXpid = new PIDController(VisionAutoAlignConstants.translationXPID_P,
+            VisionAutoAlignConstants.translationXPID_I, VisionAutoAlignConstants.translationXPID_D);
+    private PIDController m_translationYpid = new PIDController(VisionAutoAlignConstants.translationYPID_P,
+        VisionAutoAlignConstants.translationYPID_I, VisionAutoAlignConstants.translationYPID_D);
+    private PIDController m_rotationPid = new PIDController(VisionAutoAlignConstants.rotationPID_P,
+        VisionAutoAlignConstants.rotationPID_I, VisionAutoAlignConstants.rotationPID_D);
 
     private VisionSystem m_visionSystem;
     private double m_targetDistanceMeters = VisionAutoAlignConstants.targetDistanceMeters;
@@ -27,6 +26,10 @@ public class VisionAutoAlignCommand extends CommandBase {
         m_visionSystem = visionSystem;
         m_timer = new Timer();
         addRequirements(m_swerveDrive, m_visionSystem);
+
+        m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceX);
+        m_translationYpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceY);
+        m_rotationPid.setTolerance(VisionAutoAlignConstants.errorMarginRot);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class VisionAutoAlignCommand extends CommandBase {
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(),
                 0);
 
-        m_swerveDrive.drive(xspeed, yspeed, -rotSpeed, true);
+        m_swerveDrive.drive(-xspeed, -yspeed, -rotSpeed, true);
     }
 
     @Override
@@ -55,9 +58,9 @@ public class VisionAutoAlignCommand extends CommandBase {
             return true;
         }
         if (
-        MathUtil.applyDeadband(m_visionSystem.getX(), VisionAutoAlignConstants.errorMarginRot) == 0 &&
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistance) == 0 &&
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistance) == 0) {
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistanceY) == 0 &&
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistanceX) == 0 &&
+        MathUtil.applyDeadband(m_visionSystem.getX(), VisionAutoAlignConstants.errorMarginRot) == 0) {
             return true;
         }
         return false;

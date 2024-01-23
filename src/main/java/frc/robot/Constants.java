@@ -120,14 +120,6 @@ public class Constants {
      * Constants for the commands.
      */
     public static class CommandsConstants {
-        public static final double translationPID_P = 2;
-        public static final double translationPid_I = 0;
-        public static final double translationPID_D = 0.1;
-
-        public static final double rotationPID_P = 0.03;
-        public static final double rotationPID_I = 0;
-        public static final double rotationPID_D = 0;
-        
         /**
          * Constants for command to drive to a specific location.
          */
@@ -147,13 +139,26 @@ public class Constants {
         }
 
         public static class VisionAutoAlignConstants {
-            public static final double errorMarginDistance = 0.01;
-            public static final double errorMarginRot = 0.001;
+            public static final double errorMarginDistanceX = 0.04;
+            public static final double errorMarginDistanceY = 0.04;
+            public static final double errorMarginRot = 0.02;
             public static final double percentPower = 1;
 
             public static final double timeLimit = 12.0;
 
             public static final double targetDistanceMeters = 0.8;
+
+            public static final double translationXPID_P = 1.6;
+            public static final double translationXPID_I = 0;
+            public static final double translationXPID_D = 0.1;
+
+            public static final double translationYPID_P = 0.2;
+            public static final double translationYPID_I = 0;
+            public static final double translationYPID_D = 0;
+
+            public static final double rotationPID_P = 0.5 / 100;
+            public static final double rotationPID_I = 0;
+            public static final double rotationPID_D = 0.3 / 1000;
         }
     }
 }
