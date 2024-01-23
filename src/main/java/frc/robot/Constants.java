@@ -120,6 +120,7 @@ public class Constants {
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
             public static final double timeLimit = 8.0;
+            public static final double armExtendTimeLimit = 5.0;
         }
     }
 
@@ -130,6 +131,9 @@ public class Constants {
     public static class ArmConstants {
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 23;
+        public static final double armSpeed = 0.2;
+        public static final double armSpeedFast = 0.3;
+
     }
 
     public static class IntakeConstants {
