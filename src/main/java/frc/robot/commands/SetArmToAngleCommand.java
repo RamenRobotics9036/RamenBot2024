@@ -13,9 +13,7 @@ public class SetArmToAngleCommand extends CommandBase {
     private PIDController m_pid = new PIDController(SetArmConstants.PID_P, SetArmConstants.PID_I,
             SetArmConstants.PID_D);
 
-    public SetArmToAngleCommand(ArmAndIntakeSystem armSystem,
-            double desiredAngle,
-            DutyCycleEncoder ArmEncoder) {
+    public SetArmToAngleCommand(ArmAndIntakeSystem armSystem, double desiredAngle) {
         m_desiredAngle = desiredAngle;
         m_armSystem = armSystem;
         addRequirements(m_armSystem);
