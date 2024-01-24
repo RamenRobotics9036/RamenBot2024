@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.CommandsConstants.VisionAutoAlignConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -47,6 +48,10 @@ public class VisionAutoAlignCommand extends CommandBase {
                 0);
 
         m_swerveDrive.drive(-xspeed, -yspeed, -rotSpeed, true);
+        SmartDashboard.putNumber("Proportional X", m_visionSystem.getDistanceMetersX());
+        SmartDashboard.putNumber("Proportional Y", m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters);
+        SmartDashboard.putNumber("Proportional Rot", m_visionSystem.getX());
+
     }
 
     @Override
