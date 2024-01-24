@@ -44,13 +44,18 @@ public class ArmAndIntakeSystem extends SubsystemBase {
 
     }
 
-    public double getArmangle() {
+    public double getArmAngle() {
         return m_ArmEncoder.getAbsolutePosition();
 
     }
 
     public boolean getReflectometer() {
         return refelectometer.get();
+    }
+
+    public void setArmSpeed(double speed) {
+        m_armMotor.set(speed);
+
     }
 
     @Override

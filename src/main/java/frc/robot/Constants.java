@@ -122,6 +122,16 @@ public class Constants {
             public static final double timeLimit = 8.0;
             public static final double armExtendTimeLimit = 5.0;
         }
+
+        public static class SetArmConstants {
+            public static final double PID_P = 1;
+            public static final double PID_I = 0;
+            public static final double PID_D = 1;
+
+            public static final double percentPower = 0.2;
+
+            public static final double errorMargin = 0.1;
+        }
     }
 
     public static class ShooterConstants {
