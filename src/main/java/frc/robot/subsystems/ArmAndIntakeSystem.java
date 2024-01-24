@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.ShooterConstants;
 
 /**
  * SwerveDriveSystem.
@@ -60,13 +59,9 @@ public class ArmAndIntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Shuffleboard.getTab("Sensor").addBoolean(getName(), null);
-        // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX())
-
     }
 
     public void initShuffleBoard() {
-
         Shuffleboard.getTab("Arm and Intake").add("Arm Angle: ",
                 m_ArmEncoder.getAbsolutePosition());
         Shuffleboard.getTab("Arm and Intake").add("Intake Speed: ", getIntakeSpeed());
