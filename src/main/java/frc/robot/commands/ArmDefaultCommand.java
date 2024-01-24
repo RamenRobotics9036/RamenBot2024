@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ArmAndIntakeSystem;
+import frc.robot.subsystems.ArmSystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class ArmDefaultCommand extends CommandBase {
     // Goal is to get joystick input and turn that into what we want to set the arm to
     private XboxController m_Controller;
-    private ArmAndIntakeSystem m_arm = new ArmAndIntakeSystem();
+    private ArmSystem m_arm = new ArmSystem();
 
-    public ArmDefaultCommand(ArmAndIntakeSystem arm) {
+    public ArmDefaultCommand(ArmSystem arm) {
         m_arm = arm;
     }
 

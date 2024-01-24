@@ -7,54 +7,31 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.IntakeConstants;
 
 /**
- * SwerveDriveSystem.
+ * ArmSystem.
  */
-public class ArmAndIntakeSystem extends SubsystemBase {
+public class ArmSystem extends SubsystemBase {
 
-    public final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID,
-            MotorType.kBrushless);
     public final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
             MotorType.kBrushless);
     public final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
-    public DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
-    public double Speed;
 
-    public ArmAndIntakeSystem() {
+    public ArmSystem() {
         initShuffleBoard();
-
-    }
-
-    public void setIntakeSpeed(double SPEED) {
-        Speed = SPEED;
-        m_intakeMotor.set(Speed);
-    }
-
-    public double getIntakeSpeed() {
-        return m_intakeMotor.get();
-
     }
 
     public double getArmAngle() {
         return m_ArmEncoder.getAbsolutePosition();
-
-    }
-
-    public boolean getReflectometer() {
-        return refelectometer.get();
     }
 
     public void setArmSpeed(double speed) {
         m_armMotor.set(speed);
-
     }
 
     @Override
@@ -62,17 +39,13 @@ public class ArmAndIntakeSystem extends SubsystemBase {
     }
 
     public void initShuffleBoard() {
-        Shuffleboard.getTab("Arm and Intake").add("Arm Angle: ",
-                m_ArmEncoder.getAbsolutePosition());
-        Shuffleboard.getTab("Arm and Intake").add("Intake Speed: ", getIntakeSpeed());
-
+        Shuffleboard.getTab("Arm").add("Arm Angle: ", m_ArmEncoder.getAbsolutePosition());
     }
 
     /**
-     * Stop the swerve drive system.
+     * Stop the arm system.
      */
     public void stopSystem() {
-        m_intakeMotor.stopMotor();
         m_armMotor.stopMotor();
     }
 }

@@ -4,15 +4,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
-import frc.robot.subsystems.ArmAndIntakeSystem;
+import frc.robot.subsystems.ArmSystem;
 
 public class SetArmToAngleCommand extends CommandBase {
     private double m_desiredAngle;
-    private ArmAndIntakeSystem m_armSystem;
+    private ArmSystem m_armSystem;
     private PIDController m_pid = new PIDController(SetArmConstants.PID_P, SetArmConstants.PID_I,
             SetArmConstants.PID_D);
 
-    public SetArmToAngleCommand(ArmAndIntakeSystem armSystem, double desiredAngle) {
+    public SetArmToAngleCommand(ArmSystem armSystem, double desiredAngle) {
         m_desiredAngle = desiredAngle;
         m_armSystem = armSystem;
         addRequirements(m_armSystem);

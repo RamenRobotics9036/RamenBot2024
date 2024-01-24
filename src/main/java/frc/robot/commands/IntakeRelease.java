@@ -1,13 +1,15 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.ArmAndIntakeSystem;
+import frc.robot.subsystems.IntakeSystem;
 
-public class ArmIntakeDefaultCommand extends CommandBase {
-    public ArmAndIntakeSystem m_intake;
+public class IntakeRelease extends CommandBase {
+    public IntakeSystem m_intake;
+    public Timer m_timer = new Timer();
 
-    public ArmIntakeDefaultCommand(ArmAndIntakeSystem intake) {
+    public IntakeRelease(IntakeSystem intake) {
         m_intake = intake;
         addRequirements(m_intake);
     }
@@ -19,17 +21,17 @@ public class ArmIntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (m_intake.getReflectometer()) {
-            m_intake.setIntakeSpeed(0);
-        }
-        else {
-            m_intake.setIntakeSpeed(IntakeConstants.intakeSpeed);
-        }
+        m_intake.setIntakeSpeed(IntakeConstants.intakeSpeed);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        if (m_timer.get() >= 5) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
