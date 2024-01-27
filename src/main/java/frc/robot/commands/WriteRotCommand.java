@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 import frc.robot.subsystems.SwerveDriveSystem;
 
-public class WriteRotCommand extends DriveXCommand {
+public class WriteRotCommand extends DriveRotCommand {
     private CSVWriter m_csvWriter;
     private double m_timeOffset;
 
@@ -40,11 +40,16 @@ public class WriteRotCommand extends DriveXCommand {
     @Override
     public void execute() {
         super.execute();
-        m_csvWriter.writeNext(new String[] {
-                String.valueOf(super.m_timer.get() + m_timeOffset) + ",",
-                String.valueOf(super.m_speed) + ",",
-                String.valueOf(super.m_swerveSystem.getAnglePosition()) + ","
-        });
+        try {
+            m_csvWriter.writeNext(new String[] {
+                    String.valueOf(super.m_timer.get() + m_timeOffset) + ",",
+                    String.valueOf(super.m_rotspeed) + ",",
+                    String.valueOf(super.m_swerveSystem.getAnglePosition()) + ","
+            });
+        }
+        catch (Exception e) {
+            cancel();
+        }
     }
 
     @Override

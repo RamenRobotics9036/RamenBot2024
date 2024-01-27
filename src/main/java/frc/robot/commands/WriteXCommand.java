@@ -40,11 +40,16 @@ public class WriteXCommand extends DriveXCommand {
     @Override
     public void execute() {
         super.execute();
-        m_csvWriter.writeNext(new String[] {
-                String.valueOf(super.m_timer.get() + m_timeOffset) + ",",
-                String.valueOf(super.m_speed) + ",",
-                String.valueOf(super.m_swerveSystem.getxPosition()) + ","
-        });
+        try {
+            m_csvWriter.writeNext(new String[] {
+                    String.valueOf(super.m_timer.get() + m_timeOffset) + ",",
+                    String.valueOf(super.m_xspeed) + ",",
+                    String.valueOf(super.m_swerveSystem.getxPosition()) + ","
+            });
+        }
+        catch (Exception e) {
+            cancel();
+        }
     }
 
     @Override
