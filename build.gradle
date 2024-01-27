@@ -48,8 +48,9 @@ def includeDesktopSupport = false
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
+    implementation 'com.opencsv:opencsv:5.8'
     implementation wpi.java.deps.wpilib()
-    implementation wpi.java.vendor.java()
+    implementation wpi.java.vendor.java() 
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
