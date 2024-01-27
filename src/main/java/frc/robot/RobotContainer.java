@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.WriteYCommand;
+import frc.robot.commands.WriteXCommand;
 import frc.robot.subsystems.ArmAndIntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -29,11 +29,8 @@ public class RobotContainer {
         double speed = 0.2;
         double maxTime = 2;
 
-        new Trigger(() -> m_driveController.getAButton())
-                .onTrue(new WriteYCommand(m_swerveDrive, speed, maxTime, 0));
-
         new Trigger(() -> m_driveController.getBButton())
-                .onTrue(new WriteYCommand(m_swerveDrive, speed, maxTime, 0));
+                .onTrue(new WriteXCommand(m_swerveDrive, speed, 0, maxTime));
     }
 
     public void stopRobot() {

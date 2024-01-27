@@ -7,7 +7,8 @@ public class WriteRotCommand extends WriteAxisCommand {
             double rotspeed,
             double timeOffset,
             double maxTime) {
-        super(swerveSystem, 0, 0, rotspeed, maxTime, timeOffset, "rotSpreadsheet.csv");
+        super(swerveSystem, 0, 0, rotspeed, maxTime, timeOffset,
+                "\"src\\main\\deploy\\logging\\rotSpreadsheet.csv\"");
     }
 
     @Override

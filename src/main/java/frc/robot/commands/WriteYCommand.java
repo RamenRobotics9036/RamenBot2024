@@ -7,7 +7,7 @@ public class WriteYCommand extends WriteAxisCommand {
             double rotspeed,
             double timeOffset,
             double maxTime) {
-        super(swerveSystem, 0, 0, rotspeed, maxTime, timeOffset, "ySpreadsheet.csv");
+                "src\\main\\deploy\\logging\\ySpreadsheet.csv");
     }
 
     @Override
@@ -19,8 +19,7 @@ public class WriteYCommand extends WriteAxisCommand {
                     String.valueOf(super.m_yspeed) + ",",
                     String.valueOf(super.m_swerveSystem.getyPosition()) + ","
             });
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             cancel();
         }
     }

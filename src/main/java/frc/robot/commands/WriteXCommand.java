@@ -7,7 +7,8 @@ public class WriteXCommand extends WriteAxisCommand {
             double xspeed,
             double timeOffset,
             double maxTime) {
-        super(swerveSystem, xspeed, 0, 0, maxTime, timeOffset, "xSpreadsheet.csv");
+        super(swerveSystem, xspeed, 0, 0, maxTime, timeOffset,
+                "src\\main\\deploy\\logging\\xSpreadsheet.csv");
     }
 
     @Override

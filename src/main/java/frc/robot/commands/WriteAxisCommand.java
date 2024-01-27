@@ -1,11 +1,12 @@
 package frc.robot.commands;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-
 import com.opencsv.CSVWriter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveDriveSystem;
 
 public class WriteAxisCommand extends DriveAxisCommand {
@@ -21,7 +22,8 @@ public class WriteAxisCommand extends DriveAxisCommand {
             String name) {
         super(swerveSystem, xspeed, yspeed, rotspeed, maxTime);
         try {
-            FileOutputStream fileWriter = new FileOutputStream(name);
+            File file = new File(name);
+            FileOutputStream fileWriter = new FileOutputStream(file, true);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileWriter,
                     StandardCharsets.UTF_8);
             m_timeOffset = timeOffset;
@@ -31,6 +33,7 @@ public class WriteAxisCommand extends DriveAxisCommand {
             });
         }
         catch (Exception e) {
+            SmartDashboard.putString("Exception", e.getMessage());
             cancel();
         }
     }
