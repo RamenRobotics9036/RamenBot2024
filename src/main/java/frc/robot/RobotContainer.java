@@ -2,12 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.SetAxisCommand;
+import frc.robot.commands.WriteYCommand;
 import frc.robot.subsystems.ArmAndIntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
-import frc.robot.util.Coords;
 
 /**
  * RobotContainer.
@@ -27,13 +26,14 @@ public class RobotContainer {
      * This is the single place that joystick triggers/buttons are bound to specific commands.
      */
     public void bindCommands() {
-        new Trigger(() -> m_driveController.getAButton())
-                .onTrue(new SetAxisCommand(new Coords(0, 0, 0), m_swerveDrive));
+        double speed = 0.2;
+        double maxTime = 2;
 
-        new Trigger(() -> m_driveController.getBButton()).onTrue(new SetAxisCommand(
-                new Coords(m_swerveDrive.getxPosition() + 2, m_swerveDrive.getyPosition(),
-                        m_swerveDrive.getRotation2d().getRadians()),
-                m_swerveDrive));
+        new Trigger(() -> m_driveController.getAButton())
+                .onTrue(new WriteYCommand(m_swerveDrive, speed, maxTime, 0));
+
+        new Trigger(() -> m_driveController.getBButton())
+                .onTrue(new WriteYCommand(m_swerveDrive, speed, maxTime, 0));
     }
 
     public void stopRobot() {

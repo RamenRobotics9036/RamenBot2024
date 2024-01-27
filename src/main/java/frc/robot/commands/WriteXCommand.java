@@ -13,12 +13,10 @@ public class WriteXCommand extends DriveXCommand {
     private double m_timeOffset;
 
     public WriteXCommand(SwerveDriveSystem swerveSystem,
-            CSVWriter csvWriter,
             double speed,
-            double maxSpeed,
+            double maxTime,
             double timeOffset) {
-        super(swerveSystem, speed, maxSpeed);
-        m_csvWriter = csvWriter;
+        super(swerveSystem, speed, maxTime);
         m_timeOffset = timeOffset;
         try {
             FileOutputStream fileWriter = new FileOutputStream("XResults.csv");
