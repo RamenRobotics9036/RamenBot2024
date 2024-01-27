@@ -148,16 +148,16 @@ public class Constants {
 
             public static final double targetDistanceMeters = 0.8;
 
-            public static final double translationXPID_P = 0.3;
-            public static final double translationXPID_I = 0;
+            public static final double translationXPID_P = 9.96859654964247;
+            public static final double translationXPID_I = 2.987381659073729;
             public static final double translationXPID_D = 0;
 
-            public static final double translationYPID_P = 2;
+            public static final double translationYPID_P = 0;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
             
 
-            public static final double rotationPID_P = 0.1 / 1000;
+            public static final double rotationPID_P = 0 / 1000;
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0 / 1000;
         }
