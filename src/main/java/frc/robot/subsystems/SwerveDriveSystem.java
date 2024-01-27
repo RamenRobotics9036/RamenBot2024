@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Constants.SwerveSystemConstants.SwerveSystemDeviceConstants;
+import frc.robot.Constants.TimeConstants;
 import frc.robot.commands.DriveSwerveCommand;
 import frc.robot.util.AppliedController;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     GenericEntry m_getPidTurnP;
     GenericEntry m_getPidTurnD;
+
+    private double m_xspeed, m_yspeed, m_rotspeed = 0;
 
     public static final boolean isPIDTuning = SwerveSystemConstants.isPIDTuning;
 
@@ -95,6 +98,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public SwerveDriveSystem(AppliedController controller) {
         initShuffleBoard();
+        record();
         setDefaultCommand(new DriveSwerveCommand(this, controller));
     }
 
@@ -154,6 +158,9 @@ public class SwerveDriveSystem extends SubsystemBase {
      */
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
+        m_xspeed = xspeed;
+        m_yspeed = yspeed;
+        m_rotspeed = rot;
 
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds
                 .fromFieldRelativeSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed, getRotation2d())
@@ -306,6 +313,18 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
             m_backRight.updateTurnPid(pidTurnP, pidTurnD);
         }
+    }
+
+    public void record() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Record");
+        tab.addDouble("X Output", () -> getxPosition());
+        tab.addDouble("Y Output", () -> getyPosition());
+        tab.addDouble("Rot Output", () -> getAnglePosition());
+        tab.addDouble("Time", () -> TimeConstants.logTimer.get());
+
+        tab.addDouble("X Speed", () -> m_xspeed);
+        tab.addDouble("Y Speed", () -> m_yspeed);
+        tab.addDouble("Rot Speed", () -> m_rotspeed);
     }
 
     @Override

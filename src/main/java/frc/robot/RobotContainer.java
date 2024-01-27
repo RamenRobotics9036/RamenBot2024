@@ -32,7 +32,7 @@ public class RobotContainer {
                         .andThen(new WriteXCommand(m_swerveDrive, 0, 2))
                         .andThen(new WriteXCommand(m_swerveDrive, -0.4, 2))
                         .andThen(new WriteXCommand(m_swerveDrive, 0, 2))
-                        .andThen(new WriteXCommand(m_swerveDrive, 0.8, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, 0.8, 1))
                         .andThen(new WriteXCommand(m_swerveDrive, 0, 2)));
     }
 

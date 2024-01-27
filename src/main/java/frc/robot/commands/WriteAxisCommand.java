@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.TimeConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 
@@ -24,14 +23,6 @@ public class WriteAxisCommand extends DriveAxisCommand {
     @Override
     public void execute() {
         super.execute();
-        SmartDashboard.putNumber("Time", TimeConstants.logTimer.get());
-        SmartDashboard.putNumber("X Speed", super.m_xspeed);
-        SmartDashboard.putNumber("Y Speed", super.m_xspeed);
-        SmartDashboard.putNumber("Rot Speed", super.m_xspeed);
-
-        SmartDashboard.putNumber("X Output", super.m_swerveSystem.getxPosition());
-        SmartDashboard.putNumber("Y Output", super.m_swerveSystem.getyPosition());
-        SmartDashboard.putNumber("Rot Output", super.m_swerveSystem.getAnglePosition());
     }
 
     @Override
