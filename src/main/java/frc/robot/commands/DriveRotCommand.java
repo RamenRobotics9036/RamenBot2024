@@ -5,19 +5,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDriveSystem;
 
 public class DriveRotCommand extends CommandBase {
-    private SwerveDriveSystem m_swerveSystem;
-    private double m_speed;
-    private double m_maxTime;
-    private Timer m_timer;
+    protected SwerveDriveSystem m_swerveSystem;
+    protected double m_speed;
+    protected double m_maxTime;
+    protected Timer m_timer;
 
-    public DriveRotCommand(SwerveDriveSystem swerveSystem, double speed, double maxSpeed) {
+    public DriveRotCommand(SwerveDriveSystem swerveSystem, double speed, double maxTime) {
         m_swerveSystem = swerveSystem;
         m_speed = speed;
         m_timer = new Timer();
-        m_maxTime = maxSpeed;
+        m_maxTime = maxTime;
         addRequirements(m_swerveSystem);
     }
-
 
     @Override
     public void initialize() {
@@ -31,7 +30,7 @@ public class DriveRotCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= m_maxTime){
+        if (m_timer.get() >= m_maxTime) {
             return true;
         }
         return false;
