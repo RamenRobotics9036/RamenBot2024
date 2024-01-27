@@ -26,11 +26,14 @@ public class RobotContainer {
      * This is the single place that joystick triggers/buttons are bound to specific commands.
      */
     public void bindCommands() {
-        double speed = 0.2;
-        double maxTime = 2;
-
         new Trigger(() -> m_driveController.getAButton())
-                .onTrue(new WriteXCommand(m_swerveDrive, speed, 0, maxTime));
+                .onTrue(new WriteXCommand(m_swerveDrive, 0, 2)
+                        .andThen(new WriteXCommand(m_swerveDrive, 0.5, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, 0, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, -0.4, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, 0, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, 0.8, 2))
+                        .andThen(new WriteXCommand(m_swerveDrive, 0, 2)));
     }
 
     public void stopRobot() {

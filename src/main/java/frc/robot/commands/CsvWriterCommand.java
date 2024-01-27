@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 
-import javax.sql.XAConnection;
-
 import com.opencsv.CSVWriter;
 
 import edu.wpi.first.wpilibj.Timer;
