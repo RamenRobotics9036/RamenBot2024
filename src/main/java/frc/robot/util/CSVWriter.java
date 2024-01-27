@@ -9,12 +9,12 @@ import com.opencsv.CSVWriter;
 
 public class CsvWriter {
 
-    public static void Datawrite() throws IOException {
+    public void Datawrite() throws IOException {
 
         String[] entries = {
                 "book", "coin", "pencil", "cup"
         };
-        String fileName = "src/main/resources/items.csv";
+        String fileName = "items.csv";
 
         try (var fos = new FileOutputStream(fileName);
                 var osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
