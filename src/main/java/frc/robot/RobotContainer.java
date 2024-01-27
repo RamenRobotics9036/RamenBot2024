@@ -29,7 +29,7 @@ public class RobotContainer {
         double speed = 0.2;
         double maxTime = 2;
 
-        new Trigger(() -> m_driveController.getBButton())
+        new Trigger(() -> m_driveController.getAButton())
                 .onTrue(new WriteXCommand(m_swerveDrive, speed, 0, maxTime));
     }
 

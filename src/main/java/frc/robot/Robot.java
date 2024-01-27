@@ -6,6 +6,7 @@ package frc.robot;
 
 // import frc.robot.util.CsvWriter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putString("Dir", System.getProperty("user.dir"));
         CommandScheduler.getInstance().run();
     }
 

@@ -7,22 +7,6 @@ public class WriteXCommand extends WriteAxisCommand {
             double xspeed,
             double timeOffset,
             double maxTime) {
-        super(swerveSystem, xspeed, 0, 0, maxTime, timeOffset,
-                "src\\main\\deploy\\logging\\xSpreadsheet.csv");
-    }
-
-    @Override
-    public void execute() {
-        super.execute();
-        try {
-            super.m_csvWriter.writeNext(new String[] {
-                    String.valueOf(super.m_timer.get() + super.m_timeOffset) + ",",
-                    String.valueOf(super.m_xspeed) + ",",
-                    String.valueOf(super.m_swerveSystem.getxPosition()) + ","
-            });
-        }
-        catch (Exception e) {
-            cancel();
-        }
+        super(swerveSystem, xspeed, 0, 0, maxTime, timeOffset);
     }
 }

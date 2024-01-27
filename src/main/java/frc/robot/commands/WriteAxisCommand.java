@@ -1,16 +1,9 @@
 package frc.robot.commands;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import com.opencsv.CSVWriter;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveDriveSystem;
 
 public class WriteAxisCommand extends DriveAxisCommand {
-    protected CSVWriter m_csvWriter;
     protected double m_timeOffset;
 
     public WriteAxisCommand(SwerveDriveSystem swerveSystem,
@@ -18,23 +11,20 @@ public class WriteAxisCommand extends DriveAxisCommand {
             double yspeed,
             double rotspeed,
             double maxTime,
-            double timeOffset,
-            String name) {
+            double timeOffset) {
         super(swerveSystem, xspeed, yspeed, rotspeed, maxTime);
-        try {
-            File file = new File(name);
-            FileOutputStream fileWriter = new FileOutputStream(file, true);
-            OutputStreamWriter outputWriter = new OutputStreamWriter(fileWriter,
-                    StandardCharsets.UTF_8);
-            m_timeOffset = timeOffset;
-            m_csvWriter = new CSVWriter(outputWriter);
-            m_csvWriter.writeNext(new String[] {
-                    "time,", "input,", "output,"
-            });
-        }
-        catch (Exception e) {
-            SmartDashboard.putString("Exception", e.getMessage());
-            cancel();
-        }
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
+        SmartDashboard.putNumber("Time", super.m_timer.get() + m_timeOffset);
+        SmartDashboard.putNumber("X Speed", super.m_xspeed);
+        SmartDashboard.putNumber("Y Speed", super.m_xspeed);
+        SmartDashboard.putNumber("Rot Speed", super.m_xspeed);
+
+        SmartDashboard.putNumber("X Output", super.m_swerveSystem.getxPosition());
+        SmartDashboard.putNumber("Y Output", super.m_swerveSystem.getyPosition());
+        SmartDashboard.putNumber("Rot Output", super.m_swerveSystem.getAnglePosition());
     }
 }
