@@ -58,9 +58,9 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (!m_visionSystem.isDetected()) {
             return true;
         }
-        // if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
-        //     return true;
-        // }
+        if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
+            return true;
+        }
         if (
         MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistanceX) == 0
         &&
