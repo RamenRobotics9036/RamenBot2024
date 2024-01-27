@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.util.CsvWriter;
+// import frc.robot.util.CsvWriter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer = new RobotContainer();
-    private CsvWriter m_Writer = new CsvWriter();
+    // private CsvWriterCommand m_Writer = new CsvWriter();
 
     @Override
     public void robotInit() {
 
         try {
-            m_Writer.Datawrite();
+            // m_Writer.Datawrite();
         }
         catch (Exception e) {
 
