@@ -65,6 +65,8 @@ public class VisionAutoAlignCommand extends CommandBase {
         MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistanceX) == 0
         &&
         MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistanceY) == 0
+        &&
+        MathUtil.applyDeadband(m_visionSystem.getX(), VisionAutoAlignConstants.errorMarginRot) == 0
         ) {
             return true;
         }

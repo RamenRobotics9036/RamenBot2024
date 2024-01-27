@@ -139,9 +139,9 @@ public class Constants {
         }
 
         public static class VisionAutoAlignConstants {
-            public static final double errorMarginDistanceX = 0.03;
-            public static final double errorMarginDistanceY = 0.03;
-            public static final double errorMarginRot = 0.02;
+            public static final double errorMarginDistanceX = 0.08;
+            public static final double errorMarginDistanceY = 0.04;
+            public static final double errorMarginRot = 2;
             public static final double percentPower = 1;
 
             public static final double timeLimit = 12.0;
@@ -157,9 +157,9 @@ public class Constants {
             public static final double translationYPID_D = 0;
             
 
-            public static final double rotationPID_P = 0 / 1000;
+            public static final double rotationPID_P = 1 / 1000;
             public static final double rotationPID_I = 0;
-            public static final double rotationPID_D = 0 / 1000;
+            public static final double rotationPID_D = 0;
         }
     }
 }
