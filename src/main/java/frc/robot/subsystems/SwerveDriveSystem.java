@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.util.CsvWriter;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
