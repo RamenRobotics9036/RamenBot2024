@@ -26,7 +26,7 @@ public class WriteYCommand extends DriveXCommand {
                     StandardCharsets.UTF_8);
             m_csvWriter = new CSVWriter(outputWriter);
             m_csvWriter.writeNext(new String[] {
-                    "time", "input", "output"
+                    "time,", "input,", "output,"
             });
         }
         catch (Exception e) {
@@ -43,9 +43,9 @@ public class WriteYCommand extends DriveXCommand {
     public void execute() {
         super.execute();
         m_csvWriter.writeNext(new String[] {
-                String.valueOf(super.m_timer.get() + m_timeOffset),
-                String.valueOf(super.m_speed),
-                String.valueOf(super.m_swerveSystem.getyPosition())
+                String.valueOf(super.m_timer.get() + m_timeOffset) + ",",
+                String.valueOf(super.m_speed) + ",",
+                String.valueOf(super.m_swerveSystem.getyPosition()) + ","
         });
     }
 
