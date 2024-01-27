@@ -51,7 +51,6 @@ public class VisionAutoAlignCommand extends CommandBase {
         SmartDashboard.putNumber("Proportional X", m_visionSystem.getDistanceMetersX());
         SmartDashboard.putNumber("Proportional Y", m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters);
         SmartDashboard.putNumber("Proportional Rot", m_visionSystem.getX());
-
     }
 
     @Override
@@ -59,13 +58,14 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (!m_visionSystem.isDetected()) {
             return true;
         }
-        if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
-            return true;
-        }
+        // if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
+        //     return true;
+        // }
         if (
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistanceY) == 0 &&
-        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistanceX) == 0 &&
-        MathUtil.applyDeadband(m_visionSystem.getX(), VisionAutoAlignConstants.errorMarginRot) == 0) {
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(), VisionAutoAlignConstants.errorMarginDistanceX) == 0
+        &&
+        MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters, VisionAutoAlignConstants.errorMarginDistanceY) == 0
+        ) {
             return true;
         }
         return false;

@@ -34,9 +34,9 @@ public class Constants {
         public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
-        public static final double drivingPID_P = 0.03;
+        public static final double drivingPID_P = 8;
         public static final double drivingPID_I = 0;
-        public static final double drivingPID_D = 0;
+        public static final double drivingPID_D = 3;
 
         // PID tunes for 51.5 pounds
         public static final double turningPID_P = 1.45;
@@ -111,7 +111,7 @@ public class Constants {
         public static final double limelightMountAngleRadiansX = 0;
 
         public static final double limelightLensHeightMeters = 0.38;
-        public static final double aprilTagHeightMeters = 0.58;
+        public static final double aprilTagHeightMeters = 0.9;
 
         public static final String limelightName = "limelight-ramen";
     }
@@ -139,20 +139,20 @@ public class Constants {
         }
 
         public static class VisionAutoAlignConstants {
-            public static final double errorMarginDistanceX = 0.04;
-            public static final double errorMarginDistanceY = 0.04;
+            public static final double errorMarginDistanceX = 0.03;
+            public static final double errorMarginDistanceY = 0.03;
             public static final double errorMarginRot = 0.02;
             public static final double percentPower = 1;
 
             public static final double timeLimit = 12.0;
 
-            public static final double targetDistanceMeters = 0.8;
+            public static final double targetDistanceMeters = 2;
 
-            public static final double translationXPID_P = 9.96859654964247;
-            public static final double translationXPID_I = 2.987381659073729;
+            public static final double translationXPID_P = 0.5;
+            public static final double translationXPID_I = 0;
             public static final double translationXPID_D = 0;
 
-            public static final double translationYPID_P = 0;
+            public static final double translationYPID_P = 0.45;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
             
