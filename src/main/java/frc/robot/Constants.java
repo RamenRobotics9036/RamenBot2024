@@ -138,4 +138,9 @@ public class Constants {
     public static class IntakeConstants {
         public static final int intakeMotorID = 21;
     }
+
+    public static class CSVConstants {
+        public static final double CSVLimit = 30;
+    }
+
 }
