@@ -161,7 +161,9 @@ public class SwerveModule {
         final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
         m_turnPidController.setReference(state.angle.getRadians(), ControlType.kPosition);
 
-        m_driveMotor.setVoltage((driveOutput + driveFeedforward) * maxOutput);
+        double voltage = (driveOutput + driveFeedforward) * maxOutput;
+        voltage = MathUtil.clamp(voltage, -12, 12);
+        m_driveMotor.setVoltage(voltage);
 
         m_driveSetPoint = state.speedMetersPerSecond;
         m_turnSetPoint = state.angle.getRadians();
