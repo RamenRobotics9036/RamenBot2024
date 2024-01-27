@@ -4,9 +4,10 @@ import frc.robot.subsystems.SwerveDriveSystem;
 
 public class WriteYCommand extends WriteAxisCommand {
     public WriteYCommand(SwerveDriveSystem swerveSystem,
-            double rotspeed,
+            double yspeed,
             double timeOffset,
             double maxTime) {
+        super(swerveSystem, 0, yspeed, 0, maxTime, timeOffset,
                 "src\\main\\deploy\\logging\\ySpreadsheet.csv");
     }
 
@@ -19,7 +20,8 @@ public class WriteYCommand extends WriteAxisCommand {
                     String.valueOf(super.m_yspeed) + ",",
                     String.valueOf(super.m_swerveSystem.getyPosition()) + ","
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             cancel();
         }
     }
