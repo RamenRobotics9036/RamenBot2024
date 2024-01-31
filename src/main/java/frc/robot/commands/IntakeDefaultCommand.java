@@ -23,7 +23,7 @@ public class IntakeDefaultCommand extends CommandBase {
             m_intake.setIntakeSpeed(0);
         }
         else {
-            m_intake.setIntakeSpeed(IntakeConstants.intakeSpeed);
+            m_intake.setIntakeSpeed(-IntakeConstants.intakeSpeed);
         }
     }
 

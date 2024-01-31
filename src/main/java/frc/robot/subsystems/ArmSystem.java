@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,11 +20,13 @@ import frc.robot.util.AppliedController;
  */
 public class ArmSystem extends SubsystemBase {
 
-    public final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
+    private final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
             MotorType.kBrushless);
-    public final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
+    private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
+
+    private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
         m_controller = controller;
@@ -36,6 +39,7 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public void setArmSpeed(double speed) {
+        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_armMotor.set(speed);
     }
 

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -16,14 +17,16 @@ import frc.robot.Constants.ShooterConstants;
  */
 public class ShooterSystem extends SubsystemBase {
 
-    public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
+    private final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
+    private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
         initShuffleBoard();
     }
 
     public void setShootSpeed(double speed) {
+        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_shooterMotor.set(speed);
     }
 

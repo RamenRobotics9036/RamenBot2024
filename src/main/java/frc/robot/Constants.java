@@ -133,24 +133,31 @@ public class Constants {
 
             public static final double errorMargin = 0.1;
         }
+
+        public static class IntakeReleaseConstants {
+            public static final double maxTime = 0.5;
+        }
     }
 
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
+        public static final double maxOutputPercent = 0.4;
+        public static final double shooterSpeed = 1;
     }
 
     public static class ArmConstants {
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 23;
-        public static final double armSpeed = 0.2;
-        public static final double armSpeedFast = 0.3;
+
+        public static final double armSpeedFast = 1;
+        public static final double maxOutputPercent = 0.4;
 
     }
 
     public static class IntakeConstants {
         public static final int intakeMotorID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.2;
+        public static final double intakeSpeed = 1;
+        public static final double maxOutputPercent = 0.4;
     }
-
 }
