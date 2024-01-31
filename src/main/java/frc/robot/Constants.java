@@ -131,6 +131,7 @@ public class Constants {
             public static final double percentPower = 0.2;
 
             public static final double errorMargin = 0.1;
+
         }
     }
 
@@ -143,6 +144,12 @@ public class Constants {
         public static final int armEncoderChannel = 23;
         public static final double armSpeed = 0.2;
         public static final double armSpeedFast = 0.3;
+        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground in
+                                                                 // meters.
+        public static final double shootToPivotRadius = 0.549;// Radius from shooting point to pivot
+                                                              // point in meters.
+        public static final double armAngleOffsetHorizontal = 0;// Offset bewteen sensor to
+                                                                // horizontal axis of arm in degrees
 
     }
 

@@ -30,6 +30,11 @@ public class ArmSystem extends SubsystemBase {
         return m_ArmEncoder.getAbsolutePosition();
     }
 
+    public double getArmHeight() {
+        return ArmConstants.pivotHeightOverGround + ArmConstants.shootToPivotRadius
+                * Math.sin(Math.toRadians(getArmAngle() + ArmConstants.armAngleOffsetHorizontal));
+    }
+
     public void setArmSpeed(double speed) {
         m_armMotor.set(speed);
     }
