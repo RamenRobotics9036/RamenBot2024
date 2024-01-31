@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.IntakeDefaultCommand;
 
 /**
  * Stop the intake system.
@@ -18,7 +19,7 @@ public class IntakeSystem extends SubsystemBase {
 
     public IntakeSystem() {
         initShuffleBoard();
-
+        setDefaultCommand(new IntakeDefaultCommand(this));
     }
 
     public double getIntakeSpeed() {

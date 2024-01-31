@@ -9,6 +9,7 @@ public class Constants {
      */
     public static class OperatorConstants {
         public static final int driveControllerPort = 0;
+        public static final int armControllerPort = 1;
         public static final double controllerExpo = 4;
 
         // Change this variable if you want to change exponent

@@ -18,16 +18,13 @@ public class ShooterSystem extends SubsystemBase {
 
     public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
-    public double speed;
 
     public ShooterSystem() {
         initShuffleBoard();
     }
 
-    public void setShootSpeed(double SPEED) {
-        speed = SPEED;
+    public void setShootSpeed(double speed) {
         m_shooterMotor.set(speed);
-
     }
 
     public double getShootSpeed() {

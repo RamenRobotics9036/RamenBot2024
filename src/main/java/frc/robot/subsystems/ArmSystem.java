@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmDefaultCommand;
+import frc.robot.util.AppliedController;
 
 /**
  * ArmSystem.
@@ -21,9 +23,12 @@ public class ArmSystem extends SubsystemBase {
             MotorType.kBrushless);
     public final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
+    private AppliedController m_controller;
 
-    public ArmSystem() {
+    public ArmSystem(AppliedController controller) {
+        m_controller = controller;
         initShuffleBoard();
+        setDefaultCommand(new ArmDefaultCommand(this, m_controller));
     }
 
     public double getArmAngle() {
