@@ -142,7 +142,7 @@ public class Constants {
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
         public static final double maxOutputPercent = 0.4;
-        public static final double shooterSpeed = 1;
+        public static final double shooterSpeed = 0.4;
     }
 
     public static class ArmConstants {
@@ -157,7 +157,7 @@ public class Constants {
     public static class IntakeConstants {
         public static final int intakeMotorID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 1;
+        public static final double intakeSpeed = 0.4;
         public static final double maxOutputPercent = 0.4;
     }
 }
