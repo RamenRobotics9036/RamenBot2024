@@ -120,22 +120,36 @@ public class Constants {
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
             public static final double timeLimit = 8.0;
+            public static final double armExtendTimeLimit = 5.0;
+        }
+
+        public static class SetArmConstants {
+            public static final double PID_P = 1;
+            public static final double PID_I = 0;
+            public static final double PID_D = 1;
+
+            public static final double percentPower = 0.2;
+
+            public static final double errorMargin = 0.1;
         }
     }
 
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
-
-        public static final int reflectChannel = 4;
-
     }
 
     public static class ArmConstants {
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 23;
+        public static final double armSpeed = 0.2;
+        public static final double armSpeedFast = 0.3;
+
     }
 
     public static class IntakeConstants {
         public static final int intakeMotorID = 21;
+        public static final int reflectChannel = 4;
+        public static final double intakeSpeed = 0.2;
     }
+
 }

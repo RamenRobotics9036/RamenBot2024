@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -19,12 +18,10 @@ public class ShooterSystem extends SubsystemBase {
 
     public final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
-    public DigitalInput refelectometer = new DigitalInput(ShooterConstants.reflectChannel);
     public double speed;
 
     public ShooterSystem() {
         initShuffleBoard();
-
     }
 
     public void setShootSpeed(double SPEED) {
@@ -37,18 +34,12 @@ public class ShooterSystem extends SubsystemBase {
         return m_shooterMotor.get();
     }
 
-    @Override
-    public void periodic() {
-        // Shuffleboard.getTab("Sensor").addBoolean(getName(), null);
-        // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX())
-
+    public void initShuffleBoard() {
+        Shuffleboard.getTab("Shooter").addDouble("Shooter Speed: ", () -> getShootSpeed());
     }
 
-    public void initShuffleBoard() {
-
-        Shuffleboard.getTab("Shooter").add(" Digital Input Sensor Value: ", refelectometer.get());
-        Shuffleboard.getTab("Shooter").add("Digital Input Sensor Channel: ",
-                refelectometer.getChannel());
+    @Override
+    public void periodic() {
     }
 
     /**

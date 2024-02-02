@@ -103,9 +103,9 @@ public class SwerveDriveSystem extends SubsystemBase {
      */
     public void initShuffleBoard() {
 
-        Shuffleboard.getTab("Position").addDouble("X Pose Meters", () -> getxPosition());
-        Shuffleboard.getTab("Position").addDouble("Y Pose Meters", () -> getyPosition());
-        Shuffleboard.getTab("Position").addDouble("Rotation", () -> getAnglePosition());
+        Shuffleboard.getTab("Position").addDouble("X Pose Meters: ", () -> getxPosition());
+        Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
+        Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
