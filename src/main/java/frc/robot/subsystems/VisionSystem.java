@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
@@ -17,7 +16,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(VisionConstants.limelightName);
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+            .getTable(VisionConstants.limelightName);
     private NetworkTableEntry tableX = limelightTable.getEntry("tx");
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
@@ -29,8 +29,8 @@ public class VisionSystem extends SubsystemBase {
     }
 
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
-                .getLayout("April Tags", BuiltInLayouts.kList);
+        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout("April Tags",
+                BuiltInLayouts.kList);
         visionLayout.addDouble("X Displacement", () -> getXRadians());
         visionLayout.addDouble("Y Displacement", () -> getYRadians());
         visionLayout.addDouble("Area", () -> getArea());
@@ -40,14 +40,6 @@ public class VisionSystem extends SubsystemBase {
 
         visionLayout.addDouble("X tangent", () -> Math.tan(getXRadians()));
         visionLayout.addDouble("Y tangent", () -> Math.tan(getYRadians()));
-    }
-
-    public double getXPose() {
-        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getX();
-    }
-
-    public double getYPose() {
-        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getY();
     }
 
     /**
@@ -88,7 +80,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersY() {
         double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
+        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
+                - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -97,7 +90,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersX() {
         double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
-        double distanceFromLimelightToGoalMeters = getDistanceMetersY() * Math.tan(angleToGoalRadians);
+        double distanceFromLimelightToGoalMeters = getDistanceMetersY()
+                * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -105,6 +99,6 @@ public class VisionSystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void stopSystem() { 
+    public void stopSystem() {
     }
 }
