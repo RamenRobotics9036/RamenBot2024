@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -21,8 +22,9 @@ public class RobotContainer {
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
-    private final ShooterSystem m_shooter = new ShooterSystem();
-    private final ArmSystem m_ArmAndIntakeSystem = new ArmSystem(m_armController);
+    private ShooterSystem m_shooterSystem = new ShooterSystem();
+    private ArmSystem m_armSystem = new ArmSystem(m_armController);
+    private IntakeSystem m_intakeSystem = new IntakeSystem();
 
     public RobotContainer() {
     }
@@ -37,8 +39,10 @@ public class RobotContainer {
 
     public void stopRobot() {
         m_swerveDrive.stopSystem();
-        m_shooter.stopSystem();
-        m_ArmAndIntakeSystem.stopSystem();
         m_visionSystem.stopSystem();
+
+        m_shooterSystem.stopSystem();
+        m_armSystem.stopSystem();
+        m_intakeSystem.stopSystem();
     }
 }
