@@ -5,7 +5,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeDefaultCommand extends CommandBase {
-    public IntakeSystem m_intake;
+    private IntakeSystem m_intake;
 
     public IntakeDefaultCommand(IntakeSystem intake) {
         m_intake = intake;
