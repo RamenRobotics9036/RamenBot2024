@@ -1,6 +1,7 @@
 package frc.robot.commands.TestCommands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TestConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -35,6 +36,10 @@ public class SwerveMoveMotorTestCommand extends CommandBase {
         if (m_swerve.getBackRightDriveVelocity() >= 0.1) {
             m_worked[3] = true;
         }
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_worked[0]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_worked[1]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_worked[2]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_worked[3]);
     }
 
     @Override
@@ -51,5 +56,4 @@ public class SwerveMoveMotorTestCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_swerve.stopSystem();
     }
-
 }
