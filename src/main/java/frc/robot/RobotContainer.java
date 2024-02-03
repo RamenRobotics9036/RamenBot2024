@@ -37,9 +37,11 @@ public class RobotContainer {
         // Push note piece back on start up. May not need to happen when reflectometer is used.
         double pullBackNoteTime = 0.2;
         double pullBackNoteSpeed = 0.2;
-        new Trigger(() -> m_driveController.getAButton()).onTrue(
+        new Trigger(() -> m_armController.getAButton()).onTrue(
                 new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime, pullBackNoteSpeed)
-                        .andThen(new IntakeRevCommand(m_intakeSystem, m_shooterSystem)));
+                        .andThen(
+                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
+                                        m_armController)));
     }
 
     public void stopRobot() {
