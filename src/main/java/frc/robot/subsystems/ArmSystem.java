@@ -47,8 +47,11 @@ public class ArmSystem extends SubsystemBase {
                 * Math.sin(Math.toRadians(getArmAngle() + ArmConstants.armAngleOffsetHorizontal));
     }
 
-    public double getShootingAngle(double angle) {
-        return 0;
+    public double getShootingAngle(double m_distance,
+            double m_armLength,
+            double m_centerSpeakerHeight) {
+        return Math.atan((m_centerSpeakerHeight - m_armLength) / m_distance);
+
     }
 
     public void setArmSpeed(double speed) {
