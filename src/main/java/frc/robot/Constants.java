@@ -188,7 +188,7 @@ public class Constants {
 
     public static class ArmConstants {
         public static final int armMotorID = 22;
-        public static final int armEncoderChannel = 23;
+        public static final int armEncoderChannel = 0;
         public static final double armSpeed = 0.2;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 80.25;
