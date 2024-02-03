@@ -180,16 +180,16 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final int shooterMotorLeftID = 18;
-        public static final int shooterMotorRightID = 119;
-        public static final double maxOutputPercent = 0.4;
-        public static final double shooterSpeed = 0.4;
+        public static final int shooterLeftMotorID = 18;
+        public static final int shooterRightMotorID = 19;
+        public static final double maxOutputPercent = 1;
+        public static final double shooterSpeed = 0.7;
     }
 
     public static class ArmConstants {
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 0;
-        public static final double armSpeed = 0.2;
+        public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 80.25;
         public static final double pivotHeightOverGround = 0.279;// The pivot height over ground in
@@ -200,19 +200,20 @@ public class Constants {
                                                                 // horizontal axis of arm in degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.4;
+        public static final double maxOutputPercent = 0.2;
 
     }
 
     public static class IntakeConstants {
-        public static final int intakeMotorID = 21;
+        public static final int intakeMotorLeftID = 20;
+        public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
         public static final double intakeSpeed = 0.4;
         public static final double maxOutputPercent = 0.4;
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.45;
+        public static final double revTime = 0.1;
     }
 
     public static class TestConstants {

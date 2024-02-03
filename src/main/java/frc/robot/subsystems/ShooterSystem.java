@@ -17,18 +17,18 @@ import frc.robot.Constants.ShooterConstants;
  * SwerveDriveSystem.
  */
 public class ShooterSystem extends SubsystemBase {
-    private CANSparkMax m_leftShooter = new CANSparkMax(ShooterConstants.shooterMotorLeftID,
+    private CANSparkMax m_shooterMotorRight = new CANSparkMax(ShooterConstants.shooterRightMotorID,
             MotorType.kBrushless);
-    private CANSparkMax m_rightShooter = new CANSparkMax(ShooterConstants.shooterMotorRightID,
+    private CANSparkMax m_shooterMotorLeft = new CANSparkMax(ShooterConstants.shooterLeftMotorID,
             MotorType.kBrushless);
+    private final MotorControllerGroup m_shooterMotor = new MotorControllerGroup(m_shooterMotorLeft,
+            m_shooterMotorRight);
 
-    private final MotorControllerGroup m_shooterMotor;
     private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
-        m_leftShooter.setInverted(true);
-        m_shooterMotor = new MotorControllerGroup(m_rightShooter,
-                m_leftShooter);
+        m_shooterMotorLeft.setInverted(true);
+        m_shooterMotorRight.setInverted(true);
         initShuffleBoard();
     }
 
