@@ -180,7 +180,8 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final int shooterMotorID = 20;
+        public static final int shooterMotorLeftID = 18;
+        public static final int shooterMotorRightID = 119;
         public static final double maxOutputPercent = 0.4;
         public static final double shooterSpeed = 0.4;
     }
