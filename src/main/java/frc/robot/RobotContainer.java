@@ -5,7 +5,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.commands.VisionAutoAlignCommand;
+import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.SetIntakeSpeedCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
@@ -33,8 +34,12 @@ public class RobotContainer {
      * This is the single place that joystick triggers/buttons are bound to specific commands.
      */
     public void bindCommands() {
-        new Trigger(() -> m_driveController.getYButton())
-                .onTrue(new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+        // Push note piece back on start up. May not need to happen when reflectometer is used.
+        double pullBackNoteTime = 0.2;
+        double pullBackNoteSpeed = 0.2;
+        new Trigger(() -> m_driveController.getAButton()).onTrue(
+                new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime, pullBackNoteSpeed)
+                        .andThen(new IntakeRevCommand(m_intakeSystem, m_shooterSystem)));
     }
 
     public void stopRobot() {
