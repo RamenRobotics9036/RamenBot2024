@@ -217,5 +217,6 @@ public class Constants {
     public static class TestConstants {
         public static final double testTime = 0.5;
         public static final double testSpeed = 0.2;
+        public static final double errorMargin = 0.1;
     }
 }
