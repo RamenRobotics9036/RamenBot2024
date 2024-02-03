@@ -213,4 +213,9 @@ public class Constants {
     public static class RevConstants {
         public static final double revTime = 0.45;
     }
+
+    public static class TestConstants {
+        public static final double testTime = 0.5;
+        public static final double testSpeed = 0.2;
+    }
 }
