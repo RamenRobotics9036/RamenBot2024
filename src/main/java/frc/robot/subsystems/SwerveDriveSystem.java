@@ -93,9 +93,12 @@ public class SwerveDriveSystem extends SubsystemBase {
                     m_backRight.getPosition()
             });
 
+    private AppliedController m_controller;
+
     public SwerveDriveSystem(AppliedController controller) {
+        m_controller = controller;
         initShuffleBoard();
-        setDefaultCommand(new DriveSwerveCommand(this, controller));
+        setDefaultCommand(new DriveSwerveCommand(this, m_controller));
     }
 
     /**

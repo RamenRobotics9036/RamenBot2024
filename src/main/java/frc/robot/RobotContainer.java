@@ -15,10 +15,12 @@ import frc.robot.util.Coords;
 public class RobotContainer {
     private final AppliedController m_driveController = new AppliedController(
             OperatorConstants.driveControllerPort);
+    private final AppliedController m_armController = new AppliedController(
+            OperatorConstants.armControllerPort);
 
     private final SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
     private final ShooterSystem m_shooter = new ShooterSystem();
-    private final ArmSystem m_ArmAndIntakeSystem = new ArmSystem();
+    private final ArmSystem m_ArmAndIntakeSystem = new ArmSystem(m_armController);
 
     public RobotContainer() {
     }
