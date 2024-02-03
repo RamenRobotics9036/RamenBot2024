@@ -285,6 +285,54 @@ public class SwerveDriveSystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
     }
 
+    public double getFrontLeftTurnEncoder() {
+        return m_frontLeft.getTurnEncoderRadians();
+    }
+
+    public double getBackLeftTurnEncoder() {
+        return m_backLeft.getTurnEncoderRadians();
+    }
+
+    public double getFrontRightTurnEncoder() {
+        return m_frontRight.getTurnEncoderRadians();
+    }
+
+    public double getBackRightTurnEncoder() {
+        return m_backLeft.getTurnEncoderRadians();
+    }
+
+    public double getFrontLeftDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getBackLeftDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getFrontRightDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getBackRightDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getFrontLeftDriveVelocity() {
+        return m_frontLeft.getDriveEncoderVelocity();
+    }
+
+    public double getBackLeftDriveVelocity() {
+        return m_backLeft.getDriveEncoderVelocity();
+    }
+
+    public double getFrontRightDriveVelocity() {
+        return m_frontRight.getDriveEncoderVelocity();
+    }
+
+    public double getBackRightDriveVelocity() {
+        return m_backRight.getDriveEncoderVelocity();
+    }
+
     /**
      * Read the PID values from the Shuffleboard.
      */
