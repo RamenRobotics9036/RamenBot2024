@@ -172,7 +172,6 @@ public class Constants {
             public static final double translationYPID_P = 0.45;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
-            
 
             public static final double rotationPID_P = 1 / 1000;
             public static final double rotationPID_I = 0;
@@ -207,5 +206,9 @@ public class Constants {
         public static final int reflectChannel = 4;
         public static final double intakeSpeed = 0.4;
         public static final double maxOutputPercent = 0.4;
+    }
+
+    public static class RevConstants {
+        public static final double revTime = 0.45;
     }
 }
