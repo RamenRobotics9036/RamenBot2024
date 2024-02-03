@@ -5,11 +5,11 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeDefaultCommand extends CommandBase {
-    private IntakeSystem m_intake;
+    private IntakeSystem m_intakeSystem;
 
-    public IntakeDefaultCommand(IntakeSystem intake) {
-        m_intake = intake;
-        addRequirements(m_intake);
+    public IntakeDefaultCommand(IntakeSystem intakeSystem) {
+        m_intakeSystem = intakeSystem;
+        addRequirements(m_intakeSystem);
     }
 
     @Override
@@ -19,11 +19,11 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (m_intake.getReflectometer()) {
-            m_intake.setIntakeSpeed(0);
+        if (m_intakeSystem.getReflectometer()) {
+            m_intakeSystem.setIntakeSpeed(0);
         }
         else {
-            m_intake.setIntakeSpeed(-IntakeConstants.intakeSpeed);
+            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
         }
     }
 
@@ -34,6 +34,6 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stopSystem();
+        m_intakeSystem.stopSystem();
     }
 }
