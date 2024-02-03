@@ -42,7 +42,8 @@ public class VisionAutoAlignCommand extends CommandBase {
     @Override
     public void execute() {
         double xspeed = m_translationXpid.calculate(m_visionSystem.getDistanceMetersX(), 0);
-        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY(),
+        double yspeed = m_translationYpid.calculate(
+                m_visionSystem.getDistanceMetersY(),
                 m_targetDistanceMeters);
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(), 0);
 
@@ -57,11 +58,14 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
-        if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
+        if (MathUtil.applyDeadband(
+                m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
                 VisionAutoAlignConstants.errorMarginDistanceY) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
+                && MathUtil.applyDeadband(
+                        m_visionSystem.getDistanceMetersX(),
                         VisionAutoAlignConstants.errorMarginDistanceX) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getX(),
+                && MathUtil.applyDeadband(
+                        m_visionSystem.getX(),
                         VisionAutoAlignConstants.errorMarginRot) == 0) {
             return true;
         }

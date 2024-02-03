@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -16,12 +17,18 @@ import frc.robot.Constants.ShooterConstants;
  * SwerveDriveSystem.
  */
 public class ShooterSystem extends SubsystemBase {
-
-    private final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
+    private CANSparkMax m_leftShooter = new CANSparkMax(ShooterConstants.shooterMotorLeftID,
             MotorType.kBrushless);
+    private CANSparkMax m_rightShooter = new CANSparkMax(ShooterConstants.shooterMotorRightID,
+            MotorType.kBrushless);
+
+    private final MotorControllerGroup m_shooterMotor;
     private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
+        m_leftShooter.setInverted(true);
+        m_shooterMotor = new MotorControllerGroup(m_rightShooter,
+                m_leftShooter);
         initShuffleBoard();
     }
 
