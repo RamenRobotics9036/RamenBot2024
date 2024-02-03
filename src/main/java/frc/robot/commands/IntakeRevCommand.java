@@ -10,16 +10,16 @@ import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 
 public class IntakeRevCommand extends CommandBase {
-    public ShooterSystem m_shooter;
-    public IntakeSystem m_intake;
-    public Timer m_timer;
+    private ShooterSystem m_shooterSystem;
+    private IntakeSystem m_intakeSystem;
+    private Timer m_timer;
 
-    public IntakeRevCommand(IntakeSystem intake, ShooterSystem outtake) {
-        m_intake = intake;
-        m_shooter = outtake;
+    public IntakeRevCommand(IntakeSystem intakeSystem, ShooterSystem shooterSystem) {
+        m_intakeSystem = intakeSystem;
+        m_shooterSystem = shooterSystem;
 
         m_timer = new Timer();
-        addRequirements(m_intake, m_shooter);
+        addRequirements(m_intakeSystem, m_shooterSystem);
     }
 
     @Override
@@ -30,9 +30,9 @@ public class IntakeRevCommand extends CommandBase {
     @Override
     public void execute() {
         if (m_timer.get() >= RevConstants.revTime) {
-            m_intake.setIntakeSpeed(IntakeConstants.intakeSpeed);
+            m_intakeSystem.setIntakeSpeed(IntakeConstants.intakeSpeed);
         }
-        m_shooter.setShootSpeed(ShooterConstants.shooterSpeed);
+        m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
     }
 
     @Override
@@ -45,6 +45,6 @@ public class IntakeRevCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stopSystem();
+        m_intakeSystem.stopSystem();
     }
 }
