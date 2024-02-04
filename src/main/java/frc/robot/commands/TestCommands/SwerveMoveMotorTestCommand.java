@@ -9,7 +9,7 @@ import frc.robot.subsystems.SwerveDriveSystem;
 public class SwerveMoveMotorTestCommand extends CommandBase {
     public SwerveDriveSystem m_swerve;
     public Timer m_timer = new Timer();
-    public boolean[] m_worked = new boolean[3];
+    public boolean[] m_worked = new boolean[4];
 
     public SwerveMoveMotorTestCommand(SwerveDriveSystem swerve) {
         m_swerve = swerve;
@@ -36,10 +36,7 @@ public class SwerveMoveMotorTestCommand extends CommandBase {
         if (m_swerve.getBackRightDriveVelocity() >= 0.1) {
             m_worked[3] = true;
         }
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_worked[0]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_worked[1]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_worked[2]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_worked[3]);
+        m_swerve.setStatus(m_worked);
     }
 
     @Override
