@@ -24,12 +24,12 @@ public class IntakeRevCommand extends CommandBase {
         m_shooterSystem = shooterSystem;
         m_controller = controller;
 
-        m_timer = new Timer();
         addRequirements(m_intakeSystem, m_shooterSystem);
     }
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
     }
 

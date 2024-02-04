@@ -18,7 +18,8 @@ public class IntakeRelease extends CommandBase {
 
     @Override
     public void initialize() {
-
+        m_timer = new Timer();
+        m_timer.start();
     }
 
     @Override

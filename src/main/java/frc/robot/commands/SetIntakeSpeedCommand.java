@@ -14,12 +14,12 @@ public class SetIntakeSpeedCommand extends CommandBase {
         m_intakeSystem = intakeSystem;
         m_maxTime = maxTime;
         m_speed = speed;
-        m_timer = new Timer();
         addRequirements(m_intakeSystem);
     }
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
     }
 
