@@ -26,7 +26,6 @@ public class VisionAutoAlignCommand extends CommandBase {
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
         m_swerveDrive = swerveDrive;
         m_visionSystem = visionSystem;
-        m_timer = new Timer();
         addRequirements(m_swerveDrive, m_visionSystem);
 
         m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceX);
@@ -36,6 +35,7 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
     }
 
