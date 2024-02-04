@@ -152,7 +152,7 @@ public class Constants {
         }
 
         public static class IntakeReleaseConstants {
-            public static final double maxTime = 0.5;
+            public static final double maxTime = 0.35;
         }
 
         public static class VisionAutoAlignConstants {
@@ -213,7 +213,7 @@ public class Constants {
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.1;
+        public static final double revTime = 0.2;
     }
 
     public static class TestConstants {
