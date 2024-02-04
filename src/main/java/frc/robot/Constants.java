@@ -147,7 +147,7 @@ public class Constants {
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.1;
+            public static final double errorMargin = 0.02;
 
         }
 
@@ -220,5 +220,10 @@ public class Constants {
         public static final double testTime = 0.5;
         public static final double testSpeed = 0.2;
         public static final double errorMargin = 0.1;
+    }
+
+    public static class PresetConstants {
+        public static final double ampPresetAngleRadians = 0.422;
+        public static final double speakerPresetAngleRadians = 0;
     }
 }

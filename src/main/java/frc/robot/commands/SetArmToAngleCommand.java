@@ -24,14 +24,15 @@ public class SetArmToAngleCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = m_pid.calculate(m_armSystem.getArmAngle(), m_desiredAngle);
+        double speed = m_pid.calculate(m_armSystem.getArmAngleRadians(), m_desiredAngle);
         speed = MathUtil.clamp(speed, -SetArmConstants.percentPower, SetArmConstants.percentPower);
         m_armSystem.setArmSpeed(speed);
     }
 
     @Override
     public boolean isFinished() {
-        if (MathUtil.applyDeadband(m_armSystem.getArmAngle() - m_desiredAngle,
+        if (MathUtil.applyDeadband(
+                m_armSystem.getArmAngleRadians() - m_desiredAngle,
                 SetArmConstants.errorMargin) == 0) {
             return true;
         }

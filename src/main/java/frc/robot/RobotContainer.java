@@ -2,11 +2,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PresetConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.SetIntakeSpeedCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -48,6 +51,20 @@ public class RobotContainer {
                         .andThen(
                                 new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                         m_armController)));
+
+        new Trigger(() -> m_armController.getBButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
+                        m_visionSystem.getDistanceMetersY(),
+                        m_armSystem.getArmHeight(),
+                        ArmConstants.centerSpeakerHeight)));
+
+        // Amp Preset
+        new Trigger(() -> m_armController.getXButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.ampPresetAngleRadians));
+
+        // Sub-woofer Preset
+        new Trigger(() -> m_armController.getYButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
     }
 
     public void stopRobot() {
