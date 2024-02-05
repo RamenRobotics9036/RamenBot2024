@@ -7,30 +7,44 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmDefaultCommand;
+import frc.robot.util.AppliedController;
 
 /**
  * ArmSystem.
  */
 public class ArmSystem extends SubsystemBase {
 
-    public final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
+    private final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
             MotorType.kBrushless);
-    public final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
+    private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
+    private AppliedController m_controller;
 
-    public ArmSystem() {
+    private double maxOutputPercent = ArmConstants.maxOutputPercent;
+
+    public ArmSystem(AppliedController controller) {
+        m_controller = controller;
         initShuffleBoard();
+        setDefaultCommand(new ArmDefaultCommand(this, m_controller));
     }
 
     public double getArmAngle() {
         return m_ArmEncoder.getAbsolutePosition();
     }
 
+    public double getArmHeight() {
+        return ArmConstants.pivotHeightOverGround + ArmConstants.shootToPivotRadius
+                * Math.sin(Math.toRadians(getArmAngle() + ArmConstants.armAngleOffsetHorizontal));
+    }
+
     public void setArmSpeed(double speed) {
+        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_armMotor.set(speed);
     }
 

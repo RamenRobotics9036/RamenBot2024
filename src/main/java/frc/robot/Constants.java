@@ -9,6 +9,7 @@ public class Constants {
      */
     public static class OperatorConstants {
         public static final int driveControllerPort = 0;
+        public static final int armControllerPort = 1;
         public static final double controllerExpo = 4;
 
         // Change this variable if you want to change exponent
@@ -31,7 +32,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.5;
+        public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 8;
@@ -100,6 +101,22 @@ public class Constants {
         }
     }
 
+    public static class VisionConstants {
+        /**
+         * Angle of camera pointing upwards.
+         */
+        public static final double limelightMountAngleRadiansY = 0;
+        /**
+         * Angle of camera pointing side-to-side.
+         */
+        public static final double limelightMountAngleRadiansX = 0;
+
+        public static final double limelightLensHeightMeters = 0.38;
+        public static final double aprilTagHeightMeters = 0.9;
+
+        public static final String limelightName = "limelight-ramen";
+    }
+
     /**
      * Constants for the commands.
      */
@@ -131,25 +148,64 @@ public class Constants {
             public static final double percentPower = 0.2;
 
             public static final double errorMargin = 0.1;
+
+        }
+
+        public static class IntakeReleaseConstants {
+            public static final double maxTime = 0.5;
+        }
+
+        public static class VisionAutoAlignConstants {
+            public static final double errorMarginDistanceX = 0.08;
+            public static final double errorMarginDistanceY = 0.04;
+            public static final double errorMarginRot = 2;
+            public static final double percentPower = 1;
+
+            public static final double timeLimit = 12.0;
+
+            public static final double targetDistanceMeters = 2;
+
+            public static final double translationXPID_P = 0.5;
+            public static final double translationXPID_I = 0;
+            public static final double translationXPID_D = 0;
+
+            public static final double translationYPID_P = 0.45;
+            public static final double translationYPID_I = 0;
+            public static final double translationYPID_D = 0;
+            
+
+            public static final double rotationPID_P = 1 / 1000;
+            public static final double rotationPID_I = 0;
+            public static final double rotationPID_D = 0;
         }
     }
 
     public static class ShooterConstants {
         public static final int shooterMotorID = 20;
+        public static final double maxOutputPercent = 0.4;
+        public static final double shooterSpeed = 0.4;
     }
 
     public static class ArmConstants {
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 23;
         public static final double armSpeed = 0.2;
-        public static final double armSpeedFast = 0.3;
+        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground in
+                                                                 // meters.
+        public static final double shootToPivotRadius = 0.549;// Radius from shooting point to pivot
+                                                              // point in meters.
+        public static final double armAngleOffsetHorizontal = 0;// Offset bewteen sensor to
+                                                                // horizontal axis of arm in degrees
+
+        public static final double armSpeedFast = 1;
+        public static final double maxOutputPercent = 0.4;
 
     }
 
     public static class IntakeConstants {
         public static final int intakeMotorID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.2;
+        public static final double intakeSpeed = 0.4;
+        public static final double maxOutputPercent = 0.4;
     }
-
 }

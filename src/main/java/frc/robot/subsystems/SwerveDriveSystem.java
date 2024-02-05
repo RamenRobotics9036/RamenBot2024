@@ -93,9 +93,12 @@ public class SwerveDriveSystem extends SubsystemBase {
                     m_backRight.getPosition()
             });
 
+    private AppliedController m_controller;
+
     public SwerveDriveSystem(AppliedController controller) {
+        m_controller = controller;
         initShuffleBoard();
-        setDefaultCommand(new DriveSwerveCommand(this, controller));
+        setDefaultCommand(new DriveSwerveCommand(this, m_controller));
     }
 
     /**
@@ -271,7 +274,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return ErrorCode.OK == m_gyro.setYaw(0.0);
+        return ErrorCode.OK == m_gyro.setYaw(270.0);
     }
 
     public double getAnglePosition() {

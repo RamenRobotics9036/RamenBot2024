@@ -46,6 +46,16 @@ public class AppliedController extends XboxController {
         return MathUtil.applyDeadband(expo(super.getRightX()), m_controllerDeadband);
     }
 
+    @Override
+    public double getLeftTriggerAxis() {
+        return MathUtil.applyDeadband(expo(super.getLeftTriggerAxis()), m_controllerDeadband);
+    }
+
+    @Override
+    public double getRightTriggerAxis() {
+        return MathUtil.applyDeadband(expo(super.getRightTriggerAxis()), m_controllerDeadband);
+    }
+
     /**
      * Returns true if any of the joystick axes are not zero.
      */
