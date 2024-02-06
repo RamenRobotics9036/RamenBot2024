@@ -53,6 +53,7 @@ public class RobotContainer {
         double pullBackNoteTime = 0.2;
         double pullBackNoteSpeed = 0.2;
         double waitTime = 0.2;
+        double shootOffsetLimeLight = -0.17;
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new ParallelCommandGroup(
                         new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
@@ -66,17 +67,19 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
-                        m_visionSystem.getDistanceMetersY())).andThen(
-                                new ParallelCommandGroup(
-                                        new SetShooterSpeedCommand(m_shooterSystem,
-                                                pullBackNoteTime,
-                                                -pullBackNoteSpeed),
-                                        new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime,
-                                                pullBackNoteSpeed))
-                                        .andThen(
-                                                new IntakeRevCommand(m_intakeSystem,
-                                                        m_shooterSystem,
-                                                        m_armController))));
+                        m_visionSystem.getDistanceMetersY()) + shootOffsetLimeLight).andThen(
+                                new WaitCommand(waitTime).andThen(
+                                        new ParallelCommandGroup(
+                                                new SetShooterSpeedCommand(m_shooterSystem,
+                                                        pullBackNoteTime,
+                                                        -pullBackNoteSpeed),
+                                                new SetIntakeSpeedCommand(m_intakeSystem,
+                                                        pullBackNoteTime,
+                                                        pullBackNoteSpeed))
+                                                .andThen(
+                                                        new IntakeRevCommand(m_intakeSystem,
+                                                                m_shooterSystem,
+                                                                m_armController)))));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(
