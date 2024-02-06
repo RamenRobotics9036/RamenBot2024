@@ -1,7 +1,6 @@
 package frc.robot.commands.TestCommands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TestConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -18,7 +17,7 @@ public class SwerveMoveMotorTestCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        m_timer.start();
     }
 
     @Override
