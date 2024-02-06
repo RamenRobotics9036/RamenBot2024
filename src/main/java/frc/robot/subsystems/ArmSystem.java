@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -13,6 +16,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
 
@@ -26,6 +30,8 @@ public class ArmSystem extends SubsystemBase {
     private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
+    private SparkMaxPIDController m_pid = m_armMotor.getPIDController();
+    private RelativeEncoder m_relativeEncoder = m_armMotor.getEncoder();
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
@@ -34,15 +40,28 @@ public class ArmSystem extends SubsystemBase {
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
+
+        m_pid.setP(SetArmConstants.PID_P);
+        m_pid.setI(SetArmConstants.PID_I);
+        m_pid.setD(SetArmConstants.PID_D);
+
+        m_pid.setPositionPIDWrappingEnabled(true);
+        m_pid.setPositionPIDWrappingMinInput(0);
+        m_pid.setPositionPIDWrappingMaxInput(Math.PI * 2);
+
+        m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
+        m_relativeEncoder.setPosition(getArmAngleRadians());
+        m_relativeEncoder
+                .setVelocityConversionFactor(((Math.PI * 2) / ArmConstants.gearRatio) / 60);
     }
 
     public double getArmAngleRadians() {
-        return m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal;
+        return (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
     }
 
     public double getArmHeight() {
-        return ArmConstants.pivotHeightOverGround + ArmConstants.shootToPivotRadius
-                * Math.sin(getArmAngleRadians());
+        return ArmConstants.pivotHeightOverGround +
+                (ArmConstants.shootToPivotRadius * Math.sin(getArmAngleRadians()));
     }
 
     public double getShootingAngle(double distance) {
@@ -55,13 +74,23 @@ public class ArmSystem extends SubsystemBase {
         m_armMotor.set(speed);
     }
 
+    public void setReference(double setPoint) {
+        m_pid.setReference(setPoint, ControlType.kPosition);
+    }
+
+    public double getRelativeEncoderRadians() {
+        return Math.toRadians(m_relativeEncoder.getPosition());
+    }
+
     @Override
     public void periodic() {
     }
 
     public void initShuffleBoard() {
-        Shuffleboard.getTab("Arm").addDouble("Arm Angle", () -> getArmAngleRadians());
+        Shuffleboard.getTab("Arm").addDouble("Arm Angle Absolute", () -> getArmAngleRadians());
         Shuffleboard.getTab("Arm").addDouble("Arm Height", () -> getArmHeight());
+        Shuffleboard.getTab("Arm")
+                .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
     }
 
     /**

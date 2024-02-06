@@ -52,7 +52,7 @@ public class RobotContainer {
         // Push note piece back on start up. May not need to happen when reflectometer is used.
         double pullBackNoteTime = 0.2;
         double pullBackNoteSpeed = 0.2;
-        double waitTime = 0.1;
+        double waitTime = 0.2;
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new ParallelCommandGroup(
                         new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,

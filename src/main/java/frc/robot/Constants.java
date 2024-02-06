@@ -111,8 +111,8 @@ public class Constants {
          */
         public static final double limelightMountAngleRadiansX = 0;
 
-        public static final double limelightLensHeightMeters = 0.38;
-        public static final double aprilTagHeightMeters = 0.9;
+        public static final double limelightLensHeightMeters = 0.3;
+        public static final double aprilTagHeightMeters = 0.6;
 
         public static final String limelightName = "limelight-ramen";
     }
@@ -141,13 +141,14 @@ public class Constants {
         }
 
         public static class SetArmConstants {
+            public static final double maxTime = 1;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
-            public static final double PID_D = 1;
+            public static final double PID_D = 0.4;
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.02;
+            public static final double errorMargin = 0.1;
 
         }
 
@@ -187,6 +188,7 @@ public class Constants {
     }
 
     public static class ArmConstants {
+        public static final double gearRatio = 60 / 12;
         public static final int armMotorID = 22;
         public static final int armEncoderChannel = 0;
         public static final double armSpeed = 0.1;
@@ -196,7 +198,8 @@ public class Constants {
                                                                  // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to pivot
                                                               // point in meters.
-        public static final double armAngleOffsetHorizontal = 0.0;// Offset bewteen sensor to
+        public static final double armAngleOffsetHorizontal = -0.13;// Offset bewteen
+        // sensor to
         // horizontal axis of arm in degrees
 
         public static final double armSpeedFast = 1;
@@ -223,7 +226,7 @@ public class Constants {
     }
 
     public static class PresetConstants {
-        public static final double ampPresetAngleRadians = 0.422;
-        public static final double speakerPresetAngleRadians = 0.14;
+        public static final double ampPresetAngleRadians = 1.8;
+        public static final double speakerPresetAngleRadians = 0.628;
     }
 }

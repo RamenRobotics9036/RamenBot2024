@@ -63,7 +63,8 @@ public class SwerveModule {
     /**
      * Constructor.
      */
-    public SwerveModule(int driveMotorId,
+    public SwerveModule(
+            int driveMotorId,
             int turningMotorId,
             int turnEncoderChannel,
             double offSet) {
@@ -121,11 +122,13 @@ public class SwerveModule {
      */
     public void displayDesiredStateToDashBoard(String tabName) {
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout("Driving",
+        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Driving",
                 BuiltInLayouts.kList);
 
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout("Turning",
+        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Turning",
                 BuiltInLayouts.kList);
 
         ShuffleboardLayout pidTurningLayout = Shuffleboard.getTab(tabName)
@@ -137,11 +140,13 @@ public class SwerveModule {
         pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
 
         pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
-        pidDrivingLayout.addDouble("Drive Encoder Position Rotations",
+        pidDrivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         drivingLayout.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
-        drivingLayout.addDouble("Drive Encoder Position Rotations",
+        drivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
@@ -152,7 +157,8 @@ public class SwerveModule {
      * Set the desired state of the swerve module.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState,
+        SwerveModuleState state = SwerveModuleState.optimize(
+                desiredState,
                 Rotation2d.fromRadians(getTurnEncoderValue()));
 
         final double driveOutput = m_drivePidController
