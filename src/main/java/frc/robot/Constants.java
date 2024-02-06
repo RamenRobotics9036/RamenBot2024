@@ -152,7 +152,7 @@ public class Constants {
         }
 
         public static class IntakeReleaseConstants {
-            public static final double maxTime = 0.35;
+            public static final double maxTime = 0.5;
         }
 
         public static class VisionAutoAlignConstants {
@@ -196,8 +196,8 @@ public class Constants {
                                                                  // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to pivot
                                                               // point in meters.
-        public static final double armAngleOffsetHorizontal = 0;// Offset bewteen sensor to
-                                                                // horizontal axis of arm in degrees
+        public static final double armAngleOffsetHorizontal = 0.0;// Offset bewteen sensor to
+        // horizontal axis of arm in degrees
 
         public static final double armSpeedFast = 1;
         public static final double maxOutputPercent = 0.2;
@@ -213,7 +213,7 @@ public class Constants {
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.2;
+        public static final double revTime = 0.3;
     }
 
     public static class TestConstants {
@@ -224,6 +224,6 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 0.422;
-        public static final double speakerPresetAngleRadians = 0;
+        public static final double speakerPresetAngleRadians = 0.14;
     }
 }

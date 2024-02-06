@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
@@ -29,27 +30,23 @@ public class ArmSystem extends SubsystemBase {
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
+        m_armMotor.setIdleMode(IdleMode.kBrake);
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
     }
 
     public double getArmAngleRadians() {
-        return m_ArmEncoder.getAbsolutePosition();
+        return m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal;
     }
 
     public double getArmHeight() {
         return ArmConstants.pivotHeightOverGround + ArmConstants.shootToPivotRadius
-                * Math.sin(
-                        Math.toRadians(
-                                getArmAngleRadians() + ArmConstants.armAngleOffsetHorizontal));
+                * Math.sin(getArmAngleRadians());
     }
 
-    public double getShootingAngle(
-            double m_distance,
-            double m_armLength,
-            double m_centerSpeakerHeight) {
-        return Math.atan((m_centerSpeakerHeight - m_armLength) / m_distance);
+    public double getShootingAngle(double distance) {
+        return Math.atan(ArmConstants.centerSpeakerHeight - getArmHeight()) / distance;
 
     }
 
