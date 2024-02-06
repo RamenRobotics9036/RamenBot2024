@@ -141,14 +141,14 @@ public class Constants {
         }
 
         public static class SetArmConstants {
-            public static final double maxTime = 1;
-            public static final double PID_P = 1;
+            public static final double maxTime = 2;
+            public static final double PID_P = 5;
             public static final double PID_I = 0;
-            public static final double PID_D = 0.4;
+            public static final double PID_D = 3;
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.1;
+            public static final double errorMargin = 0.04;
 
         }
 

@@ -10,6 +10,7 @@ public class SetArmToAngleCommand extends CommandBase {
     private double m_desiredAngle;
     private ArmSystem m_armSystem;
     private Timer m_timer;
+    // private PIDController m_pid;
 
     public SetArmToAngleCommand(ArmSystem armSystem, double desiredAngle) {
         m_desiredAngle = desiredAngle;
@@ -19,12 +20,18 @@ public class SetArmToAngleCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        /*
+         * Couldnt get PID tuned.
+         */
+        // m_pid = new PIDController(SetArmConstants.PID_P, SetArmConstants.PID_I,
+        // SetArmConstants.PID_D);
         m_timer = new Timer();
+        m_timer.start();
     }
 
     @Override
     public void execute() {
-        m_armSystem.setReference(m_desiredAngle);
+        m_armSystem.setArmSpeed(m_desiredAngle - m_armSystem.getArmAngleRadians());
     }
 
     @Override
