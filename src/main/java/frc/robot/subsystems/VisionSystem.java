@@ -21,6 +21,7 @@ public class VisionSystem extends SubsystemBase {
     private NetworkTableEntry tableX = limelightTable.getEntry("tx");
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
+    private NetworkTableEntry tableID = limelightTable.getEntry("tid");
 
     private final double EPSILON = 0.0000001;
 
@@ -29,7 +30,8 @@ public class VisionSystem extends SubsystemBase {
     }
 
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout("April Tags",
+        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout(
+                "April Tags",
                 BuiltInLayouts.kList);
         visionLayout.addDouble("X Displacement", () -> getXRadians());
         visionLayout.addDouble("Y Displacement", () -> getYRadians());
@@ -40,6 +42,7 @@ public class VisionSystem extends SubsystemBase {
 
         visionLayout.addDouble("X tangent", () -> Math.tan(getXRadians()));
         visionLayout.addDouble("Y tangent", () -> Math.tan(getYRadians()));
+        visionLayout.addDouble("ID", () -> getID());
     }
 
     /**
@@ -73,6 +76,10 @@ public class VisionSystem extends SubsystemBase {
 
     public boolean isDetected() {
         return getX() + getY() + getArea() != 0;
+    }
+
+    public double getID() {
+        return tableID.getDouble(0);
     }
 
     /**
