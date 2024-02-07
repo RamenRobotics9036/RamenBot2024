@@ -52,7 +52,7 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (!m_visionSystem.isDetected()) {
+        if (m_visionSystem.isDetectedIDValid()) {
             return true;
         }
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
