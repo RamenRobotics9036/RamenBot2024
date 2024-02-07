@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
@@ -80,6 +81,16 @@ public class VisionSystem extends SubsystemBase {
 
     public double getID() {
         return tableID.getDouble(0);
+    }
+
+    public boolean isDetectedIDValid() {
+        double myID = getID();
+        if (Constants.VisionConstants.targetedIDList.contains(myID)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
