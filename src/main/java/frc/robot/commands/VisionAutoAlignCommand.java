@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -29,9 +28,12 @@ public class VisionAutoAlignCommand extends CommandBase {
         m_timer = new Timer();
         addRequirements(m_swerveDrive, m_visionSystem);
 
-        m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceX);
-        m_translationYpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceY);
-        m_rotationPid.setTolerance(VisionAutoAlignConstants.errorMarginRot);
+        m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceXPosition,
+                VisionAutoAlignConstants.errorMarginDistanceXVelocity);
+        m_translationYpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceYPosition,
+                VisionAutoAlignConstants.errorMarginDistanceYVelocity);
+        m_rotationPid.setTolerance(VisionAutoAlignConstants.errorMarginRotPosition,
+                VisionAutoAlignConstants.errorMarginRotVelocity);
     }
 
     @Override
@@ -57,12 +59,8 @@ public class VisionAutoAlignCommand extends CommandBase {
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
-        if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
-                VisionAutoAlignConstants.errorMarginDistanceY) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
-                        VisionAutoAlignConstants.errorMarginDistanceX) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getX(),
-                        VisionAutoAlignConstants.errorMarginRot) == 0) {
+        if (m_translationXpid.atSetpoint() && m_translationYpid.atSetpoint()
+                && m_rotationPid.atSetpoint()) {
             return true;
         }
         return false;

@@ -16,6 +16,8 @@ public class SetArmToAngleCommand extends CommandBase {
         m_desiredAngle = desiredAngle;
         m_armSystem = armSystem;
         addRequirements(m_armSystem);
+        m_pid.setTolerance(SetArmConstants.errorMarginPosition,
+                SetArmConstants.errorMarginVelocity);
     }
 
     @Override
@@ -31,8 +33,7 @@ public class SetArmToAngleCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (MathUtil.applyDeadband(m_armSystem.getArmAngle() - m_desiredAngle,
-                SetArmConstants.errorMargin) == 0) {
+        if (m_pid.atSetpoint()) {
             return true;
         }
         return false;
