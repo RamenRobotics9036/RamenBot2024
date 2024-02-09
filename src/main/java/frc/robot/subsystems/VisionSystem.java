@@ -17,7 +17,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(VisionConstants.limelightName);
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+            .getTable(VisionConstants.limelightName);
     private NetworkTableEntry tableX = limelightTable.getEntry("tx");
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
@@ -29,10 +30,12 @@ public class VisionSystem extends SubsystemBase {
     }
 
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
-                .getLayout("April Tags", BuiltInLayouts.kList);
-        visionLayout.addDouble("X Displacement", () -> getXRadians());
-        visionLayout.addDouble("Y Displacement", () -> getYRadians());
+        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout("April Tags",
+                BuiltInLayouts.kList);
+        visionLayout.addDouble("X Displacement Radians", () -> getXRadians());
+        visionLayout.addDouble("Y Displacement Radians", () -> getYRadians());
+        visionLayout.addDouble("X Displacement Degrees", () -> getX());
+        visionLayout.addDouble("Y Displacement Degrees", () -> getY());
         visionLayout.addDouble("Area", () -> getArea());
         visionLayout.addBoolean("Is Detecting", () -> isDetected());
         visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
@@ -51,14 +54,14 @@ public class VisionSystem extends SubsystemBase {
     }
 
     /**
-     * X angle, left-right, from April tag. X cross-hair angle.
+     * X angle, left-right, from April tag. X cross-hair angle. Uses degrees.
      */
     public double getX() {
         return tableX.getDouble(0);
     }
 
     /**
-     * Y angle, up-down, to April tag. Y cross-hair angle.
+     * Y angle, up-down, to April tag. Y cross-hair angle. Uses degrees.
      */
     public double getY() {
         return tableY.getDouble(0);
@@ -88,7 +91,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersY() {
         double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
+        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
+                - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -97,7 +101,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersX() {
         double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
-        double distanceFromLimelightToGoalMeters = getDistanceMetersY() * Math.tan(angleToGoalRadians);
+        double distanceFromLimelightToGoalMeters = getDistanceMetersY()
+                * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -105,6 +110,6 @@ public class VisionSystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void stopSystem() { 
+    public void stopSystem() {
     }
 }
