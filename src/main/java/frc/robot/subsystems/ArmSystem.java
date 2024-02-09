@@ -38,6 +38,10 @@ public class ArmSystem extends SubsystemBase {
         return m_ArmEncoder.getAbsolutePosition();
     }
 
+    public double getArmAngleDegrees() {
+        return Math.toDegrees(getArmAngle());
+    }
+
     public double getArmHeight() {
         return ArmConstants.pivotHeightOverGround + ArmConstants.shootToPivotRadius
                 * Math.sin(Math.toRadians(getArmAngle() + ArmConstants.armAngleOffsetHorizontal));
@@ -53,7 +57,8 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public void initShuffleBoard() {
-        Shuffleboard.getTab("Arm").add("Arm Angle: ", m_ArmEncoder.getAbsolutePosition());
+        Shuffleboard.getTab("Arm").add("Arm Angle Radians: ", m_ArmEncoder.getAbsolutePosition());
+        Shuffleboard.getTab("Arm").add("Arm Angle Degrees: ", getArmAngleDegrees());
     }
 
     /**
