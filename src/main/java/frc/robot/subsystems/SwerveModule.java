@@ -136,6 +136,10 @@ public class SwerveModule {
         pidTurningLayout.addDouble("Desired Angle Setpoint Radians", () -> m_turnSetPoint);
         pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
 
+        pidTurningLayout.addDouble("Desired Angle Setpoint Degrees",
+                () -> Math.toDegrees(m_turnSetPoint));
+        pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderDegrees());
+
         pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
         pidDrivingLayout.addDouble("Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
@@ -146,6 +150,8 @@ public class SwerveModule {
 
         turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
         turningLayout.addDouble("Raw Absolute Encoder Radians", () -> getRawTurnEncoderRadians());
+        turningLayout.addDouble("Absolute Encoder Degrees", () -> getTurnEncoderValue());
+        turningLayout.addDouble("Raw Absolute Encoder Degrees", () -> getRawTurnEncoderRadians());
     }
 
     /**
@@ -191,9 +197,17 @@ public class SwerveModule {
         return m_turnRelativeEncoder.getPosition() % (Math.PI * 2);
     }
 
+    public double getTurnEncoderDegrees() {
+        return Math.toDegrees(getTurnEncoderRadians());
+    }
+
     public double getRawTurnEncoderRadians() {
         return (m_turningAbsoluteEncoder.getAbsolutePosition() * 2 * Math.PI + m_offSet)
                 % (2 * Math.PI);
+    }
+
+    public double getRawTurnEncoderDegrees() {
+        return Math.toDegrees(getRawTurnEncoderRadians());
     }
 
     public double getDriveEncoderPosition() {
