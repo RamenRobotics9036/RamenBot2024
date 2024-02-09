@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSystem;
 
-public class SetShooterSpeedCommand extends CommandBase {
+public class SetShooterSpeedCommand extends Command {
     private ShooterSystem m_shooterSystem;
     private double m_maxTime;
     private double m_speed;

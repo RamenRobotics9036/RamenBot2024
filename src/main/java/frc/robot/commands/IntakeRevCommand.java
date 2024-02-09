@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.RevConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -10,7 +10,7 @@ import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.util.AppliedController;
 
-public class IntakeRevCommand extends CommandBase {
+public class IntakeRevCommand extends Command {
     private ShooterSystem m_shooterSystem;
     private IntakeSystem m_intakeSystem;
     private Timer m_timer;

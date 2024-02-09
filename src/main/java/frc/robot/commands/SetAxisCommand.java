@@ -4,7 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandsConstants.SetAxisConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.Coords;
@@ -12,7 +12,7 @@ import frc.robot.util.Coords;
 /**
  * SetAxisCommand.
  */
-public class SetAxisCommand extends CommandBase {
+public class SetAxisCommand extends Command {
     private SwerveDriveSystem m_swerveDrive;
     private Timer m_timer;
     private Coords m_coordinates;

@@ -1,11 +1,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -15,30 +14,29 @@ import frc.robot.commands.IntakeDefaultCommand;
  * Stop the intake system.
  */
 public class IntakeSystem extends SubsystemBase {
-    private final CANSparkMax m_leftIntakeMotor = new CANSparkMax(IntakeConstants.intakeMotorLeftID,
+    private final CANSparkMax m_IntakeMotorFollower = new CANSparkMax(IntakeConstants.intakeMotorLeftID,
             MotorType.kBrushless);
-    private final CANSparkMax m_rightIntakeMotor = new CANSparkMax(
+    private final CANSparkMax m_intakeMotorLeader = new CANSparkMax(
             IntakeConstants.intakeMotorRightID,
             MotorType.kBrushless);
-    private final MotorControllerGroup m_intakeMotor = new MotorControllerGroup(m_leftIntakeMotor,
-            m_rightIntakeMotor);
     private DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
     private double maxOutputPercent = IntakeConstants.maxOutputPercent;
 
     public IntakeSystem() {
         initShuffleBoard();
-        m_leftIntakeMotor.setInverted(true);
-        m_rightIntakeMotor.setInverted(true);
+        m_IntakeMotorFollower.setInverted(true);
+        m_intakeMotorLeader.setInverted(true);
+        m_IntakeMotorFollower.follow(m_intakeMotorLeader);
         setDefaultCommand(new IntakeDefaultCommand(this));
     }
 
     public double getIntakeSpeed() {
-        return m_intakeMotor.get();
+        return m_intakeMotorLeader.get();
     }
 
     public void setIntakeSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
-        m_intakeMotor.set(speed);
+        m_intakeMotorLeader.set(speed);
     }
 
     public boolean getReflectometer() {
@@ -58,6 +56,6 @@ public class IntakeSystem extends SubsystemBase {
      * Stop the intake system.
      */
     public void stopSystem() {
-        m_intakeMotor.stopMotor();
+        m_intakeMotorLeader.stopMotor();
     }
 }

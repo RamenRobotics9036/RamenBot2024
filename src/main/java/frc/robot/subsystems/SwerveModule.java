@@ -5,10 +5,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,7 +56,7 @@ public class SwerveModule {
     private final PIDController m_drivePidController = new PIDController(pidDriveP, pidDriveI,
             pidDriveD);
 
-    private final SparkMaxPIDController m_turnPidController;
+    private final SparkPIDController m_turnPidController;
 
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(
             SwerveSystemConstants.drivingFeedForward_S, SwerveSystemConstants.drivingFeedForward_V);

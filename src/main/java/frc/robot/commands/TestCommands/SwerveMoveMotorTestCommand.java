@@ -1,11 +1,11 @@
 package frc.robot.commands.TestCommands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TestConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 
-public class SwerveMoveMotorTestCommand extends CommandBase {
+public class SwerveMoveMotorTestCommand extends Command {
     public SwerveDriveSystem m_swerve;
     public Timer m_timer = new Timer();
     public boolean[] m_worked = new boolean[4];
