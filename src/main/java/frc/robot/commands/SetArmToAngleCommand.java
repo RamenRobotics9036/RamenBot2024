@@ -18,6 +18,7 @@ public class SetArmToAngleCommand extends CommandBase {
         addRequirements(m_armSystem);
         m_pid.setTolerance(SetArmConstants.errorMarginPosition,
                 SetArmConstants.errorMarginVelocity);
+        m_pid.setSetpoint(m_desiredAngle);
     }
 
     @Override
