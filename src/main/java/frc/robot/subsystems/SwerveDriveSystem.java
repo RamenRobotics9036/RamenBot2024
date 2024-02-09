@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -26,6 +24,9 @@ import frc.robot.commands.DriveSwerveCommand;
 import frc.robot.util.AppliedController;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 /**
  * SwerveDriveSystem.
@@ -293,11 +294,11 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return ErrorCode.OK == m_gyro.setYaw(270.0);
+        return StatusCode.OK == m_gyro.setYaw(270.0);
     }
 
     public double getAnglePosition() {
-        return m_gyro.getYaw(); // rotation in horizontal plane
+        return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
 
     public Rotation2d getRotation2d() {

@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSystem;
 
-public class SetIntakeSpeedCommand extends CommandBase {
+public class SetIntakeSpeedCommand extends Command {
     private IntakeSystem m_intakeSystem;
     private double m_maxTime;
     private double m_speed;

@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
 
 /**
  * DriveSwerveCommand.
  */
-public class DriveSwerveCommand extends CommandBase {
+public class DriveSwerveCommand extends Command {
     private SwerveDriveSystem m_swerveDrive;
     private AppliedController m_controller;
     private boolean[] m_working = new boolean[4];
