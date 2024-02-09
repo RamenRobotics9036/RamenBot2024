@@ -8,19 +8,20 @@ import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 
 public class VisionAutoAlignCommand extends CommandBase {
-    private SwerveDriveSystem m_swerveDrive;
-    private Timer m_timer;
-    private PIDController m_translationXpid = new PIDController(
+    private final SwerveDriveSystem m_swerveDrive;
+    private final Timer m_timer;
+    private final PIDController m_translationXpid = new PIDController(
             VisionAutoAlignConstants.translationXPID_P, VisionAutoAlignConstants.translationXPID_I,
             VisionAutoAlignConstants.translationXPID_D);
-    private PIDController m_translationYpid = new PIDController(
+    private final PIDController m_translationYpid = new PIDController(
             VisionAutoAlignConstants.translationYPID_P, VisionAutoAlignConstants.translationYPID_I,
             VisionAutoAlignConstants.translationYPID_D);
-    private PIDController m_rotationPid = new PIDController(VisionAutoAlignConstants.rotationPID_P,
-            VisionAutoAlignConstants.rotationPID_I, VisionAutoAlignConstants.rotationPID_D);
+    private final PIDController m_rotationPid = new PIDController(
+            VisionAutoAlignConstants.rotationPID_P, VisionAutoAlignConstants.rotationPID_I,
+            VisionAutoAlignConstants.rotationPID_D);
 
     private VisionSystem m_visionSystem;
-    private double m_targetDistanceMeters = VisionAutoAlignConstants.targetDistanceMeters;
+    private final double m_targetDistanceMeters = VisionAutoAlignConstants.targetDistanceMeters;
 
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
         m_swerveDrive = swerveDrive;
@@ -34,6 +35,9 @@ public class VisionAutoAlignCommand extends CommandBase {
                 VisionAutoAlignConstants.errorMarginDistanceYVelocity);
         m_rotationPid.setTolerance(VisionAutoAlignConstants.errorMarginRotPosition,
                 VisionAutoAlignConstants.errorMarginRotVelocity);
+        m_translationXpid.setSetpoint(0);
+        m_translationYpid.setSetpoint(m_targetDistanceMeters);
+        m_rotationPid.setSetpoint(0);
     }
 
     @Override
