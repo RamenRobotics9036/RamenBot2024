@@ -26,7 +26,7 @@ public class ArmSystem extends SubsystemBase {
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
 
-    private double maxOutputPercent = ArmConstants.maxOutputPercent;
+    private final double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
         m_controller = controller;

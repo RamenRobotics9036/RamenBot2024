@@ -19,7 +19,7 @@ public class ShooterSystem extends SubsystemBase {
 
     private final CANSparkMax m_shooterMotor = new CANSparkMax(ShooterConstants.shooterMotorID,
             MotorType.kBrushless);
-    private double maxOutputPercent = ShooterConstants.maxOutputPercent;
+    private final double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
         initShuffleBoard();

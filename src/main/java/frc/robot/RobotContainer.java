@@ -22,9 +22,9 @@ public class RobotContainer {
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
-    private ShooterSystem m_shooterSystem = new ShooterSystem();
-    private ArmSystem m_armSystem = new ArmSystem(m_armController);
-    private IntakeSystem m_intakeSystem = new IntakeSystem();
+    private final ShooterSystem m_shooterSystem = new ShooterSystem();
+    private final ArmSystem m_armSystem = new ArmSystem(m_armController);
+    private final IntakeSystem m_intakeSystem = new IntakeSystem();
 
     public RobotContainer() {
     }

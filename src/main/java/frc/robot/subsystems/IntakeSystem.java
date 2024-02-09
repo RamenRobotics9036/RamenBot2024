@@ -16,8 +16,8 @@ import frc.robot.commands.IntakeDefaultCommand;
 public class IntakeSystem extends SubsystemBase {
     private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID,
             MotorType.kBrushless);
-    private DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
-    private double maxOutputPercent = IntakeConstants.maxOutputPercent;
+    private final DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
+    private final double maxOutputPercent = IntakeConstants.maxOutputPercent;
 
     public IntakeSystem() {
         initShuffleBoard();

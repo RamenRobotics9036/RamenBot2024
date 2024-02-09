@@ -17,11 +17,11 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+    private final NetworkTable limelightTable = NetworkTableInstance.getDefault()
             .getTable(VisionConstants.limelightName);
-    private NetworkTableEntry tableX = limelightTable.getEntry("tx");
-    private NetworkTableEntry tableY = limelightTable.getEntry("ty");
-    private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
+    private final NetworkTableEntry tableX = limelightTable.getEntry("tx");
+    private final NetworkTableEntry tableY = limelightTable.getEntry("ty");
+    private final NetworkTableEntry tableArea = limelightTable.getEntry("ta");
 
     private final double EPSILON = 0.0000001;
 

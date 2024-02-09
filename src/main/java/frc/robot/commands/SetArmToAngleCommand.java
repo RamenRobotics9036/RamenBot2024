@@ -7,10 +7,10 @@ import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.subsystems.ArmSystem;
 
 public class SetArmToAngleCommand extends CommandBase {
-    private double m_desiredAngle;
-    private ArmSystem m_armSystem;
-    private PIDController m_pid = new PIDController(SetArmConstants.PID_P, SetArmConstants.PID_I,
-            SetArmConstants.PID_D);
+    private final double m_desiredAngle;
+    private final ArmSystem m_armSystem;
+    private final PIDController m_pid = new PIDController(SetArmConstants.PID_P,
+            SetArmConstants.PID_I, SetArmConstants.PID_D);
 
     public SetArmToAngleCommand(ArmSystem armSystem, double desiredAngle) {
         m_desiredAngle = desiredAngle;

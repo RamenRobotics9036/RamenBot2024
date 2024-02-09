@@ -13,14 +13,16 @@ import frc.robot.util.Coords;
  * SetAxisCommand.
  */
 public class SetAxisCommand extends CommandBase {
-    private SwerveDriveSystem m_swerveDrive;
-    private Timer m_timer;
-    private Coords m_coordinates;
-    private PIDController m_translationXpid = new PIDController(SetAxisConstants.translationPID_P,
-            SetAxisConstants.translationPid_I, SetAxisConstants.translationPID_D);
-    private PIDController m_translationYpid = new PIDController(SetAxisConstants.translationPID_P,
-            SetAxisConstants.translationPid_I, SetAxisConstants.translationPID_D);
-    private PIDController m_rotationPid = new PIDController(SetAxisConstants.rotationPID_P,
+    private final SwerveDriveSystem m_swerveDrive;
+    private final Timer m_timer;
+    private final Coords m_coordinates;
+    private final PIDController m_translationXpid = new PIDController(
+            SetAxisConstants.translationPID_P, SetAxisConstants.translationPid_I,
+            SetAxisConstants.translationPID_D);
+    private final PIDController m_translationYpid = new PIDController(
+            SetAxisConstants.translationPID_P, SetAxisConstants.translationPid_I,
+            SetAxisConstants.translationPID_D);
+    private final PIDController m_rotationPid = new PIDController(SetAxisConstants.rotationPID_P,
             SetAxisConstants.rotationPID_I, SetAxisConstants.rotationPID_D);
 
     /**
