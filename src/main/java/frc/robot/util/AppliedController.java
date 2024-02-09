@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OperatorConstants;
 
 /**
- * AppliedController.
+ * AppliedController. Same as Xbox controller but automatically applies deadband to methods. In
+ * addition, it has a method to determine if a user is pressing any buttons, which can be useful to
+ * determine if a command should be cancelled.
  */
 public class AppliedController extends XboxController {
     private double m_controllerDeadband;
