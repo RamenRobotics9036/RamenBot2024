@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.Timer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
@@ -10,7 +12,12 @@ import frc.robot.util.AppliedController;
 public class DriveSwerveCommand extends CommandBase {
     private SwerveDriveSystem m_swerveDrive;
     private AppliedController m_controller;
+    private Timer m_timer = new Timer();
     private boolean[] m_working = new boolean[4];
+    private double[] m_oldPositions = new double[4];
+    private double[] m_changes = {
+            0, 0, 0, 0
+    };
 
     /**
      * Constructor.
@@ -23,7 +30,12 @@ public class DriveSwerveCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_oldPositions[0] = m_swerveDrive.getFrontLeftDriveEncoder();
+        m_oldPositions[1] = m_swerveDrive.getBackLeftDriveEncoder();
+        m_oldPositions[2] = m_swerveDrive.getFrontRightDriveEncoder();
+        m_oldPositions[3] = m_swerveDrive.getBackRightDriveEncoder();
 
+        m_timer.start();
     }
 
     @Override
@@ -46,39 +58,54 @@ public class DriveSwerveCommand extends CommandBase {
             // Quick test I made to make sure encoders are working. Hopefully it works.
             if (xspeed != 0 || yspeed != 0 || rot != 0) {
 
-                if (m_swerveDrive.getFrontLeftDriveVelocity() > 0.1
-                        || m_swerveDrive.getFrontLeftDriveVelocity() < -0.1) {
-                    m_working[0] = true;
+                if (m_swerveDrive.getFrontLeftDriveEncoder() >= m_oldPositions[0]) {
+                    m_changes[0] += m_swerveDrive.getFrontLeftDriveEncoder() - m_oldPositions[0];
+                    m_oldPositions[0] = m_swerveDrive.getFrontRightDriveEncoder();
                 }
-                else {
-                    m_working[0] = false;
+                if (m_swerveDrive.getBackLeftDriveEncoder() >= m_oldPositions[1]) {
+                    m_changes[1] += m_swerveDrive.getBackLeftDriveEncoder() - m_oldPositions[1];
+                    m_oldPositions[1] = m_swerveDrive.getFrontRightDriveEncoder();
                 }
+                if (m_swerveDrive.getFrontRightDriveEncoder() >= m_oldPositions[2]) {
+                    m_changes[2] += m_swerveDrive.getFrontRightDriveEncoder() - m_oldPositions[2];
+                    m_oldPositions[2] = m_swerveDrive.getFrontRightDriveEncoder();
+                }
+                if (m_swerveDrive.getBackRightDriveEncoder() >= m_oldPositions[3]) {
+                    m_changes[3] += m_swerveDrive.getBackRightDriveEncoder() - m_oldPositions[3];
+                    m_oldPositions[3] = m_swerveDrive.getFrontRightDriveEncoder();
+                }
+                m_timer.start();
 
-                if (m_swerveDrive.getBackLeftDriveVelocity() > 0.1
-                        || m_swerveDrive.getBackLeftDriveVelocity() < -0.1) {
-                    m_working[1] = true;
+                if (m_timer.get() % 1 == 0) {
+                    if (m_changes[0] > 1) {
+                        m_working[0] = true;
+                    }
+                    else {
+                        m_working[0] = false;
+                    }
+                    if (m_changes[1] > 1) {
+                        m_working[1] = true;
+                    }
+                    else {
+                        m_working[1] = false;
+                    }
+                    if (m_changes[2] > 1) {
+                        m_working[2] = true;
+                    }
+                    else {
+                        m_working[2] = false;
+                    }
+                    if (m_changes[3] > 1) {
+                        m_working[3] = true;
+                    }
+                    else {
+                        m_working[3] = false;
+                    }
                 }
-                else {
-                    m_working[1] = false;
-                }
-
-                if (m_swerveDrive.getFrontRightDriveVelocity() > 0.1
-                        || m_swerveDrive.getFrontRightDriveVelocity() < -0.1) {
-                    m_working[2] = true;
-                }
-                else {
-                    m_working[2] = false;
-                }
-
-                if (m_swerveDrive.getBackRightDriveVelocity() > 0.1
-                        || m_swerveDrive.getBackRightDriveVelocity() < -0.1) {
-                    m_working[3] = true;
-                }
-                else {
-                    m_working[3] = false;
-                }
-
                 m_swerveDrive.setStatus(m_working);
+            }
+            else {
+                m_timer.stop();
             }
         }
     }
