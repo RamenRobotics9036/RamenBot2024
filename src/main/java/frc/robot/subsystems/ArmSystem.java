@@ -22,17 +22,21 @@ import frc.robot.util.AppliedController;
  */
 public class ArmSystem extends SubsystemBase {
 
-    private final CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.armMotorID,
+    private final CANSparkMax m_armMotorFollower = new CANSparkMax(ArmConstants.armMotorIDFollower,
+            MotorType.kBrushless);
+    private final CANSparkMax m_armMotorLeader = new CANSparkMax(ArmConstants.armMotorIDLeader,
             MotorType.kBrushless);
     private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
-    private RelativeEncoder m_relativeEncoder = m_armMotor.getEncoder();
+    private RelativeEncoder m_relativeEncoder = m_armMotorLeader.getEncoder();
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
-        m_armMotor.setIdleMode(IdleMode.kBrake);
+        m_armMotorLeader.setIdleMode(IdleMode.kBrake);
+        m_armMotorFollower.setIdleMode(IdleMode.kBrake);
+        m_armMotorFollower.follow(m_armMotorLeader);
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
@@ -59,8 +63,8 @@ public class ArmSystem extends SubsystemBase {
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
-        m_armMotor.set(speed);
-    }
+        m_armMotorLeader.set(speed);
+    } 
 
     public double getRelativeEncoderRadians() {
         return Math.toRadians(m_relativeEncoder.getPosition());
@@ -81,6 +85,6 @@ public class ArmSystem extends SubsystemBase {
      * Stop the arm system.
      */
     public void stopSystem() {
-        m_armMotor.stopMotor();
+        m_armMotorLeader.stopMotor();
     }
 }

@@ -95,12 +95,10 @@ public class Constants {
 
             // NOTE: This makes the front of the robot the right side. (the side of the radio), but
             // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 0.137000
-                    + Math.PI + rotationOffset;
-            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.163000;
-            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 5.035000
-                    + rotationOffset;
-            public static final double backRightOffsetSwerveB = 5.485000 + Math.PI;
+            public static final double frontLeftOffsetSwerveB = 0.341;
+            public static final double backLeftOffsetSwerveB = 4.061;
+            public static final double frontRightOffsetSwerveB = 3.81;
+            public static final double backRightOffsetSwerveB = 1.741;
 
             // Different Swerve
 
@@ -223,7 +221,8 @@ public class Constants {
 
     public static class ArmConstants {
         public static final double gearRatio = 60 / 12;
-        public static final int armMotorID = 22;
+        public static final int armMotorIDFollower = 22;
+        public static final int armMotorIDLeader = 23;
         public static final int armEncoderChannel = 0;
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
