@@ -7,23 +7,24 @@ import frc.robot.Constants.CommandsConstants.IntakeReleaseConstants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeRelease extends CommandBase {
-    public IntakeSystem m_intake;
-    public Timer m_timer;
+    private IntakeSystem m_intakeSystem;
+    private Timer m_timer;
 
-    public IntakeRelease(IntakeSystem intake) {
-        m_intake = intake;
+    public IntakeRelease(IntakeSystem intakeSystem) {
+        m_intakeSystem = intakeSystem;
         m_timer = new Timer();
-        addRequirements(m_intake);
+        addRequirements(m_intakeSystem);
     }
 
     @Override
     public void initialize() {
-
+        m_timer = new Timer();
+        m_timer.start();
     }
 
     @Override
     public void execute() {
-        m_intake.setIntakeSpeed(IntakeConstants.intakeSpeed);
+        m_intakeSystem.setIntakeSpeed(IntakeConstants.intakeSpeed);
     }
 
     @Override
@@ -36,6 +37,6 @@ public class IntakeRelease extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stopSystem();
+        m_intakeSystem.stopSystem();
     }
 }

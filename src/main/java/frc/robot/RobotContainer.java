@@ -1,11 +1,18 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PresetConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.commands.VisionAutoAlignCommand;
+import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.SetIntakeSpeedCommand;
+import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
@@ -27,14 +34,60 @@ public class RobotContainer {
     private IntakeSystem m_intakeSystem = new IntakeSystem();
 
     public RobotContainer() {
+        initShuffleBoard();
+    }
+
+    private void initShuffleBoard() {
+        Shuffleboard.getTab("Arm")
+                .addDouble(
+                        "Angle to Shoot",
+                        () -> m_armSystem.getShootingAngle(
+                                m_visionSystem.getDistanceMetersY()));
     }
 
     /**
      * This is the single place that joystick triggers/buttons are bound to specific commands.
      */
     public void bindCommands() {
-        new Trigger(() -> m_driveController.getYButton())
-                .onTrue(new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+        // Push note piece back on start up. May not need to happen when reflectometer is used.
+        double pullBackNoteTime = 0.2;
+        double pullBackNoteSpeed = 0.2;
+        double waitTime = 0.2;
+        double shootOffsetLimeLight = -0.17;
+        new Trigger(() -> m_armController.getAButton()).onTrue(
+                new ParallelCommandGroup(
+                        new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
+                                -pullBackNoteSpeed),
+                        new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime,
+                                pullBackNoteSpeed))
+                        .andThen(new WaitCommand(waitTime))
+                        .andThen(
+                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
+                                        m_armController)));
+
+        new Trigger(() -> m_armController.getBButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
+                        m_visionSystem.getDistanceMetersY()) + shootOffsetLimeLight).andThen(
+                                new WaitCommand(waitTime).andThen(
+                                        new ParallelCommandGroup(
+                                                new SetShooterSpeedCommand(m_shooterSystem,
+                                                        pullBackNoteTime,
+                                                        -pullBackNoteSpeed),
+                                                new SetIntakeSpeedCommand(m_intakeSystem,
+                                                        pullBackNoteTime,
+                                                        pullBackNoteSpeed))
+                                                .andThen(
+                                                        new IntakeRevCommand(m_intakeSystem,
+                                                                m_shooterSystem,
+                                                                m_armController)))));
+
+        // Amp Preset
+        new Trigger(() -> m_armController.getXButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.ampPresetAngleRadians));
+
+        // Sub-woofer Preset
+        new Trigger(() -> m_armController.getYButton()).onTrue(
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
     }
 
     public void stopRobot() {

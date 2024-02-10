@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical.
  */
@@ -32,7 +35,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 1;
+        public static final double maxOutputPercentage = 0.25;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 8;
@@ -92,11 +95,22 @@ public class Constants {
 
             // NOTE: This makes the front of the robot the right side. (the side of the radio), but
             // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffset = -Math.PI + .1 + rotationOffset;
-            public static final double backLeftOffset = 0.744 + Math.PI + rotationOffset;
-            public static final double frontRightOffset = (Math.PI / 4) + ((Math.PI * 2) - 4.708)
+            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 0.137000
+                    + Math.PI + rotationOffset;
+            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.163000;
+            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 5.035000
+                    + rotationOffset;
+            public static final double backRightOffsetSwerveB = 5.485000 + Math.PI;
+
+            // Different Swerve
+
+            public static final double frontLeftOffsetSwerveA = -Math.PI + .1 + rotationOffset;
+            public static final double backLeftOffsetSwerveA = 0.744 + Math.PI + rotationOffset;
+
+            public static final double frontRightOffsetSwerveA = (Math.PI / 4)
+                    + ((Math.PI * 2) - 4.708)
                     + 0.2 + rotationOffset;
-            public static final double backRightOffset = 0.928 + rotationOffset;
+            public static final double backRightOffsetSwerveA = 0.928 + rotationOffset;
 
         }
     }
@@ -115,6 +129,25 @@ public class Constants {
         public static final double aprilTagHeightMeters = 0.9;
 
         public static final String limelightName = "limelight-ramen";
+
+        public static final ArrayList<Double> targetedIDList = new ArrayList<Double>(
+                Arrays.asList(
+                        1.0,
+                        2.0,
+                        3.0,
+                        4.0,
+                        5.0,
+                        6.0,
+                        7.0,
+                        8.0,
+                        9.0,
+                        10.0,
+                        11.0,
+                        12.0,
+                        13.0,
+                        14.0,
+                        15.0,
+                        16.0));
     }
 
     /**
@@ -141,18 +174,19 @@ public class Constants {
         }
 
         public static class SetArmConstants {
+            public static final double maxTime = 2;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.1;
+            public static final double errorMargin = 0.02;
 
         }
 
         public static class IntakeReleaseConstants {
-            public static final double maxTime = 0.5;
+            public static final double maxTime = 0.35;
         }
 
         public static class VisionAutoAlignConstants {
@@ -172,7 +206,6 @@ public class Constants {
             public static final double translationYPID_P = 0.45;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
-            
 
             public static final double rotationPID_P = 1 / 1000;
             public static final double rotationPID_I = 0;
@@ -181,31 +214,56 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final int shooterMotorID = 20;
-        public static final double maxOutputPercent = 0.4;
-        public static final double shooterSpeed = 0.4;
+        public static final int shooterLeftMotorID = 18;
+        public static final int shooterRightMotorID = 19;
+        public static final double maxOutputPercent = 1;
+        public static final double shooterSpeed = 0.7;
+
     }
 
     public static class ArmConstants {
+        public static final double gearRatio = 60 / 12;
         public static final int armMotorID = 22;
-        public static final int armEncoderChannel = 23;
-        public static final double armSpeed = 0.2;
-        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground in
+        public static final int armEncoderChannel = 0;
+        public static final double armSpeed = 0.1;
+        public static final double armLegnth = 25.4;
+        public static final double centerSpeakerHeight = 2.038;
+        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground
+                                                                 // in
                                                                  // meters.
-        public static final double shootToPivotRadius = 0.549;// Radius from shooting point to pivot
+        public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
+                                                              // pivot
                                                               // point in meters.
         public static final double armAngleOffsetHorizontal = 0;// Offset bewteen sensor to
-                                                                // horizontal axis of arm in degrees
+                                                                // horizontal axis of arm in
+                                                                // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.4;
-
+        public static final double maxOutputPercent = 0.2;
     }
 
     public static class IntakeConstants {
-        public static final int intakeMotorID = 21;
+        public static final int intakeMotorLeftID = 20;
+        public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
         public static final double intakeSpeed = 0.4;
         public static final double maxOutputPercent = 0.4;
     }
+
+    public static class RevConstants {
+        public static final double revTime = 0.2;
+    }
+
+    public static class TestConstants {
+        public static final double testTime = 0.5;
+        public static final double testSpeed = 0.2;
+        public static final double errorMargin = 0.1;
+    }
+
+    public static class PresetConstants {
+        public static final double ampPresetAngleRadians = 0.422;
+        public static final double speakerPresetAngleRadians = 0;
+        public static final double shooterSpeed = 0.7;
+    }
+
 }

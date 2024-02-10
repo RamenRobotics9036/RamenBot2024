@@ -60,25 +60,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffset);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffset);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffset);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffset);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -95,6 +95,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     private AppliedController m_controller;
 
+    private boolean[] m_status = new boolean[4];
+
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
         initShuffleBoard();
@@ -109,6 +111,11 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("X Pose Meters: ", () -> getxPosition());
         Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
+
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_status[0]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_status[1]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_status[2]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_status[3]);
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
@@ -158,9 +165,14 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
 
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds
-                .fromFieldRelativeSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed, getRotation2d())
-                : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(
+                fieldRelative ? ChassisSpeeds
+                        .fromFieldRelativeSpeeds(
+                                xspeed,
+                                yspeed,
+                                rot * m_maxAngularSpeed,
+                                getRotation2d())
+                        : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -182,7 +194,8 @@ public class SwerveDriveSystem extends SubsystemBase {
         return Math.round(value * 1000.0) / 1000.0;
     }
 
-    private void addItemToGrid(ShuffleboardLayout grid,
+    private void addItemToGrid(
+            ShuffleboardLayout grid,
             String name,
             DoubleSupplier valueSupplier,
             int row) {
@@ -206,7 +219,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     private void displayModuleToSingleSwerveDashV2(String name, SwerveModule module) {
         ShuffleboardTab tab = Shuffleboard.getTab("Swerve");
-        final Map<String, IntPos> gridPositions = Map.of("Front Left",
+        final Map<String, IntPos> gridPositions = Map.of(
+                "Front Left",
                 new IntPos(2, 2),
                 "Front Right",
                 new IntPos(6, 2),
@@ -226,22 +240,27 @@ public class SwerveDriveSystem extends SubsystemBase {
         int numGridItems = 4;
         ShuffleboardLayout grid = tab.getLayout(name, BuiltInLayouts.kGrid)
                 .withPosition(pos.x, pos.y).withSize(4, 2)
-                .withProperties(Map.of("Label position",
-                        "HIDDEN",
-                        "Number of columns",
-                        2,
-                        "Number of rows",
-                        numGridItems));
+                .withProperties(
+                        Map.of(
+                                "Label position",
+                                "HIDDEN",
+                                "Number of columns",
+                                2,
+                                "Number of rows",
+                                numGridItems));
 
-        addItemToGrid(grid,
+        addItemToGrid(
+                grid,
                 "Turn Relative Encoder Radians",
                 () -> roundTo3Digits(module.getTurnEncoderRadians()),
                 0);
-        addItemToGrid(grid,
+        addItemToGrid(
+                grid,
                 "Turn Absolute Encoder Radians",
                 () -> roundTo3Digits(module.getRawTurnEncoderRadians()),
                 1);
-        addItemToGrid(grid,
+        addItemToGrid(
+                grid,
                 "Drive Velocity",
                 () -> roundTo3Digits(module.getDriveEncoderVelocity()),
                 2);
@@ -283,6 +302,58 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
+    }
+
+    public double getFrontLeftTurnEncoder() {
+        return m_frontLeft.getTurnEncoderRadians();
+    }
+
+    public double getBackLeftTurnEncoder() {
+        return m_backLeft.getTurnEncoderRadians();
+    }
+
+    public double getFrontRightTurnEncoder() {
+        return m_frontRight.getTurnEncoderRadians();
+    }
+
+    public double getBackRightTurnEncoder() {
+        return m_backLeft.getTurnEncoderRadians();
+    }
+
+    public double getFrontLeftDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getBackLeftDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getFrontRightDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getBackRightDriveEncoder() {
+        return m_frontLeft.getDriveEncoderPosition();
+    }
+
+    public double getFrontLeftDriveVelocity() {
+        return m_frontLeft.getDriveEncoderVelocity();
+    }
+
+    public double getBackLeftDriveVelocity() {
+        return m_backLeft.getDriveEncoderVelocity();
+    }
+
+    public double getFrontRightDriveVelocity() {
+        return m_frontRight.getDriveEncoderVelocity();
+    }
+
+    public double getBackRightDriveVelocity() {
+        return m_backRight.getDriveEncoderVelocity();
+    }
+
+    public void setStatus(boolean[] status) {
+        m_status = status;
     }
 
     /**

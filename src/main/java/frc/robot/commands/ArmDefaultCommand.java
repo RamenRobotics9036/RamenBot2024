@@ -25,10 +25,10 @@ public class ArmDefaultCommand extends CommandBase {
     public void execute() {
         if (m_controller.getLeftTriggerAxis() != 0) {
             m_armSystem
-                    .setArmSpeed(ArmConstants.armSpeedFast * Math.signum(m_controller.getLeftY()));
+                    .setArmSpeed(-ArmConstants.armSpeedFast * Math.signum(m_controller.getLeftY()));
         }
         else {
-            m_armSystem.setArmSpeed(m_controller.getLeftY());
+            m_armSystem.setArmSpeed(-m_controller.getLeftY());
         }
     }
 

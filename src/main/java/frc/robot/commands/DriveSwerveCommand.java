@@ -10,6 +10,7 @@ import frc.robot.util.AppliedController;
 public class DriveSwerveCommand extends CommandBase {
     private SwerveDriveSystem m_swerveDrive;
     private AppliedController m_controller;
+    private boolean[] m_working = new boolean[4];
 
     /**
      * Constructor.
@@ -22,6 +23,7 @@ public class DriveSwerveCommand extends CommandBase {
 
     @Override
     public void initialize() {
+
     }
 
     @Override
@@ -40,8 +42,45 @@ public class DriveSwerveCommand extends CommandBase {
 
             // $TODO - Inverting y on joystick is a hack right now!
             m_swerveDrive.drive(xspeed, -yspeed, rot);
-        }
 
+            // Quick test I made to make sure encoders are working. Hopefully it works.
+            if (xspeed != 0 || yspeed != 0 || rot != 0) {
+
+                if (m_swerveDrive.getFrontLeftDriveVelocity() > 0.1
+                        || m_swerveDrive.getFrontLeftDriveVelocity() < -0.1) {
+                    m_working[0] = true;
+                }
+                else {
+                    m_working[0] = false;
+                }
+
+                if (m_swerveDrive.getBackLeftDriveVelocity() > 0.1
+                        || m_swerveDrive.getBackLeftDriveVelocity() < -0.1) {
+                    m_working[1] = true;
+                }
+                else {
+                    m_working[1] = false;
+                }
+
+                if (m_swerveDrive.getFrontRightDriveVelocity() > 0.1
+                        || m_swerveDrive.getFrontRightDriveVelocity() < -0.1) {
+                    m_working[2] = true;
+                }
+                else {
+                    m_working[2] = false;
+                }
+
+                if (m_swerveDrive.getBackRightDriveVelocity() > 0.1
+                        || m_swerveDrive.getBackRightDriveVelocity() < -0.1) {
+                    m_working[3] = true;
+                }
+                else {
+                    m_working[3] = false;
+                }
+
+                m_swerveDrive.setStatus(m_working);
+            }
+        }
     }
 
     @Override

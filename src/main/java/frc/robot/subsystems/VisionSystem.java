@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
@@ -17,10 +17,12 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(VisionConstants.limelightName);
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+            .getTable(VisionConstants.limelightName);
     private NetworkTableEntry tableX = limelightTable.getEntry("tx");
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
+    private NetworkTableEntry tableID = limelightTable.getEntry("tid");
 
     private final double EPSILON = 0.0000001;
 
@@ -29,8 +31,9 @@ public class VisionSystem extends SubsystemBase {
     }
 
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision")
-                .getLayout("April Tags", BuiltInLayouts.kList);
+        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout(
+                "April Tags",
+                BuiltInLayouts.kList);
         visionLayout.addDouble("X Displacement", () -> getXRadians());
         visionLayout.addDouble("Y Displacement", () -> getYRadians());
         visionLayout.addDouble("Area", () -> getArea());
@@ -40,14 +43,7 @@ public class VisionSystem extends SubsystemBase {
 
         visionLayout.addDouble("X tangent", () -> Math.tan(getXRadians()));
         visionLayout.addDouble("Y tangent", () -> Math.tan(getYRadians()));
-    }
-
-    public double getXPose() {
-        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getX();
-    }
-
-    public double getYPose() {
-        return LimelightHelpers.getBotPose2d(VisionConstants.limelightName).getY();
+        visionLayout.addDouble("ID", () -> getID());
     }
 
     /**
@@ -83,12 +79,27 @@ public class VisionSystem extends SubsystemBase {
         return getX() + getY() + getArea() != 0;
     }
 
+    public double getID() {
+        return tableID.getDouble(0);
+    }
+
+    public boolean isDetectedIDValid() {
+        double myID = getID();
+        if (Constants.VisionConstants.targetedIDList.contains(myID)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * Distance to April tag in meters Y.
      */
     public double getDistanceMetersY() {
         double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
+        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
+                - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -97,7 +108,8 @@ public class VisionSystem extends SubsystemBase {
      */
     public double getDistanceMetersX() {
         double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
-        double distanceFromLimelightToGoalMeters = getDistanceMetersY() * Math.tan(angleToGoalRadians);
+        double distanceFromLimelightToGoalMeters = getDistanceMetersY()
+                * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -105,6 +117,6 @@ public class VisionSystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void stopSystem() { 
+    public void stopSystem() {
     }
 }

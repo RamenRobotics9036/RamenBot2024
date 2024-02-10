@@ -26,7 +26,6 @@ public class VisionAutoAlignCommand extends CommandBase {
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
         m_swerveDrive = swerveDrive;
         m_visionSystem = visionSystem;
-        m_timer = new Timer();
         addRequirements(m_swerveDrive, m_visionSystem);
 
         m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceX);
@@ -36,13 +35,15 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
     }
 
     @Override
     public void execute() {
         double xspeed = m_translationXpid.calculate(m_visionSystem.getDistanceMetersX(), 0);
-        double yspeed = m_translationYpid.calculate(m_visionSystem.getDistanceMetersY(),
+        double yspeed = m_translationYpid.calculate(
+                m_visionSystem.getDistanceMetersY(),
                 m_targetDistanceMeters);
         double rotSpeed = m_rotationPid.calculate(m_visionSystem.getX(), 0);
 
@@ -51,17 +52,20 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (!m_visionSystem.isDetected()) {
+        if (m_visionSystem.isDetectedIDValid()) {
             return true;
         }
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
             return true;
         }
-        if (MathUtil.applyDeadband(m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
+        if (MathUtil.applyDeadband(
+                m_visionSystem.getDistanceMetersY() - m_targetDistanceMeters,
                 VisionAutoAlignConstants.errorMarginDistanceY) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getDistanceMetersX(),
+                && MathUtil.applyDeadband(
+                        m_visionSystem.getDistanceMetersX(),
                         VisionAutoAlignConstants.errorMarginDistanceX) == 0
-                && MathUtil.applyDeadband(m_visionSystem.getX(),
+                && MathUtil.applyDeadband(
+                        m_visionSystem.getX(),
                         VisionAutoAlignConstants.errorMarginRot) == 0) {
             return true;
         }
