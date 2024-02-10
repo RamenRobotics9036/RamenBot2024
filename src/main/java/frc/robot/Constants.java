@@ -95,10 +95,10 @@ public class Constants {
 
             // NOTE: This makes the front of the robot the right side. (the side of the radio), but
             // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffsetSwerveB = 0.341;
-            public static final double backLeftOffsetSwerveB = 4.061;
-            public static final double frontRightOffsetSwerveB = 3.81;
-            public static final double backRightOffsetSwerveB = 1.741;
+            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314 + rotationOffset;
+            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.227 + Math.PI + rotationOffset;
+            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI + rotationOffset;
+            public static final double backRightOffsetSwerveB = (Math.PI * 1.5) - 0.835 + Math.PI +  rotationOffset;
 
             // Different Swerve
 
