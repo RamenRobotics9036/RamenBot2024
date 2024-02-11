@@ -102,6 +102,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
+        Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
     }
 
     /**

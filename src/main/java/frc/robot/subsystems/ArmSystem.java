@@ -34,6 +34,14 @@ public class ArmSystem extends SubsystemBase {
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
+        m_armMotorLeader.restoreFactoryDefaults();
+        m_armMotorFollower.restoreFactoryDefaults();
+        m_armMotorLeader.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
+        m_armMotorFollower.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
+
+        m_armMotorLeader.setInverted(true);
+        m_armMotorFollower.setInverted(true);
+
         m_armMotorLeader.setIdleMode(IdleMode.kBrake);
         m_armMotorFollower.setIdleMode(IdleMode.kBrake);
         m_armMotorFollower.follow(m_armMotorLeader);
@@ -57,14 +65,15 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getShootingAngle(double distance) {
-        return Math.atan((ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround) / distance);
+        return Math.atan(
+                (ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround) / distance);
 
     }
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_armMotorLeader.set(speed);
-    } 
+    }
 
     public double getRelativeEncoderRadians() {
         return Math.toRadians(m_relativeEncoder.getPosition());
