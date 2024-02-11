@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
@@ -42,7 +43,8 @@ public class RobotContainer {
                 .addDouble(
                         "Angle to Shoot",
                         () -> m_armSystem.getShootingAngle(
-                                m_visionSystem.getDistanceMetersY()));
+                                m_visionSystem.getDistanceMetersY())
+                                + ShooterConstants.shootOffsetLimeLight);
     }
 
     /**
@@ -53,7 +55,6 @@ public class RobotContainer {
         double pullBackNoteTime = 0.2;
         double pullBackNoteSpeed = 0.2;
         double waitTime = 0.2;
-        double shootOffsetLimeLight = -0.17;
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new ParallelCommandGroup(
                         new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
@@ -67,7 +68,8 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
-                        m_visionSystem.getDistanceMetersY()) + shootOffsetLimeLight).andThen(
+                        m_visionSystem.getDistanceMetersY())
+                        + ShooterConstants.shootOffsetLimeLight).andThen(
                                 new WaitCommand(waitTime).andThen(
                                         new ParallelCommandGroup(
                                                 new SetShooterSpeedCommand(m_shooterSystem,

@@ -216,6 +216,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
+        public static final double shootOffsetLimeLight = 0;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
@@ -247,6 +248,7 @@ public class Constants {
     }
 
     public static class IntakeConstants {
+        public static final int smartCurrentLimit = 20;
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;

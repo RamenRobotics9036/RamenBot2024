@@ -14,7 +14,8 @@ import frc.robot.commands.IntakeDefaultCommand;
  * Stop the intake system.
  */
 public class IntakeSystem extends SubsystemBase {
-    private final CANSparkMax m_IntakeMotorFollower = new CANSparkMax(IntakeConstants.intakeMotorLeftID,
+    private final CANSparkMax m_IntakeMotorFollower = new CANSparkMax(
+            IntakeConstants.intakeMotorLeftID,
             MotorType.kBrushless);
     private final CANSparkMax m_intakeMotorLeader = new CANSparkMax(
             IntakeConstants.intakeMotorRightID,
@@ -23,6 +24,10 @@ public class IntakeSystem extends SubsystemBase {
     private double maxOutputPercent = IntakeConstants.maxOutputPercent;
 
     public IntakeSystem() {
+        m_IntakeMotorFollower.restoreFactoryDefaults();
+        m_intakeMotorLeader.restoreFactoryDefaults();
+        m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
+        m_IntakeMotorFollower.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         initShuffleBoard();
         m_IntakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
