@@ -185,7 +185,7 @@ public class Constants {
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.02;
+            public static final double errorMargin = 0.01;
 
         }
 
@@ -218,11 +218,11 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 0;
+        public static final double shootOffsetLimeLight = 0.54;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.7;
+        public static final double shooterSpeed = 0.5;
 
     }
 
@@ -259,7 +259,8 @@ public class Constants {
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.2;
+        public static final double revTime = 0.35;
+        public static final double maxTime = 0.6;
     }
 
     public static class TestConstants {
