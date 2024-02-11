@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
 
@@ -72,11 +73,26 @@ public class ArmSystem extends SubsystemBase {
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
+        if ((speed < 0 && getArmAngleRadians() > SetArmConstants.armMin)
+                || (speed > 0 && getArmAngleRadians() < SetArmConstants.armMax)) {
+            m_armMotorLeader.set(speed);
+        }
+        else {
+            m_armMotorLeader.set(0);
+        }
+    }
+
+    public void setArmSpeedAdmin(double speed) {
+        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_armMotorLeader.set(speed);
     }
 
     public double getRelativeEncoderRadians() {
         return Math.toRadians(m_relativeEncoder.getPosition());
+    }
+
+    public double getArmSpeed() {
+        return m_armMotorLeader.get();
     }
 
     @Override
@@ -86,6 +102,7 @@ public class ArmSystem extends SubsystemBase {
     public void initShuffleBoard() {
         Shuffleboard.getTab("Arm").addDouble("Arm Angle Absolute", () -> getArmAngleRadians());
         Shuffleboard.getTab("Arm").addDouble("Arm Height", () -> getArmHeight());
+        Shuffleboard.getTab("Arm").addDouble("Arm Speed", () -> getArmSpeed());
         Shuffleboard.getTab("Arm")
                 .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
     }
