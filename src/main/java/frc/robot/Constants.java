@@ -178,7 +178,7 @@ public class Constants {
         public static class SetArmConstants {
             public static final double armMax = 2.7;
             public static final double armMin = 0.85;
-            public static final double maxTime = 2;
+            public static final double maxTime = 4;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
@@ -218,7 +218,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 0.54;
+        public static final double shootOffsetLimeLight = 0.5;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;

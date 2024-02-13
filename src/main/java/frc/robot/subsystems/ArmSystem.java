@@ -52,8 +52,6 @@ public class ArmSystem extends SubsystemBase {
 
         m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
         m_relativeEncoder.setPosition(getArmAngleRadians());
-        m_relativeEncoder
-                .setVelocityConversionFactor(((Math.PI * 2) / ArmConstants.gearRatio) / 60);
     }
 
     public double getArmAngleRadians() {
@@ -88,8 +86,8 @@ public class ArmSystem extends SubsystemBase {
         m_armMotorLeader.set(speed);
     }
 
-    public double getRelativeEncoderRadians() {
-        return Math.toRadians(m_relativeEncoder.getPosition());
+    private double getRelativeEncoderRadians() {
+        return m_relativeEncoder.getPosition();
     }
 
     public double getArmSpeed() {
