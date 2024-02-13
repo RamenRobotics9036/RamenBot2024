@@ -55,7 +55,8 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getArmAngleRadians() {
-        return (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
+        return 2 * Math.PI
+                - (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
     }
 
     public double getArmHeight() {
@@ -72,8 +73,8 @@ public class ArmSystem extends SubsystemBase {
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
-        if ((speed < 0 && getArmAngleRadians() > SetArmConstants.armMin)
-                || (speed > 0 && getArmAngleRadians() < SetArmConstants.armMax)) {
+        if ((speed < 0 && getArmAngleRadians() < SetArmConstants.armMin)
+                || (speed > 0 && getArmAngleRadians() > SetArmConstants.armMax)) {
             m_armMotorLeader.set(speed);
         }
         else {
