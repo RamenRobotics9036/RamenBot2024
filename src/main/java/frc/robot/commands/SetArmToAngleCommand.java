@@ -31,7 +31,7 @@ public class SetArmToAngleCommand extends Command {
 
     @Override
     public void execute() {
-        m_armSystem.setArmSpeed(m_desiredAngle - m_armSystem.getArmAngleRadians());
+        m_armSystem.setArmSpeed(m_armSystem.getArmAngleRadians() - m_desiredAngle);
     }
 
     @Override

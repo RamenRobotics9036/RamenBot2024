@@ -218,11 +218,11 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 0.5;
+        public static final double shootOffsetLimeLight = 4.4;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.5;
+        public static final double shooterSpeed = 1;
 
     }
 
@@ -235,9 +235,9 @@ public class Constants {
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
-        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground
-                                                                 // in
-                                                                 // meters.
+        public static final double pivotHeightOverGround = 0.32;// The pivot height over ground
+                                                                // in
+                                                                // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
                                                               // pivot
                                                               // point in meters.
