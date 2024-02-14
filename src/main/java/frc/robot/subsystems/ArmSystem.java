@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.io.ObjectInputFilter.Status;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -30,6 +32,8 @@ public class ArmSystem extends SubsystemBase {
     private RelativeEncoder m_relativeEncoder = m_armMotor.getEncoder();
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
+
+    private boolean m_status;
 
     public ArmSystem(AppliedController controller) {
         m_armMotor.setIdleMode(IdleMode.kBrake);
@@ -75,6 +79,11 @@ public class ArmSystem extends SubsystemBase {
         Shuffleboard.getTab("Arm").addDouble("Arm Height", () -> getArmHeight());
         Shuffleboard.getTab("Arm")
                 .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
+        Shuffleboard.getTab("Arm Test").addBoolean("Arm Encoder", () -> m_status);
+    }
+
+    public void setStatus(boolean status){
+        m_status = status;
     }
 
     /**
