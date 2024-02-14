@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -21,6 +23,12 @@ public class IntakeSystem extends SubsystemBase {
             MotorType.kBrushless);
     private DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
     private double maxOutputPercent = IntakeConstants.maxOutputPercent;
+
+    private AbsoluteEncoder m_leaderEncoder = m_intakeMotorLeader.getAbsoluteEncoder(Type.kDutyCycle);
+    private AbsoluteEncoder m_followerEncoder = m_IntakeMotorFollower.getAbsoluteEncoder(Type.kDutyCycle);
+
+    private boolean[] m_status = new boolean[2];
+
 
     public IntakeSystem() {
         initShuffleBoard();
@@ -43,13 +51,28 @@ public class IntakeSystem extends SubsystemBase {
         return refelectometer.get();
     }
 
+    public double getLeaderPosition() {
+        return m_leaderEncoder.getPosition();
+    }
+
+    public double getFollowerPosition() {
+        return m_followerEncoder.getPosition();
+    }
+
     public void initShuffleBoard() {
         Shuffleboard.getTab("Intake").add("Intake Speed: ", getIntakeSpeed());
         Shuffleboard.getTab("Intake").add("Current Command", this);
+
+        Shuffleboard.getTab("IntakeTest").addBoolean("Leader", () -> m_status[0]);
+        Shuffleboard.getTab("IntakeTest").addBoolean("Follower", () -> m_status[1]);
     }
 
     @Override
     public void periodic() {
+    }
+
+    public void setStatus(boolean[] status){
+        m_status = status;
     }
 
     /**
