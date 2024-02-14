@@ -1,10 +1,10 @@
 Xbox control documentation:
 
-LJ (Left joystick) : field relative movement.
+LJ (Left joystick) : field relative movement (robot relative when stick is pressed)
 RJ(Right joystick): robot rotation, shooting angle.
+RB(Right bumper): max arm rotate speed.
 LT(Left trigger): pick up notes.
 RT(Right trigger): shoot.
-D-Pad: robot relative movement.
 -------------------------------------------------------
 A: Auto-shoot AMP.
 B: Auto shoot speaker.
@@ -15,5 +15,5 @@ START: Reset gyro for field relative orientation.
 TO BE ASSIGNEDl:
 X
 LB(Left bumper)
-RB(Right bumper)
+
 Menu, Upload and Copy buttons.

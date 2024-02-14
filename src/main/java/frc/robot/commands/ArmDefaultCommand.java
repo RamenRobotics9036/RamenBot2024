@@ -23,12 +23,13 @@ public class ArmDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        if (m_controller.getLeftTriggerAxis() != 0) {
-            m_armSystem
-                    .setArmSpeed(-ArmConstants.armSpeedFast * Math.signum(m_controller.getLeftY()));
+        if (m_controller.getRightBumper()) {
+            m_armSystem.setArmSpeed(-m_controller.getRightY());
         }
         else {
-            m_armSystem.setArmSpeed(-m_controller.getLeftY());
+            m_armSystem
+                    .setArmSpeed(
+                            -ArmConstants.armSpeedFast * Math.signum(m_controller.getRightY()));
         }
     }
 
