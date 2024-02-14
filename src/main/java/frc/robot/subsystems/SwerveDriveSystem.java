@@ -61,25 +61,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveA);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveA);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveA);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveA);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -96,7 +96,9 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     private AppliedController m_controller;
 
-    private boolean[] m_status = new boolean[4];
+    private boolean[] m_driveStatus = new boolean[4];
+    private boolean[] m_turnStatus = new boolean[4];
+
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
@@ -113,10 +115,15 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
 
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_status[0]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_status[1]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_status[2]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_status[3]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_driveStatus[0]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_driveStatus[1]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_driveStatus[2]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_driveStatus[3]);
+
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_turnStatus[0]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_turnStatus[1]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_turnStatus[2]);
+        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_turnStatus[3]);
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
@@ -353,8 +360,12 @@ public class SwerveDriveSystem extends SubsystemBase {
         return m_backRight.getDriveEncoderVelocity();
     }
 
-    public void setStatus(boolean[] status) {
-        m_status = status;
+    public void setDriveStatus(boolean[] status) {
+        m_driveStatus = status;
+    }
+
+    public void setTurnStatus(boolean[] status) {
+        m_turnStatus = status;
     }
 
     /**

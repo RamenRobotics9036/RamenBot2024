@@ -60,7 +60,7 @@ public class SwerveTurnMotorTestCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        m_swerve.setStatus(m_status);
+        m_swerve.setTurnStatus(m_status);
         m_swerve.stopSystem();
     }
 }

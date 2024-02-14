@@ -42,6 +42,7 @@ public class DriveSwerveCommand extends Command {
 
             // $TODO - Inverting y on joystick is a hack right now!
             m_swerveDrive.drive(xspeed, -yspeed, rot);
+            
 
             // Quick test I made to make sure encoders are working. Hopefully it works.
             if (xspeed != 0 || yspeed != 0 || rot != 0) {
@@ -78,7 +79,7 @@ public class DriveSwerveCommand extends Command {
                     m_working[3] = false;
                 }
 
-                m_swerveDrive.setStatus(m_working);
+                m_swerveDrive.setDriveStatus(m_working);
             }
         }
     }
