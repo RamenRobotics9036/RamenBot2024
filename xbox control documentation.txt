@@ -1,0 +1,19 @@
+Xbox control documentation:
+
+LJ (Left joystick) : field relative movement.
+RJ(Right joystick): robot rotation, shooting angle.
+LT(Left trigger): pick up notes.
+RT(Right trigger): shoot.
+D-Pad: robot relative movement.
+-------------------------------------------------------
+A: Auto-shoot AMP.
+B: Auto shoot speaker.
+Y: Climb.
+-------------------------------------------------------
+START: Reset gyro for field relative orientation.
+-------------------------------------------------------
+TO BE ASSIGNEDl:
+X
+LB(Left bumper)
+RB(Right bumper)
+Menu, Upload and Copy buttons.
