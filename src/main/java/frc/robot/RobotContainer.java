@@ -38,6 +38,22 @@ public class RobotContainer {
         initShuffleBoard();
     }
 
+    public void scheduleAutonomousCommand() {
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+        new FollowPathHolonomic(
+                path,
+                m_swerveDrive::getPoseMeters,
+                m_swerveDrive::getSpeeds,
+                m_swerveDrive::driveFromChassisSpeeds,
+                new HolonomicPathFollowerConfig(
+                        SwerveSystemConstants.maxSpeedMetersPerSecond,
+                        m_swerveDrive.getDriveBaseRadius(),
+                        new ReplanningConfig()),
+                () -> false,
+                m_swerveDrive).schedule();
+    }
+
     private void initShuffleBoard() {
         Shuffleboard.getTab("Arm")
                 .addDouble(
