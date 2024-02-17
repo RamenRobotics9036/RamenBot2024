@@ -27,7 +27,7 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.28;
+        public static final double frameDistanceToModulesMeters = 0.5;
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
@@ -51,7 +51,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 3;
+        public static final double maxSpeedMetersPerSecond = 10;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
