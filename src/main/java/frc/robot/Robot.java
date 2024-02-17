@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        CommandScheduler.getInstance().cancelAll();
         m_robotContainer.bindCommands();
     }
 
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        m_robotContainer.scheduleAutonomousCommand();
     }
 
     @Override

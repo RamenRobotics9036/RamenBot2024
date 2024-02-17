@@ -1,11 +1,18 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
@@ -37,12 +44,29 @@ public class RobotContainer {
         initShuffleBoard();
     }
 
+    public void scheduleAutonomousCommand() {
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+        new FollowPathHolonomic(
+                path,
+                m_swerveDrive::getPoseMeters,
+                m_swerveDrive::getSpeeds,
+                m_swerveDrive::driveFromChassisSpeeds,
+                new HolonomicPathFollowerConfig(
+                        SwerveSystemConstants.maxSpeedMetersPerSecond,
+                        m_swerveDrive.getDriveBaseRadius(),
+                        new ReplanningConfig()),
+                () -> false,
+                m_swerveDrive).schedule();
+    }
+
     private void initShuffleBoard() {
         Shuffleboard.getTab("Arm")
                 .addDouble(
                         "Angle to Shoot",
                         () -> m_armSystem.getShootingAngle(
-                                m_visionSystem.getDistanceMetersY()));
+                                m_visionSystem.getDistanceMetersY())
+                                + ShooterConstants.shootOffsetLimeLight);
     }
 
     /**
@@ -53,7 +77,6 @@ public class RobotContainer {
         double pullBackNoteTime = 0.2;
         double pullBackNoteSpeed = 0.2;
         double waitTime = 0.2;
-        double shootOffsetLimeLight = -0.17;
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new ParallelCommandGroup(
                         new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
@@ -67,7 +90,8 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
-                        m_visionSystem.getDistanceMetersY()) + shootOffsetLimeLight).andThen(
+                        m_visionSystem.getDistanceMetersY())
+                        + ShooterConstants.shootOffsetLimeLight).andThen(
                                 new WaitCommand(waitTime).andThen(
                                         new ParallelCommandGroup(
                                                 new SetShooterSpeedCommand(m_shooterSystem,

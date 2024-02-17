@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
 
@@ -34,6 +35,14 @@ public class ArmSystem extends SubsystemBase {
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
+        m_armMotorLeader.restoreFactoryDefaults();
+        m_armMotorFollower.restoreFactoryDefaults();
+        m_armMotorLeader.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
+        m_armMotorFollower.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
+
+        m_armMotorLeader.setInverted(true);
+        m_armMotorFollower.setInverted(true);
+
         m_armMotorLeader.setIdleMode(IdleMode.kBrake);
         m_armMotorFollower.setIdleMode(IdleMode.kBrake);
         m_armMotorFollower.follow(m_armMotorLeader);
@@ -43,12 +52,11 @@ public class ArmSystem extends SubsystemBase {
 
         m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
         m_relativeEncoder.setPosition(getArmAngleRadians());
-        m_relativeEncoder
-                .setVelocityConversionFactor(((Math.PI * 2) / ArmConstants.gearRatio) / 60);
     }
 
     public double getArmAngleRadians() {
-        return (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
+        return 2 * Math.PI
+                - (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
     }
 
     public double getArmHeight() {
@@ -57,17 +65,34 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getShootingAngle(double distance) {
-        return Math.atan((ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround) / distance);
+        return Math.atan(
+                (ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround)
+                        / Math.abs(distance));
 
     }
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
-        m_armMotorLeader.set(speed);
-    } 
+        if ((speed < 0 && getArmAngleRadians() < SetArmConstants.armMin)
+                || (speed > 0 && getArmAngleRadians() > SetArmConstants.armMax)) {
+            m_armMotorLeader.set(speed);
+        }
+        else {
+            m_armMotorLeader.set(0);
+        }
+    }
 
-    public double getRelativeEncoderRadians() {
-        return Math.toRadians(m_relativeEncoder.getPosition());
+    public void setArmSpeedAdmin(double speed) {
+        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
+        m_armMotorLeader.set(speed);
+    }
+
+    private double getRelativeEncoderRadians() {
+        return m_relativeEncoder.getPosition();
+    }
+
+    public double getArmSpeed() {
+        return m_armMotorLeader.get();
     }
 
     @Override
@@ -77,6 +102,7 @@ public class ArmSystem extends SubsystemBase {
     public void initShuffleBoard() {
         Shuffleboard.getTab("Arm").addDouble("Arm Angle Absolute", () -> getArmAngleRadians());
         Shuffleboard.getTab("Arm").addDouble("Arm Height", () -> getArmHeight());
+        Shuffleboard.getTab("Arm").addDouble("Arm Speed", () -> getArmSpeed());
         Shuffleboard.getTab("Arm")
                 .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
     }

@@ -27,7 +27,7 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.28;
+        public static final double frameDistanceToModulesMeters = 0.5;
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
@@ -95,10 +95,14 @@ public class Constants {
 
             // NOTE: This makes the front of the robot the right side. (the side of the radio), but
             // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314 + rotationOffset;
-            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.227 + Math.PI + rotationOffset;
-            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI + rotationOffset;
-            public static final double backRightOffsetSwerveB = (Math.PI * 1.5) - 0.835 + Math.PI +  rotationOffset;
+            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314
+                    + rotationOffset;
+            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.227 + Math.PI
+                    + rotationOffset;
+            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI
+                    + rotationOffset;
+            public static final double backRightOffsetSwerveB = (Math.PI * 1.5) - 0.835 + Math.PI
+                    + rotationOffset;
 
             // Different Swerve
 
@@ -123,8 +127,8 @@ public class Constants {
          */
         public static final double limelightMountAngleRadiansX = 0;
 
-        public static final double limelightLensHeightMeters = 0.38;
-        public static final double aprilTagHeightMeters = 0.9;
+        public static final double limelightLensHeightMeters = 0.51;
+        public static final double aprilTagHeightMeters = 0.68;
 
         public static final String limelightName = "limelight-ramen";
 
@@ -172,14 +176,16 @@ public class Constants {
         }
 
         public static class SetArmConstants {
-            public static final double maxTime = 2;
+            public static final double armMax = 4;
+            public static final double armMin = 5.4;
+            public static final double maxTime = 2.5;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.02;
+            public static final double errorMargin = 0.01;
 
         }
 
@@ -212,14 +218,16 @@ public class Constants {
     }
 
     public static class ShooterConstants {
+        public static final double shootOffsetLimeLight = 4.4;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.7;
+        public static final double shooterSpeed = 1;
 
     }
 
     public static class ArmConstants {
+        public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
         public static final int armMotorIDFollower = 22;
         public static final int armMotorIDLeader = 23;
@@ -227,9 +235,9 @@ public class Constants {
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
-        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground
-                                                                 // in
-                                                                 // meters.
+        public static final double pivotHeightOverGround = 0.32;// The pivot height over ground
+                                                                // in
+                                                                // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
                                                               // pivot
                                                               // point in meters.
@@ -238,19 +246,21 @@ public class Constants {
                                                                 // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.2;
+        public static final double maxOutputPercent = 0.4;
     }
 
     public static class IntakeConstants {
+        public static final int smartCurrentLimit = 20;
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.4;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.2;
+        public static final double revTime = 0.35;
+        public static final double maxTime = 0.6;
     }
 
     public static class TestConstants {
@@ -260,9 +270,26 @@ public class Constants {
     }
 
     public static class PresetConstants {
-        public static final double ampPresetAngleRadians = 0.422;
+        public static final double ampPresetAngleRadians = 0;
         public static final double speakerPresetAngleRadians = 0;
         public static final double shooterSpeed = 0.7;
+    }
+
+    public static class HookConstants {
+        public static final int leftHookCANId = 24;
+        public static final int rightHookCANId = 25;
+        public static final double maxHeight = 4.6;
+        public static final double minHeight = 0;
+        public static final double maxOutputPercent = 0.3;
+    }
+
+    public static class GrabChainConstants {
+        public static final double hookSpeed = 0.2;
+        public static final double swerveSpeed = 0.3;
+        public static final double hookRotationsNeeded = 5;
+        public static final double hookRotationsNeededFinal = 5;
+        public static final double swerveRotationsNeeded = 5;
+        public static final double maxTime = 10;
     }
 
 }

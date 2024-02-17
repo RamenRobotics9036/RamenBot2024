@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -102,6 +103,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
+        Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
     }
 
     /**
@@ -381,6 +383,43 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
             m_backRight.updateTurnPid(pidTurnP, pidTurnD);
         }
+    }
+
+    public SwerveModulePosition[] getModulePositions() {
+        return new SwerveModulePosition[] {
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_backLeft.getPosition(),
+                m_backRight.getPosition(),
+        };
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        return new SwerveModuleState[] {
+                m_frontLeft.getState(),
+                m_frontRight.getState(),
+                m_backLeft.getState(),
+                m_backRight.getState(),
+        };
+    }
+
+    public ChassisSpeeds getSpeeds() {
+        return m_kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public double getDriveBaseRadius() {
+        return m_frontLeftLocation.getNorm();
+    }
+
+    public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        drive(
+                chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
+                chassisSpeeds.omegaRadiansPerSecond);
+    }
+
+    public Pose2d getPoseMeters() {
+        return m_odometry.getPoseMeters();
     }
 
     @Override
