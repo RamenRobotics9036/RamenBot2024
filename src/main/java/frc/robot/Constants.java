@@ -51,7 +51,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 10;
+        public static final double maxSpeedMetersPerSecond = 3;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
@@ -127,8 +127,8 @@ public class Constants {
          */
         public static final double limelightMountAngleRadiansX = 0;
 
-        public static final double limelightLensHeightMeters = 0.38;
-        public static final double aprilTagHeightMeters = 0.9;
+        public static final double limelightLensHeightMeters = 0.51;
+        public static final double aprilTagHeightMeters = 0.68;
 
         public static final String limelightName = "limelight-ramen";
 
@@ -246,7 +246,7 @@ public class Constants {
                                                                 // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.2;
+        public static final double maxOutputPercent = 0.4;
     }
 
     public static class IntakeConstants {
@@ -254,7 +254,7 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.4;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
