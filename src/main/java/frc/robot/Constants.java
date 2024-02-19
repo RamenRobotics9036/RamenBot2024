@@ -203,7 +203,7 @@ public class Constants {
 
             public static final double targetDistanceMeters = 3.5;
 
-            public static final double translationXPID_P = 0.3;
+            public static final double translationXPID_P = 0.05;
             public static final double translationXPID_I = 0;
             public static final double translationXPID_D = 0;
 
@@ -211,7 +211,7 @@ public class Constants {
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
 
-            public static final double rotationPID_P = 1 / 1000;
+            public static final double rotationPID_P = 1 / 10_000;
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
 
