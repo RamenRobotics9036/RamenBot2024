@@ -5,10 +5,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,7 +56,7 @@ public class SwerveModule {
     private final PIDController m_drivePidController = new PIDController(pidDriveP, pidDriveI,
             pidDriveD);
 
-    private final SparkMaxPIDController m_turnPidController;
+    private final SparkPIDController m_turnPidController;
 
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(
             SwerveSystemConstants.drivingFeedForward_S, SwerveSystemConstants.drivingFeedForward_V);
@@ -63,7 +64,8 @@ public class SwerveModule {
     /**
      * Constructor.
      */
-    public SwerveModule(int driveMotorId,
+    public SwerveModule(
+            int driveMotorId,
             int turningMotorId,
             int turnEncoderChannel,
             double offSet) {
@@ -121,11 +123,13 @@ public class SwerveModule {
      */
     public void displayDesiredStateToDashBoard(String tabName) {
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout("Driving",
+        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Driving",
                 BuiltInLayouts.kList);
 
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout("Turning",
+        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Turning",
                 BuiltInLayouts.kList);
 
         ShuffleboardLayout pidTurningLayout = Shuffleboard.getTab(tabName)
@@ -137,11 +141,13 @@ public class SwerveModule {
         pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
 
         pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
-        pidDrivingLayout.addDouble("Drive Encoder Position Rotations",
+        pidDrivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         drivingLayout.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
-        drivingLayout.addDouble("Drive Encoder Position Rotations",
+        drivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
@@ -152,7 +158,8 @@ public class SwerveModule {
      * Set the desired state of the swerve module.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState,
+        SwerveModuleState state = SwerveModuleState.optimize(
+                desiredState,
                 Rotation2d.fromRadians(getTurnEncoderValue()));
 
         final double driveOutput = m_drivePidController

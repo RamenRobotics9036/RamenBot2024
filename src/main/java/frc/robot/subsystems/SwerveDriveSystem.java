@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.Pigeon2;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -26,6 +25,9 @@ import frc.robot.commands.DriveSwerveCommand;
 import frc.robot.util.AppliedController;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 /**
  * SwerveDriveSystem.
@@ -60,25 +62,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffset);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffset);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffset);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffset);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -101,6 +103,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_controller = controller;
         initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
+        Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
     }
 
     /**
@@ -293,11 +296,11 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return ErrorCode.OK == m_gyro.setYaw(270.0);
+        return StatusCode.OK == m_gyro.setYaw(270.0);
     }
 
     public double getAnglePosition() {
-        return m_gyro.getYaw(); // rotation in horizontal plane
+        return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
 
     public Rotation2d getRotation2d() {
@@ -380,6 +383,43 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
             m_backRight.updateTurnPid(pidTurnP, pidTurnD);
         }
+    }
+
+    public SwerveModulePosition[] getModulePositions() {
+        return new SwerveModulePosition[] {
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_backLeft.getPosition(),
+                m_backRight.getPosition(),
+        };
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        return new SwerveModuleState[] {
+                m_frontLeft.getState(),
+                m_frontRight.getState(),
+                m_backLeft.getState(),
+                m_backRight.getState(),
+        };
+    }
+
+    public ChassisSpeeds getSpeeds() {
+        return m_kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public double getDriveBaseRadius() {
+        return m_frontLeftLocation.getNorm();
+    }
+
+    public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        drive(
+                chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
+                chassisSpeeds.omegaRadiansPerSecond);
+    }
+
+    public Pose2d getPoseMeters() {
+        return m_odometry.getPoseMeters();
     }
 
     @Override

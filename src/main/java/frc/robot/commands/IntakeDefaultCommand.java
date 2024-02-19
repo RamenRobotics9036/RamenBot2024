@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
 
-public class IntakeDefaultCommand extends CommandBase {
+public class IntakeDefaultCommand extends Command {
     private IntakeSystem m_intakeSystem;
 
     public IntakeDefaultCommand(IntakeSystem intakeSystem) {
@@ -19,12 +19,7 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (m_intakeSystem.getReflectometer()) {
-            m_intakeSystem.setIntakeSpeed(0);
-        }
-        else {
-            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
-        }
+        m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
     }
 
     @Override

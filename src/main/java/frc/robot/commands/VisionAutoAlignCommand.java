@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandsConstants.VisionAutoAlignConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 
-public class VisionAutoAlignCommand extends CommandBase {
+public class VisionAutoAlignCommand extends Command {
     private SwerveDriveSystem m_swerveDrive;
     private Timer m_timer;
     private PIDController m_translationXpid = new PIDController(
@@ -26,7 +26,6 @@ public class VisionAutoAlignCommand extends CommandBase {
     public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
         m_swerveDrive = swerveDrive;
         m_visionSystem = visionSystem;
-        m_timer = new Timer();
         addRequirements(m_swerveDrive, m_visionSystem);
 
         m_translationXpid.setTolerance(VisionAutoAlignConstants.errorMarginDistanceX);
@@ -36,6 +35,7 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
     }
 
@@ -52,7 +52,7 @@ public class VisionAutoAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (!m_visionSystem.isDetected()) {
+        if (m_visionSystem.isDetectedIDValid()) {
             return true;
         }
         if (m_timer.get() >= VisionAutoAlignConstants.timeLimit) {
