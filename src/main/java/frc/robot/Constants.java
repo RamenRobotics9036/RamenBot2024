@@ -281,15 +281,8 @@ public class Constants {
         public static final double maxHeight = 4.6;
         public static final double minHeight = 0;
         public static final double maxOutputPercent = 0.3;
-    }
 
-    public static class GrabChainConstants {
-        public static final double hookSpeed = 0.2;
-        public static final double swerveSpeed = 0.3;
-        public static final double hookRotationsNeeded = 5;
-        public static final double hookRotationsNeededFinal = 5;
-        public static final double swerveRotationsNeeded = 5;
-        public static final double maxTime = 10;
+        public static final double HookSpeed = 0.2;
     }
 
 }
