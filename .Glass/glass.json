@@ -1,5 +1,19 @@
 {
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Intake/Current Command": "Subsystem"
+    }
+  },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)"
   }
 }

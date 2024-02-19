@@ -59,7 +59,7 @@ public class Constants {
         // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
         public static final double maxAngularAcceleration = 0.574 * 100;
 
-        public static final int swerveMotorCurrentLimit = 20;
+        public static final int swerveMotorCurrentLimit = 40;
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
         public static final double turnMotorGearBoxRatio = 12.8;
@@ -201,19 +201,23 @@ public class Constants {
 
             public static final double timeLimit = 12.0;
 
-            public static final double targetDistanceMeters = 2;
+            public static final double targetDistanceMeters = 3.5;
 
-            public static final double translationXPID_P = 0.5;
+            public static final double translationXPID_P = 0.3;
             public static final double translationXPID_I = 0;
             public static final double translationXPID_D = 0;
 
-            public static final double translationYPID_P = 0.45;
+            public static final double translationYPID_P = 0.3;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
 
             public static final double rotationPID_P = 1 / 1000;
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
+
+            public static final double errorMarginVelocityX = 0.1;
+            public static final double errorMarginVelocityY = 0.1;
+            public static final double errorMarginVelocityRot = 0.05;
         }
     }
 

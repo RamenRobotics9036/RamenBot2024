@@ -20,6 +20,7 @@ import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.SetIntakeSpeedCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
+import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
@@ -112,6 +113,10 @@ public class RobotContainer {
         // Sub-woofer Preset
         new Trigger(() -> m_armController.getYButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
+
+        // Auto-align
+        new Trigger(() -> m_driveController.getAButton()).onTrue(
+                new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
     }
 
     public void stopRobot() {

@@ -3,10 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GrabChainConstants;
-import frc.robot.Constants.HookConstants;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
-import frc.robot.util.AppliedController;
 
 public class GrabChainCommand extends Command {
 
