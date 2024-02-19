@@ -128,7 +128,7 @@ public class Constants {
         public static final double limelightMountAngleRadiansX = 0;
 
         public static final double limelightLensHeightMeters = 0.51;
-        public static final double aprilTagHeightMeters = 0.68;
+        public static final double aprilTagHeightMeters = 1.37;
 
         public static final String limelightName = "limelight-ramen";
 
