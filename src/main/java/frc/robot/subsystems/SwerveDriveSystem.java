@@ -411,6 +411,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         return m_frontLeftLocation.getNorm();
     }
 
+    public void resetPose(Pose2d pose) {
+        m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
+    }
+
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         drive(
                 chassisSpeeds.vxMetersPerSecond,
