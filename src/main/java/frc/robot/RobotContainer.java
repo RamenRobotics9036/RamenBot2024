@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -67,8 +66,6 @@ public class RobotContainer {
     }
 
     private void initShuffleBoard() {
-        AutoChooser = AutoBuilder.buildAutoChooser();
-
         Shuffleboard.getTab("Arm")
                 .addDouble(
                         "Angle to Shoot",
