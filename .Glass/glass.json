@@ -2,6 +2,15 @@
   "NetworkTables": {
     "transitory": {
       "Shuffleboard": {
+        "Arm": {
+          "open": true
+        },
+        "Vision": {
+          "April Tags": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       }
     },
@@ -14,6 +23,7 @@
     "visible": true
   },
   "NetworkTables Settings": {
-    "mode": "Client (NT4)"
+    "mode": "Client (NT4)",
+    "serverTeam": "9036"
   }
 }
