@@ -38,9 +38,9 @@ public class Constants {
         public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
-        public static final double drivingPID_P = 5;
+        public static final double drivingPID_P = 0.05;
         public static final double drivingPID_I = 0;
-        public static final double drivingPID_D = 6;
+        public static final double drivingPID_D = 0;
 
         // PID tunes for 51.5 pounds
         public static final double turningPID_P = 1.45;

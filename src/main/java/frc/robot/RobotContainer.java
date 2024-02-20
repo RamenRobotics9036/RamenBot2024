@@ -50,7 +50,7 @@ public class RobotContainer {
     }
 
     public void scheduleAutonomousCommand() {
-        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Move 2 Meters");
 
         new FollowPathHolonomic(
                 path,
