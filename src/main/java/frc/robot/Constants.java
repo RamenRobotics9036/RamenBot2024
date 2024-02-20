@@ -222,7 +222,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 4.4;
+        public static final double shootOffsetLimeLight = 4.175;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;

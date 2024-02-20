@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
@@ -16,7 +17,8 @@ import frc.robot.Constants.ShooterConstants;
  * SwerveDriveSystem.
  */
 public class ShooterSystem extends SubsystemBase {
-    private CANSparkMax m_shooterMotorFollower = new CANSparkMax(ShooterConstants.shooterRightMotorID,
+    private CANSparkMax m_shooterMotorFollower = new CANSparkMax(
+            ShooterConstants.shooterRightMotorID,
             MotorType.kBrushless);
     private CANSparkMax m_shooterMotorLeader = new CANSparkMax(ShooterConstants.shooterLeftMotorID,
             MotorType.kBrushless);
@@ -27,6 +29,9 @@ public class ShooterSystem extends SubsystemBase {
         m_shooterMotorLeader.setInverted(true);
         m_shooterMotorFollower.setInverted(true);
         m_shooterMotorFollower.follow(m_shooterMotorLeader);
+
+        m_shooterMotorLeader.setIdleMode(IdleMode.kBrake);
+        m_shooterMotorFollower.setIdleMode(IdleMode.kBrake);
         initShuffleBoard();
     }
 
