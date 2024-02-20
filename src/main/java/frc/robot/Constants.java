@@ -38,9 +38,9 @@ public class Constants {
         public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
-        public static final double drivingPID_P = 8;
+        public static final double drivingPID_P = 5;
         public static final double drivingPID_I = 0;
-        public static final double drivingPID_D = 3;
+        public static final double drivingPID_D = 6;
 
         // PID tunes for 51.5 pounds
         public static final double turningPID_P = 1.45;
@@ -258,7 +258,7 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.3;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
