@@ -52,7 +52,7 @@ public class RobotContainer {
     }
 
     public void scheduleAutonomousCommand() {
-        boolean usePath = true;
+        boolean usePath = false;
 
         if (usePath) {
             PathPlannerPath path = PathPlannerPath.fromPathFile("Move 2 Meters");
@@ -80,7 +80,7 @@ public class RobotContainer {
                             new ReplanningConfig()),
                     () -> false,
                     m_swerveDrive);
-            Command auto = new PathPlannerAuto("Example Auto");
+            Command auto = new PathPlannerAuto("Move 2 Meters");
             auto.schedule();
         }
     }
