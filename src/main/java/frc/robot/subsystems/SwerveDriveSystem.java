@@ -62,25 +62,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveA);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveA);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveA);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveA);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -98,6 +98,9 @@ public class SwerveDriveSystem extends SubsystemBase {
     private AppliedController m_controller;
 
     private boolean[] m_status = new boolean[4];
+    private double m_xspeed;
+    private double m_yspeed;
+    private double m_rot;
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
@@ -112,8 +115,12 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void initShuffleBoard() {
 
         Shuffleboard.getTab("Position").addDouble("X Pose Meters: ", () -> getxPosition());
-        Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
+        Shuffleboard.getTab("Position").addDouble("Y Pose M**eters: ", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
+
+        Shuffleboard.getTab("Position").addDouble("X Speed", () -> m_xspeed);
+        Shuffleboard.getTab("Position").addDouble("Y Speed", () -> m_yspeed);
+        Shuffleboard.getTab("Position").addDouble("Rot Speed", () -> m_rot);
 
         Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_status[0]);
         Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_status[1]);
@@ -182,6 +189,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
+
+        m_xspeed = xspeed;
+        m_yspeed = xspeed;
+        m_rot = xspeed;
     }
 
     /**

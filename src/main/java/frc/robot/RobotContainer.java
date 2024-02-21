@@ -1,12 +1,13 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,37 +53,24 @@ public class RobotContainer {
     }
 
     public void scheduleAutonomousCommand() {
-        boolean usePath = false;
+        m_swerveDrive.resetGyroFieldRelative();
+        m_swerveDrive.resetPose(
+                new Pose2d(new Translation2d(),
+                        Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
 
-        if (usePath) {
-            PathPlannerPath path = PathPlannerPath.fromPathFile("Move 2 Meters");
-            new FollowPathHolonomic(
-                    path,
-                    m_swerveDrive::getPoseMeters,
-                    m_swerveDrive::getSpeeds,
-                    m_swerveDrive::driveFromChassisSpeeds,
-                    new HolonomicPathFollowerConfig(
-                            SwerveSystemConstants.maxSpeedMetersPerSecond,
-                            m_swerveDrive.getDriveBaseRadius(),
-                            new ReplanningConfig()),
-                    () -> false,
-                    m_swerveDrive).schedule();
-        }
-        else {
-            AutoBuilder.configureHolonomic(
-                    m_swerveDrive::getPoseMeters,
-                    m_swerveDrive::resetPose,
-                    m_swerveDrive::getSpeeds,
-                    m_swerveDrive::driveFromChassisSpeeds,
-                    new HolonomicPathFollowerConfig(
-                            SwerveSystemConstants.maxSpeedMetersPerSecond,
-                            m_swerveDrive.getDriveBaseRadius(),
-                            new ReplanningConfig()),
-                    () -> false,
-                    m_swerveDrive);
-            Command auto = new PathPlannerAuto("Move 2 Meters");
-            auto.schedule();
-        }
+        AutoBuilder.configureHolonomic(
+                m_swerveDrive::getPoseMeters,
+                m_swerveDrive::resetPose,
+                m_swerveDrive::getSpeeds,
+                m_swerveDrive::driveFromChassisSpeeds,
+                new HolonomicPathFollowerConfig(
+                        SwerveSystemConstants.maxSpeedMetersPerSecond,
+                        m_swerveDrive.getDriveBaseRadius(),
+                        new ReplanningConfig()),
+                () -> false,
+                m_swerveDrive);
+        Command auto = new PathPlannerAuto("Move 2 Meters");
+        auto.schedule();
     }
 
     private void initShuffleBoard() {

@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
@@ -76,6 +77,8 @@ public class SwerveModule {
         m_driveMotor.restoreFactoryDefaults();
         m_turningMotor.restoreFactoryDefaults();
 
+        m_driveMotor.setIdleMode(IdleMode.kBrake);
+
         m_driveMotor.setSmartCurrentLimit(currentLimit);
         m_turningMotor.setSmartCurrentLimit(currentLimit);
         // m_turningMotor.setInverted(true);
@@ -110,12 +113,12 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveEncoderVelocity(),
-                new Rotation2d(getTurnEncoderValue()));
+                new Rotation2d(m_turnRelativeEncoder.getVelocity()));
     }
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(getDriveEncoderPosition(),
-                new Rotation2d(getTurnEncoderValue()));
+                new Rotation2d(m_turnRelativeEncoder.getPosition()));
     }
 
     /**
