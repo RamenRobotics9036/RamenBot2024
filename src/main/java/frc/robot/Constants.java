@@ -35,7 +35,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.1;
+        public static final double maxOutputPercentage = 0.25;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 4;
@@ -111,7 +111,7 @@ public class Constants {
 
             public static final double frontRightOffsetSwerveA = (Math.PI / 4)
                     + ((Math.PI * 2) - 4.708)
-                    + 0.2 + rotationOffset;
+                    + 0.2 + rotationOffset + Math.PI / 4;
             public static final double backRightOffsetSwerveA = 0.928 + rotationOffset;
 
         }

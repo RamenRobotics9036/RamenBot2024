@@ -88,12 +88,7 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
-            Rotation2d.fromDegrees(-getAnglePosition()), new SwerveModulePosition[] {
-                    m_frontLeft.getPosition(),
-                    m_frontRight.getPosition(),
-                    m_backLeft.getPosition(),
-                    m_backRight.getPosition()
-            });
+            Rotation2d.fromDegrees(-getAnglePosition()), getModulePositions());
 
     private AppliedController m_controller;
 
@@ -191,8 +186,8 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_backRight.setDesiredState(swerveModuleStates[3]);
 
         m_xspeed = xspeed;
-        m_yspeed = xspeed;
-        m_rot = xspeed;
+        m_yspeed = yspeed;
+        m_rot = rot;
     }
 
     /**
@@ -428,9 +423,9 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         drive(
-                chassisSpeeds.vxMetersPerSecond,
-                chassisSpeeds.vyMetersPerSecond,
-                chassisSpeeds.omegaRadiansPerSecond,
+                chassisSpeeds.vxMetersPerSecond * 0.02,
+                chassisSpeeds.vyMetersPerSecond * 0.02,
+                chassisSpeeds.omegaRadiansPerSecond * 0.02,
                 true);
     }
 
