@@ -21,11 +21,13 @@ public class DefaultHookCommand extends Command {
 
     @Override
     public void execute() {
-        double speed = m_controller.getRightTriggerAxis();
-        if (speed == 0) {
-            speed = -m_controller.getLeftTriggerAxis();
-        }
-        m_hookSystem.setHookSpeed(speed);
+        double leftSpeed = (m_controller.getLeftTriggerAxis() > 0) ? 1
+                : (m_controller.getLeftBumper()) ? -1 : 0;
+        m_hookSystem.setHookSpeedLeft(leftSpeed);
+
+        double rightSpeed = (m_controller.getRightTriggerAxis() > 0) ? 1
+                : (m_controller.getRightBumper()) ? -1 : 0;
+        m_hookSystem.setHookSpeedRight(rightSpeed);
     }
 
     @Override

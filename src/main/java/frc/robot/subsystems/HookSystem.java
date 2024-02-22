@@ -13,9 +13,9 @@ import frc.robot.commands.DefaultHookCommand;
 import frc.robot.util.AppliedController;
 
 public class HookSystem extends SubsystemBase {
-    private CANSparkMax m_leaderMotor = new CANSparkMax(HookConstants.leftHookCANId,
-            MotorType.kBrushless);
     private CANSparkMax m_followerMotor = new CANSparkMax(HookConstants.rightHookCANId,
+            MotorType.kBrushless);
+    private CANSparkMax m_leaderMotor = new CANSparkMax(HookConstants.leftHookCANId,
             MotorType.kBrushless);
     private RelativeEncoder m_lEncoder = m_leaderMotor.getEncoder();
     private RelativeEncoder m_rEncoder = m_followerMotor.getEncoder();
@@ -30,7 +30,8 @@ public class HookSystem extends SubsystemBase {
 
         m_leaderMotor.setInverted(false);
         m_followerMotor.setInverted(false);
-        m_followerMotor.follow(m_leaderMotor);
+
+        // m_followerMotor.follow(m_leaderMotor);
 
         initShuffleBoard();
         setDefaultCommand(new DefaultHookCommand(this, m_controller));
@@ -50,9 +51,19 @@ public class HookSystem extends SubsystemBase {
         m_leaderMotor.set(speed);
     }
 
-    public void setHookSpeedAdmin(double speed) {
+    public void setHookSpeedRight(double speed) {
         speed = MathUtil
                 .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
+        m_leaderMotor.set(speed);
+    }
+
+    public void setHookSpeedLeft(double speed) {
+        speed = MathUtil
+                .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
+        m_followerMotor.set(speed);
+    }
+
+    public void setHookSpeedAdmin(double speed) {
         m_leaderMotor.set(speed);
     }
 
