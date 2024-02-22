@@ -3,11 +3,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,10 +67,18 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
+                        new PIDConstants(4),
+                        new PIDConstants(4),
                         3,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
-                () -> false,
+                () -> {
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
                 m_swerveDrive);
         Command auto = new PathPlannerAuto("Move 2 Meters");
         auto.schedule();

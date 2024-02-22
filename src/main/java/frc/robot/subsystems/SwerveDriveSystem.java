@@ -421,7 +421,7 @@ public class SwerveDriveSystem extends SubsystemBase {
                 chassisSpeeds.vxMetersPerSecond * 0.02,
                 chassisSpeeds.vyMetersPerSecond * 0.02,
                 chassisSpeeds.omegaRadiansPerSecond * 0.02,
-                true);
+                false);
     }
 
     public Pose2d getPoseMeters() {
