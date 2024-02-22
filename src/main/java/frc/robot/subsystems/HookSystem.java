@@ -2,13 +2,15 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.Constants.HookConstants;
+import frc.robot.commands.DefaultHookCommand;
+import frc.robot.util.AppliedController;
 
 public class HookSystem extends SubsystemBase {
     private CANSparkMax m_leaderMotor = new CANSparkMax(HookConstants.leftHookCANId,
@@ -17,9 +19,21 @@ public class HookSystem extends SubsystemBase {
             MotorType.kBrushless);
     private RelativeEncoder m_lEncoder = m_leaderMotor.getEncoder();
     private RelativeEncoder m_rEncoder = m_followerMotor.getEncoder();
+    private AppliedController m_controller;
 
-    public HookSystem() {
+    public HookSystem(AppliedController controller) {
+        m_controller = controller;
+        m_leaderMotor.restoreFactoryDefaults();
+        m_followerMotor.restoreFactoryDefaults();
+        m_leaderMotor.setIdleMode(IdleMode.kBrake);
+        m_followerMotor.setIdleMode(IdleMode.kBrake);
+
+        m_leaderMotor.setInverted(false);
+        m_followerMotor.setInverted(false);
         m_followerMotor.follow(m_leaderMotor);
+
+        initShuffleBoard();
+        setDefaultCommand(new DefaultHookCommand(this, m_controller));
     }
 
     public double getLeadEncoderValue() {
@@ -33,13 +47,7 @@ public class HookSystem extends SubsystemBase {
     public void setHookSpeed(double speed) {
         speed = MathUtil
                 .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
-        if ((speed < 0 && getLeadEncoderValue() < SetArmConstants.armMin)
-                || (speed > 0 && getLeadEncoderValue() > SetArmConstants.armMax)) {
-            m_leaderMotor.set(speed);
-        }
-        else {
-            m_leaderMotor.set(0);
-        }
+        m_leaderMotor.set(speed);
     }
 
     public void setHookSpeedAdmin(double speed) {

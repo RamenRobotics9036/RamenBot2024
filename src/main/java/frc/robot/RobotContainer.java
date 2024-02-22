@@ -18,6 +18,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.IntakeRevCommand;
@@ -44,6 +45,7 @@ public class RobotContainer {
     private ShooterSystem m_shooterSystem = new ShooterSystem();
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
+    private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     public SendableChooser<Command> AutoChooser;
 
@@ -137,5 +139,6 @@ public class RobotContainer {
         m_shooterSystem.stopSystem();
         m_armSystem.stopSystem();
         m_intakeSystem.stopSystem();
+        m_hookSystem.stopSystem();
     }
 }
