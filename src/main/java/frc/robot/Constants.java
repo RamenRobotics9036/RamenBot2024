@@ -35,7 +35,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.25;
+        public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 4;
