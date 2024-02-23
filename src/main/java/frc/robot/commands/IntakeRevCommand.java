@@ -35,7 +35,7 @@ public class IntakeRevCommand extends Command {
     @Override
     public void execute() {
         if (m_timer.get() >= RevConstants.revTime) {
-            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
+            m_intakeSystem.setIntakeSpeed(-IntakeConstants.maxOutputPercent);
         }
         m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
     }

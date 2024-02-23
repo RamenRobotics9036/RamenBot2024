@@ -67,7 +67,7 @@ public class ArmSystem extends SubsystemBase {
     public double getShootingAngle(double distance) {
         return Math.atan(
                 (ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround)
-                        / Math.abs(distance));
+                        / Math.abs(distance + ArmConstants.distanceToPivot));
 
     }
 

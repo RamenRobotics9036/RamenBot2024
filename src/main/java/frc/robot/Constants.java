@@ -121,7 +121,7 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = 0;
+        public static final double limelightMountAngleRadiansY = Math.PI / 6;
         /**
          * Angle of camera pointing side-to-side.
          */
@@ -222,15 +222,16 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 4.175;
+        public static final double shootOffsetLimeLight = 4.02;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
-        public static final double maxOutputPercent = 0.2;
+        public static final double maxOutputPercent = 1;
         public static final double shooterSpeed = 1;
 
     }
 
     public static class ArmConstants {
+        public static final double distanceToPivot = 0.17;
         public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
         public static final int armMotorIDFollower = 22;
@@ -239,7 +240,7 @@ public class Constants {
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
-        public static final double pivotHeightOverGround = 0.32;// The pivot height over ground
+        public static final double pivotHeightOverGround = 0.29;// The pivot height over ground
                                                                 // in
                                                                 // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
@@ -258,13 +259,13 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.1;
+        public static final double intakeSpeed = 0.5;
         public static final double maxOutputPercent = 0.4;
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.35;
-        public static final double maxTime = 0.6;
+        public static final double revTime = 0.5;
+        public static final double maxTime = 0.8;
     }
 
     public static class TestConstants {
