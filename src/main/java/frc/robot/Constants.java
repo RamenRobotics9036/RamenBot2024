@@ -3,6 +3,8 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.wpi.first.math.Pair;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical.
  */
@@ -150,6 +152,15 @@ public class Constants {
                         14.0,
                         15.0,
                         16.0));
+
+        /*
+         * Distance -> Angle Pairs
+         * Distance is in meters
+         */
+        public static final ArrayList<Pair<Double, Double>> sortedAngleLookUpTable = new ArrayList<Pair<Double, Double>>(
+                Arrays.asList(
+                        new Pair<Double, Double>(0d, 0.5),
+                        new Pair<Double, Double>(2.5, 0.45)));
     }
 
     /**

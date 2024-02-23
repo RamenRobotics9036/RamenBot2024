@@ -85,12 +85,6 @@ public class RobotContainer {
     }
 
     private void initShuffleBoard() {
-        Shuffleboard.getTab("Arm")
-                .addDouble(
-                        "Angle to Shoot",
-                        () -> m_armSystem.getShootingAngle(
-                                m_visionSystem.getDistanceMetersY())
-                                + ShooterConstants.shootOffsetLimeLight);
     }
 
     /**
