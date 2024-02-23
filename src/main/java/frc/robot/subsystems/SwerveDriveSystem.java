@@ -117,6 +117,12 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("Y Speed", () -> m_yspeed);
         Shuffleboard.getTab("Position").addDouble("Rot Speed", () -> m_rot);
 
+        Shuffleboard.getTab("Position")
+                .addDouble("Front Left Meters", () -> m_frontLeft.getPosition().distanceMeters);
+
+        Shuffleboard.getTab("Position")
+                .addDouble("Front Left Speed", () -> m_frontLeft.getState().speedMetersPerSecond);
+
         Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_status[0]);
         Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_status[1]);
         Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_status[2]);
@@ -417,11 +423,13 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        drive(
-                chassisSpeeds.vxMetersPerSecond * 0.02,
-                chassisSpeeds.vyMetersPerSecond * 0.02,
-                chassisSpeeds.omegaRadiansPerSecond * 0.02,
-                false);
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
+
+        m_frontLeft.setDesiredState(swerveModuleStates[0]);
+        m_frontRight.setDesiredState(swerveModuleStates[1]);
+        m_backLeft.setDesiredState(swerveModuleStates[2]);
+        m_backRight.setDesiredState(swerveModuleStates[3]);
     }
 
     public Pose2d getPoseMeters() {
