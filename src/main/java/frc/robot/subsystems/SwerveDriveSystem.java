@@ -307,7 +307,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelativeAuto() {
-        return StatusCode.OK == m_gyro.setYaw(180.0);
+        return StatusCode.OK == m_gyro.setYaw(0.0); // 180
     }
 
     public double getAnglePosition() {
@@ -427,7 +427,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        // chassisSpeeds.omegaRadiansPerSecond = 0;
+        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 

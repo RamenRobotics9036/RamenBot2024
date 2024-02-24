@@ -91,7 +91,7 @@ public class RobotContainer {
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(4),
                         new PIDConstants(0.1),
-                        3,
+                        2,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
                 () -> {
