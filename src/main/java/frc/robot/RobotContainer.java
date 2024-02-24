@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -51,11 +53,28 @@ public class RobotContainer {
     public SendableChooser<Command> AutoChooser;
 
     public RobotContainer() {
+        double pullBackNoteTime = 0;
+        double pullBackNoteSpeed = 0.2;
         initShuffleBoard();
-    }
-
-    public void resetGyroTeleop() {
-        m_swerveDrive.resetGyroFieldRelativeTeleop();
+        NamedCommands.registerCommand(
+                "Set Arm To Ground",
+                new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
+        NamedCommands.registerCommand(
+                "Set Arm To Shoot",
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
+        NamedCommands.registerCommand(
+                "Shoot Notes",
+                new ParallelCommandGroup(
+                        new SetShooterSpeedCommand(m_shooterSystem,
+                                pullBackNoteTime,
+                                -pullBackNoteSpeed),
+                        new SetIntakeSpeedCommand(m_intakeSystem,
+                                pullBackNoteTime,
+                                pullBackNoteSpeed))
+                        .andThen(
+                                new IntakeRevCommand(m_intakeSystem,
+                                        m_shooterSystem,
+                                        m_armController)));
     }
 
     public void scheduleAutonomousCommand() {
@@ -78,12 +97,12 @@ public class RobotContainer {
                 () -> {
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
+                        return alliance.get() != DriverStation.Alliance.Red;
                     }
-                    return false;
+                    return true;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("Move 2 Meters");
+        Command auto = new PathPlannerAuto("Bottom to Speaker");
         auto.schedule();
     }
 

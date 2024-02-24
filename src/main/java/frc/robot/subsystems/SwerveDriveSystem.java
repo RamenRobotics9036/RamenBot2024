@@ -99,9 +99,9 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
-        initShuffleBoard();
+        // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
-        Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
+        // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
     }
 
     /**
@@ -310,10 +310,6 @@ public class SwerveDriveSystem extends SubsystemBase {
         return StatusCode.OK == m_gyro.setYaw(180.0);
     }
 
-    public boolean resetGyroFieldRelativeTeleop() {
-        return StatusCode.OK == m_gyro.setYaw(m_gyro.getYaw().getValueAsDouble() + 90);
-    }
-
     public double getAnglePosition() {
         return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
@@ -378,26 +374,26 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Read the PID values from the Shuffleboard.
      */
     public void updatePidFromShuffleBoard() {
-        if (isPIDTuning) {
-            double pidDriveP = m_getPidDriveP.getDouble(SwerveModule.pidDriveP);
-            double pidDriveD = m_getPidDriveD.getDouble(SwerveModule.pidDriveD);
+        // if (isPIDTuning) {
+        // double pidDriveP = m_getPidDriveP.getDouble(SwerveModule.pidDriveP);
+        // double pidDriveD = m_getPidDriveD.getDouble(SwerveModule.pidDriveD);
 
-            @SuppressWarnings("VariableDeclarationUsageDistance")
-            double pidTurnP = m_getPidTurnP.getDouble(SwerveModule.pidTurnP);
+        // @SuppressWarnings("VariableDeclarationUsageDistance")
+        // double pidTurnP = m_getPidTurnP.getDouble(SwerveModule.pidTurnP);
 
-            @SuppressWarnings("VariableDeclarationUsageDistance")
-            double pidTurnD = m_getPidTurnD.getDouble(SwerveModule.pidTurnD);
+        // @SuppressWarnings("VariableDeclarationUsageDistance")
+        // double pidTurnD = m_getPidTurnD.getDouble(SwerveModule.pidTurnD);
 
-            m_frontLeft.updateDrivePid(pidDriveP, pidDriveD);
-            m_frontRight.updateDrivePid(pidDriveP, pidDriveD);
-            m_backLeft.updateDrivePid(pidDriveP, pidDriveD);
-            m_backRight.updateDrivePid(pidDriveP, pidDriveD);
+        // m_frontLeft.updateDrivePid(pidDriveP, pidDriveD);
+        // m_frontRight.updateDrivePid(pidDriveP, pidDriveD);
+        // m_backLeft.updateDrivePid(pidDriveP, pidDriveD);
+        // m_backRight.updateDrivePid(pidDriveP, pidDriveD);
 
-            m_frontLeft.updateTurnPid(pidTurnP, pidTurnD);
-            m_frontRight.updateTurnPid(pidTurnP, pidTurnD);
-            m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
-            m_backRight.updateTurnPid(pidTurnP, pidTurnD);
-        }
+        // m_frontLeft.updateTurnPid(pidTurnP, pidTurnD);
+        // m_frontRight.updateTurnPid(pidTurnP, pidTurnD);
+        // m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
+        // m_backRight.updateTurnPid(pidTurnP, pidTurnD);
+        // }
     }
 
     public SwerveModulePosition[] getModulePositions() {
