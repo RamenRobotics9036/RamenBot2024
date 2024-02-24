@@ -62,25 +62,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveA);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveA);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveA);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveA);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -306,6 +306,14 @@ public class SwerveDriveSystem extends SubsystemBase {
         return StatusCode.OK == m_gyro.setYaw(270.0);
     }
 
+    public boolean resetGyroFieldRelativeAuto() {
+        return StatusCode.OK == m_gyro.setYaw(180.0);
+    }
+
+    public boolean resetGyroFieldRelativeTeleop() {
+        return StatusCode.OK == m_gyro.setYaw(m_gyro.getYaw().getValueAsDouble() + 90);
+    }
+
     public double getAnglePosition() {
         return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
@@ -423,6 +431,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        // chassisSpeeds.omegaRadiansPerSecond = 0;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 

@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
+        m_robotContainer.resetGyroTeleop();
         m_robotContainer.bindCommands();
     }
 

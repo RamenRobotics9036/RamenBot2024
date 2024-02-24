@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -55,8 +54,12 @@ public class RobotContainer {
         initShuffleBoard();
     }
 
+    public void resetGyroTeleop() {
+        m_swerveDrive.resetGyroFieldRelativeTeleop();
+    }
+
     public void scheduleAutonomousCommand() {
-        m_swerveDrive.resetGyroFieldRelative();
+        m_swerveDrive.resetGyroFieldRelativeAuto();
         m_swerveDrive.resetPose(
                 new Pose2d(new Translation2d(),
                         Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
@@ -68,7 +71,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(4),
-                        new PIDConstants(4),
+                        new PIDConstants(0.1),
                         3,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),

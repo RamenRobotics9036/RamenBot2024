@@ -113,7 +113,7 @@ public class Constants {
 
             public static final double frontRightOffsetSwerveA = (Math.PI / 4)
                     + ((Math.PI * 2) - 4.708)
-                    + 0.2 + rotationOffset + Math.PI / 4;
+                    + 0.2 + rotationOffset;
             public static final double backRightOffsetSwerveA = 0.928 + rotationOffset;
 
         }
