@@ -123,14 +123,15 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = Math.PI / 6;
+        public static final double limelightMountAngleRadiansY = Math.toRadians(18.5);
+
         /**
          * Angle of camera pointing side-to-side.
          */
         public static final double limelightMountAngleRadiansX = 0;
 
         public static final double limelightLensHeightMeters = 0.51;
-        public static final double aprilTagHeightMeters = 1.37;
+        public static final double aprilTagHeightMeters = 1.47;
 
         public static final String limelightName = "limelight-ramen";
 
@@ -270,7 +271,7 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.5;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
@@ -287,7 +288,7 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
-        public static final double speakerPresetAngleRadians = 4.4;
+        public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
     }
 
