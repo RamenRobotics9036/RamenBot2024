@@ -157,11 +157,17 @@ public class Constants {
         /*
          * Distance -> Angle Pairs
          * Distance is in meters
+         * Measure every lookUpTableDistance
          */
         public static final ArrayList<Pair<Double, Double>> sortedAngleLookUpTable = new ArrayList<Pair<Double, Double>>(
                 Arrays.asList(
-                        new Pair<Double, Double>(0d, 0.5),
-                        new Pair<Double, Double>(2.5, 0.45)));
+                        new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.81),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.773),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.738),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 6, 4.67)));
     }
 
     /**
@@ -234,7 +240,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 4.22;
+        public static final double shootOffsetLimeLight = 0;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
@@ -243,6 +249,7 @@ public class Constants {
     }
 
     public static class ArmConstants {
+        public static final double lookUpTableDistance = 0.46;
         public static final double distanceToPivot = 0.5;
         public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
