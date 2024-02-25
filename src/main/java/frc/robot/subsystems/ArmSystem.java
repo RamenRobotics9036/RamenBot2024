@@ -80,9 +80,14 @@ public class ArmSystem extends SubsystemBase {
             return lookUpTable.get(0.);
         }
         try {
-            distance = Math.round(distance / ArmConstants.lookUpTableDistance)
+            double distanceCeil = Math.ceil(distance / ArmConstants.lookUpTableDistance)
                     * ArmConstants.lookUpTableDistance;
-            return lookUpTable.get(distance);
+            double distanceFloor = Math.floor(distance / ArmConstants.lookUpTableDistance)
+                    * ArmConstants.lookUpTableDistance;
+            double angleCeil = lookUpTable.get(distanceCeil);
+            double angleFloor = lookUpTable.get(distanceFloor);
+
+            return angleCeil * (distanceCeil - distance) + angleFloor * (distance - distanceFloor);
         }
         catch (Exception e) {
             return lookUpTable.get(ArmConstants.lookUpTableDistance * 6);
