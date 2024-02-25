@@ -42,7 +42,7 @@ public class DriveSwerveCommand extends Command {
         m_swerveDrive.setFieldRelative(!m_controller.getLeftStickButton());
 
         // $TODO - Inverting y on joystick is a hack right now!
-        m_swerveDrive.drive(xspeed, -yspeed, rot);
+        m_swerveDrive.drive(-xspeed, yspeed, -rot);
 
         // Quick test I made to make sure encoders are working. Hopefully it works.
         if (xspeed != 0 || yspeed != 0 || rot != 0) {

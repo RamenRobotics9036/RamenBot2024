@@ -84,7 +84,7 @@ public class SwerveModule {
 
         m_driveMotor.setSmartCurrentLimit(currentLimit);
         m_turningMotor.setSmartCurrentLimit(currentLimit);
-        // m_turningMotor.setInverted(true);
+        m_driveMotor.setInverted(true);
 
         m_driveRelativeEncoder = m_driveMotor.getEncoder();
         m_turnRelativeEncoder = m_turningMotor.getEncoder();
@@ -134,7 +134,7 @@ public class SwerveModule {
     }
 
     public SwerveModulePosition getPosition() {
-        return m_swerveDesiredPosition;
+        return getPositionActual();
     }
 
     /**

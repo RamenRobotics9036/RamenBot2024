@@ -37,7 +37,7 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.5;
+        public static final double maxOutputPercentage = 1;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5;
@@ -53,7 +53,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 3;
+        public static final double maxSpeedMetersPerSecond = 4;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
@@ -123,7 +123,7 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = Math.PI / 6;
+        public static final double limelightMountAngleRadiansY = Math.toRadians(20);
         /**
          * Angle of camera pointing side-to-side.
          */
@@ -189,7 +189,7 @@ public class Constants {
         public static class SetArmConstants {
             public static final double armMax = 3.8;
             public static final double armMin = 5.4;
-            public static final double maxTime = 2.5;
+            public static final double maxTime = 5;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
@@ -306,6 +306,12 @@ public class Constants {
         public static final double hookRotationsNeededFinal = 5;
         public static final double swerveRotationsNeeded = 5;
         public static final double maxTime = 10;
+    }
+
+    public static class RotateSwerveConstants {
+        public static final double kP = 0.015;
+        public static final double translationDeadband = 0.01;
+        public static final double velocityDeadband = 0.01;
     }
 
 }
