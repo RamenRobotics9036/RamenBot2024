@@ -86,8 +86,10 @@ public class ArmSystem extends SubsystemBase {
                     * ArmConstants.lookUpTableDistance;
             double angleCeil = lookUpTable.get(distanceCeil);
             double angleFloor = lookUpTable.get(distanceFloor);
+            double percentDiv = distanceCeil - distanceFloor;
 
-            return angleCeil * (distanceCeil - distance) + angleFloor * (distance - distanceFloor);
+            return angleCeil * ((distanceCeil - distance) / percentDiv)
+                    + angleFloor * ((distance - distanceFloor) / percentDiv);
         }
         catch (Exception e) {
             return lookUpTable.get(ArmConstants.lookUpTableDistance * 6);
