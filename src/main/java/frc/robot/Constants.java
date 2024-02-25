@@ -234,7 +234,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 4.02;
+        public static final double shootOffsetLimeLight = 4.22;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
@@ -243,7 +243,7 @@ public class Constants {
     }
 
     public static class ArmConstants {
-        public static final double distanceToPivot = 0.17;
+        public static final double distanceToPivot = 0.5;
         public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
         public static final int armMotorIDFollower = 22;

@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -107,6 +108,10 @@ public class RobotContainer {
     }
 
     private void initShuffleBoard() {
+        Shuffleboard.getTab("Arm").addDouble(
+                "Angle to Shoot",
+                () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
+                        + ShooterConstants.shootOffsetLimeLight);
     }
 
     /**

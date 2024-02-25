@@ -22,7 +22,6 @@ import frc.robot.util.AppliedController;
  * ArmSystem.
  */
 public class ArmSystem extends SubsystemBase {
-
     private final CANSparkMax m_armMotorFollower = new CANSparkMax(ArmConstants.armMotorIDFollower,
             MotorType.kBrushless);
     private final CANSparkMax m_armMotorLeader = new CANSparkMax(ArmConstants.armMotorIDLeader,
