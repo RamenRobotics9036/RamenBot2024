@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -25,9 +27,6 @@ import frc.robot.commands.DriveSwerveCommand;
 import frc.robot.util.AppliedController;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.hardware.Pigeon2;
 
 /**
  * SwerveDriveSystem.
