@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.sim;
 
 import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kModuleTranslations;
 
@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
