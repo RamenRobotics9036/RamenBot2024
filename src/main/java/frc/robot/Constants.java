@@ -269,10 +269,13 @@ public class Constants {
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
+
         // The pivot height over ground in meters.
         public static final double pivotHeightOverGround = 0.29;
+
         // Radius from shooting point to pivot point in meters.
         public static final double shootToPivotRadius = 0.549;
+
         // Offset bewteen sensor to horizontal axis of arm in degrees
         public static final double armAngleOffsetHorizontal = 0;
 
