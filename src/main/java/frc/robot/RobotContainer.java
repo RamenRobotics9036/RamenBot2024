@@ -24,6 +24,8 @@ import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
+import frc.robot.commands.AutoStopIntakeCommand;
+import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.SetIntakeSpeedCommand;
@@ -56,6 +58,10 @@ public class RobotContainer {
         double pullBackNoteTime = 0;
         double pullBackNoteSpeed = 0.2;
         initShuffleBoard();
+
+        // I will probably need to add a timer or maybe I can do that in Path Planner
+        NamedCommands.registerCommand("Intake", new IntakeDefaultCommand(m_intakeSystem));
+        NamedCommands.registerCommand("Stop Intake", new AutoStopIntakeCommand(m_intakeSystem));
         NamedCommands.registerCommand(
                 "Set Arm To Ground",
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
@@ -63,7 +69,7 @@ public class RobotContainer {
                 "Set Arm To Shoot",
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
         NamedCommands.registerCommand(
-                "Shoot Notes",
+                "Shoot Note",
                 new ParallelCommandGroup(
                         new SetShooterSpeedCommand(m_shooterSystem,
                                 pullBackNoteTime,
@@ -90,7 +96,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(4),
-                        new PIDConstants(0.1),
+                        new PIDConstants(0.5),
                         2,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
@@ -102,7 +108,7 @@ public class RobotContainer {
                     return true;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("Bottom to Speaker");
+        Command auto = new PathPlannerAuto("Move 2 Meters");
         auto.schedule();
     }
 
