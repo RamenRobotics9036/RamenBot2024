@@ -21,7 +21,6 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -42,11 +41,6 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
     private final PWMSparkMax m_leftFollower = new PWMSparkMax(2);
     private final PWMSparkMax m_rightLeader = new PWMSparkMax(3);
     private final PWMSparkMax m_rightFollower = new PWMSparkMax(4);
-
-    private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftLeader,
-            m_leftFollower);
-    private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightLeader,
-            m_rightFollower);
 
     private final Encoder m_leftEncoder = new Encoder(0, 1);
     private final Encoder m_rightEncoder = new Encoder(2, 3);
@@ -95,6 +89,10 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
     public DriveSimModel(Pose2d initialPose, double wheelRadiusMeters) {
         m_wheelRadius = wheelRadiusMeters;
 
+        // Group the left and right motor groups
+        m_leftLeader.addFollower(m_leftFollower);
+        m_rightLeader.addFollower(m_rightFollower);
+
         m_drivetrainSimulator = new DifferentialDrivetrainSim(m_drivetrainSystem, DCMotor.getCIM(2),
                 8,
                 kTrackWidth, m_wheelRadius, null);
@@ -102,7 +100,7 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
         // We need to invert one side of the drivetrain so that positive voltages
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
-        m_rightGroup.setInverted(true);
+        m_rightLeader.setInverted(true);
 
         // Set the distance per pulse for the drive encoders. We can simply use the
         // distance traveled for one rotation of the wheel divided by the encoder
@@ -116,7 +114,7 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
         resetAllEncoders();
         m_initialPose = initialPose;
 
-        m_rightGroup.setInverted(true);
+        m_rightLeader.setInverted(true);
     }
 
     /** Sets speeds to the drivetrain motors. */
@@ -130,8 +128,8 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
                 m_rightEncoder.getRate(),
                 speeds.rightMetersPerSecond);
 
-        m_leftGroup.setVoltage(leftOutput + leftFeedforward);
-        m_rightGroup.setVoltage(rightOutput + rightFeedforward);
+        m_leftLeader.setVoltage(leftOutput + leftFeedforward);
+        m_rightLeader.setVoltage(rightOutput + rightFeedforward);
     }
 
     /**
@@ -190,8 +188,8 @@ public class DriveSimModel implements SimModelInterface<DriveInputState, DriveSt
 
     @Override
     public DriveState updateSimulation(DriveInputState input) {
-        double leftVoltagePercent = m_leftGroup.get();
-        double rightVoltagePercent = m_rightGroup.get();
+        double leftVoltagePercent = m_leftLeader.get();
+        double rightVoltagePercent = m_rightLeader.get();
 
         if (input.resetRelativeEncoders) {
             resetRelativeEncoders();
