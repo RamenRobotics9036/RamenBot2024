@@ -1,14 +1,11 @@
 package frc.robot;
 
-import java.util.function.Supplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -36,9 +34,14 @@ import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.sim.DefaultSimLayout;
 import frc.robot.sim.PopulateSimShuffleboard;
 import frc.robot.sim.SwerveDriveSystemSim;
+import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.HookSystem;
+import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
 import simulationlib.shuffle.ShuffleboardHelpers;
