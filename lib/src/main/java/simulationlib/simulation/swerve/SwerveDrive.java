@@ -31,7 +31,9 @@ import simulationlib.simulation.swerve.SwerveSimConstants.Swerve.ModulePosition;
 /**
  * Swerve drive implementation.
  */
-// $TODO - This shouldnt be a subsystem
+// $TODO #1 - This shouldnt be a subsystem
+// $TODO: This will be deprecated in 2025
+@SuppressWarnings("removal")
 public class SwerveDrive {
 
     private final HashMap<ModulePosition, SwerveModule> m_swerveModules = new HashMap<>(

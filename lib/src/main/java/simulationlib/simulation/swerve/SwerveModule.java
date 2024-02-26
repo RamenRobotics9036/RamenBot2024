@@ -30,6 +30,8 @@ import simulationlib.simulation.swerve.utils.RevUtils;
 /**
  * Swerve module implementation.
  */
+// $TODO: This will be deprecated in 2025
+@SuppressWarnings("removal")
 public class SwerveModule {
     private final int m_posSlot = 0;
     private final int m_velSlot = 1;
