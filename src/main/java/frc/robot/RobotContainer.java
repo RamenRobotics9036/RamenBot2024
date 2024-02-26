@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -11,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,6 +37,10 @@ import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.SwerveDriveSystemSim;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import simulationlib.shuffle.MultiType;
+import simulationlib.shuffle.PrefixedConcurrentMap;
+import simulationlib.shuffle.ShuffleboardHelpers;
+import simulationlib.shuffle.SupplierMapFactory;
 
 /**
  * RobotContainer.
@@ -54,6 +61,8 @@ public class RobotContainer {
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     public SendableChooser<Command> AutoChooser;
+
+    private PopulateSimShuffleboard m_shuffleboardManager = null;
 
     public RobotContainer() {
         double pullBackNoteTime = 0;
@@ -78,6 +87,33 @@ public class RobotContainer {
                                 new IntakeRevCommand(m_intakeSystem,
                                         m_shooterSystem,
                                         m_armController)));
+        if (RobotBase.isSimulation()) {
+            initSimShuffleboard();
+        }
+    }
+
+    private void initSimShuffleboard() {
+        // Now that all subsystems are created, print out the list of properties
+        // available for display in Shuffleboard.
+        printAvailableDashboardProperties();
+
+        m_shuffleboardManager = new PopulateSimShuffleboard(
+                new ShuffleboardHelpers(SupplierMapFactory.getGlobalInstance()),
+                new DefaultSimLayout(),
+                Shuffleboard.getTab("Simulation"));
+    }
+
+    private void printAvailableDashboardProperties() {
+        PrefixedConcurrentMap<Supplier<MultiType>> globalMap = SupplierMapFactory
+                .getGlobalInstance();
+
+        globalMap.prettyPrint();
+    }
+
+    public void updateSimShuffleboard() {
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.updateDashOnRobotPeriodic();
+        }
     }
 
     public void scheduleAutonomousCommand() {
@@ -114,6 +150,11 @@ public class RobotContainer {
                 "Angle to Shoot",
                 () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
                         + ShooterConstants.shootOffsetLimeLight);
+
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.addShuffleboardWidgets();
+            m_shuffleboardManager.addMacros(m_armSystem);
+        }
     }
 
     /**
