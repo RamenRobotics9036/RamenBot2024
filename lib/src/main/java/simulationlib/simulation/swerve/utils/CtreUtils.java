@@ -12,6 +12,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 /**
  * CTRE utility functions.
  */
+// $TODO: This will be deprecated in 2025
+@SuppressWarnings("removal")
 public final class CtreUtils {
     /**
      * TalonFXConfiguration for turn motor.
