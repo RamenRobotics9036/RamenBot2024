@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.function.Supplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -40,9 +38,14 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.sim.DefaultSimLayout;
 import frc.robot.sim.PopulateSimShuffleboard;
 import frc.robot.sim.SwerveDriveSystemSim;
+import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.HookSystem;
+import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
 import simulationlib.shuffle.ShuffleboardHelpers;

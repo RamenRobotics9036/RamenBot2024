@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.sim.DefaultSimLayout.Widget;
 import frc.robot.subsystems.ArmSystem;
-import simulationlib.shuffle.ShuffleboardHelpers;
-
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import simulationlib.shuffle.ShuffleboardHelpers;
 
 /**
  * Adds Shuffleboard widgets to Simulation tab.
