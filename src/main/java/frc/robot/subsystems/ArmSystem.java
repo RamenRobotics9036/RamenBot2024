@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -14,6 +17,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
@@ -22,7 +26,6 @@ import frc.robot.util.AppliedController;
  * ArmSystem.
  */
 public class ArmSystem extends SubsystemBase {
-
     private final CANSparkMax m_armMotorFollower = new CANSparkMax(ArmConstants.armMotorIDFollower,
             MotorType.kBrushless);
     private final CANSparkMax m_armMotorLeader = new CANSparkMax(ArmConstants.armMotorIDLeader,
@@ -34,7 +37,14 @@ public class ArmSystem extends SubsystemBase {
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
+    private final Map<Double, Double> lookUpTable = new HashMap<>();
+
     public ArmSystem(AppliedController controller) {
+        var lookUpVals = VisionConstants.sortedAngleLookUpTable;
+        for (int idx = 0; idx < lookUpVals.size(); idx++) {
+            lookUpTable.put(lookUpVals.get(idx).getFirst(), lookUpVals.get(idx).getSecond());
+        }
+
         m_armMotorLeader.restoreFactoryDefaults();
         m_armMotorFollower.restoreFactoryDefaults();
         m_armMotorLeader.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
@@ -65,10 +75,25 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getShootingAngle(double distance) {
-        return Math.atan(
-                (ArmConstants.centerSpeakerHeight - ArmConstants.pivotHeightOverGround)
-                        / Math.abs(distance + ArmConstants.distanceToPivot));
+        distance = distance - 1.3;
+        if (distance < ArmConstants.lookUpTableDistance) {
+            return lookUpTable.get(0.);
+        }
+        try {
+            double distanceCeil = Math.ceil(distance / ArmConstants.lookUpTableDistance)
+                    * ArmConstants.lookUpTableDistance;
+            double distanceFloor = Math.floor(distance / ArmConstants.lookUpTableDistance)
+                    * ArmConstants.lookUpTableDistance;
+            double angleCeil = lookUpTable.get(distanceCeil);
+            double angleFloor = lookUpTable.get(distanceFloor);
+            double percentDiv = distanceCeil - distanceFloor;
 
+            return angleCeil * ((distanceCeil - distance) / percentDiv)
+                    + angleFloor * ((distance - distanceFloor) / percentDiv);
+        }
+        catch (Exception e) {
+            return lookUpTable.get(ArmConstants.lookUpTableDistance * 6);
+        }
     }
 
     public void setArmSpeed(double speed) {

@@ -123,14 +123,19 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
+<<<<<<< HEAD
         public static final double limelightMountAngleRadiansY = Math.toRadians(20);
+=======
+        public static final double limelightMountAngleRadiansY = Math.toRadians(18.5);
+
+>>>>>>> dfa3a7226a01563618b4ec247102fdaf6b37d242
         /**
          * Angle of camera pointing side-to-side.
          */
         public static final double limelightMountAngleRadiansX = 0;
 
         public static final double limelightLensHeightMeters = 0.51;
-        public static final double aprilTagHeightMeters = 1.37;
+        public static final double aprilTagHeightMeters = 1.47;
 
         public static final String limelightName = "limelight-ramen";
 
@@ -156,11 +161,17 @@ public class Constants {
         /*
          * Distance -> Angle Pairs
          * Distance is in meters
+         * Measure every lookUpTableDistance
          */
         public static final ArrayList<Pair<Double, Double>> sortedAngleLookUpTable = new ArrayList<Pair<Double, Double>>(
                 Arrays.asList(
-                        new Pair<Double, Double>(0d, 0.5),
-                        new Pair<Double, Double>(2.5, 0.45)));
+                        new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.81),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.773),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.738),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 6, 4.67)));
     }
 
     /**
@@ -233,7 +244,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootOffsetLimeLight = 4.02;
+        public static final double shootOffsetLimeLight = 0;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
@@ -242,7 +253,8 @@ public class Constants {
     }
 
     public static class ArmConstants {
-        public static final double distanceToPivot = 0.17;
+        public static final double lookUpTableDistance = 0.46;
+        public static final double distanceToPivot = 0.5;
         public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
         public static final int armMotorIDFollower = 22;
@@ -270,7 +282,7 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.5;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
@@ -287,7 +299,7 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
-        public static final double speakerPresetAngleRadians = 4.4;
+        public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
     }
 
