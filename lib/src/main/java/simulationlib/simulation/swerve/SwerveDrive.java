@@ -10,7 +10,7 @@ import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kModuleT
 import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kSwerveKinematics;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix.unmanaged.Unmanaged;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -116,7 +116,7 @@ public class SwerveDrive {
     }
 
     public double getHeadingDegrees() {
-        return Math.IEEEremainder(m_pigeon.getYaw(), 360);
+        return Math.IEEEremainder(m_pigeon.getYaw().getValueAsDouble(), 360);
     }
 
     public Rotation2d getHeadingRotation2d() {
@@ -187,7 +187,7 @@ public class SwerveDrive {
         m_simYaw += chassisSpeed.omegaRadiansPerSecond * 0.02;
 
         Unmanaged.feedEnable(20);
-        m_pigeon.getSimCollection().setRawHeading(-Units.radiansToDegrees(m_simYaw));
+        m_pigeon.getSimState().setRawYaw(-Units.radiansToDegrees(m_simYaw));
 
         for (SwerveModule module : m_swerveModules.values()) {
             module.simulationPeriodic();
