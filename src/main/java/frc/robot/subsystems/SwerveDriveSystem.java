@@ -32,13 +32,13 @@ import java.util.function.DoubleSupplier;
  * SwerveDriveSystem.
  */
 public class SwerveDriveSystem extends SubsystemBase {
-    GenericEntry m_getPidDriveP;
-    GenericEntry m_getPidDriveD;
+    private GenericEntry m_getPidDriveP;
+    private GenericEntry m_getPidDriveD;
 
-    GenericEntry m_getPidTurnP;
-    GenericEntry m_getPidTurnD;
+    private GenericEntry m_getPidTurnP;
+    private GenericEntry m_getPidTurnD;
 
-    public static final boolean isPIDTuning = SwerveSystemConstants.isPIDTuning;
+    private static final boolean isPIDTuning = SwerveSystemConstants.isPIDTuning;
 
     private final double m_maxSpeed = SwerveSystemConstants.maxSpeedMetersPerSecond;
     private final double m_maxAngularSpeed = SwerveSystemConstants.maxAngularSpeed;
@@ -96,6 +96,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     private double m_yspeed;
     private double m_rot;
 
+    // Constructor
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
         Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () -> getRotation2d().getDegrees());
@@ -122,7 +123,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     /**
      * Initializes the Shuffleboard.
      */
-    public void initShuffleBoard() {
+    private void initShuffleBoard() {
 
         Shuffleboard.getTab("Position").addDouble("X Pose Meters: ", () -> getxPosition());
         Shuffleboard.getTab("Position").addDouble("Y Pose M**eters: ", () -> getyPosition());
@@ -214,7 +215,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     /**
      * Display the state of the swerve module to the dashboard.
      */
-    public void displaySwerveStateToDashBoard(String name, SwerveModuleState state) {
+    private void displaySwerveStateToDashBoard(String name, SwerveModuleState state) {
         ShuffleboardTab tab = Shuffleboard.getTab(name);
         tab.add("Angle", state.angle);
         tab.add("Speed Meters", state.speedMetersPerSecond);
@@ -304,7 +305,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     /**
      * Update the field relative position of the robot.
      */
-    public void updateOdometry() {
+    private void updateOdometry() {
         m_odometry.update(getRotation2d(), getModulePositions());
     }
 
@@ -355,35 +356,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
     }
 
-    public double getFrontLeftTurnEncoder() {
-        return m_frontLeft.getTurnEncoderRadians();
-    }
-
-    public double getBackLeftTurnEncoder() {
-        return m_backLeft.getTurnEncoderRadians();
-    }
-
-    public double getFrontRightTurnEncoder() {
-        return m_frontRight.getTurnEncoderRadians();
-    }
-
-    public double getBackRightTurnEncoder() {
-        return m_backLeft.getTurnEncoderRadians();
-    }
-
     public double getFrontLeftDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
-    }
-
-    public double getBackLeftDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
-    }
-
-    public double getFrontRightDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
-    }
-
-    public double getBackRightDriveEncoder() {
         return m_frontLeft.getDriveEncoderPosition();
     }
 
@@ -410,7 +383,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     /**
      * Read the PID values from the Shuffleboard.
      */
-    public void updatePidFromShuffleBoard() {
+    private void updatePidFromShuffleBoard() {
         // if (isPIDTuning) {
         // double pidDriveP = m_getPidDriveP.getDouble(SwerveModule.pidDriveP);
         // double pidDriveD = m_getPidDriveD.getDouble(SwerveModule.pidDriveD);
@@ -433,7 +406,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         // }
     }
 
-    public SwerveModulePosition[] getModulePositions() {
+    private SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
@@ -442,7 +415,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         };
     }
 
-    public SwerveModuleState[] getModuleStates() {
+    private SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
                 m_frontLeft.getState(),
                 m_frontRight.getState(),
