@@ -10,10 +10,10 @@ import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kModuleT
 import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kSwerveKinematics;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix.unmanaged.Unmanaged;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,30 +39,30 @@ public class SwerveDrive {
                     ModulePosition.FRONT_LEFT,
                     new SwerveModule(0,
                             new CANSparkMax(Can.frontLeftTurnMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANSparkMax(Can.frontLeftDriveMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANCoder(Can.frontLeftCanCoder), 0),
                     ModulePosition.FRONT_RIGHT,
                     new SwerveModule(1,
                             new CANSparkMax(Can.frontRightTurnMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANSparkMax(Can.frontRightDriveMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANCoder(Can.frontRightCanCoder), 0),
                     ModulePosition.BACK_LEFT,
                     new SwerveModule(2,
                             new CANSparkMax(Can.backLeftTurnMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANSparkMax(Can.backLeftDriveMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANCoder(Can.backLeftCanCoder), 0),
                     ModulePosition.BACK_RIGHT,
                     new SwerveModule(3,
                             new CANSparkMax(Can.backRightTurnMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANSparkMax(Can.backRightDriveMotor,
-                                    CANSparkMaxLowLevel.MotorType.kBrushless),
+                                    CANSparkLowLevel.MotorType.kBrushless),
                             new CANCoder(Can.backRightCanCoder), 0)));
 
     private Pigeon2 m_pigeon = new Pigeon2(Can.pigeon);
