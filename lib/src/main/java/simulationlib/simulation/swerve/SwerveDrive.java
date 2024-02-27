@@ -97,6 +97,10 @@ public class SwerveDrive {
                         .fromFieldRelativeSpeeds(throttle, strafe, rotation, getHeadingRotation2d())
                 : new ChassisSpeeds(throttle, strafe, rotation);
 
+        driveFromChassisSpeeds(chassisSpeeds, isOpenLoop);
+    }
+
+    public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds, boolean isOpenLoop) {
         SwerveModuleState[] moduleStates = kSwerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, kMaxSpeedMetersPerSecond);
