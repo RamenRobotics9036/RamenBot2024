@@ -206,11 +206,6 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
-
-        m_chassisSpeeds = new ChassisSpeeds(
-                xspeed,
-                yspeed,
-                rot * m_maxAngularSpeed);
     }
 
     /**
