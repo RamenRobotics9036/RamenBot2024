@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
@@ -96,9 +97,9 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(4),
-                        new PIDConstants(Double.MIN_VALUE),
-                        4.5,
+                        new PIDConstants(0.2, 0, 0.3),
+                        new PIDConstants(0.1),
+                        SwerveSystemConstants.maxSpeedMetersPerSecond,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
                 () -> {
