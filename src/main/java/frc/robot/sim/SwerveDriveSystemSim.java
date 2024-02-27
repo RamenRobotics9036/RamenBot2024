@@ -103,26 +103,44 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public double getxPosition() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            return m_simSwerveDrive.getPoseMeters().getX();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
     public double getyPosition() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            return m_simSwerveDrive.getPoseMeters().getY();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
     public boolean resetGyroFieldRelative() {
-        // $TODO
-        return true;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return true;
+        }
+        else {
+            return true;
+        }
     }
 
     @Override
     public boolean resetGyroFieldRelativeAuto() {
-        // $TODO
-        return true;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return true;
+        }
+        else {
+            return true;
+        }
     }
 
     @Override
@@ -138,8 +156,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public Rotation2d getRotation2d() {
-        // $TODO
-        return new Rotation2d();
+        if (m_simSwerveDrive != null) {
+            return m_simSwerveDrive.getHeadingRotation2d();
+        }
+        else {
+            return new Rotation2d();
+        }
     }
 
     @Override
@@ -164,8 +186,13 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public double getFrontLeftDriveEncoder() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
@@ -185,25 +212,45 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public double getFrontLeftDriveVelocity() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
     public double getBackLeftDriveVelocity() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
     public double getFrontRightDriveVelocity() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
     public double getBackRightDriveVelocity() {
-        // $TODO
-        return 0;
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
     }
 }
