@@ -16,6 +16,7 @@ import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
 import simulationlib.shuffle.PrefixedConcurrentMap.Client;
 import simulationlib.simulation.swerve.SwerveDrive;
+import simulationlib.simulation.swerve.SwerveSimConstants.Swerve;
 
 /**
  * Subclass of TankDriveSystem that is used for simulation. Note that this code isn't run if
@@ -284,13 +285,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public double getDriveBaseRadius() {
-        if (m_simSwerveDrive != null) {
-            // $TODO
-            return 0;
-        }
-        else {
-            return 0;
-        }
+        return Swerve.kModuleTranslations[0].getNorm();
     }
 
     @Override
@@ -307,15 +302,14 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
         super.driveFromChassisSpeeds(chassisSpeeds);
 
         if (m_simSwerveDrive != null) {
-            // $TODO
+            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, false);
         }
     }
 
     @Override
     public Pose2d getPoseMeters() {
         if (m_simSwerveDrive != null) {
-            // $TODO
-            return null;
+            return m_simSwerveDrive.getPoseMeters();
         }
         else {
             return new Pose2d();
