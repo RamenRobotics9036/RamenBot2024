@@ -170,16 +170,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     }
 
     @Override
-    public ChassisSpeeds getChassisSpeeds() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getChassisSpeeds();
-        }
-        else {
-            return new ChassisSpeeds();
-        }
-    }
-
-    @Override
     public double getFrontLeftTurnEncoder() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -266,6 +256,69 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
         }
         else {
             return 0;
+        }
+    }
+
+    @Override
+    public void stopSystem() {
+        super.stopSystem();
+
+        if (m_simSwerveDrive != null) {
+            // $TODO
+        }
+    }
+
+    //
+    // These are primarily used for autonomous PathPlanner
+    //
+
+    @Override
+    public ChassisSpeeds getSpeeds() {
+        if (m_simSwerveDrive != null) {
+            return m_simSwerveDrive.getChassisSpeeds();
+        }
+        else {
+            return new ChassisSpeeds();
+        }
+    }
+
+    @Override
+    public double getDriveBaseRadius() {
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return 0;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    @Override
+    public void resetPose(Pose2d pose) {
+        super.resetPose(pose);
+
+        if (m_simSwerveDrive != null) {
+            // $TODO
+        }
+    }
+
+    @Override
+    public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        super.driveFromChassisSpeeds(chassisSpeeds);
+
+        if (m_simSwerveDrive != null) {
+            // $TODO
+        }
+    }
+
+    @Override
+    public Pose2d getPoseMeters() {
+        if (m_simSwerveDrive != null) {
+            // $TODO
+            return null;
+        }
+        else {
+            return new Pose2d();
         }
     }
 }
