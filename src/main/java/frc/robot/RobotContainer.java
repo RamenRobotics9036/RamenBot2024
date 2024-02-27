@@ -57,8 +57,9 @@ public class RobotContainer {
     public SendableChooser<Command> AutoChooser;
 
     public RobotContainer() {
-        double pullBackNoteTime = 0;
-        double pullBackNoteSpeed = 0.2;
+        double pullBackNoteTime = 0.2;
+        double pullBackNoteSpeed = 0.15;
+        double waitTime = 0.2;
         initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
@@ -73,15 +74,13 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Shoot Note",
                 new ParallelCommandGroup(
-                        new SetShooterSpeedCommand(m_shooterSystem,
-                                pullBackNoteTime,
+                        new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
                                 -pullBackNoteSpeed),
-                        new SetIntakeSpeedCommand(m_intakeSystem,
-                                pullBackNoteTime,
+                        new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime,
                                 pullBackNoteSpeed))
+                        .andThen(new WaitCommand(waitTime))
                         .andThen(
-                                new IntakeRevCommand(m_intakeSystem,
-                                        m_shooterSystem,
+                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                         m_armController)));
     }
 
@@ -97,7 +96,7 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(0.2, 0, 0.3),
+                        new PIDConstants(0.2, 0, 0),
                         new PIDConstants(0.1),
                         SwerveSystemConstants.maxSpeedMetersPerSecond,
                         m_swerveDrive.getDriveBaseRadius(),
@@ -105,12 +104,12 @@ public class RobotContainer {
                 () -> {
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
-                        return alliance.get() != DriverStation.Alliance.Red;
+                        return alliance.get() == DriverStation.Alliance.Red;
                     }
-                    return true;
+                    return false;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("Rotation");
+        Command auto = new PathPlannerAuto("New Auto");
         auto.schedule();
     }
 
