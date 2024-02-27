@@ -33,7 +33,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     /**
      * Factory method to create a SwerveDriveSystemSim or SwerveDriveSystem object.
      */
-    public static SwerveDriveSystem createTankDriveSystemInstance(AppliedController controller) {
+    public static SwerveDriveSystem createSwerveDriveSystemInstance(AppliedController controller) {
         SwerveDriveSystem result;
 
         if (RobotBase.isSimulation()) {
