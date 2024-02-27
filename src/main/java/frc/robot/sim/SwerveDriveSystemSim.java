@@ -3,8 +3,8 @@ package frc.robot.sim;
 import static simulationlib.simulation.swerve.SwerveSimConstants.Swerve.kModuleTranslations;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +15,6 @@ import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
 import simulationlib.shuffle.PrefixedConcurrentMap.Client;
 import simulationlib.simulation.swerve.SwerveDrive;
-import simulationlib.simulation.swerve.SwerveSimConstants.Usb;
 
 /**
  * Subclass of TankDriveSystem that is used for simulation. Note that this code isn't run if
@@ -96,6 +95,37 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     }
 
     @Override
+    public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
+        super.drive(xspeed, yspeed, rot, fieldRelative);
+
+        m_simSwerveDrive.drive(xspeed, yspeed, rot, fieldRelative, false);
+    }
+
+    @Override
+    public double getxPosition() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public double getyPosition() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelative() {
+        // $TODO
+        return true;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeAuto() {
+        // $TODO
+        return true;
+    }
+
+    @Override
     public double getAnglePosition() {
         // Read this off of the simulated Pigeon Gyro
         if (m_simSwerveDrive != null) {
@@ -107,9 +137,73 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     }
 
     @Override
-    public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
-        super.drive(xspeed, yspeed, rot, fieldRelative);
+    public Rotation2d getRotation2d() {
+        // $TODO
+        return new Rotation2d();
+    }
 
-        m_simSwerveDrive.drive(xspeed, yspeed, rot, fieldRelative, false);
+    @Override
+    public double getFrontLeftTurnEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getBackLeftTurnEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getFrontRightTurnEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getBackRightTurnEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getFrontLeftDriveEncoder() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public double getBackLeftDriveEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getFrontRightDriveEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getBackRightDriveEncoder() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public double getFrontLeftDriveVelocity() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public double getBackLeftDriveVelocity() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public double getFrontRightDriveVelocity() {
+        // $TODO
+        return 0;
+    }
+
+    @Override
+    public double getBackRightDriveVelocity() {
+        // $TODO
+        return 0;
     }
 }
