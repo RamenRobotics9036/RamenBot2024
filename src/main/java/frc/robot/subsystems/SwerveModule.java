@@ -130,7 +130,7 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        return m_swerveDesiredState;
+        return getStateActual();
     }
 
     public SwerveModulePosition getPosition() {
