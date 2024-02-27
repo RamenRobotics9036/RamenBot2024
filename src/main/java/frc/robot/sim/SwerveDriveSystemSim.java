@@ -123,6 +123,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public boolean resetGyroFieldRelative() {
+        super.resetGyroFieldRelative();
+
         if (m_simSwerveDrive != null) {
             // $TODO
             return true;
@@ -134,6 +136,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public boolean resetGyroFieldRelativeAuto() {
+        super.resetGyroFieldRelativeAuto();
+
         if (m_simSwerveDrive != null) {
             // $TODO
             return true;
