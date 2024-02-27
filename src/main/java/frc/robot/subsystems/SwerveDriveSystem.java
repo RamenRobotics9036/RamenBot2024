@@ -92,7 +92,6 @@ public class SwerveDriveSystem extends SubsystemBase {
     private AppliedController m_controller;
 
     private boolean[] m_status = new boolean[4];
-    private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds();
 
     // Constructor
     public SwerveDriveSystem(AppliedController controller) {
@@ -128,11 +127,11 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
 
         Shuffleboard.getTab("Position")
-                .addDouble("X Speed", () -> getChassisSpeeds().vxMetersPerSecond);
+                .addDouble("X Speed", () -> getSpeeds().vxMetersPerSecond);
         Shuffleboard.getTab("Position")
-                .addDouble("Y Speed", () -> getChassisSpeeds().vyMetersPerSecond);
+                .addDouble("Y Speed", () -> getSpeeds().vyMetersPerSecond);
         Shuffleboard.getTab("Position")
-                .addDouble("Rot Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
+                .addDouble("Rot Speed", () -> getSpeeds().omegaRadiansPerSecond);
 
         Shuffleboard.getTab("Position")
                 .addDouble("Front Left Meters", () -> m_frontLeft.getPosition().distanceMeters);
@@ -356,10 +355,6 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
-    }
-
-    public ChassisSpeeds getChassisSpeeds() {
-        return m_chassisSpeeds;
     }
 
     public double getFrontLeftTurnEncoder() {
