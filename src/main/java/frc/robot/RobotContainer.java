@@ -52,7 +52,7 @@ public class RobotContainer {
             OperatorConstants.armControllerPort);
 
     private SwerveDriveSystem m_swerveDrive = SwerveDriveSystemSim
-            .createTankDriveSystemInstance(m_driveController);
+            .createSwerveDriveSystemInstance(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
