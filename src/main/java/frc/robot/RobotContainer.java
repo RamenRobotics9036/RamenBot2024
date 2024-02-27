@@ -97,8 +97,8 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(4),
-                        new PIDConstants(0.5),
-                        2,
+                        new PIDConstants(Double.MIN_VALUE),
+                        4.5,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
                 () -> {
@@ -109,7 +109,7 @@ public class RobotContainer {
                     return true;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("Move 2 Meters");
+        Command auto = new PathPlannerAuto("Rotation");
         auto.schedule();
     }
 
