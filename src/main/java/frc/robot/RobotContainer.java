@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -26,8 +27,6 @@ import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.commands.AutoStopIntakeCommand;
-import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.SetIntakeSpeedCommand;
@@ -63,8 +62,6 @@ public class RobotContainer {
         initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
-        NamedCommands.registerCommand("Intake", new IntakeDefaultCommand(m_intakeSystem));
-        NamedCommands.registerCommand("Stop Intake", new AutoStopIntakeCommand(m_intakeSystem));
         NamedCommands.registerCommand(
                 "Set Arm To Ground",
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
@@ -82,6 +79,12 @@ public class RobotContainer {
                         .andThen(
                                 new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                         m_armController)));
+    }
+
+    public void runIntakeAuto() {
+        if (!m_intakeSystem.getCurrentCommand().getName().equals("IntakeRevCommand")) {
+            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
+        }
     }
 
     public void scheduleAutonomousCommand() {

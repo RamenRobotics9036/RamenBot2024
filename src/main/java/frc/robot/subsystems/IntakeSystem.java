@@ -52,7 +52,6 @@ public class IntakeSystem extends SubsystemBase {
 
     public void initShuffleBoard() {
         Shuffleboard.getTab("Intake").add("Intake Speed: ", getIntakeSpeed());
-        Shuffleboard.getTab("Intake").add("Current Command", this);
     }
 
     @Override
