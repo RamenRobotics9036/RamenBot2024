@@ -129,6 +129,10 @@ public class SwerveDrive {
         return m_odometry.getPoseMeters();
     }
 
+    public ChassisSpeeds getChassisSpeeds() {
+        return kSwerveKinematics.toChassisSpeeds(getModuleStates());
+    }
+
     public SwerveModule getSwerveModule(int moduleNumber) {
         return m_swerveModules.get(ModulePosition.values()[moduleNumber]);
     }
@@ -185,7 +189,7 @@ public class SwerveDrive {
     }
 
     public void simulationPeriodic() {
-        ChassisSpeeds chassisSpeed = kSwerveKinematics.toChassisSpeeds(getModuleStates());
+        ChassisSpeeds chassisSpeed = getChassisSpeeds();
         m_simYaw += chassisSpeed.omegaRadiansPerSecond * 0.02;
 
         Unmanaged.feedEnable(20);

@@ -92,9 +92,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     private AppliedController m_controller;
 
     private boolean[] m_status = new boolean[4];
-    private double m_xspeed;
-    private double m_yspeed;
-    private double m_rot;
+    private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds();
 
     // Constructor
     public SwerveDriveSystem(AppliedController controller) {
@@ -114,9 +112,12 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
 
-        Shuffleboard.getTab("Position").addDouble("X Speed", () -> m_xspeed);
-        Shuffleboard.getTab("Position").addDouble("Y Speed", () -> m_yspeed);
-        Shuffleboard.getTab("Position").addDouble("Rot Speed", () -> m_rot);
+        Shuffleboard.getTab("Position")
+                .addDouble("X Speed", () -> getChassisSpeeds().vxMetersPerSecond);
+        Shuffleboard.getTab("Position")
+                .addDouble("Y Speed", () -> getChassisSpeeds().vyMetersPerSecond);
+        Shuffleboard.getTab("Position")
+                .addDouble("Rot Speed", () -> getChassisSpeeds().omegaRadiansPerSecond);
 
         Shuffleboard.getTab("Position")
                 .addDouble("Front Left Meters", () -> m_frontLeft.getPosition().distanceMeters);
@@ -192,9 +193,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
 
-        m_xspeed = xspeed;
-        m_yspeed = yspeed;
-        m_rot = rot;
+        m_chassisSpeeds = new ChassisSpeeds(
+                xspeed,
+                yspeed,
+                rot * m_maxAngularSpeed);
     }
 
     /**
@@ -317,6 +319,10 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return m_chassisSpeeds;
     }
 
     public double getFrontLeftTurnEncoder() {
