@@ -34,6 +34,12 @@
           "data": {
             "pathName": "Mid Sub to Mid Note"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
         }
       ]
     }
