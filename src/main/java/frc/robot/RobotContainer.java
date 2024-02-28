@@ -88,7 +88,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(17, 0, 0),
-                        new PIDConstants(0.01),
+                        new PIDConstants(0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
@@ -97,7 +97,7 @@ public class RobotContainer {
                     if (alliance.isPresent()) {
                         return alliance.get() == DriverStation.Alliance.Red;
                     }
-                    return false;
+                    return false; // Should be false
                 },
                 m_swerveDrive);
         Command auto = new PathPlannerAuto("LOW 2 NOTE");
