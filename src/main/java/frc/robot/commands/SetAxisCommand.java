@@ -66,9 +66,9 @@ public class SetAxisCommand extends Command {
         // double
         // rotSpeed=m_coordinates.getRotation()-m_swerveDrive.getAnglePositionAbsoluteRadians();
 
-        xspeed = MathUtil
+        xspeed = -1 * MathUtil
                 .clamp(xspeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
-        yspeed = MathUtil
+        yspeed = -1 * MathUtil
                 .clamp(yspeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
         rotSpeed = MathUtil
                 .clamp(rotSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
@@ -83,6 +83,8 @@ public class SetAxisCommand extends Command {
     @Override
     public boolean isFinished() {
         // $TODO - Can this be made more readable by breaking it up?
+        System.out.println(
+                "Swerve X: " + m_swerveDrive.getxPosition() + ", target: " + m_coordinates.getX());
         if (MathUtil.applyDeadband(
                 m_swerveDrive.getxPosition() - m_coordinates.getX(),
                 SetAxisConstants.errorMarginXY) == 0

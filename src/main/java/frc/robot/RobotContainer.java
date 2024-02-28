@@ -29,6 +29,7 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.SetAxisCommand;
 import frc.robot.commands.StayCommand;
 import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.sim.DefaultSimLayout;
@@ -41,6 +42,8 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import frc.robot.util.Coords;
+
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
@@ -143,7 +146,9 @@ public class RobotContainer {
                     return false; // Should be false
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("LOW 2 NOTE");
+        // Command auto = new SetAxisCommand(new Coords(1, 0, 0), m_swerveDrive);
+        Command auto = new PathPlannerAuto("Move 2 Meters");
+        // $TODO Command auto = new PathPlannerAuto("LOW 2 NOTE");
         auto.schedule();
     }
 
