@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.AppliedController;
 
@@ -30,7 +29,8 @@ public class DriveSwerveCommand extends Command {
     @Override
     public void execute() {
         if (m_controller.getStartButtonPressed()) {
-            // GYRO FIELD RELATIVE RESET in terms of the right side of the robot (radio side)
+            // GYRO FIELD RELATIVE RESET in terms of the right side of the robot (radio
+            // side)
             m_swerveDrive.resetGyroFieldRelative();
             return;
         }
@@ -51,37 +51,33 @@ public class DriveSwerveCommand extends Command {
             if (m_swerveDrive.getFrontLeftDriveVelocity() > 0.1
                     || m_swerveDrive.getFrontLeftDriveVelocity() < -0.1) {
                 m_working[0] = true;
-            }
-            else {
+            } else {
                 m_working[0] = false;
             }
 
             if (m_swerveDrive.getBackLeftDriveVelocity() > 0.1
                     || m_swerveDrive.getBackLeftDriveVelocity() < -0.1) {
                 m_working[1] = true;
-            }
-            else {
+            } else {
                 m_working[1] = false;
             }
 
             if (m_swerveDrive.getFrontRightDriveVelocity() > 0.1
                     || m_swerveDrive.getFrontRightDriveVelocity() < -0.1) {
                 m_working[2] = true;
-            }
-            else {
+            } else {
                 m_working[2] = false;
             }
 
             if (m_swerveDrive.getBackRightDriveVelocity() > 0.1
                     || m_swerveDrive.getBackRightDriveVelocity() < -0.1) {
                 m_working[3] = true;
-            }
-            else {
+            } else {
                 m_working[3] = false;
             }
 
-                m_swerveDrive.setDriveStatus(m_working);
-            }
+            m_swerveDrive.setDriveStatus(m_working);
+
         }
     }
 
