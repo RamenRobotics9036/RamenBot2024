@@ -112,7 +112,7 @@ public class RobotContainer {
                     return false;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("New New New Auto");
+        Command auto = new PathPlannerAuto("New Auto");
         auto.schedule();
     }
 
