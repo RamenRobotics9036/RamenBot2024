@@ -195,7 +195,7 @@ public class Constants {
 
         public static class SetArmConstants {
             public static final double armMax = 3.8;
-            public static final double armMin = 5.4;
+            public static final double armMin = 5.45;
             public static final double maxTime = 5;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
@@ -274,6 +274,9 @@ public class Constants {
     }
 
     public static class IntakeConstants {
+        public static final double pullBackAmount = 0.001;
+        public static final double pullBackSpeed = 0.1;
+
         public static final int smartCurrentLimit = 20;
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;

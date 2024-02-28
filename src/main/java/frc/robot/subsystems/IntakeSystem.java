@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,6 +22,7 @@ public class IntakeSystem extends SubsystemBase {
             IntakeConstants.intakeMotorRightID,
             MotorType.kBrushless);
     private DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
+    private RelativeEncoder m_encoder = m_intakeMotorLeader.getEncoder();
     private double maxOutputPercent = IntakeConstants.maxOutputPercent;
 
     public IntakeSystem() {
@@ -39,6 +41,10 @@ public class IntakeSystem extends SubsystemBase {
 
     public double getIntakeSpeed() {
         return m_intakeMotorLeader.get();
+    }
+
+    public double getIntakeAngle() {
+        return m_encoder.getPosition();
     }
 
     public void setIntakeSpeed(double speed) {

@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -26,9 +25,8 @@ import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
-import frc.robot.commands.SetIntakeSpeedCommand;
-import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
@@ -52,8 +50,6 @@ public class RobotContainer {
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     public RobotContainer() {
-        double pullBackNoteTime = 0.1;
-        double pullBackNoteSpeed = 0.15;
         double waitTime = 0.2;
         initShuffleBoard();
 
@@ -66,11 +62,7 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
         NamedCommands.registerCommand(
                 "Shoot Note",
-                new ParallelCommandGroup(
-                        new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
-                                -pullBackNoteSpeed),
-                        new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime,
-                                pullBackNoteSpeed))
+                new PullBackCommand(m_intakeSystem)
                         .andThen(new WaitCommand(waitTime))
                         .andThen(
                                 new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
@@ -118,36 +110,13 @@ public class RobotContainer {
      */
     public void bindCommands() {
         // Push note piece back on start up. May not need to happen when reflectometer is used.
-        double pullBackNoteTime = 0.1;
-        double pullBackNoteSpeed = 0.2;
         double waitTime = 0.2;
         new Trigger(() -> m_armController.getAButton()).onTrue(
-                new ParallelCommandGroup(
-                        new SetShooterSpeedCommand(m_shooterSystem, pullBackNoteTime,
-                                -pullBackNoteSpeed),
-                        new SetIntakeSpeedCommand(m_intakeSystem, pullBackNoteTime,
-                                pullBackNoteSpeed))
+                new PullBackCommand(m_intakeSystem)
                         .andThen(new WaitCommand(waitTime))
                         .andThen(
                                 new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                         m_armController)));
-
-        new Trigger(() -> m_armController.getBButton()).onTrue(
-                new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
-                        m_visionSystem.getDistanceMetersY())
-                        + ShooterConstants.shootOffsetLimeLight).andThen(
-                                new WaitCommand(waitTime).andThen(
-                                        new ParallelCommandGroup(
-                                                new SetShooterSpeedCommand(m_shooterSystem,
-                                                        pullBackNoteTime,
-                                                        -pullBackNoteSpeed),
-                                                new SetIntakeSpeedCommand(m_intakeSystem,
-                                                        pullBackNoteTime,
-                                                        pullBackNoteSpeed))
-                                                .andThen(
-                                                        new IntakeRevCommand(m_intakeSystem,
-                                                                m_shooterSystem,
-                                                                m_armController)))));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(
