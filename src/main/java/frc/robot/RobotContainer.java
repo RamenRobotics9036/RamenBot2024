@@ -56,7 +56,7 @@ public class RobotContainer {
     public SendableChooser<Command> AutoChooser;
 
     public RobotContainer() {
-        double pullBackNoteTime = 0.2;
+        double pullBackNoteTime = 0.3;
         double pullBackNoteSpeed = 0.15;
         double waitTime = 0.2;
         initShuffleBoard();
@@ -82,7 +82,7 @@ public class RobotContainer {
     }
 
     public void runIntakeAuto() {
-        if (!m_intakeSystem.getCurrentCommand().getName().equals("IntakeRevCommand")) {
+        if (m_intakeSystem.getCurrentCommand() != null) {
             m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
         }
     }
@@ -112,7 +112,7 @@ public class RobotContainer {
                     return false;
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("New Auto");
+        Command auto = new PathPlannerAuto("New New New Auto");
         auto.schedule();
     }
 

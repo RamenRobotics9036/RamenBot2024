@@ -279,7 +279,7 @@ public class Constants {
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
         public static final double intakeSpeed = 0.4;
-        public static final double maxOutputPercent = 0.4;
+        public static final double maxOutputPercent = 0.1;
     }
 
     public static class RevConstants {
