@@ -29,6 +29,8 @@ public class IntakeSystem extends SubsystemBase {
 
     private boolean[] m_status = new boolean[2];
 
+    private String m_ErrorMessage = "N/A";
+
     public IntakeSystem() {
         m_IntakeMotorFollower.restoreFactoryDefaults();
         m_intakeMotorLeader.restoreFactoryDefaults();
@@ -66,12 +68,18 @@ public class IntakeSystem extends SubsystemBase {
         return m_followerEncoder.getPosition();
     }
 
+    public void setErrorMessage(String message) {
+        m_ErrorMessage = message;
+    }
+
     public void initShuffleBoard() {
         Shuffleboard.getTab("Intake").add("Intake Speed: ", getIntakeSpeed());
         Shuffleboard.getTab("Intake").add("Current Command", this);
 
-        Shuffleboard.getTab("IntakeTest").addBoolean("Leader", () -> m_status[0]);
-        Shuffleboard.getTab("IntakeTest").addBoolean("Follower", () -> m_status[1]);
+        Shuffleboard.getTab("Intake").addBoolean("Leader Status:", () -> m_status[0]);
+        Shuffleboard.getTab("Intake").addBoolean("Follower Status:", () -> m_status[1]);
+
+        Shuffleboard.getTab("Inkate").addString("Error Message", () -> m_ErrorMessage);
     }
 
     @Override
