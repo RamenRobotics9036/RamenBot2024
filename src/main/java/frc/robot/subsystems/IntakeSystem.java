@@ -16,7 +16,8 @@ import frc.robot.commands.IntakeDefaultCommand;
  * Stop the intake system.
  */
 public class IntakeSystem extends SubsystemBase {
-    private final CANSparkMax m_IntakeMotorFollower = new CANSparkMax(IntakeConstants.intakeMotorLeftID,
+    private final CANSparkMax m_IntakeMotorFollower = new CANSparkMax(
+            IntakeConstants.intakeMotorLeftID,
             MotorType.kBrushless);
     private final CANSparkMax m_intakeMotorLeader = new CANSparkMax(
             IntakeConstants.intakeMotorRightID,
@@ -29,8 +30,15 @@ public class IntakeSystem extends SubsystemBase {
 
     private boolean[] m_status = new boolean[2];
 
-
     public IntakeSystem() {
+        m_IntakeMotorFollower.restoreFactoryDefaults();
+        m_intakeMotorLeader.restoreFactoryDefaults();
+        m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
+        // This motor has a lot of friction in the mechanical system. Set this to the
+        // constant value
+        // when this issue is fixed, increasing the current limit is a workaround for
+        // this issue.
+        m_IntakeMotorFollower.setSmartCurrentLimit(40);
         initShuffleBoard();
         m_IntakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
@@ -71,7 +79,7 @@ public class IntakeSystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void setStatus(boolean[] status){
+    public void setStatus(boolean[] status) {
         m_status = status;
     }
 

@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.RevConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.CommandsConstants.IntakeReleaseConstants;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.util.AppliedController;
@@ -36,14 +35,14 @@ public class IntakeRevCommand extends Command {
     @Override
     public void execute() {
         if (m_timer.get() >= RevConstants.revTime) {
-            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
+            m_intakeSystem.setIntakeSpeed(-IntakeConstants.maxOutputPercent);
         }
         m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
     }
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= IntakeReleaseConstants.maxTime) {
+        if (m_timer.get() >= RevConstants.maxTime) {
             return true;
         }
         if (m_controller.commandCancel()) {

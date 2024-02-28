@@ -3,6 +3,8 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.wpi.first.math.Pair;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical.
  */
@@ -27,7 +29,7 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.28;
+        public static final double frameDistanceToModulesMeters = 0.5;
         public static final double wheelRadiusMeters = 0.051;
 
         public static final int gyroCanID = 7;
@@ -35,12 +37,12 @@ public class Constants {
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.25;
+        public static final double maxOutputPercentage = 0.5;
 
         // PID tunes for 51.5 pounds
-        public static final double drivingPID_P = 8;
+        public static final double drivingPID_P = 5;
         public static final double drivingPID_I = 0;
-        public static final double drivingPID_D = 3;
+        public static final double drivingPID_D = 0.6;
 
         // PID tunes for 51.5 pounds
         public static final double turningPID_P = 1.45;
@@ -59,7 +61,7 @@ public class Constants {
         // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
         public static final double maxAngularAcceleration = 0.574 * 100;
 
-        public static final int swerveMotorCurrentLimit = 20;
+        public static final int swerveMotorCurrentLimit = 40;
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
         public static final double turnMotorGearBoxRatio = 12.8;
@@ -95,12 +97,14 @@ public class Constants {
 
             // NOTE: This makes the front of the robot the right side. (the side of the radio), but
             // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 0.137000
-                    + Math.PI + rotationOffset;
-            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.163000;
-            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 5.035000
+            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314
                     + rotationOffset;
-            public static final double backRightOffsetSwerveB = 5.485000 + Math.PI;
+            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.227 + Math.PI
+                    + rotationOffset;
+            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI
+                    + rotationOffset;
+            public static final double backRightOffsetSwerveB = (Math.PI * 1.5) - 0.835 + Math.PI
+                    + rotationOffset;
 
             // Different Swerve
 
@@ -119,14 +123,15 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-        public static final double limelightMountAngleRadiansY = 0;
+        public static final double limelightMountAngleRadiansY = Math.toRadians(18.5);
+
         /**
          * Angle of camera pointing side-to-side.
          */
         public static final double limelightMountAngleRadiansX = 0;
 
-        public static final double limelightLensHeightMeters = 0.38;
-        public static final double aprilTagHeightMeters = 0.9;
+        public static final double limelightLensHeightMeters = 0.51;
+        public static final double aprilTagHeightMeters = 1.47;
 
         public static final String limelightName = "limelight-ramen";
 
@@ -148,6 +153,21 @@ public class Constants {
                         14.0,
                         15.0,
                         16.0));
+
+        /*
+         * Distance -> Angle Pairs
+         * Distance is in meters
+         * Measure every lookUpTableDistance
+         */
+        public static final ArrayList<Pair<Double, Double>> sortedAngleLookUpTable = new ArrayList<Pair<Double, Double>>(
+                Arrays.asList(
+                        new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.81),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.773),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.738),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 6, 4.67)));
     }
 
     /**
@@ -160,7 +180,7 @@ public class Constants {
         public static class SetAxisConstants {
             public static final double errorMarginXY = 0.05;
             public static final double errorMarginRot = 0.02;
-            public static final double percentPower = 1;
+            public static final double percentPower = 0.5;
 
             public static final double translationPID_P = 1;
             public static final double translationPid_I = 0;
@@ -174,14 +194,16 @@ public class Constants {
         }
 
         public static class SetArmConstants {
-            public static final double maxTime = 2;
+            public static final double armMax = 3.8;
+            public static final double armMin = 5.4;
+            public static final double maxTime = 2.5;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
 
             public static final double percentPower = 0.2;
 
-            public static final double errorMargin = 0.02;
+            public static final double errorMargin = 0.01;
 
         }
 
@@ -197,40 +219,49 @@ public class Constants {
 
             public static final double timeLimit = 12.0;
 
-            public static final double targetDistanceMeters = 2;
+            public static final double targetDistanceMeters = 3.5;
 
-            public static final double translationXPID_P = 0.5;
+            public static final double translationXPID_P = 0.05;
             public static final double translationXPID_I = 0;
             public static final double translationXPID_D = 0;
 
-            public static final double translationYPID_P = 0.45;
+            public static final double translationYPID_P = 0.3;
             public static final double translationYPID_I = 0;
             public static final double translationYPID_D = 0;
 
-            public static final double rotationPID_P = 1 / 1000;
+            public static final double rotationPID_P = 1 / 10_000;
             public static final double rotationPID_I = 0;
             public static final double rotationPID_D = 0;
+
+            public static final double errorMarginVelocityX = 0.1;
+            public static final double errorMarginVelocityY = 0.1;
+            public static final double errorMarginVelocityRot = 0.05;
         }
     }
 
     public static class ShooterConstants {
+        public static final double shootOffsetLimeLight = 0;
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.7;
+        public static final double shooterSpeed = 1;
 
     }
 
     public static class ArmConstants {
+        public static final double lookUpTableDistance = 0.46;
+        public static final double distanceToPivot = 0.5;
+        public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;
-        public static final int armMotorID = 22;
+        public static final int armMotorIDFollower = 22;
+        public static final int armMotorIDLeader = 23;
         public static final int armEncoderChannel = 0;
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
-        public static final double pivotHeightOverGround = 0.279;// The pivot height over ground
-                                                                 // in
-                                                                 // meters.
+        public static final double pivotHeightOverGround = 0.29;// The pivot height over ground
+                                                                // in
+                                                                // meters.
         public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
                                                               // pivot
                                                               // point in meters.
@@ -239,19 +270,21 @@ public class Constants {
                                                                 // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.2;
+        public static final double maxOutputPercent = 0.4;
     }
 
     public static class IntakeConstants {
+        public static final int smartCurrentLimit = 20;
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.4;
+        public static final double intakeSpeed = 0.1;
         public static final double maxOutputPercent = 0.4;
     }
 
     public static class RevConstants {
-        public static final double revTime = 0.2;
+        public static final double revTime = 0.5;
+        public static final double maxTime = 0.8;
     }
 
     public static class TestConstants {
@@ -261,9 +294,26 @@ public class Constants {
     }
 
     public static class PresetConstants {
-        public static final double ampPresetAngleRadians = 0.422;
-        public static final double speakerPresetAngleRadians = 0;
+        public static final double ampPresetAngleRadians = 3.8;
+        public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
+    }
+
+    public static class HookConstants {
+        public static final int leftHookCANId = 24;
+        public static final int rightHookCANId = 25;
+        public static final double maxHeight = 4.6;
+        public static final double minHeight = 0;
+        public static final double maxOutputPercent = 0.3;
+    }
+
+    public static class GrabChainConstants {
+        public static final double hookSpeed = 0.2;
+        public static final double swerveSpeed = 0.3;
+        public static final double hookRotationsNeeded = 5;
+        public static final double hookRotationsNeededFinal = 5;
+        public static final double swerveRotationsNeeded = 5;
+        public static final double maxTime = 10;
     }
 
 }

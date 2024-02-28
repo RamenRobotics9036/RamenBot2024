@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.5,
+      "y": 2.0
+    },
+    "rotation": 0.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Go to Speaker from Bottom"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Notes"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Get Lower Game Piece"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Ground"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lower Note to Speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Notes"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

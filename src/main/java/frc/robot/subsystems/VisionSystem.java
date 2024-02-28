@@ -34,6 +34,7 @@ public class VisionSystem extends SubsystemBase {
         ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout(
                 "April Tags",
                 BuiltInLayouts.kList);
+        visionLayout.addDouble("Raw Y", () -> getY());
         visionLayout.addDouble("X Displacement", () -> getXRadians());
         visionLayout.addDouble("Y Displacement", () -> getYRadians());
         visionLayout.addDouble("Area", () -> getArea());
@@ -41,8 +42,12 @@ public class VisionSystem extends SubsystemBase {
         visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
         visionLayout.addDouble("Distance Meters Y", () -> getDistanceMetersY());
 
-        visionLayout.addDouble("X tangent", () -> Math.tan(getXRadians()));
-        visionLayout.addDouble("Y tangent", () -> Math.tan(getYRadians()));
+        visionLayout.addDouble(
+                "X tangent",
+                () -> Math.tan(getXRadians() + limelightMountAngleRadiansX));
+        visionLayout.addDouble(
+                "Y tangent",
+                () -> Math.tan(getYRadians() + limelightMountAngleRadiansY));
         visionLayout.addDouble("ID", () -> getID());
     }
 

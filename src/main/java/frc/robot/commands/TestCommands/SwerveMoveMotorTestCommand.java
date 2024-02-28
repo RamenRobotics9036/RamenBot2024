@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TestConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 
-public class SwerveMoveMotorTestCommand extends Command{
+public class SwerveMoveMotorTestCommand extends Command {
     public SwerveDriveSystem m_swerve;
     public Timer m_timer = new Timer();
 
@@ -15,7 +15,7 @@ public class SwerveMoveMotorTestCommand extends Command{
     public double[] m_pos = new double[4];
     public boolean[] m_status = new boolean[4];
 
-    public SwerveMoveMotorTestCommand(SwerveDriveSystem swerve){
+    public SwerveMoveMotorTestCommand(SwerveDriveSystem swerve) {
         m_swerve = swerve;
         addRequirements(swerve);
 
@@ -33,26 +33,26 @@ public class SwerveMoveMotorTestCommand extends Command{
     @Override
     public void execute() {
         m_swerve.drive(m_xSpeed, m_ySpeed, 0);
-        m_xSpeed+=0.01;
-        m_ySpeed-=0.01;
+        m_xSpeed += 0.01;
+        m_ySpeed -= 0.01;
 
-        if (MathUtil.applyDeadband(m_pos[0]-m_swerve.getFrontLeftDriveEncoder(), TestConstants.errorMargin) != 0) {
-            m_status[0]=true;
+        if (MathUtil.applyDeadband(m_pos[0] - m_swerve.getFrontLeftDriveEncoder(), TestConstants.errorMargin) != 0) {
+            m_status[0] = true;
         }
-        if (MathUtil.applyDeadband(m_pos[1]-m_swerve.getBackLeftDriveEncoder(), TestConstants.errorMargin) != 0) {
-            m_status[1]=true;
+        if (MathUtil.applyDeadband(m_pos[1] - m_swerve.getBackLeftDriveEncoder(), TestConstants.errorMargin) != 0) {
+            m_status[1] = true;
         }
-        if (MathUtil.applyDeadband(m_pos[2]-m_swerve.getFrontRightDriveEncoder(), TestConstants.errorMargin) != 0) {
-            m_status[2]=true;
+        if (MathUtil.applyDeadband(m_pos[2] - m_swerve.getFrontRightDriveEncoder(), TestConstants.errorMargin) != 0) {
+            m_status[2] = true;
         }
-        if (MathUtil.applyDeadband(m_pos[3]-m_swerve.getBackRightDriveEncoder(), TestConstants.errorMargin) != 0) {
-            m_status[3]=true;
+        if (MathUtil.applyDeadband(m_pos[3] - m_swerve.getBackRightDriveEncoder(), TestConstants.errorMargin) != 0) {
+            m_status[3] = true;
         }
     }
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= 0.5){
+        if (m_timer.get() >= 0.5) {
             return true;
         }
         return false;
