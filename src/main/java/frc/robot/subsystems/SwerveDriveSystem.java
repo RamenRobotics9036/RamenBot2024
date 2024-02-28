@@ -130,10 +130,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_driveStatus[2]);
         Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_driveStatus[3]);
 
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_turnStatus[0]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_turnStatus[1]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Front Right: ", () -> m_turnStatus[2]);
-        Shuffleboard.getTab("Movement Test").addBoolean("Back Right: ", () -> m_turnStatus[3]);
+        Shuffleboard.getTab("Turning Test").addBoolean("Front Left: ", () -> m_turnStatus[0]);
+        Shuffleboard.getTab("Turning Test").addBoolean("Back Left: ", () -> m_turnStatus[1]);
+        Shuffleboard.getTab("Turning Test").addBoolean("Front Right: ", () -> m_turnStatus[2]);
+        Shuffleboard.getTab("Turning Test").addBoolean("Back Right: ", () -> m_turnStatus[3]);
 
         // m_frontLeft.displayDesiredStateToDashBoard("Front Left");
         // m_backLeft.displayDesiredStateToDashBoard("Back Left");
@@ -178,10 +178,12 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     /**
-     * Drive the robot using the given x, y and rotation speeds. Speeds range from [-1, 1].
+     * Drive the robot using the given x, y and rotation speeds. Speeds range from
+     * [-1, 1].
      */
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
-        // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
+        // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " +
+        // rot);
 
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds
@@ -456,7 +458,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void periodic() {
         updatePidFromShuffleBoard();
         updateOdometry();
-        // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX());
+        // Shuffleboard.getTab("Swerve").add("X Pose Meters",
+        // m_odometry.getPoseMeters().getX());
 
     }
 
