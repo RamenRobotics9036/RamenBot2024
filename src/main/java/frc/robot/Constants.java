@@ -278,8 +278,10 @@ public class Constants {
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.4;
-        public static final double maxOutputPercent = 0.3;
+        public static final double intakeSpeed = 0.5;
+        public static final double maxOutputPercent = 0.7;
+
+        public static double speed = 0;
     }
 
     public static class RevConstants {

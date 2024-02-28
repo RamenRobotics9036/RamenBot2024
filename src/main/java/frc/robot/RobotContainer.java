@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -53,7 +52,7 @@ public class RobotContainer {
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     public RobotContainer() {
-        double pullBackNoteTime = 0.3;
+        double pullBackNoteTime = 0.1;
         double pullBackNoteSpeed = 0.15;
         double waitTime = 0.2;
         initShuffleBoard();
@@ -78,12 +77,6 @@ public class RobotContainer {
                                         m_armController)));
     }
 
-    public void runIntakeAuto() {
-        if (m_intakeSystem.getIntakeSpeed() < IntakeConstants.intakeSpeed) {
-            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
-        }
-    }
-
     public void scheduleAutonomousCommand() {
         m_swerveDrive.resetGyroFieldRelativeAuto();
         m_swerveDrive.resetPose(
@@ -96,7 +89,7 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(0.2, 0, 0),
+                        new PIDConstants(1, 0, 0),
                         new PIDConstants(0.1),
                         SwerveSystemConstants.maxSpeedMetersPerSecond,
                         m_swerveDrive.getDriveBaseRadius(),

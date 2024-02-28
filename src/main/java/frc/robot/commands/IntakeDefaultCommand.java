@@ -19,7 +19,7 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
+        IntakeConstants.speed = -IntakeConstants.intakeSpeed;
     }
 
     @Override

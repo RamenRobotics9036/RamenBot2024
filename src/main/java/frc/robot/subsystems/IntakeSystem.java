@@ -59,6 +59,7 @@ public class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        setIntakeSpeed(IntakeConstants.speed);
     }
 
     /**

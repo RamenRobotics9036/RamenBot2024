@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class SetIntakeSpeedCommand extends Command {
@@ -21,11 +22,11 @@ public class SetIntakeSpeedCommand extends Command {
     public void initialize() {
         m_timer = new Timer();
         m_timer.start();
+        IntakeConstants.speed = m_speed;
     }
 
     @Override
     public void execute() {
-        m_intakeSystem.setIntakeSpeed(m_speed);
     }
 
     @Override
