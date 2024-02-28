@@ -179,12 +179,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     }
 
     @Override
-    public double getBackLeftTurnEncoder() {
+    public double getFrontRightTurnEncoder() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public double getFrontRightTurnEncoder() {
+    public double getBackLeftTurnEncoder() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -204,12 +204,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     }
 
     @Override
-    public double getBackLeftDriveEncoder() {
+    public double getFrontRightDriveEncoder() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public double getFrontRightDriveEncoder() {
+    public double getBackLeftDriveEncoder() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -221,19 +221,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     @Override
     public double getFrontLeftDriveVelocity() {
         if (m_simSwerveDrive != null) {
-            // $TODO
-            return 0;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    @Override
-    public double getBackLeftDriveVelocity() {
-        if (m_simSwerveDrive != null) {
-            // $TODO
-            return 0;
+            return m_simSwerveDrive.getSwerveModule(0).getDriveMetersPerSecond();
         }
         else {
             return 0;
@@ -243,8 +231,17 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     @Override
     public double getFrontRightDriveVelocity() {
         if (m_simSwerveDrive != null) {
-            // $TODO
+            return m_simSwerveDrive.getSwerveModule(1).getDriveMetersPerSecond();
+        }
+        else {
             return 0;
+        }
+    }
+
+    @Override
+    public double getBackLeftDriveVelocity() {
+        if (m_simSwerveDrive != null) {
+            return m_simSwerveDrive.getSwerveModule(2).getDriveMetersPerSecond();
         }
         else {
             return 0;
@@ -254,8 +251,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     @Override
     public double getBackRightDriveVelocity() {
         if (m_simSwerveDrive != null) {
-            // $TODO
-            return 0;
+            return m_simSwerveDrive.getSwerveModule(3).getDriveMetersPerSecond();
         }
         else {
             return 0;
@@ -267,7 +263,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
         super.stopSystem();
 
         if (m_simSwerveDrive != null) {
-            // $TODO
+            ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
+            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, false);
         }
     }
 
