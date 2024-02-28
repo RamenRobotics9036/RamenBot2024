@@ -123,12 +123,8 @@ public class Constants {
         /**
          * Angle of camera pointing upwards.
          */
-<<<<<<< HEAD
-        public static final double limelightMountAngleRadiansY = Math.toRadians(20);
-=======
         public static final double limelightMountAngleRadiansY = Math.toRadians(18.5);
 
->>>>>>> dfa3a7226a01563618b4ec247102fdaf6b37d242
         /**
          * Angle of camera pointing side-to-side.
          */
