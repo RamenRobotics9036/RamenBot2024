@@ -29,7 +29,10 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
             new Pose2d()
     };
     private final Pose2d[] m_swerveModulePoses = {
-            new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()
+            new Pose2d(), // Front Left
+            new Pose2d(), // Front Right
+            new Pose2d(), // Back Left
+            new Pose2d() // Back Right
     };
 
     /**
@@ -193,8 +196,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     @Override
     public double getFrontLeftDriveEncoder() {
         if (m_simSwerveDrive != null) {
-            // $TODO
-            return 0;
+            return m_simSwerveDrive.getSwerveModule(0).getDriveMeters();
         }
         else {
             return 0;

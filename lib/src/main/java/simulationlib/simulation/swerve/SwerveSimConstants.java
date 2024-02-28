@@ -61,10 +61,10 @@ public final class SwerveSimConstants {
         public static final double kWheelBase = Units.inchesToMeters(30);
 
         public static final Translation2d[] kModuleTranslations = {
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2), // Front Left
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // Front Right
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // Back Left
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2) // Back right
         };
 
         public static final double frontLeftCANCoderOffset = 94.219;
