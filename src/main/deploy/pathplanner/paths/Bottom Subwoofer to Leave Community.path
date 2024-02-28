@@ -1,0 +1,83 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7710059022051301,
+        "y": 4.4159011540748505
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.7927553629153425,
+        "y": 4.3782299830875395
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.0725321924615026,
+        "y": 1.4979047967551204
+      },
+      "prevControl": {
+        "x": 1.0628055379371035,
+        "y": 1.5147518565790492
+      },
+      "nextControl": {
+        "x": 1.0794099758319973,
+        "y": 1.4859921265139713
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.459253382957613,
+        "y": 0.8656722526696985
+      },
+      "prevControl": {
+        "x": 5.452375599585151,
+        "y": 0.877584922914254
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Set Arm to Ground",
+      "waypointRelativePos": 0.9,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

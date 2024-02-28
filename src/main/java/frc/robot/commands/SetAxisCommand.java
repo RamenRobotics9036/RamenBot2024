@@ -4,7 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandsConstants.SetAxisConstants;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.util.Coords;
@@ -12,7 +12,7 @@ import frc.robot.util.Coords;
 /**
  * SetAxisCommand.
  */
-public class SetAxisCommand extends CommandBase {
+public class SetAxisCommand extends Command {
     private SwerveDriveSystem m_swerveDrive;
     private Timer m_timer;
     private Coords m_coordinates;
@@ -38,6 +38,7 @@ public class SetAxisCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_timer = new Timer();
         m_timer.start();
 
     }
@@ -45,15 +46,18 @@ public class SetAxisCommand extends CommandBase {
     @Override
     public void execute() {
 
-        double xspeed = m_translationXpid.calculate(m_swerveDrive.getxPosition(),
+        double xspeed = m_translationXpid.calculate(
+                m_swerveDrive.getxPosition(),
                 m_coordinates.getX());
-        double yspeed = m_translationYpid.calculate(m_swerveDrive.getyPosition(),
+        double yspeed = m_translationYpid.calculate(
+                m_swerveDrive.getyPosition(),
                 m_coordinates.getY());
         // xSpeed=MathUtil.clamp(xSpeed, -SetAxisConstants.percentPower,
         // SetAxisConstants.percentPower);
         // ySpeed=MathUtil.clamp(ySpeed, -SetAxisConstants.percentPower,
         // SetAxisConstants.percentPower);
-        double rotSpeed = m_rotationPid.calculate(m_swerveDrive.getRotation2d().getRadians(),
+        double rotSpeed = m_rotationPid.calculate(
+                m_swerveDrive.getRotation2d().getRadians(),
                 m_coordinates.getRotation());
         // rotSpeed=MathUtil.clamp(rotSpeed,-SetAxisConstants.percentPower,
         // SetAxisConstants.percentPower);
@@ -79,9 +83,11 @@ public class SetAxisCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         // $TODO - Can this be made more readable by breaking it up?
-        if (MathUtil.applyDeadband(m_swerveDrive.getxPosition() - m_coordinates.getX(),
+        if (MathUtil.applyDeadband(
+                m_swerveDrive.getxPosition() - m_coordinates.getX(),
                 SetAxisConstants.errorMarginXY) == 0
-                && MathUtil.applyDeadband(m_swerveDrive.getyPosition() - m_coordinates.getY(),
+                && MathUtil.applyDeadband(
+                        m_swerveDrive.getyPosition() - m_coordinates.getY(),
                         SetAxisConstants.errorMarginXY) == 0
                 && (MathUtil.applyDeadband(
                         m_swerveDrive.getRotation2d().getRadians() - m_coordinates.getRotation(),

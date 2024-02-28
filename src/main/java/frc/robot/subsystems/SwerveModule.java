@@ -5,10 +5,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,15 +57,19 @@ public class SwerveModule {
     private final PIDController m_drivePidController = new PIDController(pidDriveP, pidDriveI,
             pidDriveD);
 
-    private final SparkMaxPIDController m_turnPidController;
+    private final SparkPIDController m_turnPidController;
 
     private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(
             SwerveSystemConstants.drivingFeedForward_S, SwerveSystemConstants.drivingFeedForward_V);
 
+    private SwerveModuleState m_swerveDesiredState;
+    private SwerveModulePosition m_swerveDesiredPosition;
+
     /**
      * Constructor.
      */
-    public SwerveModule(int driveMotorId,
+    public SwerveModule(
+            int driveMotorId,
             int turningMotorId,
             int turnEncoderChannel,
             double offSet) {
@@ -74,9 +80,11 @@ public class SwerveModule {
         m_driveMotor.restoreFactoryDefaults();
         m_turningMotor.restoreFactoryDefaults();
 
+        m_driveMotor.setIdleMode(IdleMode.kBrake);
+
         m_driveMotor.setSmartCurrentLimit(currentLimit);
         m_turningMotor.setSmartCurrentLimit(currentLimit);
-        // m_turningMotor.setInverted(true);
+        m_driveMotor.setInverted(true);
 
         m_driveRelativeEncoder = m_driveMotor.getEncoder();
         m_turnRelativeEncoder = m_turningMotor.getEncoder();
@@ -104,16 +112,29 @@ public class SwerveModule {
         m_turnPidController.setPositionPIDWrappingEnabled(true);
         m_turnPidController.setPositionPIDWrappingMinInput(0);
         m_turnPidController.setPositionPIDWrappingMaxInput(Math.PI * 2);
+
+        m_swerveDesiredState = new SwerveModuleState(0,
+                Rotation2d.fromRadians(getTurnEncoderValue()));
+        m_swerveDesiredPosition = new SwerveModulePosition(0,
+                Rotation2d.fromRadians(getTurnEncoderValue()));
+    }
+
+    public SwerveModuleState getStateActual() {
+        return new SwerveModuleState(getDriveEncoderVelocity(),
+                Rotation2d.fromRadians(getTurnEncoderValue()));
+    }
+
+    public SwerveModulePosition getPositionActual() {
+        return new SwerveModulePosition(getDriveEncoderPosition(),
+                Rotation2d.fromRadians(getTurnEncoderValue()));
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveEncoderVelocity(),
-                new Rotation2d(getTurnEncoderValue()));
+        return m_swerveDesiredState;
     }
 
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDriveEncoderPosition(),
-                new Rotation2d(getTurnEncoderValue()));
+        return getPositionActual();
     }
 
     /**
@@ -121,11 +142,13 @@ public class SwerveModule {
      */
     public void displayDesiredStateToDashBoard(String tabName) {
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout("Driving",
+        ShuffleboardLayout drivingLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Driving",
                 BuiltInLayouts.kList);
 
         @SuppressWarnings("VariableDeclarationUsageDistance")
-        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout("Turning",
+        ShuffleboardLayout turningLayout = Shuffleboard.getTab(tabName).getLayout(
+                "Turning",
                 BuiltInLayouts.kList);
 
         ShuffleboardLayout pidTurningLayout = Shuffleboard.getTab(tabName)
@@ -137,11 +160,13 @@ public class SwerveModule {
         pidTurningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
 
         pidDrivingLayout.addDouble("Desired Velocity Setpoint Rotations", () -> m_driveSetPoint);
-        pidDrivingLayout.addDouble("Drive Encoder Position Rotations",
+        pidDrivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         drivingLayout.addDouble("Drive Encoder Velocity Meters", () -> getDriveEncoderVelocity());
-        drivingLayout.addDouble("Drive Encoder Position Rotations",
+        drivingLayout.addDouble(
+                "Drive Encoder Position Rotations",
                 () -> getDriveEncoderPosition());
 
         turningLayout.addDouble("Absolute Encoder Radians", () -> getTurnEncoderRadians());
@@ -152,21 +177,29 @@ public class SwerveModule {
      * Set the desired state of the swerve module.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState,
+        m_swerveDesiredState = SwerveModuleState.optimize(
+                desiredState,
                 Rotation2d.fromRadians(getTurnEncoderValue()));
 
-        final double driveOutput = m_drivePidController
-                .calculate(m_turningAbsoluteEncoder.getRate(), state.speedMetersPerSecond);
+        m_swerveDesiredPosition.angle = Rotation2d.fromRadians(getTurnEncoderRadians());
+        m_swerveDesiredPosition.distanceMeters += m_swerveDesiredState.speedMetersPerSecond * 0.02;
 
-        final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
-        m_turnPidController.setReference(state.angle.getRadians(), ControlType.kPosition);
+        final double driveOutput = m_drivePidController
+                .calculate(
+                        m_turningAbsoluteEncoder.getRate(),
+                        m_swerveDesiredState.speedMetersPerSecond);
+
+        final double driveFeedforward = m_driveFeedforward
+                .calculate(m_swerveDesiredState.speedMetersPerSecond);
+        m_turnPidController
+                .setReference(m_swerveDesiredState.angle.getRadians(), ControlType.kPosition);
 
         double voltage = (driveOutput + driveFeedforward);
         voltage = MathUtil.clamp(voltage, -12 * maxOutput, 12 * maxOutput);
         m_driveMotor.setVoltage(voltage);
 
-        m_driveSetPoint = state.speedMetersPerSecond;
-        m_turnSetPoint = state.angle.getRadians();
+        m_driveSetPoint = m_swerveDesiredState.speedMetersPerSecond;
+        m_turnSetPoint = m_swerveDesiredState.angle.getRadians();
     }
 
     public void updateDrivePid(double pidP, double pidD) {

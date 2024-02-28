@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.Pigeon2;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -26,6 +25,9 @@ import frc.robot.commands.DriveSwerveCommand;
 import frc.robot.util.AppliedController;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 /**
  * SwerveDriveSystem.
@@ -60,25 +62,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffset);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffset);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffset);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffset);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 
@@ -86,21 +88,20 @@ public class SwerveDriveSystem extends SubsystemBase {
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
-            Rotation2d.fromDegrees(-getAnglePosition()), new SwerveModulePosition[] {
-                    m_frontLeft.getPosition(),
-                    m_frontRight.getPosition(),
-                    m_backLeft.getPosition(),
-                    m_backRight.getPosition()
-            });
+            Rotation2d.fromDegrees(-getAnglePosition()), getModulePositions());
 
     private AppliedController m_controller;
 
     private boolean[] m_status = new boolean[4];
+    private double m_xspeed;
+    private double m_yspeed;
+    private double m_rot;
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
-        initShuffleBoard();
+        // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
+        // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
     }
 
     /**
@@ -109,8 +110,18 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void initShuffleBoard() {
 
         Shuffleboard.getTab("Position").addDouble("X Pose Meters: ", () -> getxPosition());
-        Shuffleboard.getTab("Position").addDouble("Y Pose Meters: ", () -> getyPosition());
+        Shuffleboard.getTab("Position").addDouble("Y Pose M**eters: ", () -> getyPosition());
         Shuffleboard.getTab("Position").addDouble("Rotation: ", () -> getAnglePosition());
+
+        Shuffleboard.getTab("Position").addDouble("X Speed", () -> m_xspeed);
+        Shuffleboard.getTab("Position").addDouble("Y Speed", () -> m_yspeed);
+        Shuffleboard.getTab("Position").addDouble("Rot Speed", () -> m_rot);
+
+        Shuffleboard.getTab("Position")
+                .addDouble("Front Left Meters", () -> m_frontLeft.getPosition().distanceMeters);
+
+        Shuffleboard.getTab("Position")
+                .addDouble("Front Left Speed", () -> m_frontLeft.getState().speedMetersPerSecond);
 
         Shuffleboard.getTab("Movement Test").addBoolean("Front Left: ", () -> m_status[0]);
         Shuffleboard.getTab("Movement Test").addBoolean("Back Left: ", () -> m_status[1]);
@@ -179,6 +190,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
+
+        m_xspeed = xspeed;
+        m_yspeed = yspeed;
+        m_rot = rot;
     }
 
     /**
@@ -275,12 +290,7 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Update the field relative position of the robot.
      */
     public void updateOdometry() {
-        m_odometry.update(getRotation2d(), new SwerveModulePosition[] {
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_backLeft.getPosition(),
-                m_backRight.getPosition()
-        });
+        m_odometry.update(getRotation2d(), getModulePositions());
     }
 
     public double getxPosition() {
@@ -293,11 +303,15 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return ErrorCode.OK == m_gyro.setYaw(270.0);
+        return StatusCode.OK == m_gyro.setYaw(270.0);
+    }
+
+    public boolean resetGyroFieldRelativeAuto() {
+        return StatusCode.OK == m_gyro.setYaw(0.0); // 180
     }
 
     public double getAnglePosition() {
-        return m_gyro.getYaw(); // rotation in horizontal plane
+        return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
 
     public Rotation2d getRotation2d() {
@@ -360,26 +374,71 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Read the PID values from the Shuffleboard.
      */
     public void updatePidFromShuffleBoard() {
-        if (isPIDTuning) {
-            double pidDriveP = m_getPidDriveP.getDouble(SwerveModule.pidDriveP);
-            double pidDriveD = m_getPidDriveD.getDouble(SwerveModule.pidDriveD);
+        // if (isPIDTuning) {
+        // double pidDriveP = m_getPidDriveP.getDouble(SwerveModule.pidDriveP);
+        // double pidDriveD = m_getPidDriveD.getDouble(SwerveModule.pidDriveD);
 
-            @SuppressWarnings("VariableDeclarationUsageDistance")
-            double pidTurnP = m_getPidTurnP.getDouble(SwerveModule.pidTurnP);
+        // @SuppressWarnings("VariableDeclarationUsageDistance")
+        // double pidTurnP = m_getPidTurnP.getDouble(SwerveModule.pidTurnP);
 
-            @SuppressWarnings("VariableDeclarationUsageDistance")
-            double pidTurnD = m_getPidTurnD.getDouble(SwerveModule.pidTurnD);
+        // @SuppressWarnings("VariableDeclarationUsageDistance")
+        // double pidTurnD = m_getPidTurnD.getDouble(SwerveModule.pidTurnD);
 
-            m_frontLeft.updateDrivePid(pidDriveP, pidDriveD);
-            m_frontRight.updateDrivePid(pidDriveP, pidDriveD);
-            m_backLeft.updateDrivePid(pidDriveP, pidDriveD);
-            m_backRight.updateDrivePid(pidDriveP, pidDriveD);
+        // m_frontLeft.updateDrivePid(pidDriveP, pidDriveD);
+        // m_frontRight.updateDrivePid(pidDriveP, pidDriveD);
+        // m_backLeft.updateDrivePid(pidDriveP, pidDriveD);
+        // m_backRight.updateDrivePid(pidDriveP, pidDriveD);
 
-            m_frontLeft.updateTurnPid(pidTurnP, pidTurnD);
-            m_frontRight.updateTurnPid(pidTurnP, pidTurnD);
-            m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
-            m_backRight.updateTurnPid(pidTurnP, pidTurnD);
-        }
+        // m_frontLeft.updateTurnPid(pidTurnP, pidTurnD);
+        // m_frontRight.updateTurnPid(pidTurnP, pidTurnD);
+        // m_backLeft.updateTurnPid(pidTurnP, pidTurnD);
+        // m_backRight.updateTurnPid(pidTurnP, pidTurnD);
+        // }
+    }
+
+    public SwerveModulePosition[] getModulePositions() {
+        return new SwerveModulePosition[] {
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_backLeft.getPosition(),
+                m_backRight.getPosition(),
+        };
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        return new SwerveModuleState[] {
+                m_frontLeft.getState(),
+                m_frontRight.getState(),
+                m_backLeft.getState(),
+                m_backRight.getState(),
+        };
+    }
+
+    public ChassisSpeeds getSpeeds() {
+        return m_kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public double getDriveBaseRadius() {
+        return m_frontLeftLocation.getNorm();
+    }
+
+    public void resetPose(Pose2d pose) {
+        m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
+    }
+
+    public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
+
+        m_frontLeft.setDesiredState(swerveModuleStates[0]);
+        m_frontRight.setDesiredState(swerveModuleStates[1]);
+        m_backLeft.setDesiredState(swerveModuleStates[2]);
+        m_backRight.setDesiredState(swerveModuleStates[3]);
+    }
+
+    public Pose2d getPoseMeters() {
+        return m_odometry.getPoseMeters();
     }
 
     @Override

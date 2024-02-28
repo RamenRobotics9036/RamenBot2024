@@ -2,19 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ShooterSystem;
 
-public class SetIntakeSpeedCommand extends Command {
-    private IntakeSystem m_intakeSystem;
+public class SetShooterSpeedCommand extends Command {
+    private ShooterSystem m_shooterSystem;
     private double m_maxTime;
     private double m_speed;
     private Timer m_timer;
 
-    public SetIntakeSpeedCommand(IntakeSystem intakeSystem, double maxTime, double speed) {
-        m_intakeSystem = intakeSystem;
+    public SetShooterSpeedCommand(ShooterSystem shooterSystem, double maxTime, double speed) {
+        m_shooterSystem = shooterSystem;
         m_maxTime = maxTime;
         m_speed = speed;
-        addRequirements(m_intakeSystem);
+        addRequirements(m_shooterSystem);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SetIntakeSpeedCommand extends Command {
 
     @Override
     public void execute() {
-        m_intakeSystem.setIntakeSpeed(m_speed);
+        m_shooterSystem.setShootSpeed(m_speed);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class SetIntakeSpeedCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_intakeSystem.stopSystem();
+        m_shooterSystem.stopSystem();
     }
 }

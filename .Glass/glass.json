@@ -1,5 +1,29 @@
 {
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "Arm": {
+          "open": true
+        },
+        "Vision": {
+          "April Tags": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Intake/Current Command": "Subsystem"
+    }
+  },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "9036"
   }
 }

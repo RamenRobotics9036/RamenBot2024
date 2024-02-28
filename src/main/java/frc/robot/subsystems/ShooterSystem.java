@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -17,28 +17,31 @@ import frc.robot.Constants.ShooterConstants;
  * SwerveDriveSystem.
  */
 public class ShooterSystem extends SubsystemBase {
-    private CANSparkMax m_leftShooter = new CANSparkMax(ShooterConstants.shooterMotorLeftID,
+    private CANSparkMax m_shooterMotorFollower = new CANSparkMax(
+            ShooterConstants.shooterRightMotorID,
             MotorType.kBrushless);
-    private CANSparkMax m_rightShooter = new CANSparkMax(ShooterConstants.shooterMotorRightID,
+    private CANSparkMax m_shooterMotorLeader = new CANSparkMax(ShooterConstants.shooterLeftMotorID,
             MotorType.kBrushless);
 
-    private final MotorControllerGroup m_shooterMotor;
     private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
-        m_leftShooter.setInverted(true);
-        m_shooterMotor = new MotorControllerGroup(m_rightShooter,
-                m_leftShooter);
+        m_shooterMotorLeader.setInverted(true);
+        m_shooterMotorFollower.setInverted(true);
+        m_shooterMotorFollower.follow(m_shooterMotorLeader);
+
+        m_shooterMotorLeader.setIdleMode(IdleMode.kBrake);
+        m_shooterMotorFollower.setIdleMode(IdleMode.kBrake);
         initShuffleBoard();
     }
 
     public void setShootSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
-        m_shooterMotor.set(speed);
+        m_shooterMotorLeader.set(speed);
     }
 
     public double getShootSpeed() {
-        return m_shooterMotor.get();
+        return m_shooterMotorLeader.get();
     }
 
     public void initShuffleBoard() {
@@ -53,7 +56,6 @@ public class ShooterSystem extends SubsystemBase {
      * Stop the swerve drive system.
      */
     public void stopSystem() {
-
-        m_shooterMotor.stopMotor();
+        m_shooterMotorLeader.stopMotor();
     }
 }
