@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -102,6 +103,13 @@ public class SwerveDriveSystem extends SubsystemBase {
         // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
         // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
+    }
+
+    public void toTeleop() {
+        m_frontLeft.toTeleop();
+        m_backLeft.toTeleop();
+        m_frontRight.toTeleop();
+        m_backRight.toTeleop();
     }
 
     /**
@@ -443,6 +451,9 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (RobotState.isAutonomous()) {
+            toTeleop();
+        }
         updatePidFromShuffleBoard();
         updateOdometry();
         // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX());

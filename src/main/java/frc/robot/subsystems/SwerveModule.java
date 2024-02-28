@@ -28,7 +28,7 @@ import frc.robot.util.AppliedEncoder;
  */
 public class SwerveModule {
     private static final int currentLimit = SwerveSystemConstants.swerveMotorCurrentLimit;
-    private static final double maxOutput = MathUtil
+    private static double maxOutput = MathUtil
             .clamp(SwerveSystemConstants.maxOutputPercentage, 0, 1);
 
     public static final double wheelRadius = SwerveSystemConstants.wheelRadiusMeters;
@@ -135,6 +135,10 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return getPositionActual();
+    }
+
+    public void toTeleop() {
+        maxOutput = SwerveSystemConstants.autoSpeed;
     }
 
     /**
