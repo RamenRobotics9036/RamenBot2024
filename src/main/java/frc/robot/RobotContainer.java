@@ -11,9 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -21,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
-import frc.robot.Constants.RevConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
@@ -55,13 +52,7 @@ public class RobotContainer {
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
-    public SendableChooser<Command> AutoChooser;
-
-    private Timer m_matchTimer = new Timer();
-    private double m_lastTime = 0;
-
     public RobotContainer() {
-        m_matchTimer.start();
         double pullBackNoteTime = 0.3;
         double pullBackNoteSpeed = 0.15;
         double waitTime = 0.2;
@@ -88,11 +79,8 @@ public class RobotContainer {
     }
 
     public void runIntakeAuto() {
-        if (m_intakeSystem.getCurrentCommand() != null) {
-            if (m_matchTimer.get() - m_lastTime > RevConstants.revTime + 0.5) {
-                m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
-            }
-            m_lastTime = m_matchTimer.get();
+        if (m_intakeSystem.getIntakeSpeed() < IntakeConstants.intakeSpeed) {
+            m_intakeSystem.setIntakeSpeed(-IntakeConstants.intakeSpeed);
         }
     }
 
