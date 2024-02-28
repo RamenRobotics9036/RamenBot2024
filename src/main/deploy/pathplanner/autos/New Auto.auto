@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77,
-      "y": 4.42
+      "x": 1.35,
+      "y": 5.55
     },
-    "rotation": -60.10000000000002
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -24,9 +24,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Ground"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Bottom Subwoofer to Leave Community"
+            "pathName": "Mid Sub to Mid Note"
           }
         }
       ]

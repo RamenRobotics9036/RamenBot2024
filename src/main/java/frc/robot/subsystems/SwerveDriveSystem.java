@@ -307,7 +307,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelativeAuto() {
-        return StatusCode.OK == m_gyro.setYaw(0.0); // 180
+        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
     }
 
     public double getAnglePosition() {

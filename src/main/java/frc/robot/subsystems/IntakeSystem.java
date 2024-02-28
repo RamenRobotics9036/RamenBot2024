@@ -52,7 +52,9 @@ public class IntakeSystem extends SubsystemBase {
 
     public void initShuffleBoard() {
         Shuffleboard.getTab("Intake").add("Intake Speed: ", getIntakeSpeed());
-        Shuffleboard.getTab("Intake").add("Current Command", this);
+        Shuffleboard.getTab("Intake").addString(
+                "Current Command",
+                () -> (getCurrentCommand() != null) ? getCurrentCommand().getName() : "EXCEPT");
     }
 
     @Override
