@@ -38,9 +38,6 @@ public class DriveSwerveCommand extends Command {
         double yspeed = m_controller.getLeftY();
         double rot = m_controller.getRightX();
 
-        // Turns off field relative while pressed
-        m_swerveDrive.setFieldRelative(!m_controller.getLeftStickButton());
-
         // $TODO - Inverting y on joystick is a hack right now!
         m_swerveDrive.drive(xspeed, -yspeed, rot);
 

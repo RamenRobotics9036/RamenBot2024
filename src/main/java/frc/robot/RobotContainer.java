@@ -134,9 +134,9 @@ public class RobotContainer {
                                         m_armController)));
 
         new Trigger(() -> m_armController.getBButton()).onTrue(
-                new SetArmToAngleCommand(m_armSystem, m_armSystem.getShootingAngle(
-                        m_visionSystem.getDistanceMetersY())
-                        + ShooterConstants.shootOffsetLimeLight).andThen(
+                new SetArmToAngleCommand(m_armSystem,
+                        m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY()))
+                        .andThen(
                                 new WaitCommand(waitTime).andThen(
                                         new ParallelCommandGroup(
                                                 new SetShooterSpeedCommand(m_shooterSystem,

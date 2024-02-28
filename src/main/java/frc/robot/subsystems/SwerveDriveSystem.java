@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -307,6 +308,9 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelativeAuto() {
+        if (!RobotState.isAutonomous()) {
+            return false;
+        }
         return StatusCode.OK == m_gyro.setYaw(0.0); // 180
     }
 
