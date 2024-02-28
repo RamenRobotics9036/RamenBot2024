@@ -45,7 +45,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
             result = new SwerveDriveSystemSim(controller);
         }
         else {
-            result = new SwerveDriveSystem(controller);
+            throw new UnsupportedOperationException("Not yet implemented");
+            // result = new SwerveDriveSystem(controller);
         }
 
         return result;
@@ -101,9 +102,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
-        super.drive(xspeed, yspeed, rot, fieldRelative);
+        // super.drive(xspeed, yspeed, rot, fieldRelative);
 
-        m_simSwerveDrive.drive(xspeed, yspeed, rot, fieldRelative, false);
+        System.out.println(
+                "$IDO: drive: " + xspeed + ", " + yspeed + ", " + rot + ", " + fieldRelative);
+
+        m_simSwerveDrive.drive(xspeed, yspeed, rot, fieldRelative, true);
     }
 
     @Override
@@ -128,7 +132,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public boolean resetGyroFieldRelative() {
-        super.resetGyroFieldRelative();
+        // super.resetGyroFieldRelative();
 
         if (m_simSwerveDrive != null) {
             // $TODO
@@ -141,7 +145,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public boolean resetGyroFieldRelativeAuto() {
-        super.resetGyroFieldRelativeAuto();
+        // super.resetGyroFieldRelativeAuto();
 
         if (m_simSwerveDrive != null) {
             // $TODO
@@ -260,11 +264,11 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public void stopSystem() {
-        super.stopSystem();
+        // super.stopSystem();
 
         if (m_simSwerveDrive != null) {
             ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
-            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, false);
+            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
         }
     }
 
@@ -289,7 +293,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public void resetPose(Pose2d pose) {
-        super.resetPose(pose);
+        // super.resetPose(pose);
 
         if (m_simSwerveDrive != null) {
             // $TODO
@@ -298,10 +302,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
 
     @Override
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        super.driveFromChassisSpeeds(chassisSpeeds);
+        // super.driveFromChassisSpeeds(chassisSpeeds);
+
+        System.out.println("$IDO: driveFromChassisSpeeds");
 
         if (m_simSwerveDrive != null) {
-            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, false);
+            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
         }
     }
 

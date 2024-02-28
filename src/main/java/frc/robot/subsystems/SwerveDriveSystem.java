@@ -182,6 +182,7 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_fieldRelative = fieldRelative;
     }
 
+    // This method is NOT overriden by subclass
     public void drive(double xspeed, double yspeed, double rot) {
         drive(xspeed, yspeed, rot, m_fieldRelative);
     }
@@ -192,20 +193,23 @@ public class SwerveDriveSystem extends SubsystemBase {
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
 
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds
-                        .fromFieldRelativeSpeeds(
-                                xspeed,
-                                yspeed,
-                                rot * m_maxAngularSpeed,
-                                getRotation2d())
-                        : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
-
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
-        m_frontLeft.setDesiredState(swerveModuleStates[0]);
-        m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_backLeft.setDesiredState(swerveModuleStates[2]);
-        m_backRight.setDesiredState(swerveModuleStates[3]);
+        throw new UnsupportedOperationException("Not yet implemented");
+        /*
+         * var swerveModuleStates = m_kinematics.toSwerveModuleStates(
+         * fieldRelative ? ChassisSpeeds
+         * .fromFieldRelativeSpeeds(
+         * xspeed,
+         * yspeed,
+         * rot * m_maxAngularSpeed,
+         * getRotation2d())
+         * : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
+         * 
+         * SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
+         * m_frontLeft.setDesiredState(swerveModuleStates[0]);
+         * m_frontRight.setDesiredState(swerveModuleStates[1]);
+         * m_backLeft.setDesiredState(swerveModuleStates[2]);
+         * m_backRight.setDesiredState(swerveModuleStates[3]);
+         */
     }
 
     /**
@@ -306,12 +310,13 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public double getxPosition() {
-
-        return m_odometry.getPoseMeters().getX();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_odometry.getPoseMeters().getX();
     }
 
     public double getyPosition() {
-        return m_odometry.getPoseMeters().getY();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_odometry.getPoseMeters().getY();
     }
 
     public boolean resetGyroFieldRelative() {
@@ -345,59 +350,73 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public double getAnglePosition() {
-        return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
 
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return Rotation2d.fromDegrees(getAnglePosition()); // converts from degrees
     }
 
     public double getFrontLeftTurnEncoder() {
-        return m_frontLeft.getTurnEncoderRadians();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getTurnEncoderRadians();
     }
 
     public double getBackLeftTurnEncoder() {
-        return m_backLeft.getTurnEncoderRadians();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_backLeft.getTurnEncoderRadians();
     }
 
     public double getFrontRightTurnEncoder() {
-        return m_frontRight.getTurnEncoderRadians();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontRight.getTurnEncoderRadians();
     }
 
     public double getBackRightTurnEncoder() {
-        return m_backLeft.getTurnEncoderRadians();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_backLeft.getTurnEncoderRadians();
     }
 
     public double getFrontLeftDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getDriveEncoderPosition();
     }
 
     public double getBackLeftDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getDriveEncoderPosition();
     }
 
     public double getFrontRightDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getDriveEncoderPosition();
     }
 
     public double getBackRightDriveEncoder() {
-        return m_frontLeft.getDriveEncoderPosition();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getDriveEncoderPosition();
     }
 
     public double getFrontLeftDriveVelocity() {
-        return m_frontLeft.getDriveEncoderVelocity();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeft.getDriveEncoderVelocity();
     }
 
     public double getBackLeftDriveVelocity() {
-        return m_backLeft.getDriveEncoderVelocity();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_backLeft.getDriveEncoderVelocity();
     }
 
     public double getFrontRightDriveVelocity() {
-        return m_frontRight.getDriveEncoderVelocity();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontRight.getDriveEncoderVelocity();
     }
 
     public double getBackRightDriveVelocity() {
-        return m_backRight.getDriveEncoderVelocity();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_backRight.getDriveEncoderVelocity();
     }
 
     public void setStatus(boolean[] status) {
@@ -449,15 +468,18 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public ChassisSpeeds getSpeeds() {
-        return m_kinematics.toChassisSpeeds(getModuleStates());
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_kinematics.toChassisSpeeds(getModuleStates());
     }
 
     public double getDriveBaseRadius() {
-        return m_frontLeftLocation.getNorm();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_frontLeftLocation.getNorm();
     }
 
     public void resetPose(Pose2d pose) {
-        m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
+        throw new UnsupportedOperationException("Not yet implemented");
+        // m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
@@ -474,7 +496,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public Pose2d getPoseMeters() {
-        return m_odometry.getPoseMeters();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // return m_odometry.getPoseMeters();
     }
 
     @Override
@@ -489,9 +512,10 @@ public class SwerveDriveSystem extends SubsystemBase {
      * Stop the swerve drive system.
      */
     public void stopSystem() {
-        m_frontLeft.stopSystem();
-        m_frontRight.stopSystem();
-        m_backLeft.stopSystem();
-        m_backRight.stopSystem();
+        throw new UnsupportedOperationException("Not yet implemented");
+        // m_frontLeft.stopSystem();
+        // m_frontRight.stopSystem();
+        // m_backLeft.stopSystem();
+        // m_backRight.stopSystem();
     }
 }

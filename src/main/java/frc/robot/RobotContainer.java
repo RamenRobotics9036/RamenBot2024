@@ -29,6 +29,7 @@ import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.SetAxisCommand;
 import frc.robot.commands.StayCommand;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
@@ -45,6 +46,8 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import frc.robot.util.Coords;
+
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
@@ -179,7 +182,8 @@ public class RobotContainer {
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto(autoName);
+        //Command auto = new PathPlannerAuto(autoName);
+        Command auto = new PathPlannerAuto("Move 2 Meters");
         auto.schedule();
     }
 

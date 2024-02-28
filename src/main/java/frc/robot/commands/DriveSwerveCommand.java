@@ -29,7 +29,7 @@ public class DriveSwerveCommand extends Command {
     @Override
     public void execute() {
         if (m_controller.getStartButtonPressed()) {
-            // GYRO FIELD RELATIVE RESET in terms of the right side of the robot (radio side)
+            // GYRO FIELD RELATIVE RESET in terms of the right side of the robot ( dio side)
             m_swerveDrive.resetGyroFieldRelative();
             return;
         }
