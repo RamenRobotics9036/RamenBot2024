@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.StayCommand;
 import frc.robot.commands.VisionAutoAlignCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
@@ -59,14 +61,18 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         NamedCommands.registerCommand(
                 "Set Arm To Shoot",
-                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
+                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
+                        PresetConstants.speakerPresetAngleRadians),
+                        new StayCommand(m_swerveDrive)));
         NamedCommands.registerCommand(
                 "Shoot Note",
-                new PullBackCommand(m_intakeSystem)
-                        .andThen(new WaitCommand(waitTime))
-                        .andThen(
-                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                        m_armController)));
+                new ParallelDeadlineGroup(
+                        new PullBackCommand(m_intakeSystem)
+                                .andThen(new WaitCommand(waitTime))
+                                .andThen(
+                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
+                                                m_armController)),
+                        new StayCommand(m_swerveDrive)));
     }
 
     public void scheduleAutonomousCommand() {
@@ -82,7 +88,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(17, 0, 0),
-                        new PIDConstants(0.1),
+                        new PIDConstants(0.01),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),

@@ -8,24 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3355975165772995,
-        "y": 5.55
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.9928516999891146,
-        "y": 5.55
-      },
-      "prevControl": {
-        "x": 3.004179901117789,
-        "y": 5.55
-      },
-      "nextControl": {
-        "x": 2.9624423207164012,
-        "y": 5.55
+        "x": 1.3535296301361848,
+        "y": 5.555088802485298
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +20,8 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.4033825483961262,
-        "y": 5.55
+        "x": 1.3535296301361848,
+        "y": 5.555088802485298
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Shoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -55,11 +57,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }
