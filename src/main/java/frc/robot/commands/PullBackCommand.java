@@ -17,18 +17,18 @@ public class PullBackCommand extends Command {
     @Override
     public void initialize() {
         m_angle = m_intakeSystem.getIntakeAngle();
-        SmartDashboard.putNumber("Start Pos Intake", m_angle);
         IntakeConstants.speed = IntakeConstants.pullBackSpeed;
     }
 
     @Override
     public void execute() {
+        // In case the motor is stil spinning in wrong direction on startup
+        m_angle = Math.min(m_angle, m_intakeSystem.getIntakeAngle());
     }
 
     @Override
     public boolean isFinished() {
         if (m_intakeSystem.getIntakeAngle() > m_angle + IntakeConstants.pullBackAmount) {
-            SmartDashboard.putNumber("End Pos Intake", m_intakeSystem.getIntakeAngle());
             return true;
         }
         return false;
