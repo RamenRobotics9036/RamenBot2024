@@ -1,9 +1,8 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,8 +24,8 @@ public class IntakeSystem extends SubsystemBase {
     private DigitalInput refelectometer = new DigitalInput(IntakeConstants.reflectChannel);
     private double maxOutputPercent = IntakeConstants.maxOutputPercent;
 
-    private AbsoluteEncoder m_leaderEncoder = m_intakeMotorLeader.getAbsoluteEncoder(Type.kDutyCycle);
-    private AbsoluteEncoder m_followerEncoder = m_IntakeMotorFollower.getAbsoluteEncoder(Type.kDutyCycle);
+    private RelativeEncoder m_leaderEncoder = m_intakeMotorLeader.getEncoder();
+    private RelativeEncoder m_followerEncoder = m_IntakeMotorFollower.getEncoder();
 
     private boolean[] m_status = new boolean[2];
 
