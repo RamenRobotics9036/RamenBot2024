@@ -40,6 +40,36 @@
           "data": {
             "name": "Shoot Note"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Sub to Top Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
         }
       ]
     }
