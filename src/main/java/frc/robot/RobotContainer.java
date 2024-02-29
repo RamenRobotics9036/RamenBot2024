@@ -61,9 +61,10 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         NamedCommands.registerCommand(
                 "Set Arm To Shoot",
-                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleRadians),
-                        new StayCommand(m_swerveDrive)));
+                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
+        // new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
+        // PresetConstants.speakerPresetAngleRadians),
+        // new StayCommand(m_swerveDrive)));
         NamedCommands.registerCommand(
                 "Shoot Note",
                 new ParallelDeadlineGroup(
@@ -87,20 +88,22 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(17, 0, 0),
-                        new PIDConstants(0),
+                        new PIDConstants(25, 0, 0),
+                        new PIDConstants(.1, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
                 () -> {
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
+                        return alliance.get() == DriverStation.Alliance.Blue;
                     }
                     return false; // Should be false
                 },
                 m_swerveDrive);
-        Command auto = new PathPlannerAuto("LOW 2 NOTE");
+        // Command auto = new PathPlannerAuto("Bottom 3 Note");
+        Command auto = new PathPlannerAuto("BOTTOM 3 NOTE");
+
         auto.schedule();
     }
 
