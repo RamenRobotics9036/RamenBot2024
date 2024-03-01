@@ -102,7 +102,7 @@ public class RobotContainer {
                 },
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto("ROTATE TEST");
+        Command auto = new PathPlannerAuto("TOP 3 NOTE");
         auto.schedule();
     }
 
