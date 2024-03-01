@@ -311,19 +311,33 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return StatusCode.OK == m_gyro.setYaw(270.0);
+        return StatusCode.OK == m_gyro.setYaw(90.0); // Limelight should always be facing the driver
+                                                     // (changed from 270)
     }
 
-    public boolean resetGyroFieldRelativeAuto() {
+    public boolean resetGyroFieldRelativeRedMid() {
         return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
     }
 
-    public boolean resetGyroFieldRelativeTop() {
-        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
+    public boolean resetGyroFieldRelativeRedTop() {
+        return StatusCode.OK == m_gyro.setYaw(120.0); // 0 for Swerve A
     }
 
-    public boolean resetGyroFieldRelativeBottom() {
-        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
+    public boolean resetGyroFieldRelativeRedBottom() {
+        return StatusCode.OK == m_gyro.setYaw(280.0); // 0 for Swerve A
+    }
+
+    public boolean resetGyroFieldRelativeBlueMid() {
+        return StatusCode.OK == m_gyro.setYaw(0);
+    }
+
+    public boolean resetGyroFieldRelativeBlueTop() {
+        return StatusCode.OK == m_gyro.setYaw(120.0); //
+    }
+
+    public boolean resetGyroFieldRelativeBlueBottom() {
+        return StatusCode.OK == m_gyro.setYaw(280.0); // THIS ACTUALLY WORKS (Shlok and Xavier does
+                                                      // not know why)
     }
 
     public double getAnglePosition() {
