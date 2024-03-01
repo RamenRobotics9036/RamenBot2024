@@ -183,7 +183,7 @@ public class RobotContainer {
                 m_swerveDrive);
 
         //Command auto = new PathPlannerAuto(autoName);
-        Command auto = new PathPlannerAuto("Move 2 Meters");
+        Command auto = new PathPlannerAuto("TOP 3 NOTE");
         auto.schedule();
     }
 
