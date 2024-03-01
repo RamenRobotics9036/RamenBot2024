@@ -147,7 +147,8 @@ public class RobotContainer {
                 },
                 m_swerveDrive);
         // Command auto = new SetAxisCommand(new Coords(1, 0, 0), m_swerveDrive);
-        Command auto = new PathPlannerAuto("Move 2 Meters");
+        // Command auto = new PathPlannerAuto("Move 2 Meters");
+        Command auto = new PathPlannerAuto("TOP 3 NOTE");
         // $TODO Command auto = new PathPlannerAuto("LOW 2 NOTE");
         auto.schedule();
     }
