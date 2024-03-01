@@ -38,7 +38,7 @@ public class Constants {
         // tested.
         // If you need to raise it higher, change it on your local code only
         public static final double maxOutputPercentage = 0.5;
-        public static final double autoSpeed = 0.5;
+        public static final double autoSpeed = 0.7;
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5;
@@ -55,7 +55,7 @@ public class Constants {
         public static final double drivingFeedForward_A = 0.1212;
 
         public static final double maxSpeedMetersPerSecond = 4;
-        public static final double maxSpeedMetersPerSecondAuto = 4.5;
+        public static final double maxSpeedMetersPerSecondAuto = 5;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;

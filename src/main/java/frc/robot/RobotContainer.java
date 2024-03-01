@@ -88,8 +88,8 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(19, 0, 0),
-                        new PIDConstants(4, 0.01, 0.3),
+                        new PIDConstants(1.5, 1e-3, 0.5),
+                        new PIDConstants(0, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
