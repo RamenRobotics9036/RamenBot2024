@@ -318,6 +318,14 @@ public class SwerveDriveSystem extends SubsystemBase {
         return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
     }
 
+    public boolean resetGyroFieldRelativeTop() {
+        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
+    }
+
+    public boolean resetGyroFieldRelativeBottom() {
+        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
+    }
+
     public double getAnglePosition() {
         return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }

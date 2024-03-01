@@ -97,7 +97,7 @@ public class RobotContainer {
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto("BOTTOM LEAVE 1 NOTE");
+        Command auto = new PathPlannerAuto("MID-TOP 3 NOTE");
         auto.schedule();
     }
 
