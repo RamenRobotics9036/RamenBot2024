@@ -94,16 +94,10 @@ public class RobotContainer {
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false; // Should be false
-                },
+                () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto("TOP 3 NOTE");
+        Command auto = new PathPlannerAuto("BOTTOM LEAVE 1 NOTE");
         auto.schedule();
     }
 
