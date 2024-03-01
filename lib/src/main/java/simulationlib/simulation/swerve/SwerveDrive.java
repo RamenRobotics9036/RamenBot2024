@@ -133,6 +133,10 @@ public class SwerveDrive {
         return m_odometry.getPoseMeters();
     }
 
+    public void resetPose(Pose2d pose) {
+        m_odometry.resetPosition(pose.getRotation(), getModulePositions(), pose);
+    }
+
     public ChassisSpeeds getChassisSpeeds() {
         return kSwerveKinematics.toChassisSpeeds(getModuleStates());
     }

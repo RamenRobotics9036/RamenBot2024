@@ -295,9 +295,10 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     public void resetPose(Pose2d pose) {
         // super.resetPose(pose);
 
-        if (m_simSwerveDrive != null) {
-            // $TODO
-        }
+        // $TODO
+        // if (m_simSwerveDrive != null) {
+        m_simSwerveDrive.resetPose(pose);
+        // }
     }
 
     @Override
