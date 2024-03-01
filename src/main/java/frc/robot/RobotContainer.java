@@ -88,8 +88,8 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(25, 0, 0),
-                        new PIDConstants(.1, 0, 0),
+                        new PIDConstants(19, 0, 0),
+                        new PIDConstants(3, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
@@ -101,9 +101,8 @@ public class RobotContainer {
                     return false; // Should be false
                 },
                 m_swerveDrive);
-        // Command auto = new PathPlannerAuto("Bottom 3 Note");
-        Command auto = new PathPlannerAuto("BOTTOM 3 NOTE");
 
+        Command auto = new PathPlannerAuto("ROTATE TEST");
         auto.schedule();
     }
 
