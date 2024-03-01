@@ -107,7 +107,7 @@ public class RobotContainer {
         auto.schedule();
     }
 
-    private void initShuffleBoard() {
+    public void initShuffleBoard() {
         Shuffleboard.getTab("Arm").addDouble(
                 "Angle to Shoot",
                 () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
