@@ -78,7 +78,14 @@ public class RobotContainer {
     }
 
     public void scheduleAutonomousCommand() {
-        m_swerveDrive.resetGyroFieldRelativeAuto();
+
+        // Choose which Field relative to use
+        // use a sendable chooser for which gyro to reset to
+
+        // NOTE Field relative is dependent both on which alliance you are on, but also what part of
+        // the subwoofer you are on.
+
+        m_swerveDrive.resetGyroFieldRelativeBlueMid();
         m_swerveDrive.resetPose(
                 new Pose2d(new Translation2d(),
                         Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
@@ -130,8 +137,8 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
 
         // Auto-align
-        new Trigger(() -> m_driveController.getAButton()).onTrue(
-                new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+        // new Trigger(() -> m_driveController.getAButton()).onTrue(
+        // new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
     }
 
     public void stopRobot() {
