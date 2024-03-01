@@ -16,19 +16,19 @@
     },
     {
       "anchor": {
-        "x": 2.99,
+        "x": 2.76,
         "y": 5.55
       },
       "prevControl": {
-        "x": 3.0013282011286746,
+        "x": 2.771328201128674,
         "y": 5.55
       },
       "nextControl": {
-        "x": 2.959590620727287,
+        "x": 2.7295906207272864,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Note"
     },
     {
       "anchor": {

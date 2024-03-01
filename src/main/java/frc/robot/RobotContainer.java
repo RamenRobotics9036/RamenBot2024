@@ -61,10 +61,11 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         NamedCommands.registerCommand(
                 "Set Arm To Shoot",
-                new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
-        // new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-        // PresetConstants.speakerPresetAngleRadians),
-        // new StayCommand(m_swerveDrive)));
+                // new SetArmToAngleCommand(m_armSystem,
+                // PresetConstants.speakerPresetAngleRadians));
+                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
+                        PresetConstants.speakerPresetAngleRadians),
+                        new StayCommand(m_swerveDrive)));
         NamedCommands.registerCommand(
                 "Shoot Note",
                 new ParallelDeadlineGroup(
@@ -96,7 +97,7 @@ public class RobotContainer {
                 () -> {
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Blue;
+                        return alliance.get() == DriverStation.Alliance.Red;
                     }
                     return false; // Should be false
                 },
