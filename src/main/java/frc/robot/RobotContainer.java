@@ -25,6 +25,7 @@ import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
+import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
@@ -50,6 +51,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
+    private LEDSystem m_LEDSystem = new LEDSystem();
 
     public RobotContainer() {
         double waitTime = 0.2;
