@@ -61,6 +61,11 @@ public class IntakeSystem extends SubsystemBase {
         Shuffleboard.getTab("Intake").addString(
                 "Current Command",
                 () -> (getCurrentCommand() != null) ? getCurrentCommand().getName() : "EXCEPT");
+
+        Shuffleboard.getTab("Intake")
+                .add("Current Output: ", m_intakeMotorLeader.getOutputCurrent());
+        Shuffleboard.getTab("Intake")
+                .add("Current Velocity: ", m_encoder.getVelocity());
     }
 
     @Override
