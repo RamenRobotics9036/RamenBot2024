@@ -57,7 +57,7 @@ public class ArmSystem extends SubsystemBase {
         m_armMotorFollower.setIdleMode(IdleMode.kBrake);
         m_armMotorFollower.follow(m_armMotorLeader);
         m_controller = controller;
-        initShuffleBoard();
+        // initShuffleBoard();
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
 
         m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);

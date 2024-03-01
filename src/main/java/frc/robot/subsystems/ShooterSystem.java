@@ -32,7 +32,7 @@ public class ShooterSystem extends SubsystemBase {
 
         m_shooterMotorLeader.setIdleMode(IdleMode.kBrake);
         m_shooterMotorFollower.setIdleMode(IdleMode.kBrake);
-        initShuffleBoard();
+        // initShuffleBoard();
     }
 
     public void setShootSpeed(double speed) {

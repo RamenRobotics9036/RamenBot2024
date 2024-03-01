@@ -53,7 +53,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         double waitTime = 0.2;
-        initShuffleBoard();
+        // initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
         NamedCommands.registerCommand(
@@ -90,7 +90,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(19, 0, 0),
-                        new PIDConstants(.1, 0, 0),
+                        new PIDConstants(0, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),

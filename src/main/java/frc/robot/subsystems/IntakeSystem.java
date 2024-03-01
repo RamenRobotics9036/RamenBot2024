@@ -32,7 +32,7 @@ public class IntakeSystem extends SubsystemBase {
         // This motor has a lot of friction in the mechanical system. Set this to the constant value
         // when this issue is fixed, increasing the current limit is a workaround for this issue.
         m_IntakeMotorFollower.setSmartCurrentLimit(40);
-        initShuffleBoard();
+        // initShuffleBoard();
         m_IntakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
         m_IntakeMotorFollower.follow(m_intakeMotorLeader);

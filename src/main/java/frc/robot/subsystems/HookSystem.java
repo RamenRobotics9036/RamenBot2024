@@ -33,7 +33,7 @@ public class HookSystem extends SubsystemBase {
 
         // m_followerMotor.follow(m_leaderMotor);
 
-        initShuffleBoard();
+        // initShuffleBoard();
         setDefaultCommand(new DefaultHookCommand(this, m_controller));
     }
 

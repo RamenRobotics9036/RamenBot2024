@@ -435,7 +435,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
+        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 
