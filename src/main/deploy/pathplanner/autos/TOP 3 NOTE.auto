@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.35,
+      "x": 1.15,
       "y": 5.55
     },
     "rotation": 0.0
@@ -27,6 +27,24 @@
           "type": "path",
           "data": {
             "pathName": "Mid Sub to Mid Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Sub to Top Note"
           }
         },
         {

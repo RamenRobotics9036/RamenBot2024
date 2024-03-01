@@ -12,23 +12,23 @@
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Subwoofer"
     },
     {
       "anchor": {
-        "x": 2.9928516999891146,
+        "x": 2.76,
         "y": 5.55
       },
       "prevControl": {
-        "x": 3.004179901117789,
+        "x": 2.771328201128674,
         "y": 5.55
       },
       "nextControl": {
-        "x": 2.9624423207164012,
+        "x": 2.7295906207272864,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Note"
     },
     {
       "anchor": {
@@ -41,12 +41,30 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Subwoofer"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Arm to Ground",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

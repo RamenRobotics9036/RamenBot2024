@@ -8,40 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3783182277265027,
-        "y": 5.5636463879562825
+        "x": 1.3814347884647478,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    },
+    {
+      "anchor": {
+        "x": 1.35,
+        "y": 7.202868251890351
+      },
+      "prevControl": {
+        "x": 1.3200578920279988,
+        "y": 7.202868251890351
+      },
+      "nextControl": {
+        "x": 1.3508617358466948,
+        "y": 7.202868251890351
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3351518646165252,
-        "y": 6.974011293994152
+        "x": 2.67569996678455,
+        "y": 7.202868251890351
       },
       "prevControl": {
-        "x": 1.3650939725885265,
-        "y": 6.974011293994152
+        "x": 2.6659733122601494,
+        "y": 7.202868251890351
       },
       "nextControl": {
-        "x": 1.3342901287698306,
-        "y": 6.974011293994152
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.550983680166412,
-        "y": 6.974011293994152
-      },
-      "prevControl": {
-        "x": 2.555333572308455,
-        "y": 6.965311509710065
-      },
-      "nextControl": {
-        "x": 2.5412570256420133,
-        "y": 6.99346460304295
+        "x": 2.6974494274947625,
+        "y": 7.202868251890351
       },
       "isLocked": false,
       "linkedName": null
@@ -52,71 +52,28 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.3783182277265027,
-        "y": 5.515013115334288
+        "x": 1.3049888444918163,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Subwoofer"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Set Arm to Ground and Intake",
-      "waypointRelativePos": 0.8,
+      "name": "Arm Down",
+      "waypointRelativePos": 0.15000000000000002,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
             {
-              "type": "parallel",
+              "type": "named",
               "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Set Arm To Ground"
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Intake"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Stop Intake and Set Arm to Shoot",
-      "waypointRelativePos": 2.3000000000000003,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "parallel",
-              "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Stop Intake"
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Set Arm To Shoot"
-                    }
-                  }
-                ]
+                "name": "Set Arm To Ground"
               }
             }
           ]

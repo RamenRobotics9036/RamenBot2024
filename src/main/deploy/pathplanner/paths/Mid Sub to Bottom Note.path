@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.15,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2962452465189287,
+        "x": 1.0962452465189285,
         "y": 5.5636463879562825
       },
       "isLocked": false,
@@ -16,43 +16,43 @@
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 4.056014936674423
+        "x": 1.2,
+        "y": 4.084914323674802
       },
       "prevControl": {
-        "x": 1.354605173665323,
-        "y": 4.056014936674423
+        "x": 1.204605173665323,
+        "y": 4.084914323674802
       },
       "nextControl": {
-        "x": 1.3390073945569356,
-        "y": 4.056014936674423
+        "x": 1.1890073945569355,
+        "y": 4.084914323674802
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.4926237530200175,
-        "y": 4.056014936674423
+        "x": 2.5474297102440375,
+        "y": 4.084914323674802
       },
       "prevControl": {
-        "x": 2.4828970984956187,
-        "y": 4.075468245723221
+        "x": 2.5377030557196387,
+        "y": 4.1043676327236005
       },
       "nextControl": {
-        "x": 2.5023504075444163,
-        "y": 4.036561627625624
+        "x": 2.5571563647684363,
+        "y": 4.0654610146260035
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.15,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.3351518646165252,
+        "x": 1.135151864616525,
         "y": 5.5636463879562825
       },
       "nextControl": null,
@@ -65,7 +65,7 @@
   "eventMarkers": [
     {
       "name": "Set Arm to Ground and Intake",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -74,42 +74,6 @@
               "type": "named",
               "data": {
                 "name": "Set Arm To Ground"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Stop Intake and Set Arm to Shoot",
-      "waypointRelativePos": 2.15,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "parallel",
-              "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Stop Intake"
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Set Arm To Shoot"
-                    }
-                  }
-                ]
               }
             }
           ]
