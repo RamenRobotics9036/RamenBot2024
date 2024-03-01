@@ -21,6 +21,9 @@ public class Constants {
         public static final double controllerExpoRatio = 0.6;
 
         public static final double controllerDeadbandPercent = 0.06; // 0.2
+
+        public static final int kLEDLightsChannel = 9;
+        public static final int kLEDLightsLength = 18;
     }
 
     /**
@@ -30,15 +33,15 @@ public class Constants {
         public static final boolean isPIDTuning = true;
 
         public static final double frameDistanceToModulesMeters = 0.5461;
-        public static final double wheelRadiusMeters = 0.051;
+        public static final double wheelRadiusMeters = 0.0508; // 2 inches
 
         public static final int gyroCanID = 7;
 
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
-        public static final double maxOutputPercentage = 0.5;
-        public static final double autoSpeed = 0.5;
+        public static final double maxOutputPercentage = 1;
+        public static final double autoSpeed = .4; // Trying to lower max auto speed
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5;
@@ -54,7 +57,7 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 4;
+        public static final double maxSpeedMetersPerSecond = 4.5;
         public static final double maxSpeedMetersPerSecondAuto = 4.5;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
@@ -302,6 +305,14 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
+        public static final double speakerPresetAngleAutoRadians = 5.07; // (TESTED, WORKS VERY
+                                                                         // WELL) a little
+                                                                         // lower because our
+                                                                         // current
+                                                                         // auto is consistently
+                                                                         // undershooting distance
+                                                                         // which means it needs a
+                                                                         // lower angle
         public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
     }

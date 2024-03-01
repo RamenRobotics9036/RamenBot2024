@@ -64,7 +64,7 @@ public class RobotContainer {
                 // new SetArmToAngleCommand(m_armSystem,
                 // PresetConstants.speakerPresetAngleRadians));
                 new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleRadians),
+                        PresetConstants.speakerPresetAngleAutoRadians),
                         new StayCommand(m_swerveDrive)));
         NamedCommands.registerCommand(
                 "Shoot Note",
