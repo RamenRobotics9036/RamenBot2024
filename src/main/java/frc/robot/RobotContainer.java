@@ -99,6 +99,16 @@ public class RobotContainer {
         // the subwoofer you are on.
 
         // m_swerveDrive.resetGyroFieldRelativeBlueMid();
+        String autoName = m_autoChooser.getSelected();
+        if (autoName.equals("BOTTOM LEAVE 1 NOTE")) {
+            m_swerveDrive.resetGyroFieldRelativeBlueBottom();
+        }
+        else if (autoName.equals("TOP LEAVE 1 NOTE")) {
+            m_swerveDrive.resetGyroFieldRelativeBlueTop();
+        }
+        else {
+            m_swerveDrive.resetGyroFieldRelativeAuto();
+        }
         m_swerveDrive.resetPose(
                 new Pose2d(new Translation2d(),
                         Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
@@ -117,7 +127,6 @@ public class RobotContainer {
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        String autoName = m_autoChooser.getSelected();
         Command auto = new PathPlannerAuto(autoName);
         auto.schedule();
     }
