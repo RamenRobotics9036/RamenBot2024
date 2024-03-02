@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,6 +32,7 @@ import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
+import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -180,6 +182,13 @@ public class RobotContainer {
         new Trigger(() -> m_driveController.getYButton()).onTrue(
                 // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
                 new LEDResetCommand(m_LEDSystem));
+
+        new Trigger(() -> m_armController.povRight(new EventLoop()).getAsBoolean()).onTrue(
+                new PullBackCommand(m_intakeSystem)
+                        .andThen(new WaitCommand(waitTime))
+                        .andThen(
+                                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                        0.4)));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
