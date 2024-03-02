@@ -63,6 +63,8 @@ public class RobotContainer {
         m_autoChooser.addOption("Low Score Escape", "BOTTOM LEAVE 1 NOTE");
         m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
 
+        Shuffleboard.getTab("Auto").add(m_autoChooser);
+
         double waitTime = 0.2;
         // initShuffleBoard();
 
