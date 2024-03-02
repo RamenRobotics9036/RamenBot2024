@@ -113,6 +113,7 @@ public class RobotContainer {
         else {
             m_swerveDrive.resetGyroFieldRelativeAuto();
         }
+
         m_swerveDrive.resetPose(
                 new Pose2d(new Translation2d(),
                         Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));

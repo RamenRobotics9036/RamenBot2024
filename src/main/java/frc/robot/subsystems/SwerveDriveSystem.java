@@ -99,6 +99,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
+        Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () -> getRotation2d().getDegrees());
         // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
         // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
@@ -334,7 +335,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelativeAuto() {
-        return StatusCode.OK == m_gyro.setYaw(180.0); //
+        return StatusCode.OK == m_gyro.setYaw(0.0); //
     }
 
     public boolean resetGyroFieldRelativeBlueBottom() {
