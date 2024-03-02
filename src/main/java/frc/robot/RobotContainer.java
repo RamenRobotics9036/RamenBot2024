@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -54,7 +55,14 @@ public class RobotContainer {
     private HookSystem m_hookSystem = new HookSystem(m_armController);
     private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
+    SendableChooser<String> m_autoChooser = new SendableChooser<>();
+
     public RobotContainer() {
+        m_autoChooser.addOption("3 Note Auto Low", "MID-BOTTOM 3 NOTE");
+        m_autoChooser.addOption("3 Note Auto High", "MID-TOP 3 NOTE");
+        m_autoChooser.addOption("Low Score Escape", "BOTTOM LEAVE 1 NOTE");
+        m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
+
         double waitTime = 0.2;
         // initShuffleBoard();
 
@@ -107,7 +115,8 @@ public class RobotContainer {
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto("MID-TOP 3 NOTE");
+        String autoName = m_autoChooser.getSelected();
+        Command auto = new PathPlannerAuto(autoName);
         auto.schedule();
     }
 
