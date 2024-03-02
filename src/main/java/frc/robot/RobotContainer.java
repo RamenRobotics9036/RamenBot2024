@@ -58,8 +58,8 @@ public class RobotContainer {
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
     public RobotContainer() {
+        m_autoChooser.setDefaultOption("3 Note Auto High", "MID-TOP 3 NOTE");
         m_autoChooser.addOption("3 Note Auto Low", "MID-BOTTOM 3 NOTE");
-        m_autoChooser.addOption("3 Note Auto High", "MID-TOP 3 NOTE");
         m_autoChooser.addOption("Low Score Escape", "BOTTOM LEAVE 1 NOTE");
         m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
 
