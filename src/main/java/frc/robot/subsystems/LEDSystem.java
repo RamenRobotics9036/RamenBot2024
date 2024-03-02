@@ -35,7 +35,9 @@ public class LEDSystem extends SubsystemBase {
     private int m_ledB;
     private int m_ledHue;
 
-    public LEDSystem() {
+    private IntakeSystem m_intakeSystem;
+
+    public LEDSystem(IntakeSystem intakeSystem) {
 
         // intakeMotor.restoreFactoryDefaults();
         // intakeMotor.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
@@ -48,6 +50,7 @@ public class LEDSystem extends SubsystemBase {
         m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
+        m_intakeSystem = intakeSystem;
     }
 
     /**
@@ -59,23 +62,36 @@ public class LEDSystem extends SubsystemBase {
         m_ledB = 0;
     }
 
-    /*
-     * public void initShuffleBoard() {
-     * Shuffleboard.getTab("Intake")
-     * .add("Current Output: ", intakeMotor.getOutputCurrent());
-     * Shuffleboard.getTab("Intake")
-     * .add("Current Velocity: ", m_encoder.getVelocity());
-     * 
-     * }
-     */
+    public void resetLED() {
+        m_ledR = 255;
+        m_ledG = 0;
+        m_ledB = 0;
+    }
 
-    // IF THIS DOES NOT WORK, ADD A VELOCITY METHOD
+    public void initShuffleBoard() {
+        Shuffleboard.getTab("Intake")
+                .add("Current Output: ", m_intakeSystem.getOutputCurrent());
+    }
+
+    // IF THIS DOES NOT WORK, ADD A VELOCITY METHOD (Look at encoder values in Intake System to see
+    // if it works)
 
     @Override
     public void periodic() {
-        // if (intakeMotor.getOutputCurrent() > NORMALCURRENT) {
-        // // SET LED Lights to blah blah
-        // }
+
+        // FIND WHAT THE NORMALCURRENT OF THE MOTOR RUNS AT TOMORROW
+        // SEE IF THERE IS A SPIKE WHEN IT IS INTAKING A PIECE (HOLD THE PIECE SO THE INTAKE CANNOT
+        // FULLY GRAB IT)
+
+        // THINK ABOUT HOW IT WILL KNOW IF IT DOESNT HAVE A PIECE
+        // for now, when it shoots, thats when it will know that it used a piece. I can check this
+        // by other checking the velocity of the shoot motors or by seeing if the shoot command was
+        // run
+
+        if (m_intakeSystem.getOutputCurrent() > NORMALCURRENT) {
+            // m_LEDBuffer.setHSV()
+        }
+
         if (0 == m_ledR && 0 == m_ledG && 0 == m_ledB) {
             for (var i = 0; i < m_LEDBuffer.getLength() / 2; i++) {
                 var hue = (m_ledHue + (i * 180 / (m_LEDBuffer.getLength() / 2))) % 180;

@@ -28,6 +28,7 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
@@ -51,7 +52,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    private LEDSystem m_LEDSystem = new LEDSystem();
+    private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     public RobotContainer() {
         double waitTime = 0.2;
@@ -125,7 +126,9 @@ public class RobotContainer {
         // ARM CONTROLLER BINDINGS
 
         // Push note piece back on start up. May not need to happen when reflectometer is used.
-        double waitTime = 0.2;
+        double waitTime = 0.1; // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
+                               // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
+                               // TO REV UP ANYWAYS)
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new PullBackCommand(m_intakeSystem)
                         .andThen(new WaitCommand(waitTime))
@@ -149,9 +152,12 @@ public class RobotContainer {
         // DRIVE CONTROLLER BINDINGS
 
         new Trigger(() -> m_driveController.getBButton()).onTrue(
-
-                // AMP COMMAND
+                // AMP LIGHT COMMAND
                 new AmpLightCommand(m_LEDSystem));
+
+        new Trigger(() -> m_driveController.getYButton()).onTrue(
+                // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
+                new LEDResetCommand(m_LEDSystem));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(

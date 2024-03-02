@@ -56,6 +56,10 @@ public class IntakeSystem extends SubsystemBase {
         return refelectometer.get();
     }
 
+    public double getOutputCurrent() {
+        return m_intakeMotorLeader.getAppliedOutput();
+    }
+
     public void initShuffleBoard() {
         Shuffleboard.getTab("Intake").add("Intake Speed: ", getIntakeSpeed());
         Shuffleboard.getTab("Intake").addString(
