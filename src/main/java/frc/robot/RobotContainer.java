@@ -188,7 +188,7 @@ public class RobotContainer {
                         .andThen(new WaitCommand(waitTime))
                         .andThen(
                                 new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                                        0.4)));
+                                        0.2)));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
