@@ -139,6 +139,8 @@ public class SwerveModule {
 
     public void toTeleop() {
         maxOutput = SwerveSystemConstants.maxOutputPercentage;
+        updateDrivePid(8, 3);
+
     }
 
     public void toAuto() {
