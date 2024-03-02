@@ -80,18 +80,10 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         NamedCommands.registerCommand(
                 "Set Arm To Shoot",
-                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleRadians),
-                        new StayCommand(m_swerveDrive)));
+                new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         NamedCommands.registerCommand(
                 "Shoot Note",
-                new ParallelDeadlineGroup(
-                        new PullBackCommand(m_intakeSystem)
-                                .andThen(new WaitCommand(waitTime))
-                                .andThen(
-                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                                m_armController)),
-                        new StayCommand(m_swerveDrive)));
+                new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
         if (RobotBase.isSimulation()) {
             initSimShuffleboard();
         }

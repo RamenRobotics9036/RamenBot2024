@@ -37,16 +37,17 @@ public class SetArmToAngleCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= SetArmConstants.maxTime) {
-            return true;
-        }
-        if (MathUtil.applyDeadband(
-                m_armSystem.getArmAngleRadians() - m_desiredAngle,
-                SetArmConstants.errorMargin) == 0) {
-            return true;
-        }
-        return false;
-
+        return true;/*
+                     * if (m_timer.get() >= SetArmConstants.maxTime) {
+                     * return true;
+                     * }
+                     * if (MathUtil.applyDeadband(
+                     * m_armSystem.getArmAngleRadians() - m_desiredAngle,
+                     * SetArmConstants.errorMargin) == 0) {
+                     * return true;
+                     * }
+                     * return false;
+                     */
     }
 
     @Override

@@ -42,12 +42,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Mid Sub to Top Note"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Set Arm To Shoot"

@@ -198,6 +198,7 @@ public class SwerveDrive {
 
     public void simulationPeriodic() {
         ChassisSpeeds chassisSpeed = getChassisSpeeds();
+        // $TODO - What the heck is this?
         m_simYaw += chassisSpeed.omegaRadiansPerSecond * 0.02;
 
         Unmanaged.feedEnable(20);
