@@ -62,6 +62,8 @@ public class RobotContainer {
         m_autoChooser.addOption("3 Note Auto Low", "MID-BOTTOM 3 NOTE");
         m_autoChooser.addOption("Low Score Escape", "BOTTOM LEAVE 1 NOTE");
         m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
+        m_autoChooser.addOption("One Note Stage Auto (NO MOVEMENT)", "Stage Auto Stay");
+        m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
 
         Shuffleboard.getTab("Auto").add(m_autoChooser);
 
