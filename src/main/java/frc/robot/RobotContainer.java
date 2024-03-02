@@ -26,6 +26,7 @@ import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.LEDSystem;
+import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.SetArmToAngleCommand;
@@ -120,6 +121,9 @@ public class RobotContainer {
      * This is the single place that joystick triggers/buttons are bound to specific commands.
      */
     public void bindCommands() {
+
+        // ARM CONTROLLER BINDINGS
+
         // Push note piece back on start up. May not need to happen when reflectometer is used.
         double waitTime = 0.2;
         new Trigger(() -> m_armController.getAButton()).onTrue(
@@ -139,11 +143,20 @@ public class RobotContainer {
 
         // One robot away preset
         new Trigger(() -> m_armController.getBButton()).onTrue(
-                new SetArmToAngleCommand(m_armSystem, 4.907));
+                new SetArmToAngleCommand(m_armSystem,
+                        PresetConstants.speakerPresetAngleAutoOneRobotAwayRadians));
+
+        // DRIVE CONTROLLER BINDINGS
+
+        new Trigger(() -> m_driveController.getBButton()).onTrue(
+
+                // AMP COMMAND
+                new AmpLightCommand(m_LEDSystem));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
         // new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+
     }
 
     public void stopRobot() {

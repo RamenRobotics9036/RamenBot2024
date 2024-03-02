@@ -315,20 +315,12 @@ public class SwerveDriveSystem extends SubsystemBase {
                                                      // (changed from 270)
     }
 
-    public boolean resetGyroFieldRelativeRedMid() {
-        return StatusCode.OK == m_gyro.setYaw(180.0); // 0 for Swerve A
-    }
-
     public boolean resetGyroFieldRelativeRedTop() {
         return StatusCode.OK == m_gyro.setYaw(120.0); // 0 for Swerve A
     }
 
     public boolean resetGyroFieldRelativeRedBottom() {
         return StatusCode.OK == m_gyro.setYaw(280.0); // 0 for Swerve A
-    }
-
-    public boolean resetGyroFieldRelativeBlueMid() {
-        return StatusCode.OK == m_gyro.setYaw(0);
     }
 
     public boolean resetGyroFieldRelativeBlueTop() {

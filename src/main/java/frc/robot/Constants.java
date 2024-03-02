@@ -315,6 +315,7 @@ public class Constants {
                                                                          // lower angle
         public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
+        public static final double speakerPresetAngleAutoOneRobotAwayRadians = 4.907;
     }
 
     public static class HookConstants {

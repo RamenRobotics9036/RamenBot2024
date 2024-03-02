@@ -5,7 +5,7 @@
       "x": 0.75,
       "y": 6.65
     },
-    "rotation": 62.595721698248
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 10.0
           }
         },
         {
