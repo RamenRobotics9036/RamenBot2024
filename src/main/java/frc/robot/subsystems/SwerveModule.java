@@ -138,6 +138,10 @@ public class SwerveModule {
     }
 
     public void toTeleop() {
+        maxOutput = SwerveSystemConstants.maxOutputPercentage;
+    }
+
+    public void toAuto() {
         maxOutput = SwerveSystemConstants.autoSpeed;
     }
 

@@ -176,6 +176,14 @@ public class RobotContainer {
 
     }
 
+    public void toAuto() {
+        m_swerveDrive.toAuto();
+    }
+
+    public void toTeleop() {
+        m_swerveDrive.toTeleop();
+    }
+
     public void stopRobot() {
         m_swerveDrive.stopSystem();
         m_visionSystem.stopSystem();

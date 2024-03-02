@@ -112,6 +112,13 @@ public class SwerveDriveSystem extends SubsystemBase {
         m_backRight.toTeleop();
     }
 
+    public void toAuto() {
+        m_frontLeft.toAuto();
+        m_backLeft.toAuto();
+        m_frontRight.toAuto();
+        m_backRight.toAuto();
+    }
+
     /**
      * Initializes the Shuffleboard.
      */
@@ -465,9 +472,6 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (RobotState.isAutonomous()) {
-            toTeleop();
-        }
         updatePidFromShuffleBoard();
         updateOdometry();
         // Shuffleboard.getTab("Swerve").add("X Pose Meters", m_odometry.getPoseMeters().getX());
