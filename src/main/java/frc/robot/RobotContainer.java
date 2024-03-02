@@ -86,7 +86,7 @@ public class RobotContainer {
         // NOTE Field relative is dependent both on which alliance you are on, but also what part of
         // the subwoofer you are on.
 
-        m_swerveDrive.resetGyroFieldRelativeBlueMid();
+        // m_swerveDrive.resetGyroFieldRelativeBlueMid();
         m_swerveDrive.resetPose(
                 new Pose2d(new Translation2d(),
                         Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
