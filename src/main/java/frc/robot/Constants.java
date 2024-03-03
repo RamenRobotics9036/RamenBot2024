@@ -305,7 +305,7 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
-        public static final double speakerPresetAngleAutoRadians = 5.07; // (TESTED, WORKS VERY
+        public static final double speakerPresetAngleAutoRadians = 5.03; // (TESTED, WORKS VERY
                                                                          // WELL) a little
                                                                          // lower because our
                                                                          // current
