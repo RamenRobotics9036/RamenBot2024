@@ -275,7 +275,7 @@ public class Constants {
                                                                 // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.4;
+        public static final double maxOutputPercent = 0.6;
     }
 
     public static class IntakeConstants {
