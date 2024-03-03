@@ -27,7 +27,7 @@ public class VisionSystem extends SubsystemBase {
     private final double EPSILON = 0.0000001;
 
     public VisionSystem() {
-        displayToShuffleBoard();
+        // displayToShuffleBoard();
     }
 
     private void displayToShuffleBoard() {

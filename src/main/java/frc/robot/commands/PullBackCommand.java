@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
@@ -7,6 +8,7 @@ import frc.robot.subsystems.IntakeSystem;
 public class PullBackCommand extends Command {
     private IntakeSystem m_intakeSystem;
     private double m_angle;
+    private Timer m_timer;
 
     public PullBackCommand(IntakeSystem intakeSystem) {
         m_intakeSystem = intakeSystem;
@@ -17,6 +19,8 @@ public class PullBackCommand extends Command {
     public void initialize() {
         m_angle = m_intakeSystem.getIntakeAngle();
         IntakeConstants.speed = IntakeConstants.pullBackSpeed;
+        m_timer = new Timer();
+        m_timer.start();
     }
 
     @Override
@@ -27,6 +31,9 @@ public class PullBackCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        if (m_timer.get() >= 2) {
+            return true;
+        }
         if (m_intakeSystem.getIntakeAngle() > m_angle + IntakeConstants.pullBackAmount) {
             return true;
         }
