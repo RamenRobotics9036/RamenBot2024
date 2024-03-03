@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.15,
+        "x": 1.25,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1814347884647476,
+        "x": 1.2814347884647477,
         "y": 5.55
       },
       "isLocked": false,
@@ -57,7 +57,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Mid Subwoofer"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
