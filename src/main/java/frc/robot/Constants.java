@@ -287,10 +287,17 @@ public class Constants {
         public static final double maxTime = 0.8;
     }
 
-    public static class TestConstants {
+    public static class TestConstants { //ALL THESE ARE DUMMY VALUES
         public static final double testTime = 0.5;
         public static final double testSpeed = 0.2;
         public static final double errorMargin = 0.1;
+
+        public static final double intakeMotorPredicted = 3;
+        public static final double armMotorPredicted = 3;
+        public static final double shooterMotorPredicted = 3;
+        public static final double hookMotorPredicted = 3;
+        public static final double swerveTurnMotorPredicted = 3;
+        public static final double swerveDriveMotorPredicted = 3;
     }
 
     public static class PresetConstants {

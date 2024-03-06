@@ -56,12 +56,19 @@ public class IntakeMotorTestCommand extends Command {
     public void end(boolean interrupted) {
         if (!m_status[0]) {
             if (!m_status[1]) {
-                m_errorMessage = "Both motors and/or encoders broken.";
+                m_errorMessage = "Oh no. Both motors and/or encoders are broken.";
             } else {
                 m_errorMessage = "Leader motor and/or encoder is broken.";
             }
         } else {
-            m_errorMessage = "Follower motor and/or encoder is broken.";
+            if (!m_status[1]) {
+                m_errorMessage = "Follower motor and/or encoder is broken.";
+            } else {
+                m_errorMessage = "Everything works fine (as I would expect).";
+            }
+            m_errorMessage += "Leader motor moved " + String.valueOf(m_currentPos[0]) + ".";
+            m_errorMessage += "Follower motor moved " + String.valueOf(m_currentPos[1]) + ".";
+            m_errorMessage += "Predicted was " + String.valueOf(TestConstants.intakeMotorPredicted) + ".";
         }
         m_intake.setErrorMessage(m_errorMessage);
         m_intake.setStatus(m_status);
