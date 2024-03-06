@@ -111,7 +111,12 @@ public class RobotContainer {
             m_swerveDrive.resetGyroFieldRelativeBlueTop();
         }
         else {
-            m_swerveDrive.resetGyroFieldRelativeAuto();
+            if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
+                m_swerveDrive.resetGyroFieldRelativeAutoRed();
+            }
+            else {
+                m_swerveDrive.resetGyroFieldRelativeAuto();
+            }
         }
 
         m_swerveDrive.resetPose(

@@ -278,7 +278,7 @@ public class Constants {
                                                                 // degrees
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.4;
+        public static final double maxOutputPercent = 0.6;
     }
 
     public static class IntakeConstants {
@@ -308,7 +308,7 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
-        public static final double speakerPresetAngleAutoRadians = 5.07; // (TESTED, WORKS VERY
+        public static final double speakerPresetAngleAutoRadians = 5.03; // (TESTED, WORKS VERY
                                                                          // WELL) a little
                                                                          // lower because our
                                                                          // current

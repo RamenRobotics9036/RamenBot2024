@@ -338,6 +338,10 @@ public class SwerveDriveSystem extends SubsystemBase {
         return StatusCode.OK == m_gyro.setYaw(0.0); //
     }
 
+    public boolean resetGyroFieldRelativeAutoRed() {
+        return StatusCode.OK == m_gyro.setYaw(180.0); //
+    }
+
     public boolean resetGyroFieldRelativeBlueBottom() {
         return StatusCode.OK == m_gyro.setYaw(280.0); // THIS ACTUALLY WORKS (Shlok and Xavier does
                                                       // not know why)
