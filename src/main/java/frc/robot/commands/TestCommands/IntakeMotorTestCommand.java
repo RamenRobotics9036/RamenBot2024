@@ -9,7 +9,8 @@ public class IntakeMotorTestCommand extends Command {
     public IntakeSystem m_intake;
     public Timer m_timer = new Timer();
 
-    public double[] m_pos = new double[2];
+    public double[] m_oldPos = new double[2];
+    public double[] m_currentPos = new double[2];
     public boolean[] m_status = new boolean[2];
 
     public String m_errorMessage;
@@ -22,19 +23,23 @@ public class IntakeMotorTestCommand extends Command {
     @Override
     public void initialize() {
         m_timer.start();
-        m_pos[0] = m_intake.getLeaderPosition();
-        m_pos[1] = m_intake.getFollowerPosition();
-        m_errorMessage = "Functional!";
+        m_oldPos[0] = m_intake.getLeaderPosition();
+        m_oldPos[1] = m_intake.getFollowerPosition();
+        m_currentPos[0] = m_intake.getLeaderPosition();
+        m_currentPos[1] = m_intake.getFollowerPosition();
     }
 
     @Override
     public void execute() {
         m_intake.setIntakeSpeed(TestConstants.testSpeed);
 
-        if (m_intake.getLeaderPosition() - m_pos[0] >= m_pos[0] + TestConstants.errorMargin) {
+        m_currentPos[0]=m_intake.getLeaderPosition() - m_oldPos[0];
+        m_currentPos[1]=m_intake.getLeaderPosition() - m_oldPos[1];
+
+        if (m_currentPos[0] >= TestConstants.errorMargin || m_currentPos[1] <= -TestConstants.errorMargin) {
             m_status[0] = true;
         }
-        if (m_intake.getFollowerPosition() - m_pos[1] >= m_pos[1] + TestConstants.errorMargin) {
+        if (m_currentPos[1] >= TestConstants.errorMargin || m_currentPos[1] <= -TestConstants.errorMargin) {
             m_status[1] = true;
         }
     }
@@ -49,8 +54,8 @@ public class IntakeMotorTestCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        if (!!m_status[0]) {
-            if (!!m_status[1]) {
+        if (!m_status[0]) {
+            if (!m_status[1]) {
                 m_errorMessage = "Both motors and/or encoders broken.";
             } else {
                 m_errorMessage = "Leader motor and/or encoder is broken.";
