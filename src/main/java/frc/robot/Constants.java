@@ -32,7 +32,10 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.5461;
+        // Distance between the center of a wheel and the center of the drive train
+        public static final double frameDistanceToModulesMeters = 0.39; // Robototes is .3 even though their drive train is 27x27, so I am not sure how they are calculating it
+        // Remembrants is .285 even though their robot is as big as ours with a .82 meter drive width
+        // Test these numbers later if the current one feels weird. 
         public static final double wheelRadiusMeters = 0.0508; // 2 inches
 
         public static final int gyroCanID = 7;
@@ -41,7 +44,7 @@ public class Constants {
         // tested.
         // If you need to raise it higher, change it on your local code only
         public static final double maxOutputPercentage = 1;
-        public static final double autoSpeed = .4; // Trying to lower max auto speed
+        public static final double autoSpeed = 1; // Trying to lower max auto speed
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5;
@@ -57,8 +60,8 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 4.5;
-        public static final double maxSpeedMetersPerSecondAuto = 4.5;
+        public static final double maxSpeedMetersPerSecond = 5.06;
+        public static final double maxSpeedMetersPerSecondAuto = 5.06;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
