@@ -33,9 +33,14 @@ public class Constants {
         public static final boolean isPIDTuning = true;
 
         // Distance between the center of a wheel and the center of the drive train
-        public static final double frameDistanceToModulesMeters = 0.39; // Robototes is .3 even though their drive train is 27x27, so I am not sure how they are calculating it
-        // Remembrants is .285 even though their robot is as big as ours with a .82 meter drive width
-        // Test these numbers later if the current one feels weird. 
+        public static final double frameDistanceToModulesMeters = 0.39; // Robototes is .3 even
+                                                                        // though their drive train
+                                                                        // is 27x27, so I am not
+                                                                        // sure how they are
+                                                                        // calculating it
+        // Remembrants is .285 even though their robot is as big as ours with a .82 meter drive
+        // width
+        // Test these numbers later if the current one feels weird.
         public static final double wheelRadiusMeters = 0.0508; // 2 inches
 
         public static final int gyroCanID = 7;
