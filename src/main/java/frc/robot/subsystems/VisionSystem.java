@@ -11,32 +11,34 @@ import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSystem extends SubsystemBase {
-    private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
-    private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
+    @SuppressWarnings("LineLengthCheck")
+    private final double m_limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
+    private final double m_limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
-    private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
-    private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
+    private final double m_limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
+    private final double m_aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+    private NetworkTable m_limelightTable = NetworkTableInstance.getDefault()
             .getTable(VisionConstants.limelightName);
-    private NetworkTableEntry tableX = limelightTable.getEntry("tx");
-    private NetworkTableEntry tableY = limelightTable.getEntry("ty");
-    private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
-    private NetworkTableEntry tableID = limelightTable.getEntry("tid");
+    private NetworkTableEntry m_tableX = m_limelightTable.getEntry("tx");
+    private NetworkTableEntry m_tableY = m_limelightTable.getEntry("ty");
+    private NetworkTableEntry m_tableArea = m_limelightTable.getEntry("ta");
+    private NetworkTableEntry m_tableId = m_limelightTable.getEntry("tid");
 
-    private final double EPSILON = 0.0000001;
+    private final double m_epsilon = 0.0000001;
 
     public VisionSystem() {
         // displayToShuffleBoard();
     }
 
+    @SuppressWarnings("unused")
     private void displayToShuffleBoard() {
         ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout(
                 "April Tags",
                 BuiltInLayouts.kList);
         visionLayout.addDouble("Raw Y", () -> getY());
-        visionLayout.addDouble("X Displacement", () -> getXRadians());
-        visionLayout.addDouble("Y Displacement", () -> getYRadians());
+        visionLayout.addDouble("X Displacement", () -> getxRadians());
+        visionLayout.addDouble("Y Displacement", () -> getyRadians());
         visionLayout.addDouble("Area", () -> getArea());
         visionLayout.addBoolean("Is Detecting", () -> isDetected());
         visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
@@ -44,32 +46,32 @@ public class VisionSystem extends SubsystemBase {
 
         visionLayout.addDouble(
                 "X tangent",
-                () -> Math.tan(getXRadians() + limelightMountAngleRadiansX));
+                () -> Math.tan(getxRadians() + m_limelightMountAngleRadiansX));
         visionLayout.addDouble(
                 "Y tangent",
-                () -> Math.tan(getYRadians() + limelightMountAngleRadiansY));
-        visionLayout.addDouble("ID", () -> getID());
+                () -> Math.tan(getyRadians() + m_limelightMountAngleRadiansY));
+        visionLayout.addDouble("ID", () -> getId());
     }
 
     /**
      * X angle, left-right, from April tag. X cross-hair angle.
      */
     public double getX() {
-        return tableX.getDouble(0);
+        return m_tableX.getDouble(0);
     }
 
     /**
      * Y angle, up-down, to April tag. Y cross-hair angle.
      */
     public double getY() {
-        return tableY.getDouble(0);
+        return m_tableY.getDouble(0);
     }
 
-    public double getXRadians() {
+    public double getxRadians() {
         return Math.toRadians(getX());
     }
 
-    public double getYRadians() {
+    public double getyRadians() {
         return Math.toRadians(getY());
     }
 
@@ -77,20 +79,20 @@ public class VisionSystem extends SubsystemBase {
      * Area of April tag in view.
      */
     public double getArea() {
-        return tableArea.getDouble(0);
+        return m_tableArea.getDouble(0);
     }
 
     public boolean isDetected() {
         return getX() + getY() + getArea() != 0;
     }
 
-    public double getID() {
-        return tableID.getDouble(0);
+    public double getId() {
+        return m_tableId.getDouble(0);
     }
 
-    public boolean isDetectedIDValid() {
-        double myID = getID();
-        if (Constants.VisionConstants.targetedIDList.contains(myID)) {
+    public boolean isDetectedIdValid() {
+        double myId = getId();
+        if (Constants.VisionConstants.targetedIDList.contains(myId)) {
             return true;
         }
         else {
@@ -102,9 +104,9 @@ public class VisionSystem extends SubsystemBase {
      * Distance to April tag in meters Y.
      */
     public double getDistanceMetersY() {
-        double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
-                - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
+        double angleToGoalRadians = m_limelightMountAngleRadiansY + getyRadians();
+        double distanceFromLimelightToGoalMeters = (m_aprilTagHeightMeters
+                - m_limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + m_epsilon);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -112,7 +114,7 @@ public class VisionSystem extends SubsystemBase {
      * Distance to April tag in meters X.
      */
     public double getDistanceMetersX() {
-        double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
+        double angleToGoalRadians = m_limelightMountAngleRadiansX + getxRadians();
         double distanceFromLimelightToGoalMeters = getDistanceMetersY()
                 * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;

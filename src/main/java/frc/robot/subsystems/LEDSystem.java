@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 
+@SuppressWarnings("AbbreviationAsWordInNameCheck")
 public class LEDSystem extends SubsystemBase {
 
     // I WANT TO USE THE TOP INTAKE MOTOR BECAUSE THAT WILL ONLY CHANGE IF IT ACTUALLY GRABS A PIECE
@@ -18,18 +18,12 @@ public class LEDSystem extends SubsystemBase {
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
 
     // ARBITRARY NUMBER
-    private double NORMALCURRENT = Double.MAX_VALUE;
+    private double m_normalCurrent = Double.MAX_VALUE;
 
-    private AddressableLED m_LEDLight = new AddressableLED(
+    private AddressableLED m_ledLight = new AddressableLED(
             Constants.OperatorConstants.kLEDLightsChannel);
-    private AddressableLEDBuffer m_LEDBuffer = new AddressableLEDBuffer(
+    private AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(
             Constants.OperatorConstants.kLEDLightsLength);
-
-    private int m_ledLoop;
-    private int m_ledR;
-    private int m_ledG;
-    private int m_ledB;
-    private int m_ledHue;
 
     private IntakeSystem m_intakeSystem;
 
@@ -39,12 +33,7 @@ public class LEDSystem extends SubsystemBase {
         // intakeMotor.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // initShuffleBoard();
 
-        m_ledLoop = 0;
-        m_ledR = 255;
-        m_ledG = 0;
-        m_ledB = 0;
-        m_ledHue = 0;
-        m_LEDLight.setLength(m_LEDBuffer.getLength());
+        m_ledLight.setLength(m_ledBuffer.getLength());
 
         m_intakeSystem = intakeSystem;
     }
@@ -53,15 +42,9 @@ public class LEDSystem extends SubsystemBase {
      * Sets the LED lights to yellow.
      */
     public void setLedsYellow() {
-        m_ledR = 255;
-        m_ledG = 255;
-        m_ledB = 0;
     }
 
     public void resetLED() {
-        m_ledR = 255;
-        m_ledG = 0;
-        m_ledB = 0;
     }
 
     public void initShuffleBoard() {
@@ -78,10 +61,11 @@ public class LEDSystem extends SubsystemBase {
         // FIND WHAT THE NORMALCURRENT OF THE MOTOR RUNS AT TOMORROW
         // SEE IF THERE IS A SPIKE WHEN IT IS INTAKING A PIECE (HOLD THE PIECE SO THE INTAKE CANNOT
         // FULLY GRAB IT)
-        if (m_intakeSystem.getOutputCurrent() > NORMALCURRENT) {
+        if (m_intakeSystem.getOutputCurrent() > m_normalCurrent) {
             // m_LEDBuffer.setHSV()
-            m_LEDBuffer.setRGB(0, 0, 255, 0); // WILL ONLY CHANGE ONE LIGHT FOR NOW. ADD A FOR LOOP
-                                              // TO ACTUALLY CHANGE ALL OF THE LIGHTS LATER
+            // WILL ONLY CHANGE ONE LIGHT FOR NOW. ADD A FOR LOOP
+            // TO ACTUALLY CHANGE ALL OF THE LIGHTS LATER
+            m_ledBuffer.setRGB(0, 0, 255, 0);
 
         }
 
@@ -94,16 +78,16 @@ public class LEDSystem extends SubsystemBase {
 
         // I WILL ALSO HAVE TO THINK ABOUT THE INTERACTION WITH THE AMP LIGHT
 
-        m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
+        m_ledLight.setData(m_ledBuffer);
+        m_ledLight.start();
     }
 
     /**
      * Stop the intake system.
      */
     public void stopSystem() {
-        m_LEDBuffer.setRGB(0, 0, 0, 0);
-        m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
+        m_ledBuffer.setRGB(0, 0, 0, 0);
+        m_ledLight.setData(m_ledBuffer);
+        m_ledLight.start();
     }
 }

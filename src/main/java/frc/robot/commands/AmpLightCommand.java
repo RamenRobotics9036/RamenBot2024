@@ -1,21 +1,19 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.LEDSystem;
 
 public class AmpLightCommand extends Command {
-    private LEDSystem m_LEDSystem;
+    private LEDSystem m_ledSystem;
     // private PIDController m_pid;
 
-    public AmpLightCommand(LEDSystem LEDSystem) {
-        m_LEDSystem = LEDSystem;
+    public AmpLightCommand(LEDSystem ledSystem) {
+        m_ledSystem = ledSystem;
     }
 
     @Override
     public void initialize() {
-        m_LEDSystem.setLedsYellow();
+        m_ledSystem.setLedsYellow();
     }
 
     @Override
@@ -31,7 +29,7 @@ public class AmpLightCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_LEDSystem.stopSystem();
+        m_ledSystem.stopSystem();
     }
 
 }
