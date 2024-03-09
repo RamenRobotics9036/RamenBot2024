@@ -100,6 +100,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
         Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () -> getRotation2d().getDegrees());
+        // $TODO - David warned that the Swerve shuffleboard tab may be causing a memory leak
         // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
         // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
@@ -464,6 +465,8 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        // $TODO - Note that we should revisit this code; but for now,
+        // this completely disables rotation in pathfinder.
         chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
