@@ -132,7 +132,7 @@ public class RobotContainer {
                         new PIDConstants(19, 0, 0),
                         new PIDConstants(0, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
-                        m_swerveDrive.getDriveBaseRadius(),
+                        Constants.SwerveSystemConstants.frameDistanceToModulesMeters,
                         new ReplanningConfig()),
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
