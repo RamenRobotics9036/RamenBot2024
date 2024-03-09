@@ -31,7 +31,7 @@ import java.util.function.DoubleSupplier;
 /**
  * SwerveDriveSystem.
  */
-public class SwerveDriveSystem extends SubsystemBase {
+public class SwerveDriveSystem extends SwerveDriveSystemAbstract {
     private GenericEntry m_getPidDriveP;
     private GenericEntry m_getPidDriveD;
 

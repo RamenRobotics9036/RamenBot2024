@@ -9,7 +9,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.util.AppliedController;
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
@@ -22,7 +22,7 @@ import simulationlib.simulation.swerve.SwerveSimConstants.Swerve;
  * Subclass of TankDriveSystem that is used for simulation. Note that this code isn't run if
  * the robot is not running in simulation mode.
  */
-public class SwerveDriveSystemSim extends SwerveDriveSystem {
+public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
     private SwerveDrive m_simSwerveDrive;
     private final Field2d m_field2d = new Field2d();
     private final Pose2d[] m_robotPose = {
@@ -38,8 +38,9 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
     /**
      * Factory method to create a SwerveDriveSystemSim or SwerveDriveSystem object.
      */
-    public static SwerveDriveSystem createSwerveDriveSystemInstance(AppliedController controller) {
-        SwerveDriveSystem result;
+    public static SwerveDriveSystemAbstract createSwerveDriveSystemInstance(
+            AppliedController controller) {
+        SwerveDriveSystemAbstract result;
 
         if (RobotBase.isSimulation()) {
             result = new SwerveDriveSystemSim(controller);
@@ -56,9 +57,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
      * Constructor.
      */
     public SwerveDriveSystemSim(AppliedController controller) {
-        // FIRST, we call superclass
-        super(controller);
-
         m_simSwerveDrive = new SwerveDrive();
 
         // $TODO - This can go away later. For now, expose pose for Shuffleboard
@@ -320,5 +318,70 @@ public class SwerveDriveSystemSim extends SwerveDriveSystem {
         else {
             return new Pose2d();
         }
+    }
+
+    @Override
+    public void toTeleop() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toTeleop'");
+    }
+
+    @Override
+    public void toAuto() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toAuto'");
+    }
+
+    @Override
+    public void setFieldRelative(boolean fieldRelative) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFieldRelative'");
+    }
+
+    @Override
+    public void drive(double xspeed, double yspeed, double rot) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drive'");
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeRedTop() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'resetGyroFieldRelativeRedTop'");
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeRedBottom() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'resetGyroFieldRelativeRedBottom'");
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeBlueTop() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'resetGyroFieldRelativeBlueTop'");
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeAutoRed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'resetGyroFieldRelativeAutoRed'");
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeBlueBottom() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'resetGyroFieldRelativeBlueBottom'");
+    }
+
+    @Override
+    public void setStatus(boolean[] status) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStatus'");
     }
 }

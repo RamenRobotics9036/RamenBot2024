@@ -43,7 +43,7 @@ import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
 import frc.robot.util.Coords;
@@ -63,7 +63,7 @@ public class RobotContainer {
     private final AppliedController m_armController = new AppliedController(
             OperatorConstants.armControllerPort);
 
-    private SwerveDriveSystem m_swerveDrive = SwerveDriveSystemSim
+    private SwerveDriveSystemAbstract m_swerveDrive = SwerveDriveSystemSim
             .createSwerveDriveSystemInstance(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
