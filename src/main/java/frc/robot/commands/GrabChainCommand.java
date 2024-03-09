@@ -1,20 +1,21 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GrabChainConstants;
 import frc.robot.subsystems.HookSystem;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 
 public class GrabChainCommand extends Command {
 
-    private SwerveDriveSystem m_swerve;
+    private SwerveDriveSystemAbstract m_swerve;
     private HookSystem m_hookSystem;
     private Timer m_timer = new Timer();
     private int m_phase = 1;
     private double m_oldPos;
 
-    public GrabChainCommand(HookSystem hook, SwerveDriveSystem swerve) {
+    public GrabChainCommand(HookSystem hook, SwerveDriveSystemAbstract swerve) {
         m_hookSystem = hook;
         m_swerve = swerve;
         addRequirements(m_hookSystem, m_swerve);
@@ -57,6 +58,11 @@ public class GrabChainCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        // $TODO - Remove this
+        if (RobotBase.isSimulation()) {
+            return true;
+        }
+
         if (m_timer.get() >= GrabChainConstants.maxTime || m_phase == 4) {
             return true;
         }

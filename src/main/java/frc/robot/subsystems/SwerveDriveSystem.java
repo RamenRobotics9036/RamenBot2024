@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Constants.SwerveSystemConstants.SwerveSystemDeviceConstants;
 import frc.robot.commands.DriveSwerveCommand;
@@ -31,7 +30,7 @@ import java.util.function.DoubleSupplier;
 /**
  * SwerveDriveSystem.
  */
-public class SwerveDriveSystem extends SubsystemBase {
+public class SwerveDriveSystem extends SwerveDriveSystemAbstract {
     GenericEntry m_getPidDriveP;
     GenericEntry m_getPidDriveD;
 

@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,14 +31,23 @@ import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
+import frc.robot.sim.DefaultSimLayout;
+import frc.robot.sim.PopulateSimShuffleboard;
+import frc.robot.sim.SwerveDriveSystemSim;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.LEDSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import java.util.Optional;
+import java.util.function.Supplier;
+import simulationlib.shuffle.MultiType;
+import simulationlib.shuffle.PrefixedConcurrentMap;
+import simulationlib.shuffle.ShuffleboardHelpers;
+import simulationlib.shuffle.SupplierMapFactory;
 
 /**
  * RobotContainer.
@@ -47,7 +58,8 @@ public class RobotContainer {
     private final AppliedController m_armController = new AppliedController(
             OperatorConstants.armControllerPort);
 
-    private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
+    private SwerveDriveSystemAbstract m_swerveDrive = SwerveDriveSystemSim
+            .createSwerveDriveSystemInstance(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
@@ -57,6 +69,8 @@ public class RobotContainer {
     private LEDSystem m_ledSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
+
+    private PopulateSimShuffleboard m_shuffleboardManager = null;
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("3 Note Auto High", "MID-TOP 3 NOTE");
@@ -91,10 +105,57 @@ public class RobotContainer {
                                         new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                                 m_armController)),
                         new StayCommand(m_swerveDrive)));
+
+        // This is only done in simulation
+        if (RobotBase.isSimulation()) {
+            initSimShuffleboard();
+        }
+    }
+
+    private void initSimShuffleboard() {
+        // Now that all subsystems are created, print out the list of properties
+        // available for display in Shuffleboard.
+        printAvailableDashboardProperties();
+
+        m_shuffleboardManager = new PopulateSimShuffleboard(
+                new ShuffleboardHelpers(SupplierMapFactory.getGlobalInstance()),
+                new DefaultSimLayout(),
+                Shuffleboard.getTab("Simulation"));
+    }
+
+    private void printAvailableDashboardProperties() {
+        PrefixedConcurrentMap<Supplier<MultiType>> globalMap = SupplierMapFactory
+                .getGlobalInstance();
+
+        globalMap.prettyPrint();
+    }
+
+    public void updateSimShuffleboard() {
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.updateDashOnRobotPeriodic();
+        }
+    }
+
+    // Based on sample:
+    // https://docs.wpilib.org/en/stable/docs/software/basic-programming/alliancecolor.html
+    private boolean isRedAlliance() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                return true;
+            }
+
+            // We explicitely check for blue in-case default is changed later
+            if (ally.get() == Alliance.Blue) {
+                return false;
+            }
+        }
+
+        // Returns "Blue" by default
+        return false;
     }
 
     public void scheduleAutonomousCommand() {
-
         // Choose which Field relative to use
         // use a sendable chooser for which gyro to reset to
 
@@ -110,7 +171,7 @@ public class RobotContainer {
             m_swerveDrive.resetGyroFieldRelativeBlueTop();
         }
         else {
-            if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
+            if (isRedAlliance()) {
                 m_swerveDrive.resetGyroFieldRelativeAutoRed();
             }
             else {
@@ -133,7 +194,7 @@ public class RobotContainer {
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         Constants.SwerveSystemConstants.frameDistanceToModulesMeters,
                         new ReplanningConfig()),
-                () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
+                () -> isRedAlliance(),
                 m_swerveDrive);
 
         Command auto = new PathPlannerAuto(autoName);
@@ -145,6 +206,11 @@ public class RobotContainer {
                 "Angle to Shoot",
                 () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
                         + ShooterConstants.shootOffsetLimeLight);
+
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.addShuffleboardWidgets();
+            m_shuffleboardManager.addMacros(m_armSystem);
+        }
     }
 
     /**

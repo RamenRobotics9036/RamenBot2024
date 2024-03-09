@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 
 public class StayCommand extends Command {
-    private SwerveDriveSystem m_swerveDrive;
+    private SwerveDriveSystemAbstract m_swerveDrive;
 
-    public StayCommand(SwerveDriveSystem swerveDrive) {
+    public StayCommand(SwerveDriveSystemAbstract swerveDrive) {
         m_swerveDrive = swerveDrive;
         addRequirements(m_swerveDrive);
     }

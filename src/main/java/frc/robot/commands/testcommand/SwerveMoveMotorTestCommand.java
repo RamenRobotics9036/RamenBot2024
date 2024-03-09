@@ -3,14 +3,14 @@ package frc.robot.commands.testcommand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TestConstants;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 
 public class SwerveMoveMotorTestCommand extends Command {
-    public SwerveDriveSystem m_swerve;
+    public SwerveDriveSystemAbstract m_swerve;
     public Timer m_timer = new Timer();
     public boolean[] m_worked = new boolean[4];
 
-    public SwerveMoveMotorTestCommand(SwerveDriveSystem swerve) {
+    public SwerveMoveMotorTestCommand(SwerveDriveSystemAbstract swerve) {
         m_swerve = swerve;
         addRequirements(m_swerve);
     }
