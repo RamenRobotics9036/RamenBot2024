@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -48,6 +49,7 @@ import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
 import frc.robot.util.Coords;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
@@ -129,8 +131,26 @@ public class RobotContainer {
         }
     }
 
-    public void scheduleAutonomousCommand() {
+    // Based on sample:
+    // https://docs.wpilib.org/en/stable/docs/software/basic-programming/alliancecolor.html
+    private boolean isRedAlliance() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                return true;
+            }
 
+            // We explicitely check for blue in-case default is changed later
+            if (ally.get() == Alliance.Blue) {
+                return false;
+            }
+        }
+
+        // Returns "Blue" by default
+        return false;
+    }
+
+    public void scheduleAutonomousCommand() {
         // Choose which Field relative to use
         // use a sendable chooser for which gyro to reset to
 
@@ -146,18 +166,7 @@ public class RobotContainer {
             m_swerveDrive.resetGyroFieldRelativeBlueTop();
         }
         else {
-            // Note, if the alliance hasn't been set yet, we default to Blue. Otherwise, querying
-            // the alliance can cause a crash.
-            boolean allianceIsRed = false;
-            if (DriverStation.getAlliance().isPresent()) {
-                allianceIsRed = DriverStation.getAlliance().get()
-                        .equals(DriverStation.Alliance.Red);
-            }
-            else {
-                System.out.println("Alliance not set yet, defaulting to Blue");
-            }
-
-            if (allianceIsRed) {
+            if (isRedAlliance()) {
                 m_swerveDrive.resetGyroFieldRelativeAutoRed();
             }
             else {
@@ -180,7 +189,7 @@ public class RobotContainer {
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         Constants.SwerveSystemConstants.frameDistanceToModulesMeters,
                         new ReplanningConfig()),
-                () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
+                () -> isRedAlliance(),
                 m_swerveDrive);
 
         Command auto = new PathPlannerAuto(autoName);
