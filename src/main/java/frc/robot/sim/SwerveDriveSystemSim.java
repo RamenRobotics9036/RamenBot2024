@@ -85,15 +85,11 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void periodic() {
-        super.periodic();
-
         m_simSwerveDrive.periodic();
     }
 
     @Override
     public void simulationPeriodic() {
-        super.simulationPeriodic();
-
         m_simSwerveDrive.simulationPeriodic();
 
         updateRobotPoses();
@@ -107,8 +103,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
-        // super.drive(xspeed, yspeed, rot, fieldRelative);
-
         System.out.println(
                 "$IDO: drive: " + xspeed + ", " + yspeed + ", " + rot + ", " + fieldRelative);
 
@@ -137,8 +131,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public boolean resetGyroFieldRelative() {
-        // super.resetGyroFieldRelative();
-
         if (m_simSwerveDrive != null) {
             // $TODO
             return true;
@@ -150,8 +142,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public boolean resetGyroFieldRelativeAuto() {
-        // super.resetGyroFieldRelativeAuto();
-
         if (m_simSwerveDrive != null) {
             // $TODO
             return true;
@@ -269,8 +259,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void stopSystem() {
-        // super.stopSystem();
-
         if (m_simSwerveDrive != null) {
             ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
             m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
@@ -298,8 +286,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void resetPose(Pose2d pose) {
-        // super.resetPose(pose);
-
         // $TODO
         // if (m_simSwerveDrive != null) {
         m_simSwerveDrive.resetPose(pose);
@@ -308,8 +294,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        // super.driveFromChassisSpeeds(chassisSpeeds);
-
         System.out.println("$IDO: driveFromChassisSpeeds");
 
         if (m_simSwerveDrive != null) {
@@ -368,7 +352,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void setStatus(boolean[] status) {
-        // TODO Auto-generated method stub
+        // $TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setStatus'");
     }
 }
