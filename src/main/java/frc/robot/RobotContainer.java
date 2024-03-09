@@ -146,7 +146,18 @@ public class RobotContainer {
             m_swerveDrive.resetGyroFieldRelativeBlueTop();
         }
         else {
-            if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
+            // Note, if the alliance hasn't been set yet, we default to Blue. Otherwise, querying
+            // the alliance can cause a crash.
+            boolean allianceIsRed = false;
+            if (DriverStation.getAlliance().isPresent()) {
+                allianceIsRed = DriverStation.getAlliance().get()
+                        .equals(DriverStation.Alliance.Red);
+            }
+            else {
+                System.out.println("Alliance not set yet, defaulting to Blue");
+            }
+
+            if (allianceIsRed) {
                 m_swerveDrive.resetGyroFieldRelativeAutoRed();
             }
             else {

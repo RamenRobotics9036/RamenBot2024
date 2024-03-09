@@ -322,14 +322,10 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void toTeleop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toTeleop'");
     }
 
     @Override
     public void toAuto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toAuto'");
     }
 
     @Override
@@ -346,37 +342,27 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public boolean resetGyroFieldRelativeRedTop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'resetGyroFieldRelativeRedTop'");
+        return true;
     }
 
     @Override
     public boolean resetGyroFieldRelativeRedBottom() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'resetGyroFieldRelativeRedBottom'");
+        return true;
     }
 
     @Override
     public boolean resetGyroFieldRelativeBlueTop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'resetGyroFieldRelativeBlueTop'");
+        return true;
     }
 
     @Override
     public boolean resetGyroFieldRelativeAutoRed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'resetGyroFieldRelativeAutoRed'");
+        return true;
     }
 
     @Override
     public boolean resetGyroFieldRelativeBlueBottom() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'resetGyroFieldRelativeBlueBottom'");
+        return true;
     }
 
     @Override
