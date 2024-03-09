@@ -35,6 +35,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
             new Pose2d() // Back Right
     };
 
+    private boolean m_fieldRelative = true;
+
     /**
      * Factory method to create a SwerveDriveSystemSim or SwerveDriveSystem object.
      */
@@ -96,6 +98,11 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
         updateRobotPoses();
         SmartDashboard.putData("Field2d", m_field2d);
+    }
+
+    @Override
+    public void drive(double xspeed, double yspeed, double rot) {
+        drive(xspeed, yspeed, rot, m_fieldRelative);
     }
 
     @Override
@@ -330,14 +337,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void setFieldRelative(boolean fieldRelative) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFieldRelative'");
-    }
-
-    @Override
-    public void drive(double xspeed, double yspeed, double rot) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drive'");
+        // Sets field relative to true or false dependent on right bumper being pressed
+        m_fieldRelative = fieldRelative;
     }
 
     @Override
