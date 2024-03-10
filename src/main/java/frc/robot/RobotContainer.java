@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -152,15 +151,15 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(0.2, 0, 0),
-                        new PIDConstants(0.1, 0, 0),
+                        new PIDConstants(19, 0, 0),
+                        new PIDConstants(6, 0.2, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
                 () -> DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red),
                 m_swerveDrive);
 
-        Command auto = new PathPlannerAuto(autoName);
+        PathPlannerAuto auto = new PathPlannerAuto(autoName);
         auto.schedule();
     }
 

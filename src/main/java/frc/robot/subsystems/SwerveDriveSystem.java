@@ -100,7 +100,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
-        Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () -> getRotation2d().getDegrees());
+        Shuffleboard.getTab("Swerve")
+                .addDouble("Gyro Angle", () -> getPoseMeters().getRotation().getDegrees());
         // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
         // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));
@@ -470,7 +471,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
-        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
+        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 
