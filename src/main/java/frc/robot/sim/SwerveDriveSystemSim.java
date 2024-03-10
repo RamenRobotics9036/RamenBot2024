@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.util.AppliedController;
 import java.util.function.Supplier;
@@ -48,8 +49,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
             result = new SwerveDriveSystemSim(controller);
         }
         else {
-            throw new UnsupportedOperationException("Not yet implemented");
-            // result = new SwerveDriveSystem(controller);
+            result = new SwerveDriveSystem(controller);
         }
 
         return result;
@@ -111,65 +111,35 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public double getxPosition() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getPoseMeters().getX();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getPoseMeters().getX();
     }
 
     @Override
     public double getyPosition() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getPoseMeters().getY();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getPoseMeters().getY();
     }
 
     @Override
     public boolean resetGyroFieldRelative() {
-        if (m_simSwerveDrive != null) {
-            // $TODO
-            return true;
-        }
-        else {
-            return true;
-        }
+        // $TODO
+        return true;
     }
 
     @Override
     public boolean resetGyroFieldRelativeAuto() {
-        if (m_simSwerveDrive != null) {
-            // $TODO
-            return true;
-        }
-        else {
-            return true;
-        }
+        // $TODO
+        return true;
     }
 
     @Override
     public double getAnglePosition() {
         // Read this off of the simulated Pigeon Gyro
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getHeadingDegrees();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getHeadingDegrees();
     }
 
     @Override
     public Rotation2d getRotation2d() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getHeadingRotation2d();
-        }
-        else {
-            return new Rotation2d();
-        }
+        return m_simSwerveDrive.getHeadingRotation2d();
     }
 
     @Override
@@ -194,12 +164,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public double getFrontLeftDriveEncoder() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getSwerveModule(0).getDriveMeters();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getSwerveModule(0).getDriveMeters();
     }
 
     @Override
@@ -219,50 +184,28 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public double getFrontLeftDriveVelocity() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getSwerveModule(0).getDriveMetersPerSecond();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getSwerveModule(0).getDriveMetersPerSecond();
     }
 
     @Override
     public double getFrontRightDriveVelocity() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getSwerveModule(1).getDriveMetersPerSecond();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getSwerveModule(1).getDriveMetersPerSecond();
     }
 
     @Override
     public double getBackLeftDriveVelocity() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getSwerveModule(2).getDriveMetersPerSecond();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getSwerveModule(2).getDriveMetersPerSecond();
     }
 
     @Override
     public double getBackRightDriveVelocity() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getSwerveModule(3).getDriveMetersPerSecond();
-        }
-        else {
-            return 0;
-        }
+        return m_simSwerveDrive.getSwerveModule(3).getDriveMetersPerSecond();
     }
 
     @Override
     public void stopSystem() {
-        if (m_simSwerveDrive != null) {
-            ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
-            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
-        }
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
+        m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
     }
 
     //
@@ -271,12 +214,7 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public ChassisSpeeds getSpeeds() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getChassisSpeeds();
-        }
-        else {
-            return new ChassisSpeeds();
-        }
+        return m_simSwerveDrive.getChassisSpeeds();
     }
 
     @Override
@@ -286,37 +224,30 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void resetPose(Pose2d pose) {
-        // $TODO
-        // if (m_simSwerveDrive != null) {
         m_simSwerveDrive.resetPose(pose);
-        // }
     }
 
     @Override
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         System.out.println("$IDO: driveFromChassisSpeeds");
-
-        if (m_simSwerveDrive != null) {
-            m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
-        }
+        m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
     }
 
     @Override
     public Pose2d getPoseMeters() {
-        if (m_simSwerveDrive != null) {
-            return m_simSwerveDrive.getPoseMeters();
-        }
-        else {
-            return new Pose2d();
-        }
+        return m_simSwerveDrive.getPoseMeters();
     }
 
     @Override
     public void toTeleop() {
+        // This can be used to reduce/increase power when switching between
+        // teleop and auto. In sim, we don't use it.
     }
 
     @Override
     public void toAuto() {
+        // This can be used to reduce/increase power when switching between
+        // teleop and auto. In sim, we don't use it.
     }
 
     @Override
