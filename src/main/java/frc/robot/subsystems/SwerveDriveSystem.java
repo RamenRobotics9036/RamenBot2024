@@ -470,7 +470,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
-        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
+        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 

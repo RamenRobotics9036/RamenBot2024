@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import javax.management.RuntimeErrorException;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -18,7 +16,6 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.event.EventLoop;
@@ -143,8 +140,11 @@ public class RobotContainer {
                 .getStartingPoseFromJson((JSONObject) autoSettings.get("startingPose"));
 
         m_swerveDrive.resetPose(startPose);
-        Rotation2d angle = Rotation2d.fromDegrees(startPose.getRotation().getDegrees());
-        m_swerveDrive.resetGyroToAngle(angle.getDegrees());
+        double angle = startPose.getRotation().getDegrees();
+        if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
+            angle += 180;
+        }
+        m_swerveDrive.resetGyroToAngle(Rotation2d.fromDegrees(angle).getDegrees());
 
         AutoBuilder.configureHolonomic(
                 m_swerveDrive::getPoseMeters,
@@ -152,8 +152,8 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(2, 0, 0),
-                        new PIDConstants(0, 0, 0),
+                        new PIDConstants(0.2, 0, 0),
+                        new PIDConstants(0.1, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),
