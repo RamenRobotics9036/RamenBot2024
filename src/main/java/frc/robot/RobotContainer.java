@@ -1,5 +1,14 @@
 package frc.robot;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import javax.management.RuntimeErrorException;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -11,6 +20,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -67,6 +77,8 @@ public class RobotContainer {
         m_autoChooser.addOption("One Note Stage Auto (NO MOVEMENT)", "Stage Auto Stay");
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
 
+        m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
+
         Shuffleboard.getTab("Auto").add(m_autoChooser);
 
         double waitTime = 0.2;
@@ -94,6 +106,28 @@ public class RobotContainer {
                         new StayCommand(m_swerveDrive)));
     }
 
+    private JSONObject getAutoJSON(String autoName) {
+        JSONObject json;
+        try (BufferedReader br = new BufferedReader(
+                new FileReader(
+                        new File(
+                                Filesystem.getDeployDirectory(),
+                                "pathplanner/autos/" + autoName + ".auto")))) {
+            StringBuilder fileContentBuilder = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                fileContentBuilder.append(line);
+            }
+
+            String fileContent = fileContentBuilder.toString();
+            json = (JSONObject) new JSONParser().parse(fileContent);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return json;
+    }
+
     public void scheduleAutonomousCommand() {
 
         // Choose which Field relative to use
@@ -104,24 +138,13 @@ public class RobotContainer {
 
         // m_swerveDrive.resetGyroFieldRelativeBlueMid();
         String autoName = m_autoChooser.getSelected();
-        if (autoName.equals("BOTTOM LEAVE 1 NOTE")) {
-            m_swerveDrive.resetGyroFieldRelativeBlueBottom();
-        }
-        else if (autoName.equals("TOP LEAVE 1 NOTE")) {
-            m_swerveDrive.resetGyroFieldRelativeBlueTop();
-        }
-        else {
-            if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
-                m_swerveDrive.resetGyroFieldRelativeAutoRed();
-            }
-            else {
-                m_swerveDrive.resetGyroFieldRelativeAuto();
-            }
-        }
+        JSONObject autoSettings = getAutoJSON(autoName);
+        Pose2d startPose = AutoBuilder
+                .getStartingPoseFromJson((JSONObject) autoSettings.get("startingPose"));
 
-        m_swerveDrive.resetPose(
-                new Pose2d(new Translation2d(),
-                        Rotation2d.fromRadians(m_swerveDrive.getAnglePosition())));
+        m_swerveDrive.resetPose(startPose);
+        Rotation2d angle = Rotation2d.fromDegrees(startPose.getRotation().getDegrees());
+        m_swerveDrive.resetGyroToAngle(angle.getDegrees());
 
         AutoBuilder.configureHolonomic(
                 m_swerveDrive::getPoseMeters,
@@ -129,7 +152,7 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(19, 0, 0),
+                        new PIDConstants(2, 0, 0),
                         new PIDConstants(0, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),

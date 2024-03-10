@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.Constants.SwerveSystemConstants.SwerveSystemDeviceConstants;
@@ -347,6 +348,10 @@ public class SwerveDriveSystem extends SubsystemBase {
                                                       // not know why)
     }
 
+    public boolean resetGyroToAngle(double value) {
+        return StatusCode.OK == m_gyro.setYaw(value);
+    }
+
     public double getAnglePosition() {
         return m_gyro.getYaw().getValueAsDouble(); // rotation in horizontal plane
     }
@@ -464,6 +469,7 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
         chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
