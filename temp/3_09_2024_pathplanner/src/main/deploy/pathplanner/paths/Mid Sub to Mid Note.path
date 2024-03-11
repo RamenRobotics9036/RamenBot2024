@@ -1,0 +1,83 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.15,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1355975165772993,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    },
+    {
+      "anchor": {
+        "x": 3.0120909314571827,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 3.023419132585857,
+        "y": 5.55
+      },
+      "nextControl": {
+        "x": 2.9816815521844693,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Note"
+    },
+    {
+      "anchor": {
+        "x": 1.15,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.203382548396126,
+        "y": 5.55
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Arm to Ground",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}
