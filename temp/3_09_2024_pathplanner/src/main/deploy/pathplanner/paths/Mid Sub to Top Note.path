@@ -1,0 +1,111 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.15,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1814347884647476,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    },
+    {
+      "anchor": {
+        "x": 1.25,
+        "y": 7.096766946743594
+      },
+      "prevControl": {
+        "x": 1.2200578920279987,
+        "y": 7.096766946743594
+      },
+      "nextControl": {
+        "x": 1.2508617358466947,
+        "y": 7.096766946743594
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6607658350837373,
+        "y": 7.096766946743594
+      },
+      "prevControl": {
+        "x": 2.6510391805593367,
+        "y": 7.096766946743594
+      },
+      "nextControl": {
+        "x": 2.6825152957939498,
+        "y": 7.096766946743594
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.15,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.1049888444918161,
+        "y": 5.55
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Subwoofer",
+      "minWaypointRelativePos": 2.6,
+      "maxWaypointRelativePos": 2.8499999999999996,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Arm Down",
+      "waypointRelativePos": 0.15000000000000002,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}
