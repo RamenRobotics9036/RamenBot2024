@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6559660811629335,
-        "y": 6.65
+        "x": 7.638772200626586,
+        "y": 0.730153768004291
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.406339940517921,
-        "y": 7.6564323563271035
+        "x": 7.60917137219416,
+        "y": 0.7597545964367172
       },
       "isLocked": false,
-      "linkedName": "Top Note"
+      "linkedName": "Bottom Note Outter"
+    },
+    {
+      "anchor": {
+        "x": 4.19520915964909,
+        "y": 0.8189562532971225
+      },
+      "prevControl": {
+        "x": 6.356069635210803,
+        "y": 0.7893554248684157
+      },
+      "nextControl": {
+        "x": 2.0890286627582824,
+        "y": 0.8478080409222105
+      },
+      "isLocked": false,
+      "linkedName": "Bottom MidPoint 2"
     },
     {
       "anchor": {
         "x": 0.75,
-        "y": 6.65
+        "y": 4.40065649362068
       },
       "prevControl": {
-        "x": 1.2153924307848631,
-        "y": 6.9956624528633675
+        "x": -0.25,
+        "y": 4.40065649362068
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Top Subwoofer"
+      "linkedName": "Bottom Subwoofer"
     }
   ],
   "rotationTargets": [],
@@ -39,7 +55,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 60.0,
+    "rotation": -60.0,
     "rotateFast": false
   },
   "reversed": false,
