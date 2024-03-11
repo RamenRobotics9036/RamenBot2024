@@ -1,19 +1,11 @@
 package frc.robot;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,16 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveSystemConstants;
-import frc.robot.Constants.CommandsConstants.SetArmConstants;
-import frc.robot.subsystems.ArmSystem;
-import frc.robot.subsystems.HookSystem;
-import frc.robot.subsystems.IntakeSystem;
-import frc.robot.subsystems.ShooterSystem;
-import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.LEDResetCommand;
@@ -41,9 +28,19 @@ import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
+import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.HookSystem;
+import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.LEDSystem;
+import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * RobotContainer.
@@ -61,7 +58,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
+    private LEDSystem m_ledSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -102,7 +99,7 @@ public class RobotContainer {
                         new StayCommand(m_swerveDrive)));
     }
 
-    private JSONObject getAutoJSON(String autoName) {
+    private JSONObject getAutoJson(String autoName) {
         JSONObject json;
         try (BufferedReader br = new BufferedReader(
                 new FileReader(
@@ -134,7 +131,7 @@ public class RobotContainer {
 
         // m_swerveDrive.resetGyroFieldRelativeBlueMid();
         String autoName = m_autoChooser.getSelected();
-        JSONObject autoSettings = getAutoJSON(autoName);
+        JSONObject autoSettings = getAutoJson(autoName);
         Pose2d startPose = AutoBuilder
                 .getStartingPoseFromJson((JSONObject) autoSettings.get("startingPose"));
 
@@ -178,9 +175,10 @@ public class RobotContainer {
         // ARM CONTROLLER BINDINGS
 
         // Push note piece back on start up. May not need to happen when reflectometer is used.
-        double waitTime = 0.1; // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
-                               // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
-                               // TO REV UP ANYWAYS)
+        // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
+        // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
+        // TO REV UP ANYWAYS)
+        double waitTime = 0.1;
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new PullBackCommand(m_intakeSystem)
                         .andThen(new WaitCommand(waitTime))
@@ -205,11 +203,11 @@ public class RobotContainer {
 
         new Trigger(() -> m_driveController.getBButton()).onTrue(
                 // AMP LIGHT COMMAND
-                new AmpLightCommand(m_LEDSystem));
+                new AmpLightCommand(m_ledSystem));
 
         new Trigger(() -> m_driveController.getYButton()).onTrue(
                 // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
-                new LEDResetCommand(m_LEDSystem));
+                new LEDResetCommand(m_ledSystem));
 
         new Trigger(() -> m_armController.povRight(new EventLoop()).getAsBoolean()).onTrue(
                 new PullBackCommand(m_intakeSystem)
