@@ -33,8 +33,8 @@ public class IntakeMotorTestCommand extends Command {
     public void execute() {
         m_intake.setIntakeSpeed(TestConstants.testSpeed);
 
-        m_currentPos[0]=m_intake.getLeaderPosition() - m_oldPos[0];
-        m_currentPos[1]=m_intake.getLeaderPosition() - m_oldPos[1];
+        m_currentPos[0] = m_intake.getLeaderPosition() - m_oldPos[0];
+        m_currentPos[1] = m_intake.getLeaderPosition() - m_oldPos[1];
 
         if (m_currentPos[0] >= TestConstants.errorMargin || m_currentPos[1] <= -TestConstants.errorMargin) {
             m_status[0] = true;
@@ -56,18 +56,18 @@ public class IntakeMotorTestCommand extends Command {
     public void end(boolean interrupted) {
         if (!m_status[0]) {
             if (!m_status[1]) {
-                m_errorMessage = "Oh no. Both motors and/or encoders are broken.";
+                m_errorMessage = "Oh no. Both motors and/or encoders are broken." + "\n";
             } else {
-                m_errorMessage = "Leader motor and/or encoder is broken.";
+                m_errorMessage = "Leader motor and/or encoder is broken." + "\n";
             }
         } else {
             if (!m_status[1]) {
-                m_errorMessage = "Follower motor and/or encoder is broken.";
+                m_errorMessage = "Follower motor and/or encoder is broken." + "\n";
             } else {
-                m_errorMessage = "Everything works fine (as I would expect).";
+                m_errorMessage = "Everything works fine (as one would expect)." + "\n";
             }
-            m_errorMessage += "Leader motor moved " + String.valueOf(m_currentPos[0]) + ".";
-            m_errorMessage += "Follower motor moved " + String.valueOf(m_currentPos[1]) + ".";
+            m_errorMessage += "Leader motor moved " + String.valueOf(m_currentPos[0]) + "." + "\n";
+            m_errorMessage += "Follower motor moved " + String.valueOf(m_currentPos[1]) + "." + "\n";
             m_errorMessage += "Predicted was " + String.valueOf(TestConstants.intakeMotorPredicted) + ".";
         }
         m_intake.setErrorMessage(m_errorMessage);
