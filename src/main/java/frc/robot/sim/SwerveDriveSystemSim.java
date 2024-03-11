@@ -7,11 +7,17 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sim.DefaultSimLayout.Widget;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.util.AppliedController;
+
+import java.util.Map;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
@@ -65,6 +71,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
         Client<Supplier<MultiType>> shuffleClient = PrefixedConcurrentMap
                 .createShuffleboardClientForSubsystem("SwerveSystem");
         shuffleClient.addItem("RobotPose", () -> MultiType.of(m_robotPose[0]));
+
+        DoubleSupplier supplier = () -> getAnglePosition();
+        Shuffleboard.getTab("Simulation").addDouble("Heading", supplier)
+                .withWidget(BuiltInWidgets.kGyro).withPosition(1, 1)
+                .withSize(2, 2)
+                .withProperties(Map.of("Starting angle", 90.0));
     }
 
     private void updateRobotPoses() {
@@ -103,8 +115,8 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
-        System.out.println(
-                "$IDO: drive: " + xspeed + ", " + yspeed + ", " + rot + ", " + fieldRelative);
+        // System.out.println(
+        // "$IDO: drive: " + xspeed + ", " + yspeed + ", " + rot + ", " + fieldRelative);
 
         m_simSwerveDrive.drive(xspeed, yspeed, rot, fieldRelative, true);
     }
@@ -126,8 +138,33 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
     }
 
     @Override
+    public boolean resetGyroFieldRelativeAutoRed() {
+        return true;
+    }
+
+    @Override
     public boolean resetGyroFieldRelativeAuto() {
         // $TODO
+        return true;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeRedTop() {
+        return true;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeRedBottom() {
+        return true;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeBlueTop() {
+        return true;
+    }
+
+    @Override
+    public boolean resetGyroFieldRelativeBlueBottom() {
         return true;
     }
 
@@ -229,7 +266,13 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        System.out.println("$IDO: driveFromChassisSpeeds");
+        if (chassisSpeeds.omegaRadiansPerSecond < 0.05) {
+            chassisSpeeds.omegaRadiansPerSecond = 0.0;
+        }
+        // $TODO - Total hack
+        // chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond * 0;
+
+        // System.out.println("$IDO: driveFromChassisSpeeds");
         m_simSwerveDrive.driveFromChassisSpeeds(chassisSpeeds, true);
     }
 
@@ -254,31 +297,6 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
     public void setFieldRelative(boolean fieldRelative) {
         // Sets field relative to true or false dependent on right bumper being pressed
         m_fieldRelative = fieldRelative;
-    }
-
-    @Override
-    public boolean resetGyroFieldRelativeRedTop() {
-        return true;
-    }
-
-    @Override
-    public boolean resetGyroFieldRelativeRedBottom() {
-        return true;
-    }
-
-    @Override
-    public boolean resetGyroFieldRelativeBlueTop() {
-        return true;
-    }
-
-    @Override
-    public boolean resetGyroFieldRelativeAutoRed() {
-        return true;
-    }
-
-    @Override
-    public boolean resetGyroFieldRelativeBlueBottom() {
-        return true;
     }
 
     @Override

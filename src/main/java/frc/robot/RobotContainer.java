@@ -6,6 +6,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -79,6 +81,7 @@ public class RobotContainer {
         m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
         m_autoChooser.addOption("One Note Stage Auto (NO MOVEMENT)", "Stage Auto Stay");
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
+        m_autoChooser.addOption("MOVE 2 METERS", "Move 2 Meters");
 
         Shuffleboard.getTab("Auto").add(m_autoChooser);
 
@@ -138,9 +141,10 @@ public class RobotContainer {
 
     // Based on sample:
     // https://docs.wpilib.org/en/stable/docs/software/basic-programming/alliancecolor.html
-    private boolean isRedAlliance() {
+    private boolean isRedHelper() {
         Optional<Alliance> ally = DriverStation.getAlliance();
         if (ally.isPresent()) {
+
             if (ally.get() == Alliance.Red) {
                 return true;
             }
@@ -153,6 +157,16 @@ public class RobotContainer {
 
         // Returns "Blue" by default
         return false;
+    }
+
+    private boolean isRedAlliance() {
+        boolean isRed = isRedHelper();
+        AllianceStationID stationId = DriverStation.getRawAllianceStation();
+
+        System.out.println("****Alliance is " + (isRed ? "Red" : "Blue"));
+        System.out.println("****Alliance is " + stationId.toString());
+
+        return isRed;
     }
 
     public void scheduleAutonomousCommand() {
@@ -189,8 +203,8 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(19, 0, 0),
-                        new PIDConstants(0, 0, 0),
+                        new PIDConstants(2, 0, 0),
+                        new PIDConstants(0.2, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         Constants.SwerveSystemConstants.frameDistanceToModulesMeters,
                         new ReplanningConfig()),
