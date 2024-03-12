@@ -44,9 +44,9 @@ public class Constants {
         public static final double autoSpeed = .4; // Trying to lower max auto speed
 
         // PID tunes for 51.5 pounds
-        public static final double drivingPID_P = 5;
+        public static final double drivingPID_P = 5; // CURRENT is 11 in toTeleop method
         public static final double drivingPID_I = 0;
-        public static final double drivingPID_D = 0.6;
+        public static final double drivingPID_D = 0.6; // CURRENT is 3 in toTeleop method
 
         // PID tunes for 51.5 pounds
         public static final double turningPID_P = 1.45;
@@ -57,8 +57,8 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 4.5;
-        public static final double maxSpeedMetersPerSecondAuto = 4.5;
+        public static final double maxSpeedMetersPerSecond = 5.06;
+        public static final double maxSpeedMetersPerSecondAuto = 5.06;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
