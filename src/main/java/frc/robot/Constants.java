@@ -32,16 +32,18 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.5461;
+        public static final double frameDistanceToModulesMeters = 0.39; // CORRECT REMEASURED
+                                                                        // DISTANCE
         public static final double wheelRadiusMeters = 0.0508; // 2 inches
 
-        public static final int gyroCanID = 7;
+        public static final int gyroCanID = 7; // GYRO
 
         // PLEASE do not *check-in* a higher value than 0.5, since robot features are still being
         // tested.
         // If you need to raise it higher, change it on your local code only
         public static final double maxOutputPercentage = 1;
-        public static final double autoSpeed = .4; // Trying to lower max auto speed
+        public static final double autoSpeed = 1; // ALWAYS KEEP THIS 1, change auto speed in Path
+                                                  // Planner Client
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5; // CURRENT is 11 in toTeleop method
@@ -66,7 +68,8 @@ public class Constants {
         // 2 * Math.PI; (THESE VALUES ARE PRETTY RANDOM)
         public static final double maxAngularAcceleration = 0.574 * 100;
 
-        public static final int swerveMotorCurrentLimit = 40;
+        public static final int swerveMotorCurrentLimit = 40; // TRY INCREMENTALLY INCREASING THIS
+                                                              // FOR A SLIGHTLY FASTER SPEED
 
         public static final double driveMotorGearBoxRatio = 1 / 6.12;
         public static final double turnMotorGearBoxRatio = 12.8;
