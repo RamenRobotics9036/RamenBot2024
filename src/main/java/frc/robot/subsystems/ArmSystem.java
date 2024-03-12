@@ -33,13 +33,16 @@ public class ArmSystem extends SubsystemBase {
     private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
-    private RelativeEncoder m_relativeEncoder = m_armMotorLeader.getEncoder();
+    private RelativeEncoder m_leaderRelativeEncoder = m_armMotorLeader.getEncoder();
+    private RelativeEncoder m_followerRelativeEncoder = m_armMotorLeader.getEncoder();
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
     private final Map<Double, Double> lookUpTable = new HashMap<>();
 
-    private boolean m_status;
+    private boolean[] m_status = new boolean[2];
+
+    private String m_errorMessage = "Not Tested";
 
     public ArmSystem(AppliedController controller) {
         var lookUpVals = VisionConstants.sortedAngleLookUpTable;
@@ -62,8 +65,10 @@ public class ArmSystem extends SubsystemBase {
         initShuffleBoard();
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
 
-        m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
-        m_relativeEncoder.setPosition(getArmAngleRadians());
+        m_leaderRelativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
+        m_leaderRelativeEncoder.setPosition(getArmAngleRadians());
+        m_followerRelativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
+        m_followerRelativeEncoder.setPosition(getArmAngleRadians());
     }
 
     public double getArmAngleRadians() {
@@ -112,8 +117,12 @@ public class ArmSystem extends SubsystemBase {
         m_armMotorLeader.set(speed);
     }
 
-    private double getRelativeEncoderRadians() {
-        return m_relativeEncoder.getPosition();
+    public double getLeaderEncoderRadians() {
+        return m_leaderRelativeEncoder.getPosition();
+    }
+
+    public double getFollowerEncoderRadians() {
+        return m_followerRelativeEncoder.getPosition();
     }
 
     public double getArmSpeed() {
@@ -129,12 +138,20 @@ public class ArmSystem extends SubsystemBase {
         Shuffleboard.getTab("Arm").addDouble("Arm Height", () -> getArmHeight());
         Shuffleboard.getTab("Arm").addDouble("Arm Speed", () -> getArmSpeed());
         Shuffleboard.getTab("Arm")
-                .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
-        Shuffleboard.getTab("Arm Test").addBoolean("Arm Encoder", () -> m_status);
+                .addDouble("Arm Angle Relative", () -> getLeaderEncoderRadians());
+
+        Shuffleboard.getTab("Arm Test").addBoolean("Leader Status:", () -> m_status[0]);
+        Shuffleboard.getTab("Arm Test").addBoolean("Follower Status:", () -> m_status[1]);
+        Shuffleboard.getTab("Arm Test").addString("Error Message:", () -> m_errorMessage);
     }
 
-    public void setStatus(boolean status) {
-        m_status = status;
+    public void setStatus(boolean[] status) {
+        m_status[0] = status[0];
+        m_status[1] = status[1];
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        m_errorMessage = errorMessage;
     }
 
     /**
