@@ -40,6 +40,8 @@ import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
+import frc.robot.commands.RotateCommand;
+import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
@@ -77,6 +79,8 @@ public class RobotContainer {
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
         Shuffleboard.getTab("Auto").add(m_autoChooser);
+        Shuffleboard.getTab("Swerve")
+                .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
         // initShuffleBoard();
@@ -211,6 +215,10 @@ public class RobotContainer {
         new Trigger(() -> m_driveController.getYButton()).onTrue(
                 // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
                 new LEDResetCommand(m_LEDSystem));
+
+        new Trigger(() -> m_driveController.getXButton()).onTrue(
+                // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
+                new RotatePIDCommand(m_swerveDrive, 1.5 * Math.PI));
 
         new Trigger(() -> m_armController.povRight(new EventLoop()).getAsBoolean()).onTrue(
                 new PullBackCommand(m_intakeSystem)
