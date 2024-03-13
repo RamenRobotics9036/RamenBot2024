@@ -57,8 +57,8 @@ public class Constants {
         public static final double drivingFeedForward_V = 2.3901;
         public static final double drivingFeedForward_A = 0.1212;
 
-        public static final double maxSpeedMetersPerSecond = 4.5;
-        public static final double maxSpeedMetersPerSecondAuto = 4.5;
+        public static final double maxSpeedMetersPerSecond = 5.06;
+        public static final double maxSpeedMetersPerSecondAuto = 5.06;
 
         // // 2.5 (THESE VALUES ARE PRETTY RANDOM) was * 10
         public static final double maxAngularSpeed = 0.574 * 10;
