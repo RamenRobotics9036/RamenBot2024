@@ -40,7 +40,6 @@ import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
-import frc.robot.commands.RotateCommand;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
@@ -143,7 +142,7 @@ public class RobotContainer {
         Pose2d startPose = AutoBuilder
                 .getStartingPoseFromJson((JSONObject) autoSettings.get("startingPose"));
 
-        m_swerveDrive.resetPose(startPose);
+        // m_swerveDrive.resetPose(startPose);
         double angle = startPose.getRotation().getDegrees();
         if (DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red)) {
             angle += 180;
@@ -157,7 +156,7 @@ public class RobotContainer {
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(0.2, 0, 0),
-                        new PIDConstants(0.1, 0, 0),
+                        new PIDConstants(0.2, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
                         new ReplanningConfig()),

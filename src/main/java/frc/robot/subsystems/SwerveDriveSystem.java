@@ -197,9 +197,9 @@ public class SwerveDriveSystem extends SubsystemBase {
                         .fromFieldRelativeSpeeds(
                                 xspeed,
                                 yspeed,
-                                rot * m_maxAngularSpeed,
+                                -rot * m_maxAngularSpeed,
                                 getRotation2d())
-                        : new ChassisSpeeds(xspeed, yspeed, rot * m_maxAngularSpeed));
+                        : new ChassisSpeeds(xspeed, yspeed, -rot * m_maxAngularSpeed));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -470,7 +470,7 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
-        chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond;
+        chassisSpeeds.omegaRadiansPerSecond = -chassisSpeeds.omegaRadiansPerSecond;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 

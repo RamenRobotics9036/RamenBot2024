@@ -12,7 +12,8 @@ public class RotatePIDCommand extends Command {
     public RotatePIDCommand(SwerveDriveSystem swerveDrive, double targetAngle) {
         m_swerveDrive = swerveDrive;
         m_targetAngle = targetAngle;
-        m_pidController = new PIDController(3, 0, 0);
+        m_pidController = new PIDController(3,
+                0, 0);
         addRequirements(m_swerveDrive);
 
         m_pidController.setTolerance(0.007);
@@ -34,7 +35,7 @@ public class RotatePIDCommand extends Command {
         m_swerveDrive.drive(
                 0,
                 0,
-                -speed);
+                speed);
     }
 
     @Override
