@@ -106,6 +106,19 @@ public class RobotContainer {
                                         new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
                                                 m_armController)),
                         new StayCommand(m_swerveDrive)));
+
+        // THIS COULD POTENTIALLY RAISE ARM AND DO PULL BACK AT THE SAME TIME
+        NamedCommands.registerCommand(
+                "Raise Arm and Shoot Note",
+                new ParallelDeadlineGroup(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleAutoRadians),
+                        new PullBackCommand(m_intakeSystem)
+                                .andThen(new WaitCommand(waitTime))
+                                .andThen(
+                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
+                                                m_armController)),
+                        new StayCommand(m_swerveDrive)));
     }
 
     private JSONObject getAutoJSON(String autoName) {
