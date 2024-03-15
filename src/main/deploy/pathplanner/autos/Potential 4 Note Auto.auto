@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Sub to Top Note"
+            "pathName": "Mid Sub to Amp Note"
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Sub to Bottom Note"
+            "pathName": "Mid Sub to Stage Note"
           }
         },
         {

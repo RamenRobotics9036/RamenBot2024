@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.65
+      "x": 1.35,
+      "y": 5.55
     },
-    "rotation": 60.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -26,26 +26,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Top to Top Note"
+            "pathName": "Mid Sub to Mid Note"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Set Arm To Ground"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Top Note to Top Subwoofer"
-                }
-              }
-            ]
+            "name": "Set Arm To Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Sub to Stage Note"
           }
         },
         {
