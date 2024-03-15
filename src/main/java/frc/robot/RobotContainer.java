@@ -74,6 +74,7 @@ public class RobotContainer {
         m_autoChooser.addOption("High Score Escape", "TOP LEAVE 1 NOTE");
         m_autoChooser.addOption("One Note Stage Auto (NO MOVEMENT)", "Stage Auto Stay");
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
+        m_autoChooser.addOption("4 Note Auto?????", "Potential 4 Note Auto");
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
@@ -155,7 +156,7 @@ public class RobotContainer {
                 m_swerveDrive::getSpeeds,
                 m_swerveDrive::driveFromChassisSpeeds,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(0.4, 0, 0),
+                        new PIDConstants(80, 0, 0.075),
                         new PIDConstants(6.4, 0, 0),
                         SwerveSystemConstants.maxSpeedMetersPerSecondAuto,
                         m_swerveDrive.getDriveBaseRadius(),
@@ -182,7 +183,7 @@ public class RobotContainer {
         // ARM CONTROLLER BINDINGS
 
         // Push note piece back on start up. May not need to happen when reflectometer is used.
-        double waitTime = 0.1; // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
+        double waitTime = 0.2; // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
                                // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
                                // TO REV UP ANYWAYS)
         new Trigger(() -> m_armController.getAButton()).onTrue(
@@ -204,6 +205,11 @@ public class RobotContainer {
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem,
                         PresetConstants.speakerPresetAngleAutoOneRobotAwayRadians));
+
+        // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
+        // hitting the right angle (basically an offset)
+        new Trigger(() -> m_armController.getStartButton())
+                .onTrue(new SetArmToAngleCommand(m_armSystem, 4.824));
 
         // DRIVE CONTROLLER BINDINGS
 

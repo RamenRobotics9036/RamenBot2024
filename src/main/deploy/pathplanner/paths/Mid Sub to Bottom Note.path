@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.15,
+        "x": 1.35,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2054598722146392,
+        "x": 1.4054598722146394,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Subwoofer"
     },
     {
       "anchor": {
-        "x": 1.2,
+        "x": 1.7975420566225764,
         "y": 4.084914323674802
       },
       "prevControl": {
-        "x": 1.195394826334677,
+        "x": 1.7929368829572536,
         "y": 4.084914323674802
       },
       "nextControl": {
-        "x": 1.2109926054430644,
+        "x": 1.8085346620656408,
         "y": 4.084914323674802
       },
       "isLocked": false,
@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 2.5474297102440375,
+        "x": 2.517828881811611,
         "y": 4.084914323674802
       },
       "prevControl": {
-        "x": 2.525680249533825,
+        "x": 2.4960794211013986,
         "y": 4.084914323674802
       },
       "nextControl": {
-        "x": 2.56917917095425,
+        "x": 2.5395783425218235,
         "y": 4.084914323674802
       },
       "isLocked": false,
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 1.15,
+        "x": 1.35,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.1298334180233889,
+        "x": 1.329833418023389,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Subwoofer"
     }
   ],
   "rotationTargets": [],
@@ -82,8 +82,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -95,5 +95,5 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

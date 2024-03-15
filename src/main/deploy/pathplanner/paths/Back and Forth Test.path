@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 6.65
+        "x": 1.35,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.23856509251480193,
-        "y": 8.021824505187473
+        "x": 1.3355975165772995,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "Top Subwoofer"
+      "linkedName": "Mid Subwoofer"
     },
     {
       "anchor": {
-        "x": 2.6559660811629335,
-        "y": 6.65
+        "x": 2.5671635958656545,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.103417283757646,
-        "y": 5.505754088431254
+        "x": 2.578491796994329,
+        "y": 5.55
+      },
+      "nextControl": {
+        "x": 2.536754216592941,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Note"
+    },
+    {
+      "anchor": {
+        "x": 1.35,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.4033825483961262,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Top Note"
+      "linkedName": "Mid Subwoofer"
     }
   ],
   "rotationTargets": [],
@@ -39,14 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 60.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "previewStartingState": null,
   "useDefaultConstraints": true
 }
