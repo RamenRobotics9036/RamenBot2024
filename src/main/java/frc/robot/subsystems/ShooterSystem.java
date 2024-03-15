@@ -26,7 +26,7 @@ public class ShooterSystem extends SubsystemBase {
     private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
-        m_shooterMotorLeader.setInverted(true);
+        m_shooterMotorLeader.setInverted(false);
         m_shooterMotorFollower.setInverted(true);
         m_shooterMotorFollower.follow(m_shooterMotorLeader);
 
