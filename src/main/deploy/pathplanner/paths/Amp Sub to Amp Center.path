@@ -16,16 +16,32 @@
     },
     {
       "anchor": {
-        "x": 2.4733924503512332,
-        "y": 6.944526071648434
+        "x": 7.696425549777031,
+        "y": 7.2490078218417535
       },
       "prevControl": {
-        "x": 2.3721445309934808,
-        "y": 6.944526071648434
+        "x": 7.595177630419278,
+        "y": 7.2490078218417535
       },
       "nextControl": {
-        "x": 2.5104253671418415,
-        "y": 6.944526071648434
+        "x": 7.7334584665676385,
+        "y": 7.2490078218417535
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.696425549777031,
+        "y": 7.2490078218417535
+      },
+      "prevControl": {
+        "x": 7.68471471323125,
+        "y": 7.2490078218417535
+      },
+      "nextControl": {
+        "x": 7.708136386322812,
+        "y": 7.2490078218417535
       },
       "isLocked": false,
       "linkedName": null
@@ -36,26 +52,26 @@
         "y": 6.65
       },
       "prevControl": {
-        "x": 0.7238137734102446,
-        "y": 6.65
+        "x": 0.632891634542184,
+        "y": 6.41578326908437
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Top Subwoofer"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": 60.0,
+      "rotationDegrees": -177.30814818714313,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -70,5 +86,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

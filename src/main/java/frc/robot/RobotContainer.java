@@ -75,6 +75,7 @@ public class RobotContainer {
         m_autoChooser.addOption("One Note Stage Auto (NO MOVEMENT)", "Stage Auto Stay");
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
         m_autoChooser.addOption("4 Note Auto?????", "Potential 4 Note Auto");
+        m_autoChooser.addOption("4 Note Auto Diagonal", "4 Note Diagonal");
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
