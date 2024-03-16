@@ -140,6 +140,7 @@ public class Constants {
 
         public static final String limelightName = "limelight-ramen";
 
+        // $IDO - These are the valid targetIDs we target
         public static final ArrayList<Double> targetedIDList = new ArrayList<Double>(
                 Arrays.asList(
                         1.0,

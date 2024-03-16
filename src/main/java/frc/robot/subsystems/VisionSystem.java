@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
@@ -27,28 +28,51 @@ public class VisionSystem extends SubsystemBase {
     private final double EPSILON = 0.0000001;
 
     public VisionSystem() {
-        // displayToShuffleBoard();
+        displayToShuffleBoard();
     }
 
+    // $IDO - This is where the vision shuffleboard is done
     private void displayToShuffleBoard() {
-        ShuffleboardLayout visionLayout = Shuffleboard.getTab("Vision").getLayout(
-                "April Tags",
-                BuiltInLayouts.kList);
-        visionLayout.addDouble("Raw Y", () -> getY());
-        visionLayout.addDouble("X Displacement", () -> getXRadians());
-        visionLayout.addDouble("Y Displacement", () -> getYRadians());
-        visionLayout.addDouble("Area", () -> getArea());
-        visionLayout.addBoolean("Is Detecting", () -> isDetected());
-        visionLayout.addDouble("Distance Meters X", () -> getDistanceMetersX());
-        visionLayout.addDouble("Distance Meters Y", () -> getDistanceMetersY());
+        ShuffleboardTab tab = Shuffleboard.getTab("Vision");
 
-        visionLayout.addDouble(
-                "X tangent",
-                () -> Math.tan(getXRadians() + limelightMountAngleRadiansX));
-        visionLayout.addDouble(
-                "Y tangent",
-                () -> Math.tan(getYRadians() + limelightMountAngleRadiansY));
-        visionLayout.addDouble("ID", () -> getID());
+        // $IDO - Good doc on limelight fields
+        // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
+        // https://docs.limelightvision.io/docs/docs-limelight/apis/limelight-lib
+        // Super simple example:
+        // https://github.com/Lambda-Corps/2020InfiniteRecharge/blob/master/src/main/java/frc/robot/subsystems/Vision.java
+
+        // $IDO - Limelighthelpers
+        // LimelightHelpers library: https://github.com/LimelightVision/limelightlib-wpijava
+        // **** LimelightHelpers docs:
+        // https://docs.limelightvision.io/docs/docs-limelight/apis/limelight-lib
+
+        // Uses limelighthelpers:
+        // https://github.com/6391-Ursuline-Bearbotics/2023-Swerverybot/blob/main/src/main/java/frc/robot/subsystems/Vision/Limelight.java
+
+        // Limelight port forwarding for laptop use:
+        // https://docs.limelightvision.io/docs/docs-limelight/getting-started/best-practices
+        // Crosshair calibration:
+        // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
+
+        tab.addDouble("ID", () -> getID());
+        tab.addDouble("X Degrees", () -> getX());
+        tab.addDouble("Y Degrees", () -> getY());
+        tab.addBoolean("Is Detecting", () -> isDetected());
+        tab.addDouble("Distance Meters X", () -> getDistanceMetersX());
+        tab.addDouble("Distance Meters Y", () -> getDistanceMetersY());
+
+        // visionLayout.addDouble("X Displacement", () -> getXRadians());
+        // visionLayout.addDouble("Y Displacement", () -> getYRadians());
+        // visionLayout.addDouble("Area", () -> getArea());
+
+        /*
+         * visionLayout.addDouble(
+         * "X tangent",
+         * () -> Math.tan(getXRadians() + limelightMountAngleRadiansX));
+         * visionLayout.addDouble(
+         * "Y tangent",
+         * () -> Math.tan(getYRadians() + limelightMountAngleRadiansY));
+         */
     }
 
     /**
@@ -80,6 +104,7 @@ public class VisionSystem extends SubsystemBase {
         return tableArea.getDouble(0);
     }
 
+    // $IDO - This seems like a strange way to see if any ID is detected
     public boolean isDetected() {
         return getX() + getY() + getArea() != 0;
     }
@@ -88,6 +113,7 @@ public class VisionSystem extends SubsystemBase {
         return tableID.getDouble(0);
     }
 
+    // $IDO - This isn't even used!
     public boolean isDetectedIDValid() {
         double myID = getID();
         if (Constants.VisionConstants.targetedIDList.contains(myID)) {
@@ -101,6 +127,7 @@ public class VisionSystem extends SubsystemBase {
     /**
      * Distance to April tag in meters Y.
      */
+    // $IDO - This is where the Y height is being calculated
     public double getDistanceMetersY() {
         double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
         double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
@@ -111,6 +138,7 @@ public class VisionSystem extends SubsystemBase {
     /**
      * Distance to April tag in meters X.
      */
+    // $IDO - Is this right? It's calculating X meters from getDistanceMetersY()
     public double getDistanceMetersX() {
         double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
         double distanceFromLimelightToGoalMeters = getDistanceMetersY()
