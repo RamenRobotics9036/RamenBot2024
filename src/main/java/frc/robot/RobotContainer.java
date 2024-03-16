@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -111,13 +112,15 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Raise Arm and Shoot Note",
                 new ParallelDeadlineGroup(
-                        new SetArmToAngleCommand(m_armSystem,
-                                PresetConstants.speakerPresetAngleAutoRadians),
-                        new PullBackCommand(m_intakeSystem)
-                                .andThen(new WaitCommand(waitTime))
-                                .andThen(
-                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                                m_armController)),
+                        new ParallelCommandGroup(
+                                new SetArmToAngleCommand(m_armSystem,
+                                        PresetConstants.speakerPresetAngleAutoRadians),
+                                new PullBackCommand(m_intakeSystem)
+                                        .andThen(new WaitCommand(waitTime))
+                                        .andThen(
+                                                new IntakeRevCommand(m_intakeSystem,
+                                                        m_shooterSystem,
+                                                        m_armController))),
                         new StayCommand(m_swerveDrive)));
     }
 
