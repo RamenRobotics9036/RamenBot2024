@@ -279,7 +279,7 @@ public class Constants {
     }
 
     public static class IntakeConstants {
-        public static final double pullBackAmount = 2;
+        public static final double pullBackAmount = 4.5;
         public static final double pullBackSpeed = 0.1;
 
         public static final int smartCurrentLimit = 20;
