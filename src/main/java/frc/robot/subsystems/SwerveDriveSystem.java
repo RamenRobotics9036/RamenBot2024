@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -469,8 +470,10 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public void driveFromChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
         chassisSpeeds.omegaRadiansPerSecond = -chassisSpeeds.omegaRadiansPerSecond;
+        chassisSpeeds.omegaRadiansPerSecond = MathUtil
+                .applyDeadband(chassisSpeeds.omegaRadiansPerSecond, 0.4);
+        SmartDashboard.putNumber("Auto Rotation", chassisSpeeds.omegaRadiansPerSecond);
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
 
