@@ -106,6 +106,7 @@ public class SwerveModule {
 
         m_turnPidController = m_turningMotor.getPIDController();
         m_turnPidController.setP(pidTurnP);
+
         m_turnPidController.setI(pidTurnI);
         m_turnPidController.setD(pidTurnD);
 
