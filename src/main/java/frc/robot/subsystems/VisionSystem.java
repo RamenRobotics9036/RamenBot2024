@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -8,9 +10,13 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.LimelightHelpers.LimelightResults;
+import frc.robot.LimelightHelpers;
+
 import java.util.Map;
 
 public class VisionSystem extends SubsystemBase {
@@ -26,6 +32,8 @@ public class VisionSystem extends SubsystemBase {
     private NetworkTableEntry tableY = limelightTable.getEntry("ty");
     private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
     private NetworkTableEntry tableID = limelightTable.getEntry("tid");
+
+    private final Field2d m_fieldSim = new Field2d();
 
     private final double EPSILON = 0.0000001;
 
@@ -46,6 +54,7 @@ public class VisionSystem extends SubsystemBase {
         // $IDO - Limelighthelpers
         // LimelightHelpers library: https://github.com/LimelightVision/limelightlib-wpijava
         // **** LimelightHelpers docs:
+        // https://www.chiefdelphi.com/t/introducing-limelight-lib/425660?page=2
         // https://docs.limelightvision.io/docs/docs-limelight/apis/limelight-lib
 
         // Uses limelighthelpers:
@@ -76,6 +85,10 @@ public class VisionSystem extends SubsystemBase {
         tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
                 .withWidget(BuiltInWidgets.kNumberBar)
                 .withProperties(Map.of("min", 0, "max", 10));
+
+        tab.add("Field", m_fieldSim)
+                .withWidget(BuiltInWidgets.kField)
+                .withSize(3, 2);
     }
 
     /**
@@ -151,6 +164,21 @@ public class VisionSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        LimelightResults llresults = LimelightHelpers.getLatestResults("limelight-ramen");
+        int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
+        System.out.println("numtags: " + numAprilTags);
+
+        if (numAprilTags > 0) {
+
+            Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
+                    .getRobotPose_FieldSpace2D();
+            double x = pose.getTranslation().getX();
+            double y = pose.getTranslation().getY();
+            double rotation = pose.getRotation().getDegrees();
+            System.out.println("x=" + x + ", y=" + y + ", rot=" + rotation);
+
+            m_fieldSim.setRobotPose(pose);
+        }
     }
 
     public void stopSystem() {
