@@ -201,7 +201,7 @@ public class Constants {
         public static class SetArmConstants {
             public static final double armMax = 3.8;
             public static final double armMin = 5.45;
-            public static final double maxTime = 5;
+            public static final double maxTime = .75;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;
