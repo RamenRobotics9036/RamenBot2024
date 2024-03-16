@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.15,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.3049888444918163,
+        "x": 1.1049888444918161,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Mid Subwoofer"
+      "linkedName": "Mid Subwoofer End"
     }
   ],
   "rotationTargets": [
@@ -84,7 +84,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
