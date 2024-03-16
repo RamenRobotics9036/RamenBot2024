@@ -145,6 +145,7 @@ public class SwerveModule {
 
     public void toAuto() {
         maxOutput = SwerveSystemConstants.autoSpeed;
+        updateDrivePid(SwerveSystemConstants.drivingPID_P, SwerveSystemConstants.drivingPID_D);
     }
 
     /**
