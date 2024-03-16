@@ -67,14 +67,13 @@ public class VisionSystem extends SubsystemBase {
 
         tab.addDouble("ID", () -> getID());
         tab.addDouble("X Degrees", () -> getX())
-                .withWidget(BuiltInWidgets.kDial)
-                .withSize(2, 2)
-                .withProperties(Map.of("min", -45, "max", 45));
+                .withWidget(BuiltInWidgets.kGyro)
+                .withSize(2, 2);
 
         tab.addDouble("Y Degrees", () -> getY())
                 .withWidget(BuiltInWidgets.kGyro)
                 .withSize(2, 2)
-                .withProperties(Map.of("Starting angle", 90.0));
+                .withProperties(Map.of("Starting angle", 270.0));
 
         tab.addBoolean("Is Detecting", () -> isDetected());
 
@@ -171,11 +170,11 @@ public class VisionSystem extends SubsystemBase {
         if (numAprilTags > 0) {
 
             Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
-                    .getRobotPose_FieldSpace2D();
-            double x = pose.getTranslation().getX();
-            double y = pose.getTranslation().getY();
-            double rotation = pose.getRotation().getDegrees();
-            System.out.println("x=" + x + ", y=" + y + ", rot=" + rotation);
+                    .getTargetPose_RobotSpace2D();
+            // double x = pose.getTranslation().getX();
+            // double y = pose.getTranslation().getY();
+            // double rotation = pose.getRotation().getDegrees();
+            // System.out.println("x=" + x + ", y=" + y + ", rot=" + rotation);
 
             m_fieldSim.setRobotPose(pose);
         }
