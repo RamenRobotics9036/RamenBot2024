@@ -116,11 +116,11 @@ public class RobotContainer {
                                 new SetArmToAngleCommand(m_armSystem,
                                         PresetConstants.speakerPresetAngleAutoRadians),
                                 new PullBackCommand(m_intakeSystem)
-                                        .andThen(new WaitCommand(0.05))
-                                        .andThen(
-                                                new IntakeRevCommand(m_intakeSystem,
-                                                        m_shooterSystem,
-                                                        m_armController))),
+                                        .andThen(new WaitCommand(0)))
+                                .andThen(
+                                        new IntakeRevCommand(m_intakeSystem,
+                                                m_shooterSystem,
+                                                m_armController)),
                         new StayCommand(m_swerveDrive)));
     }
 
