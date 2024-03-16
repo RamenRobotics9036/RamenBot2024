@@ -4,12 +4,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
+import java.util.Map;
 
 public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
@@ -55,24 +57,25 @@ public class VisionSystem extends SubsystemBase {
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
         tab.addDouble("ID", () -> getID());
-        tab.addDouble("X Degrees", () -> getX());
-        tab.addDouble("Y Degrees", () -> getY());
+        tab.addDouble("X Degrees", () -> getX())
+                .withWidget(BuiltInWidgets.kDial)
+                .withSize(2, 2)
+                .withProperties(Map.of("min", -45, "max", 45));
+
+        tab.addDouble("Y Degrees", () -> getY())
+                .withWidget(BuiltInWidgets.kGyro)
+                .withSize(2, 2)
+                .withProperties(Map.of("Starting angle", 90.0));
+
         tab.addBoolean("Is Detecting", () -> isDetected());
-        tab.addDouble("Distance Meters X", () -> getDistanceMetersX());
-        tab.addDouble("Distance Meters Y", () -> getDistanceMetersY());
 
-        // visionLayout.addDouble("X Displacement", () -> getXRadians());
-        // visionLayout.addDouble("Y Displacement", () -> getYRadians());
-        // visionLayout.addDouble("Area", () -> getArea());
+        tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
+                .withWidget(BuiltInWidgets.kNumberBar)
+                .withProperties(Map.of("min", 0, "max", 10));
 
-        /*
-         * visionLayout.addDouble(
-         * "X tangent",
-         * () -> Math.tan(getXRadians() + limelightMountAngleRadiansX));
-         * visionLayout.addDouble(
-         * "Y tangent",
-         * () -> Math.tan(getYRadians() + limelightMountAngleRadiansY));
-         */
+        tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
+                .withWidget(BuiltInWidgets.kNumberBar)
+                .withProperties(Map.of("min", 0, "max", 10));
     }
 
     /**
