@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 1.25,
+        "x": 1.15,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.303382548396126,
+        "x": 1.203382548396126,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Mid Subwoofer End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
