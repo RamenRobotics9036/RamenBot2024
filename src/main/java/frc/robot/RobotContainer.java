@@ -38,6 +38,7 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
@@ -77,6 +78,10 @@ public class RobotContainer {
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
         m_autoChooser.addOption("4 Note Auto?????", "Potential 4 Note Auto");
         m_autoChooser.addOption("4 Note Auto Diagonal", "4 Note Diagonal");
+
+        m_autoChooser.addOption(
+                "Amp Sub 3 Note (Amp Note and Top Center Note)",
+                "Amp Sub 3 Note (Amp Note and Top Center Note)");
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
@@ -118,7 +123,7 @@ public class RobotContainer {
                                 new PullBackCommand(m_intakeSystem)
                                         .andThen(new WaitCommand(0)))
                                 .andThen(
-                                        new IntakeRevCommand(m_intakeSystem,
+                                        new IntakeRevCommandAuto(m_intakeSystem,
                                                 m_shooterSystem,
                                                 m_armController)),
                         new StayCommand(m_swerveDrive)));
