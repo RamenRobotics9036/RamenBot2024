@@ -38,6 +38,7 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.AmpLightCommand;
 import frc.robot.commands.IntakeRevCommand;
+import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.RevCommandAmp;
@@ -118,7 +119,7 @@ public class RobotContainer {
                                 new PullBackCommand(m_intakeSystem)
                                         .andThen(new WaitCommand(0)))
                                 .andThen(
-                                        new IntakeRevCommand(m_intakeSystem,
+                                        new IntakeRevCommandAuto(m_intakeSystem,
                                                 m_shooterSystem,
                                                 m_armController)),
                         new StayCommand(m_swerveDrive)));

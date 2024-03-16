@@ -38,6 +38,7 @@ public class ShooterSystem extends SubsystemBase {
     public void setShootSpeed(double speed) {
         speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
         m_shooterMotorLeader.set(speed);
+
     }
 
     public double getShootSpeed() {
