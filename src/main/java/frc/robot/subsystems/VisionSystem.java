@@ -57,7 +57,7 @@ public class VisionSystem extends SubsystemBase {
                         VisionConstants.limelightName,
                         0,
                         0,
-                        0.66,
+                        0.46,
                         0,
                         15,
                         0);
