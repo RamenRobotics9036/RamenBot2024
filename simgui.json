@@ -3,7 +3,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Auto/SendableChooser[0]": "String Chooser",
-      "/Shuffleboard/Intake/Current Command": "Subsystem"
+      "/Shuffleboard/Intake/Current Command": "Subsystem",
+      "/Shuffleboard/Vision/Field": "Field2d"
     }
   },
   "NetworkTables Info": {

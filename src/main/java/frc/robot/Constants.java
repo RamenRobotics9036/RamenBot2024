@@ -165,7 +165,7 @@ public class Constants {
          * Distance is in meters
          * Measure every lookUpTableDistance
          */
-        public static final ArrayList<Pair<Double, Double>> sortedAngleLookUpTable = new ArrayList<Pair<Double, Double>>(
+        public static final ArrayList<Pair<Double, Double>> angleLookUpTable = new ArrayList<Pair<Double, Double>>(
                 Arrays.asList(
                         new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
