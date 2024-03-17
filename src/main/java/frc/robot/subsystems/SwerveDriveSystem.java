@@ -64,25 +64,25 @@ public class SwerveDriveSystem extends SubsystemBase {
             SwerveSystemDeviceConstants.frontLeftDriveMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnMotorID,
             SwerveSystemDeviceConstants.frontLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontLeftOffsetSwerveA);
+            SwerveSystemDeviceConstants.frontLeftOffsetSwerveB);
 
     private final SwerveModule m_frontRight = new SwerveModule(
             SwerveSystemDeviceConstants.frontRightDriveMotorID,
             SwerveSystemDeviceConstants.frontRightTurnMotorID,
             SwerveSystemDeviceConstants.frontRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.frontRightOffsetSwerveA);
+            SwerveSystemDeviceConstants.frontRightOffsetSwerveB);
 
     private final SwerveModule m_backLeft = new SwerveModule(
             SwerveSystemDeviceConstants.backLeftDriveMotorID,
             SwerveSystemDeviceConstants.backLeftTurnMotorID,
             SwerveSystemDeviceConstants.backLeftTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backLeftOffsetSwerveA);
+            SwerveSystemDeviceConstants.backLeftOffsetSwerveB);
 
     private final SwerveModule m_backRight = new SwerveModule(
             SwerveSystemDeviceConstants.backRightDriveMotorID,
             SwerveSystemDeviceConstants.backRightTurnMotorID,
             SwerveSystemDeviceConstants.backRightTurnEncoderChannel,
-            SwerveSystemDeviceConstants.backRightOffsetSwerveA);
+            SwerveSystemDeviceConstants.backRightOffsetSwerveB);
 
     private final Pigeon2 m_gyro = new Pigeon2(SwerveSystemConstants.gyroCanID);
 

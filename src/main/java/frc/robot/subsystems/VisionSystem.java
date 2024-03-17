@@ -56,10 +56,10 @@ public class VisionSystem extends SubsystemBase {
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
                         0,
+                        0.2,
+                        0.42,
                         0,
-                        0.46,
-                        0,
-                        15,
+                        5,
                         0);
     }
 
@@ -97,25 +97,25 @@ public class VisionSystem extends SubsystemBase {
         tab.addInteger("Num tags", () -> m_numTags[0])
                 .withPosition(1, 0);
 
-        tab.addDouble("ID", () -> getID())
-                .withPosition(2, 0);
+        // tab.addDouble("ID", () -> getID())
+        // .withPosition(2, 0);
 
-        tab.addDouble("X Degrees", () -> getX())
-                .withWidget(BuiltInWidgets.kGyro)
-                .withPosition(1, 2)
-                .withSize(2, 2);
+        // tab.addDouble("X Degrees", () -> getX())
+        // .withWidget(BuiltInWidgets.kGyro)
+        // .withPosition(1, 2)
+        // .withSize(2, 2);
 
-        tab.addDouble("Y Degrees", () -> getY())
-                .withWidget(BuiltInWidgets.kGyro)
-                .withPosition(3, 2)
-                .withSize(2, 2)
-                .withProperties(Map.of("Starting angle", 270.0));
+        // tab.addDouble("Y Degrees", () -> getY())
+        // .withWidget(BuiltInWidgets.kGyro)
+        // .withPosition(3, 2)
+        // .withSize(2, 2)
+        // .withProperties(Map.of("Starting angle", 270.0));
 
-        tab.addDouble("Meters to target", () -> getDistanceMetersY())
-                .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(3, 0)
-                .withSize(2, 1)
-                .withProperties(Map.of("min", 0, "max", 10));
+        // tab.addDouble("Meters to target", () -> getDistanceMetersY())
+        // .withWidget(BuiltInWidgets.kNumberBar)
+        // .withPosition(3, 0)
+        // .withSize(2, 1)
+        // .withProperties(Map.of("min", 0, "max", 10));
 
         tab.add("Field", m_fieldSim)
                 .withWidget(BuiltInWidgets.kField)
@@ -202,7 +202,7 @@ public class VisionSystem extends SubsystemBase {
         m_numTags[0] = numAprilTags;
 
         // Only accurate if 2 tags are detected.
-        if (numAprilTags >= 2) {
+        if (numAprilTags >= 1) {
             m_fieldPose = llresults.targetingResults.getBotPose2d_wpiBlue();
             m_fieldSim.setRobotPose(m_fieldPose);
             m_isTargetDetected = true;
