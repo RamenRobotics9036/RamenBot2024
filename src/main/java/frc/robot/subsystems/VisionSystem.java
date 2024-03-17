@@ -111,12 +111,6 @@ public class VisionSystem extends SubsystemBase {
                 .withSize(2, 2)
                 .withProperties(Map.of("Starting angle", 270.0));
 
-        tab.addDouble("Meters to target", () -> getDistanceMetersY())
-                .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(3, 0)
-                .withSize(2, 1)
-                .withProperties(Map.of("min", 0, "max", 10));
-
         tab.add("Field", m_fieldSim)
                 .withWidget(BuiltInWidgets.kField)
                 .withPosition(5, 2)
