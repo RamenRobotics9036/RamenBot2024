@@ -68,31 +68,42 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ID", () -> getID());
-        tab.addInteger("Num tags", () -> m_numTags[0]);
+        tab.addBoolean("Is Detecting", () -> isDetected())
+                .withPosition(0, 0);
+
+        tab.addInteger("Num tags", () -> m_numTags[0])
+                .withPosition(1, 0);
+
+        tab.addDouble("ID", () -> getID())
+                .withPosition(2, 0);
 
         tab.addDouble("X Degrees", () -> getX())
                 .withWidget(BuiltInWidgets.kGyro)
+                .withPosition(1, 2)
                 .withSize(2, 2);
 
         tab.addDouble("Y Degrees", () -> getY())
                 .withWidget(BuiltInWidgets.kGyro)
+                .withPosition(3, 2)
                 .withSize(2, 2)
                 .withProperties(Map.of("Starting angle", 270.0));
 
-        tab.addBoolean("Is Detecting", () -> isDetected());
-
         tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
                 .withWidget(BuiltInWidgets.kNumberBar)
+                .withPosition(1, 4)
+                .withSize(2, 1)
                 .withProperties(Map.of("min", 0, "max", 10));
 
         tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
                 .withWidget(BuiltInWidgets.kNumberBar)
+                .withPosition(3, 4)
+                .withSize(2, 1)
                 .withProperties(Map.of("min", 0, "max", 10));
 
         tab.add("Field", m_fieldSim)
                 .withWidget(BuiltInWidgets.kField)
-                .withSize(3, 2);
+                .withPosition(5, 2)
+                .withSize(5, 3);
     }
 
     /**
