@@ -1,14 +1,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +22,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
     private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
-    private double m_targetY = 0;
+    private double m_speakerPosition;
+    private boolean m_isTargetDetected = false;
 
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
@@ -44,15 +44,21 @@ public class VisionSystem extends SubsystemBase {
     private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
+        if (DriverStation.getAlliance().isPresent()) {
+            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 15 : 0;
+        }
+        else {
+            m_speakerPosition = 0;
+        }
         displayToShuffleBoard();
         LimelightHelpers
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
-                        0.33,
-                        0.38,
+                        0,
+                        0,
                         0.66,
                         0,
-                        18.5,
+                        15,
                         0);
     }
 
@@ -79,6 +85,10 @@ public class VisionSystem extends SubsystemBase {
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/best-practices
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
+
+        // tab.addDouble("Meters to Target", () -> getSpeakerYDistance());
+        // tab.addDouble("Robot Position Y", () -> m_fieldPose.getX());
+        // tab.addDouble("Speaker Position Y", () -> m_speakerPosition);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
                 .withPosition(0, 0);
@@ -190,23 +200,26 @@ public class VisionSystem extends SubsystemBase {
         int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
         m_numTags[0] = numAprilTags;
 
-        if (numAprilTags > 0) {
+        // Only accurate if 2 tags are detected.
+        if (numAprilTags >= 2) {
             m_fieldPose = llresults.targetingResults.getBotPose2d_wpiBlue();
             m_fieldSim.setRobotPose(m_fieldPose);
-
-            m_targetY = llresults.targetingResults.targets_Fiducials[0].getTargetPose_RobotSpace2D()
-                    .getY();
+            m_isTargetDetected = true;
         }
         else {
             // Reset robot picture on the field
             m_fieldPose = new Pose2d();
-            m_targetY = 0;
+            m_isTargetDetected = false;
         }
     }
 
     public double getSpeakerYDistance() {
-        // $IDO - Need to check this
-        return 1.17 + m_targetY;
+        if (m_isTargetDetected) {
+            return Math.abs(m_fieldPose.getX() - m_speakerPosition);
+        }
+        else {
+            return 0;
+        }
     }
 
     public void stopSystem() {
