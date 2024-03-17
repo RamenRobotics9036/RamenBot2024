@@ -46,9 +46,9 @@ public class VisionSystem extends SubsystemBase {
         LimelightHelpers
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
-                        0.25,
-                        0.25,
-                        0.46,
+                        0.33,
+                        0.38,
+                        0.66,
                         0,
                         18.5,
                         0);
@@ -96,11 +96,11 @@ public class VisionSystem extends SubsystemBase {
         // .withPosition(1, 2)
         // .withSize(2, 2);
 
-        // tab.addDouble("Y Degrees", () -> getY())
-        // .withWidget(BuiltInWidgets.kGyro)
-        // .withPosition(3, 2)
-        // .withSize(2, 2)
-        // .withProperties(Map.of("Starting angle", 270.0));
+        tab.addDouble("Y Degrees", () -> getY())
+                .withWidget(BuiltInWidgets.kGyro)
+                .withPosition(3, 2)
+                .withSize(2, 2)
+                .withProperties(Map.of("Starting angle", 270.0));
 
         // tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
         // .withWidget(BuiltInWidgets.kNumberBar)
@@ -224,7 +224,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public double getSpeakerYDistance() {
-        return -m_targetY;
+        return 1.17 + m_targetY;
     }
 
     public Pose2d getFieldPose() {
