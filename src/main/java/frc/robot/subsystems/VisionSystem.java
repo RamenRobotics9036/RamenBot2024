@@ -45,7 +45,8 @@ public class VisionSystem extends SubsystemBase {
 
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
-            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 15 : 0;
+            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 14.4
+                    : 0;
         }
         else {
             m_speakerPosition = 0;
@@ -86,9 +87,9 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        // tab.addDouble("Meters to Target", () -> getSpeakerYDistance());
-        // tab.addDouble("Robot Position Y", () -> m_fieldPose.getX());
-        // tab.addDouble("Speaker Position Y", () -> m_speakerPosition);
+        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance());
+        tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX());
+        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
                 .withPosition(0, 0);
