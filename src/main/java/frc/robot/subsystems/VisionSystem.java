@@ -1,14 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +19,8 @@ import java.util.Map;
 public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
     private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
+
+    private double m_targetY;
 
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
@@ -39,9 +38,20 @@ public class VisionSystem extends SubsystemBase {
     };
 
     private final double EPSILON = 0.0000001;
+    private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
+        m_targetY = 0;
         displayToShuffleBoard();
+        LimelightHelpers
+                .setCameraPose_RobotSpace(
+                        VisionConstants.limelightName,
+                        0.25,
+                        0.25,
+                        0.46,
+                        0,
+                        18.5,
+                        0);
     }
 
     // $IDO - This is where the vision shuffleboard is done
@@ -68,42 +78,46 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addBoolean("Is Detecting", () -> isDetected())
-                .withPosition(0, 0);
+        tab.addDouble("Y Robot Pose", () -> getFieldPose().getY());
+        tab.addDouble("Y Speaker Pose", () -> m_targetY);
+        tab.addDouble("Y Distance Pose", () -> getSpeakerYDistance());
 
-        tab.addInteger("Num tags", () -> m_numTags[0])
-                .withPosition(1, 0);
+        // tab.addBoolean("Is Detecting", () -> isDetected())
+        // .withPosition(0, 0);
 
-        tab.addDouble("ID", () -> getID())
-                .withPosition(2, 0);
+        // tab.addInteger("Num tags", () -> m_numTags[0])
+        // .withPosition(1, 0);
 
-        tab.addDouble("X Degrees", () -> getX())
-                .withWidget(BuiltInWidgets.kGyro)
-                .withPosition(1, 2)
-                .withSize(2, 2);
+        // tab.addDouble("ID", () -> getID())
+        // .withPosition(2, 0);
 
-        tab.addDouble("Y Degrees", () -> getY())
-                .withWidget(BuiltInWidgets.kGyro)
-                .withPosition(3, 2)
-                .withSize(2, 2)
-                .withProperties(Map.of("Starting angle", 270.0));
+        // tab.addDouble("X Degrees", () -> getX())
+        // .withWidget(BuiltInWidgets.kGyro)
+        // .withPosition(1, 2)
+        // .withSize(2, 2);
 
-        tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
-                .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(1, 4)
-                .withSize(2, 1)
-                .withProperties(Map.of("min", 0, "max", 10));
+        // tab.addDouble("Y Degrees", () -> getY())
+        // .withWidget(BuiltInWidgets.kGyro)
+        // .withPosition(3, 2)
+        // .withSize(2, 2)
+        // .withProperties(Map.of("Starting angle", 270.0));
 
-        tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
-                .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(3, 4)
-                .withSize(2, 1)
-                .withProperties(Map.of("min", 0, "max", 10));
+        // tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
+        // .withWidget(BuiltInWidgets.kNumberBar)
+        // .withPosition(1, 4)
+        // .withSize(2, 1)
+        // .withProperties(Map.of("min", 0, "max", 10));
 
-        tab.add("Field", m_fieldSim)
-                .withWidget(BuiltInWidgets.kField)
-                .withPosition(5, 2)
-                .withSize(5, 3);
+        // tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
+        // .withWidget(BuiltInWidgets.kNumberBar)
+        // .withPosition(3, 4)
+        // .withSize(2, 1)
+        // .withProperties(Map.of("min", 0, "max", 10));
+
+        // tab.add("Field", m_fieldSim)
+        // .withWidget(BuiltInWidgets.kField)
+        // .withPosition(5, 2)
+        // .withSize(5, 3);
     }
 
     /**
@@ -183,21 +197,33 @@ public class VisionSystem extends SubsystemBase {
 
         int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
         m_numTags[0] = numAprilTags;
+        m_fieldPose = new Pose2d();
+
+        m_targetY = llresults.targetingResults.targets_Fiducials[0].getTargetPose_RobotSpace2D()
+                .getY();
 
         if (numAprilTags > 0) {
 
             // Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
             // .getRobotPose_FieldSpace2D();
 
-            Pose2d pose = llresults.targetingResults.getBotPose2d_wpiBlue();
+            m_fieldPose = llresults.targetingResults.getBotPose2d_wpiBlue();
 
             // double x = pose.getTranslation().getX();
             // double y = pose.getTranslation().getY();
             // double rotation = pose.getRotation().getDegrees();
             // System.out.println("x=" + x + ", y=" + y + ", rot=" + rotation);
 
-            m_fieldSim.setRobotPose(pose);
+            m_fieldSim.setRobotPose(m_fieldPose);
         }
+    }
+
+    public double getSpeakerYDistance() {
+        return Math.abs(m_targetY) - 1.17;
+    }
+
+    public Pose2d getFieldPose() {
+        return m_fieldPose;
     }
 
     public void stopSystem() {

@@ -90,7 +90,7 @@ public class RobotContainer {
                 .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
-        // initShuffleBoard();
+        initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
         NamedCommands.registerCommand(
@@ -191,9 +191,9 @@ public class RobotContainer {
     }
 
     public void initShuffleBoard() {
-        Shuffleboard.getTab("Arm").addDouble(
+        Shuffleboard.getTab("Vision").addDouble(
                 "Angle to Shoot",
-                () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
+                () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
                         + ShooterConstants.shootOffsetLimeLight);
     }
 
