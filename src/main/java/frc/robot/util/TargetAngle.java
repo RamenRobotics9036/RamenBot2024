@@ -17,8 +17,7 @@ public class TargetAngle {
     private final ArrayList<Pair<Double, Double>> m_sortedAngleLookUpTable;
 
     // Constructor
-    public TargetAngle() {
-        var lookUpVals = VisionConstants.angleLookUpTable;
+    public TargetAngle(ArrayList<Pair<Double, Double>> lookUpVals) {
         m_sortedAngleLookUpTable = new ArrayList<>(lookUpVals);
         m_sortedAngleLookUpTable.sort((a, b) -> a.getFirst().compareTo(b.getFirst()));
     }

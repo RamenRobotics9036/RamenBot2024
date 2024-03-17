@@ -33,7 +33,7 @@ public class ArmSystem extends SubsystemBase {
     private AppliedController m_controller;
     private RelativeEncoder m_relativeEncoder = m_armMotorLeader.getEncoder();
 
-    private final TargetAngle m_targetAngle = new TargetAngle();
+    private final TargetAngle m_targetAngle = new TargetAngle(VisionConstants.angleLookUpTable);
 
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
