@@ -34,6 +34,9 @@ public class VisionSystem extends SubsystemBase {
     private NetworkTableEntry tableID = limelightTable.getEntry("tid");
 
     private final Field2d m_fieldSim = new Field2d();
+    private int[] m_numTags = {
+            0
+    };
 
     private final double EPSILON = 0.0000001;
 
@@ -66,6 +69,8 @@ public class VisionSystem extends SubsystemBase {
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
         tab.addDouble("ID", () -> getID());
+        tab.addInteger("Num tags", () -> m_numTags[0]);
+
         tab.addDouble("X Degrees", () -> getX())
                 .withWidget(BuiltInWidgets.kGyro)
                 .withSize(2, 2);
@@ -164,8 +169,9 @@ public class VisionSystem extends SubsystemBase {
     @Override
     public void periodic() {
         LimelightResults llresults = LimelightHelpers.getLatestResults("limelight-ramen");
+
         int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
-        System.out.println("numtags: " + numAprilTags);
+        m_numTags[0] = numAprilTags;
 
         if (numAprilTags > 0) {
 
