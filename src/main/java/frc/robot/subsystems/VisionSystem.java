@@ -23,6 +23,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
     private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
+    private double m_targetY;
+
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
@@ -39,9 +41,20 @@ public class VisionSystem extends SubsystemBase {
     };
 
     private final double EPSILON = 0.0000001;
+    private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
+        m_targetY = 0;
         displayToShuffleBoard();
+        LimelightHelpers
+                .setCameraPose_RobotSpace(
+                        VisionConstants.limelightName,
+                        0.25,
+                        0.25,
+                        0.46,
+                        0,
+                        18.5,
+                        0);
     }
 
     // $IDO - This is where the vision shuffleboard is done
@@ -88,15 +101,9 @@ public class VisionSystem extends SubsystemBase {
                 .withSize(2, 2)
                 .withProperties(Map.of("Starting angle", 270.0));
 
-        tab.addDouble("Distance Meters X", () -> getDistanceMetersX())
+        tab.addDouble("Meters to target", () -> getDistanceMetersY())
                 .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(1, 4)
-                .withSize(2, 1)
-                .withProperties(Map.of("min", 0, "max", 10));
-
-        tab.addDouble("Distance Meters Y", () -> getDistanceMetersY())
-                .withWidget(BuiltInWidgets.kNumberBar)
-                .withPosition(3, 4)
+                .withPosition(3, 0)
                 .withSize(2, 1)
                 .withProperties(Map.of("min", 0, "max", 10));
 
@@ -185,19 +192,20 @@ public class VisionSystem extends SubsystemBase {
         m_numTags[0] = numAprilTags;
 
         if (numAprilTags > 0) {
+            m_fieldPose = llresults.targetingResults.getBotPose2d_wpiBlue();
+            m_fieldSim.setRobotPose(m_fieldPose);
 
-            // Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
-            // .getRobotPose_FieldSpace2D();
-
-            Pose2d pose = llresults.targetingResults.getBotPose2d_wpiBlue();
-
-            // double x = pose.getTranslation().getX();
-            // double y = pose.getTranslation().getY();
-            // double rotation = pose.getRotation().getDegrees();
-            // System.out.println("x=" + x + ", y=" + y + ", rot=" + rotation);
-
-            m_fieldSim.setRobotPose(pose);
+            m_targetY = llresults.targetingResults.targets_Fiducials[0].getTargetPose_RobotSpace2D()
+                    .getY();
         }
+        else {
+            // Reset robot picture on the field
+            m_fieldPose = new Pose2d();
+        }
+    }
+
+    public double getSpeakerYDistance() {
+        return 1.17 + m_targetY;
     }
 
     public void stopSystem() {

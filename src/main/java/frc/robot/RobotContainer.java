@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.event.EventLoop;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,6 +49,7 @@ import frc.robot.commands.StayCommand;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import java.util.Map;
 
 /**
  * RobotContainer.
@@ -90,7 +92,7 @@ public class RobotContainer {
                 .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
-        // initShuffleBoard();
+        initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
         NamedCommands.registerCommand(
@@ -191,10 +193,14 @@ public class RobotContainer {
     }
 
     public void initShuffleBoard() {
-        Shuffleboard.getTab("Arm").addDouble(
+        Shuffleboard.getTab("Vision").addDouble(
                 "Angle to Shoot",
-                () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
-                        + ShooterConstants.shootOffsetLimeLight);
+                () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
+                        + ShooterConstants.shootOffsetLimeLight)
+                .withWidget(BuiltInWidgets.kGyro)
+                .withPosition(5, 0)
+                .withSize(2, 2)
+                .withProperties(Map.of("Starting angle", 270.0));
     }
 
     /**
