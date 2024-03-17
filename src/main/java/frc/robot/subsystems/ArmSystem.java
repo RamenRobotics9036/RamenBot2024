@@ -75,7 +75,6 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getShootingAngle(double distance) {
-        distance = distance - 1.3;
         if (distance < ArmConstants.lookUpTableDistance) {
             return lookUpTable.get(0.);
         }
