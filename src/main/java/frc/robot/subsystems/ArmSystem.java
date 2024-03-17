@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -21,6 +18,7 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
+import frc.robot.util.TargetAngle;
 
 /**
  * ArmSystem.
@@ -35,16 +33,11 @@ public class ArmSystem extends SubsystemBase {
     private AppliedController m_controller;
     private RelativeEncoder m_relativeEncoder = m_armMotorLeader.getEncoder();
 
+    private final TargetAngle m_targetAngle = new TargetAngle();
+
     private double maxOutputPercent = ArmConstants.maxOutputPercent;
 
-    private final Map<Double, Double> lookUpTable = new HashMap<>();
-
     public ArmSystem(AppliedController controller) {
-        var lookUpVals = VisionConstants.sortedAngleLookUpTable;
-        for (int idx = 0; idx < lookUpVals.size(); idx++) {
-            lookUpTable.put(lookUpVals.get(idx).getFirst(), lookUpVals.get(idx).getSecond());
-        }
-
         m_armMotorLeader.restoreFactoryDefaults();
         m_armMotorFollower.restoreFactoryDefaults();
         m_armMotorLeader.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
@@ -75,24 +68,7 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public double getShootingAngle(double distance) {
-        if (distance < ArmConstants.lookUpTableDistance) {
-            return lookUpTable.get(0.);
-        }
-        try {
-            double distanceCeil = Math.ceil(distance / ArmConstants.lookUpTableDistance)
-                    * ArmConstants.lookUpTableDistance;
-            double distanceFloor = Math.floor(distance / ArmConstants.lookUpTableDistance)
-                    * ArmConstants.lookUpTableDistance;
-            double angleCeil = lookUpTable.get(distanceCeil);
-            double angleFloor = lookUpTable.get(distanceFloor);
-            double percentDiv = distanceCeil - distanceFloor;
-
-            return angleCeil * ((distanceCeil - distance) / percentDiv)
-                    + angleFloor * ((distance - distanceFloor) / percentDiv);
-        }
-        catch (Exception e) {
-            return lookUpTable.get(ArmConstants.lookUpTableDistance * 6);
-        }
+        return m_targetAngle.getShootingAngle(distance);
     }
 
     public void setArmSpeed(double speed) {
