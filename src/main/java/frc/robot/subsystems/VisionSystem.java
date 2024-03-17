@@ -23,7 +23,7 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
     private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
-    private double m_targetY;
+    private double m_targetY = 0;
 
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
@@ -44,14 +44,13 @@ public class VisionSystem extends SubsystemBase {
     private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
-        m_targetY = 0;
         displayToShuffleBoard();
         LimelightHelpers
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
-                        0.25,
-                        0.25,
-                        0.46,
+                        0.33,
+                        0.38,
+                        0.66,
                         0,
                         18.5,
                         0);
@@ -201,10 +200,12 @@ public class VisionSystem extends SubsystemBase {
         else {
             // Reset robot picture on the field
             m_fieldPose = new Pose2d();
+            m_targetY = 0;
         }
     }
 
     public double getSpeakerYDistance() {
+        // $IDO - Need to check this
         return 1.17 + m_targetY;
     }
 
