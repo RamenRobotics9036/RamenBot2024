@@ -169,8 +169,11 @@ public class VisionSystem extends SubsystemBase {
 
         if (numAprilTags > 0) {
 
-            Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
-                    .getTargetPose_RobotSpace2D();
+            // Pose2d pose = llresults.targetingResults.targets_Fiducials[0]
+            // .getRobotPose_FieldSpace2D();
+
+            Pose2d pose = llresults.targetingResults.getBotPose2d_wpiBlue();
+
             // double x = pose.getTranslation().getX();
             // double y = pose.getTranslation().getY();
             // double rotation = pose.getRotation().getDegrees();
