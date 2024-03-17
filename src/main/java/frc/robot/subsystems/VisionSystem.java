@@ -56,8 +56,8 @@ public class VisionSystem extends SubsystemBase {
             m_speakerPositionY = 0;
         }
         if (DriverStation.getAlliance().isPresent()) {
-            m_speakerPositionX = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 0
-                    : 0;
+            m_speakerPositionX = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 5.3
+                    : 5.3;
         }
         else {
             m_speakerPositionX = 0;
