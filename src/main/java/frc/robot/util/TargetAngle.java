@@ -32,7 +32,7 @@ public class TargetAngle {
         }
     }
 
-    private double getAngleHelper(double distance) {
+    public double getAngleHelper(double distance) {
         // Check for edge cases: distance smaller than the first entry or larger than the last entry
         if (m_sortedAngleLookUpTable.isEmpty() || distance < 0) {
             return 0;
