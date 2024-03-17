@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.LimelightHelpers.LimelightResults;
+import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers;
 
 import java.util.Map;
@@ -22,7 +24,8 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
     private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
-    private double m_speakerPosition;
+    private double m_speakerPositionY;
+    private double m_speakerPositionX;
     private boolean m_isTargetDetected = false;
 
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
@@ -42,14 +45,22 @@ public class VisionSystem extends SubsystemBase {
 
     private final double EPSILON = 0.0000001;
     private Pose2d m_fieldPose = new Pose2d();
+    private double m_angleFromSpeaker = 0;
 
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
-            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 14.4
+            m_speakerPositionY = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 14.4
                     : 0;
         }
         else {
-            m_speakerPosition = 0;
+            m_speakerPositionY = 0;
+        }
+        if (DriverStation.getAlliance().isPresent()) {
+            m_speakerPositionX = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 0
+                    : 0;
+        }
+        else {
+            m_speakerPositionX = 0;
         }
         displayToShuffleBoard();
         LimelightHelpers
@@ -87,9 +98,11 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance());
+        tab.addDouble("ABC DAVID Y Meters to Target", () -> getSpeakerYDistance());
+        tab.addDouble("ABC DAVID X Meters to Target", () -> getSpeakerXDistance());
+        tab.addDouble("ABC DAVID Degrees to Target", () -> getSpeakerRotation().getDegrees());
         tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX());
-        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition);
+        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPositionY);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
                 .withPosition(0, 0);
@@ -200,21 +213,50 @@ public class VisionSystem extends SubsystemBase {
             m_fieldPose = llresults.targetingResults.getBotPose2d_wpiBlue();
             m_fieldSim.setRobotPose(m_fieldPose);
             m_isTargetDetected = true;
+
+            for (LimelightTarget_Fiducial tag : llresults.targetingResults.targets_Fiducials) {
+                if (tag.fiducialID == 4 || tag.fiducialID == 7) {
+                    m_angleFromSpeaker = tag.tx;
+                }
+            }
         }
         else {
             // Reset robot picture on the field
             m_fieldPose = new Pose2d();
             m_isTargetDetected = false;
+            m_angleFromSpeaker = 0;
         }
     }
 
     public double getSpeakerYDistance() {
         if (m_isTargetDetected) {
-            return Math.abs(m_fieldPose.getX() - m_speakerPosition);
+            return Math.abs(m_fieldPose.getX() - m_speakerPositionY);
         }
         else {
             return 0;
         }
+    }
+
+    public double getSpeakerXDistance() {
+        if (m_isTargetDetected) {
+            return Math.abs(m_fieldPose.getY() - m_speakerPositionX);
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public Rotation2d getSpeakerRotation() {
+        if (m_isTargetDetected) {
+            return Rotation2d.fromDegrees(m_angleFromSpeaker);
+        }
+        else {
+            return new Rotation2d();
+        }
+    }
+
+    public boolean getIsDetecting() {
+        return m_isTargetDetected;
     }
 
     public void stopSystem() {
