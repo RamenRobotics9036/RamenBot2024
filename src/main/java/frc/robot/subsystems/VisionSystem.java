@@ -199,8 +199,13 @@ public class VisionSystem extends SubsystemBase {
         m_numTags[0] = numAprilTags;
         m_fieldPose = new Pose2d();
 
-        m_targetY = llresults.targetingResults.targets_Fiducials[0].getTargetPose_RobotSpace2D()
-                .getY();
+        try {
+            m_targetY = llresults.targetingResults.targets_Fiducials[0].getTargetPose_RobotSpace2D()
+                    .getY();
+        }
+        catch (Exception e) {
+            m_targetY = 0;
+        }
 
         if (numAprilTags > 0) {
 
@@ -219,7 +224,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public double getSpeakerYDistance() {
-        return Math.abs(m_targetY) - 1.17;
+        return -m_targetY;
     }
 
     public Pose2d getFieldPose() {
