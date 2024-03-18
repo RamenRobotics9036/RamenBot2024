@@ -169,10 +169,10 @@ public class Constants {
                 Arrays.asList(
                         new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.81),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.77),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.74),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.705),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72)));
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.695)));
     }
 
     /**
@@ -201,7 +201,7 @@ public class Constants {
         public static class SetArmConstants {
             public static final double armMax = 3.8;
             public static final double armMin = 5.45;
-            public static final double maxTime = .75;
+            public static final double maxTime = 1.5;
             public static final double PID_P = 1;
             public static final double PID_I = 0;
             public static final double PID_D = 1;

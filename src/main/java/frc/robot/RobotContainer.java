@@ -87,9 +87,9 @@ public class RobotContainer {
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
-        Shuffleboard.getTab("Auto").add(m_autoChooser);
-        Shuffleboard.getTab("Swerve")
-                .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
+        // Shuffleboard.getTab("Auto").add(m_autoChooser);
+        // Shuffleboard.getTab("Swerve")
+        // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
         initShuffleBoard();
