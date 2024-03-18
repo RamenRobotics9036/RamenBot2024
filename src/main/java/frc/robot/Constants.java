@@ -170,10 +170,9 @@ public class Constants {
                         new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
                         new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.81),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.773),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.738),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 6, 4.67)));
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.74),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.705),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.72)));
     }
 
     /**
