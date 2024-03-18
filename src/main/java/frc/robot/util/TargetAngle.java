@@ -23,7 +23,8 @@ public class TargetAngle {
     }
 
     public double getShootingAngle(double distance) {
-        if (distance < ArmConstants.lookUpTableDistance) {
+        distance = distance - 1.07;
+        if (distance < 0.01) {
             // This is our well-known scoring angle
             return PresetConstants.speakerPresetAngleRadians;
         }

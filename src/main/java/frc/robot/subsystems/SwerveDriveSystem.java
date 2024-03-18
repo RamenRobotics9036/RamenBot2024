@@ -101,7 +101,8 @@ public class SwerveDriveSystem extends SubsystemBase {
 
     public SwerveDriveSystem(AppliedController controller) {
         m_controller = controller;
-        Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () -> getRotation2d().getDegrees());
+        // Shuffleboard.getTab("Swerve").addDouble("Gyro Angle", () ->
+        // getRotation2d().getDegrees());
         // initShuffleBoard();
         setDefaultCommand(new DriveSwerveCommand(this, m_controller));
         // Shuffleboard.getTab("Swerve").add("Robot Name", System.getenv("serialnum"));

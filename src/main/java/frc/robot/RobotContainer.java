@@ -196,11 +196,7 @@ public class RobotContainer {
         Shuffleboard.getTab("Vision").addDouble(
                 "Angle to Shoot",
                 () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
-                        + ShooterConstants.shootOffsetLimeLight)
-                .withWidget(BuiltInWidgets.kGyro)
-                .withPosition(5, 0)
-                .withSize(2, 2)
-                .withProperties(Map.of("Starting angle", 270.0));
+                        + ShooterConstants.shootOffsetLimeLight);
     }
 
     /**
@@ -232,7 +228,13 @@ public class RobotContainer {
         // One robot away preset
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleAutoOneRobotAwayRadians));
+                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
+                                new PullBackCommand(m_intakeSystem)
+                                        .andThen(new WaitCommand(waitTime))
+                                        .andThen(
+                                                new IntakeRevCommand(m_intakeSystem,
+                                                        m_shooterSystem,
+                                                        m_armController))));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)

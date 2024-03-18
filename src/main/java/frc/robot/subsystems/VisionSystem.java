@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -40,18 +41,24 @@ public class VisionSystem extends SubsystemBase {
             0
     };
 
+    private int priorityTag;
+
     private final double EPSILON = 0.0000001;
     private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
-            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 14.4
+            m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 16.47
                     : 0;
+            priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
+                    : 7;
         }
         else {
             m_speakerPosition = 0;
+            priorityTag = 7;
         }
         displayToShuffleBoard();
+        LimelightHelpers.setPriorityTagID(VisionConstants.limelightName, priorityTag);
         LimelightHelpers
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
@@ -59,7 +66,7 @@ public class VisionSystem extends SubsystemBase {
                         0.2,
                         0.42,
                         0,
-                        5,
+                        26,
                         0);
     }
 
@@ -87,15 +94,20 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance());
-        tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX());
-        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition);
+        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(0, 0);
+        tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
+        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0, 2);
+
+        tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
-                .withPosition(0, 0);
+                .withPosition(1, 0);
 
         tab.addInteger("Num tags", () -> m_numTags[0])
-                .withPosition(1, 0);
+                .withPosition(1, 1);
+
+        // tab.addInteger("Priority Tag", () -> priorityTag)
+        // .withPosition(1, 2);
 
         // tab.addDouble("ID", () -> getID())
         // .withPosition(2, 0);
@@ -216,7 +228,7 @@ public class VisionSystem extends SubsystemBase {
 
     public double getSpeakerYDistance() {
         if (m_isTargetDetected) {
-            return Math.abs(m_fieldPose.getX() - m_speakerPosition);
+            return m_speakerPosition - m_fieldPose.getX();
         }
         else {
             return 0;
