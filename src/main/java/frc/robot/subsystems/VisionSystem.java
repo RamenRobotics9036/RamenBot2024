@@ -129,10 +129,10 @@ public class VisionSystem extends SubsystemBase {
         // .withSize(2, 1)
         // .withProperties(Map.of("min", 0, "max", 10));
 
-        tab.add("Field", m_fieldSim)
-                .withWidget(BuiltInWidgets.kField)
-                .withPosition(5, 2)
-                .withSize(5, 3);
+        // tab.add("Field", m_fieldSim)
+        // .withWidget(BuiltInWidgets.kField)
+        // .withPosition(5, 2)
+        // .withSize(5, 3);
     }
 
     /**

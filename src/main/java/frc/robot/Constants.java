@@ -168,11 +168,20 @@ public class Constants {
         public static final ArrayList<Pair<Double, Double>> angleLookUpTable = new ArrayList<Pair<Double, Double>>(
                 Arrays.asList(
                         new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance, 4.86),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.77),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.74),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.705),
-                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.695)));
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 1, 4.97),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 2, 4.89),
+
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 3, 4.81),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 4, 4.77),
+
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 5, 4.74),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 6, 4.72),
+
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 7, 4.71),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 8, 4.705),
+
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 9, 4.7),
+                        new Pair<Double, Double>(ArmConstants.lookUpTableDistance * 10, 4.695)));
     }
 
     /**
@@ -254,7 +263,7 @@ public class Constants {
     }
 
     public static class ArmConstants {
-        public static final double lookUpTableDistance = 0.46;
+        public static final double lookUpTableDistance = 0.23;
         public static final double distanceToPivot = 0.5;
         public static final int smartCurrentLimit = 40;
         public static final double gearRatio = 60 / 12;

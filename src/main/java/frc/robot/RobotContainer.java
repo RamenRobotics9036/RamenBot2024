@@ -67,7 +67,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
+    // private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -92,7 +92,7 @@ public class RobotContainer {
         // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
-        initShuffleBoard();
+        // initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
         NamedCommands.registerCommand(
@@ -243,13 +243,13 @@ public class RobotContainer {
 
         // DRIVE CONTROLLER BINDINGS
 
-        new Trigger(() -> m_driveController.getBButton()).onTrue(
-                // AMP LIGHT COMMAND
-                new AmpLightCommand(m_LEDSystem));
+        // new Trigger(() -> m_driveController.getBButton()).onTrue(
+        // // AMP LIGHT COMMAND
+        // new AmpLightCommand(m_LEDSystem));
 
-        new Trigger(() -> m_driveController.getYButton()).onTrue(
-                // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
-                new LEDResetCommand(m_LEDSystem));
+        // new Trigger(() -> m_driveController.getYButton()).onTrue(
+        // // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
+        // new LEDResetCommand(m_LEDSystem));
 
         new Trigger(() -> m_driveController.getXButton()).onTrue(
                 // RESETS LED JUST IN CASE THE CODE IS NOT RIGHT
