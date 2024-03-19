@@ -22,7 +22,7 @@ public class Constants {
 
         public static final double controllerDeadbandPercent = 0.06; // 0.2
 
-        public static final int kLEDLightsChannel = 9;
+        public static final int kLEDLightsChannel = 0;
         public static final int kLEDLightsLength = 34;
     }
 
