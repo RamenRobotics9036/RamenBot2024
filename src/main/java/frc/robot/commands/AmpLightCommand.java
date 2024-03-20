@@ -15,7 +15,6 @@ public class AmpLightCommand extends Command {
 
     @Override
     public void initialize() {
-        m_LEDSystem.setLedsYellow();
     }
 
     @Override

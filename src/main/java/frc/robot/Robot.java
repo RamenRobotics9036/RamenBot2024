@@ -47,4 +47,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
     }
+
+    @Override
+    public void disabledInit() {
+        m_robotContainer.stopRobot();
+    }
 }

@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.util.AppliedController;
 
 public class LEDSystem extends SubsystemBase {
 
@@ -20,6 +22,8 @@ public class LEDSystem extends SubsystemBase {
     // MotorType.kBrushless);
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
 
+    private Timer m_timer = new Timer();
+
     private DigitalInput beamBreak = new DigitalInput(1);
 
     private AddressableLED m_LEDLight = new AddressableLED(
@@ -27,13 +31,21 @@ public class LEDSystem extends SubsystemBase {
     private AddressableLEDBuffer m_LEDBuffer = new AddressableLEDBuffer(
             Constants.OperatorConstants.kLEDLightsLength);
 
+    private AppliedController m_driveController;
+    private AppliedController m_armController;
+
     private int m_ledLoop;
     private int m_ledR;
     private int m_ledG;
     private int m_ledB;
     private int m_ledHue;
 
-    public LEDSystem() {
+    private boolean noteInIntake;
+
+    public LEDSystem(AppliedController armController, AppliedController driveController) {
+
+        m_driveController = driveController;
+        m_armController = armController;
 
         // initShuffleBoard();
 
@@ -44,15 +56,6 @@ public class LEDSystem extends SubsystemBase {
         m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
-    }
-
-    /**
-     * Sets the LED lights to yellow.
-     */
-    public void setLedsYellow() {
-        m_ledR = 255;
-        m_ledG = 255;
-        m_ledB = 0;
     }
 
     public void resetLED() {
@@ -74,11 +77,21 @@ public class LEDSystem extends SubsystemBase {
             for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                 m_LEDBuffer.setRGB(i, 255, 0, 0);
             }
+            m_armController.setRumble(RumbleType.kBothRumble, .7);
+            if (m_timer.get() < 2 && noteInIntake) {
+                m_timer.restart();
+            }
+
         }
         else {
             for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                 m_LEDBuffer.setRGB(i, 0, 255, 0);
             }
+            m_armController.setRumble(RumbleType.kBothRumble, .7);
+        }
+
+        if (m_timer.get() >= 2) {
+            m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
 
         m_LEDLight.setData(m_LEDBuffer);
@@ -92,5 +105,8 @@ public class LEDSystem extends SubsystemBase {
         m_LEDBuffer.setRGB(0, 0, 0, 0);
         m_LEDLight.setData(m_LEDBuffer);
         m_LEDLight.start();
+        m_armController.setRumble(RumbleType.kBothRumble, 0);
+        m_driveController.setRumble(RumbleType.kBothRumble, 0);
+
     }
 }

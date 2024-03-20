@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -67,7 +68,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    private LEDSystem m_LEDSystem = new LEDSystem();
+    private LEDSystem m_LEDSystem = new LEDSystem(m_driveController, m_armController);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -88,8 +89,8 @@ public class RobotContainer {
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
         // Shuffleboard.getTab("Auto").add(m_autoChooser);
-        // Shuffleboard.getTab("Swerve")
-        // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
+        // Shuffleboard.getTab("Swerve")e
+        // .addDouble("Rotation Angle", () -> m_swervDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
         // initShuffleBoard();
@@ -101,7 +102,7 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Set Arm To Shoot",
                 // new SetArmToAngleCommand(m_armSystem,
-                // PresetConstants.speakerPresetAngleRadians));
+                // PresetConstants.speakerPresetAngleadians));
                 new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
                         PresetConstants.speakerPresetAngleAutoRadians),
                         new StayCommand(m_swerveDrive)));
@@ -279,7 +280,6 @@ public class RobotContainer {
     public void stopRobot() {
         m_swerveDrive.stopSystem();
         m_visionSystem.stopSystem();
-
         m_shooterSystem.stopSystem();
         m_armSystem.stopSystem();
         m_intakeSystem.stopSystem();
