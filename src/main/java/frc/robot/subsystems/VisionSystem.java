@@ -29,12 +29,12 @@ public class VisionSystem extends SubsystemBase {
     private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
     private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
-            .getTable(VisionConstants.limelightName);
-    private NetworkTableEntry tableX = limelightTable.getEntry("tx");
-    private NetworkTableEntry tableY = limelightTable.getEntry("ty");
-    private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
-    private NetworkTableEntry tableID = limelightTable.getEntry("tid");
+    // private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+    // .getTable(VisionConstants.limelightName);
+    // private NetworkTableEntry tableX = limelightTable.getEntry("tx");
+    // private NetworkTableEntry tableY = limelightTable.getEntry("ty");
+    // private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
+    // private NetworkTableEntry tableID = limelightTable.getEntry("tid");
 
     private final Field2d m_fieldSim = new Field2d();
     private int[] m_numTags = {
@@ -57,7 +57,7 @@ public class VisionSystem extends SubsystemBase {
             m_speakerPosition = 0;
             priorityTag = 7;
         }
-        displayToShuffleBoard();
+        // displayToShuffleBoard();
         LimelightHelpers.setPriorityTagID(VisionConstants.limelightName, priorityTag);
         LimelightHelpers
                 .setCameraPose_RobotSpace(
@@ -94,17 +94,19 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(0, 0);
-        tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
-        tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0, 2);
+        // tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(0,
+        // 0);
+        // tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
+        // tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0,
+        // 2);
 
-        tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
+        // tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
 
-        tab.addBoolean("Is Detecting", () -> isDetected())
-                .withPosition(1, 0);
+        // tab.addBoolean("Is Detecting", () -> isDetected())
+        // .withPosition(1, 0);
 
-        tab.addInteger("Num tags", () -> m_numTags[0])
-                .withPosition(1, 1);
+        // tab.addInteger("Num tags", () -> m_numTags[0])
+        // .withPosition(1, 1);
 
         // tab.addInteger("Priority Tag", () -> priorityTag)
         // .withPosition(1, 2);
@@ -139,14 +141,15 @@ public class VisionSystem extends SubsystemBase {
      * X angle, left-right, from April tag. X cross-hair angle.
      */
     public double getX() {
-        return tableX.getDouble(0);
+        return LimelightHelpers.getTX(VisionConstants.limelightName);
+
     }
 
     /**
      * Y angle, up-down, to April tag. Y cross-hair angle.
      */
     public double getY() {
-        return tableY.getDouble(0);
+        return LimelightHelpers.getTY(VisionConstants.limelightName);
     }
 
     public double getXRadians() {
@@ -161,7 +164,7 @@ public class VisionSystem extends SubsystemBase {
      * Area of April tag in view.
      */
     public double getArea() {
-        return tableArea.getDouble(0);
+        return LimelightHelpers.getTA(VisionConstants.limelightName);
     }
 
     // $IDO - This seems like a strange way to see if any ID is detected
@@ -170,7 +173,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public double getID() {
-        return tableID.getDouble(0);
+        return LimelightHelpers.getFiducialID(VisionConstants.limelightName);
     }
 
     // $IDO - This isn't even used!
