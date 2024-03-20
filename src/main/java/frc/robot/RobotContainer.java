@@ -67,7 +67,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    // private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
+    private LEDSystem m_LEDSystem = new LEDSystem();
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -284,5 +284,6 @@ public class RobotContainer {
         m_armSystem.stopSystem();
         m_intakeSystem.stopSystem();
         m_hookSystem.stopSystem();
+        m_LEDSystem.stopSystem();
     }
 }
