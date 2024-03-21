@@ -88,7 +88,9 @@ public class LEDSystem extends SubsystemBase {
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 0, 0);
                 }
+                m_LEDLight.setData(m_LEDBuffer);
                 noteInIntake = false;
+
             }
             // otherwise, it wont do anything, so that it is not constantly running the for loop
 
@@ -101,6 +103,7 @@ public class LEDSystem extends SubsystemBase {
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 0, 255, 0);
                 }
+                m_LEDLight.setData(m_LEDBuffer);
                 noteInIntake = true;
             }
 
@@ -113,7 +116,6 @@ public class LEDSystem extends SubsystemBase {
         // m_armController.setRumble(RumbleType.kBothRumble, 0);
         // }
 
-        m_LEDLight.setData(m_LEDBuffer);
         // m_LEDLight.start(); MIGHT NOT NEED
 
     }
