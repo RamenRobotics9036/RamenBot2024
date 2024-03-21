@@ -48,7 +48,7 @@ public class LEDSystem extends SubsystemBase {
         m_ledB = 0;
         m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
-        // m_LEDLight.start();
+        m_LEDLight.start();
 
     }
 
@@ -79,17 +79,33 @@ public class LEDSystem extends SubsystemBase {
         // }
 
         // sees the light (does not have note)
+
+        // DOES NOT HAVE NOTE, but it just did
+
         if (beamBreak.get()) {
-            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
-                m_LEDBuffer.setRGB(i, 255, 0, 0);
+            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run the
+                                // LED to Red
+                for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                    m_LEDBuffer.setRGB(i, 255, 0, 0);
+                }
+                noteInIntake = false;
             }
+            // otherwise, it wont do anything, so that it is not constantly running the for loop
+
             // m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
-        // // does not see the light (has the note)
+        // // Beam Break does not see the light (has the note)
         else {
-            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
-                m_LEDBuffer.setRGB(i, 0, 255, 0);
+            if (!noteInIntake) { // if note was just intaked, but changed, then it will run the LED
+                                 // to Green
+                for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                    m_LEDBuffer.setRGB(i, 0, 255, 0);
+                }
+                noteInIntake = true;
             }
+
+            // otherwise, it wont do anything, so that it is not constantly running the for loop
+
             // m_armController.setRumble(RumbleType.kBothRumble, .3);
         }
 
@@ -98,7 +114,7 @@ public class LEDSystem extends SubsystemBase {
         // }
 
         m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
+        // m_LEDLight.start(); MIGHT NOT NEED
 
     }
 
