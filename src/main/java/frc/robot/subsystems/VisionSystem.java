@@ -209,8 +209,7 @@ public class VisionSystem extends SubsystemBase {
         return distanceFromLimelightToGoalMeters;
     }
 
-    @Override
-    public void periodic() {
+    private void updatePose() {
         LimelightResults llresults = LimelightHelpers.getLatestResults("limelight-ramen");
 
         int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
@@ -230,12 +229,14 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public double getSpeakerYDistance() {
+        updatePose();
         if (m_isTargetDetected) {
             return m_speakerPosition - m_fieldPose.getX();
         }
         else {
             return 0;
         }
+
     }
 
     public void stopSystem() {

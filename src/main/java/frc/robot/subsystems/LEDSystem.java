@@ -14,15 +14,8 @@ import frc.robot.util.AppliedController;
 
 public class LEDSystem extends SubsystemBase {
 
-    // I WANT TO USE THE TOP INTAKE MOTOR BECAUSE THAT WILL ONLY CHANGE IF IT ACTUALLY GRABS A PIECE
-
-    // THE BOTTOM NOTE MIGHT SLOW DOWN BECAUSE IT HITS THE NOTE, BUT IT MAY NOT ACTUALLY INTAKE IT
-    // private final CANSparkMax intakeMotor = new CANSparkM
-    // IntakeConstants.intakeMotorRight
-    // MotorType.kBrushless);
-    // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
-
     private Timer m_timer = new Timer();
+    private boolean m_isRumbling;
 
     private DigitalInput beamBreak = new DigitalInput(1);
 
@@ -43,7 +36,7 @@ public class LEDSystem extends SubsystemBase {
     private boolean noteInIntake;
 
     public LEDSystem(AppliedController armController, AppliedController driveController) {
-
+        m_isRumbling = false;
         m_driveController = driveController;
         m_armController = armController;
 
@@ -55,6 +48,7 @@ public class LEDSystem extends SubsystemBase {
         m_ledB = 0;
         m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
+        // m_LEDLight.start();
 
     }
 
@@ -72,39 +66,49 @@ public class LEDSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // if (m_isRumbling) {
+        // if (m_timer.get() >= 2) {
+        // m_armController.setRumble(RumbleType.kBothRumble, 0);
+        // m_isRumbling = false;
+        // }
+        // }
+        // else if (!beamBreak.get()) {
+        // m_timer.restart();
+        // m_armController.setRumble(RumbleType.kBothRumble, 0.3);
+        // m_isRumbling = true;
+        // }
 
+        // sees the light (does not have note)
         if (beamBreak.get()) {
             for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                 m_LEDBuffer.setRGB(i, 255, 0, 0);
             }
-            m_armController.setRumble(RumbleType.kBothRumble, .7);
-            if (m_timer.get() < 2 && noteInIntake) {
-                m_timer.restart();
-            }
-
+            // m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
+        // // does not see the light (has the note)
         else {
             for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                 m_LEDBuffer.setRGB(i, 0, 255, 0);
             }
-            m_armController.setRumble(RumbleType.kBothRumble, .7);
+            // m_armController.setRumble(RumbleType.kBothRumble, .3);
         }
 
-        if (m_timer.get() >= 2) {
-            m_armController.setRumble(RumbleType.kBothRumble, 0);
-        }
+        // if (m_timer.get() >= 2) {
+        // m_armController.setRumble(RumbleType.kBothRumble, 0);
+        // }
 
         m_LEDLight.setData(m_LEDBuffer);
         m_LEDLight.start();
+
     }
 
     /**
      * Stop the intake system.
      */
     public void stopSystem() {
-        m_LEDBuffer.setRGB(0, 0, 0, 0);
-        m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
+        // m_LEDBuffer.setRGB(0, 0, 0, 0);
+        // m_LEDLight.setData(m_LEDBuffer);
+        // m_LEDLight.start();
         m_armController.setRumble(RumbleType.kBothRumble, 0);
         m_driveController.setRumble(RumbleType.kBothRumble, 0);
 
