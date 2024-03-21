@@ -68,7 +68,7 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
-    private LEDSystem m_LEDSystem = new LEDSystem(m_driveController, m_armController);
+    // private LEDSystem m_LEDSystem = new LEDSystem(m_driveController, m_armController);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -88,7 +88,7 @@ public class RobotContainer {
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
-        // Shuffleboard.getTab("Auto").add(m_autoChooser);
+        Shuffleboard.getTab("Auto").add(m_autoChooser);
         // Shuffleboard.getTab("Swerve")e
         // .addDouble("Rotation Angle", () -> m_swervDrive.getRotation2d().getRadians());
 
@@ -162,7 +162,6 @@ public class RobotContainer {
         // NOTE Field relative is dependent both on which alliance you are on, but also what part of
         // the subwoofer you are on.
 
-        // m_swerveDrive.resetGyroFieldRelativeBlueMid();
         String autoName = m_autoChooser.getSelected();
         JSONObject autoSettings = getAutoJSON(autoName);
         Pose2d startPose = AutoBuilder
@@ -284,6 +283,6 @@ public class RobotContainer {
         m_armSystem.stopSystem();
         m_intakeSystem.stopSystem();
         m_hookSystem.stopSystem();
-        m_LEDSystem.stopSystem();
+        // m_LEDSystem.stopSystem();
     }
 }
