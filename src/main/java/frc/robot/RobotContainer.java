@@ -92,7 +92,7 @@ public class RobotContainer {
         // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
         double waitTime = 0.2;
-        // initShuffleBoard();
+        initShuffleBoard();
 
         // I will probably need to add a timer or maybe I can do that in Path Planner
         NamedCommands.registerCommand(

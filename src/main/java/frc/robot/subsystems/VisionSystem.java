@@ -49,7 +49,7 @@ public class VisionSystem extends SubsystemBase {
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
             m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 16.47
-                    : 0;
+                    : 2.227;
             priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
                     : 7;
         }
@@ -94,7 +94,9 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(0, 0);
+        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(
+                0,
+                0);
         tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
         tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0, 2);
 
@@ -129,10 +131,10 @@ public class VisionSystem extends SubsystemBase {
         // .withSize(2, 1)
         // .withProperties(Map.of("min", 0, "max", 10));
 
-        // tab.add("Field", m_fieldSim)
-        // .withWidget(BuiltInWidgets.kField)
-        // .withPosition(5, 2)
-        // .withSize(5, 3);
+        tab.add("Field", m_fieldSim)
+                .withWidget(BuiltInWidgets.kField)
+                .withPosition(5, 2)
+                .withSize(5, 3);
     }
 
     /**

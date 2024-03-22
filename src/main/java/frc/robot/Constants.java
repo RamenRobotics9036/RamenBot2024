@@ -314,15 +314,16 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.8;
-        public static final double speakerPresetAngleAutoRadians = 5.03; // (TESTED, WORKS VERY
-                                                                         // WELL) a little
-                                                                         // lower because our
-                                                                         // current
-                                                                         // auto is consistently
-                                                                         // undershooting distance
-                                                                         // which means it needs a
-                                                                         // lower angle
-        public static final double speakerPresetAngleRadians = 5.03;
+        public static final double speakerPresetAngleAutoRadians = 5.03 - 0.0349; // (TESTED, WORKS
+                                                                                  // VERY
+        // WELL) a little
+        // lower because our
+        // current
+        // auto is consistently
+        // undershooting distance
+        // which means it needs a
+        // lower angle
+        public static final double speakerPresetAngleRadians = 5.03 - 0.0349;
         public static final double shooterSpeed = 0.7;
         public static final double speakerPresetAngleAutoOneRobotAwayRadians = 4.907;
     }
