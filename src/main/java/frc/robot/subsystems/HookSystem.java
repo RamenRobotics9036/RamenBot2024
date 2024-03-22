@@ -28,6 +28,9 @@ public class HookSystem extends SubsystemBase {
         m_leaderMotor.setIdleMode(IdleMode.kBrake);
         m_followerMotor.setIdleMode(IdleMode.kBrake);
 
+        m_leaderMotor.setSmartCurrentLimit(15);
+        m_followerMotor.setSmartCurrentLimit(15);
+
         m_leaderMotor.setInverted(false);
         m_followerMotor.setInverted(false);
 
