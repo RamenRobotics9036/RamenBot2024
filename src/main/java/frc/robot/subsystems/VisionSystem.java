@@ -94,13 +94,13 @@ public class VisionSystem extends SubsystemBase {
         // Crosshair calibration:
         // https://docs.limelightvision.io/docs/docs-limelight/getting-started/crosshair
 
-        tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(
-                0,
-                0);
+        // tab.addDouble("ABC DAVID Meters to Target", () -> getSpeakerYDistance()).withPosition(
+        // 0,
+        // 0);
         tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
         tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0, 2);
 
-        tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
+        // tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
                 .withPosition(1, 0);
@@ -208,8 +208,7 @@ public class VisionSystem extends SubsystemBase {
         return distanceFromLimelightToGoalMeters;
     }
 
-    @Override
-    public void periodic() {
+    public void updatePose() {
         LimelightResults llresults = LimelightHelpers.getLatestResults("limelight-ramen");
 
         int numAprilTags = llresults.targetingResults.targets_Fiducials.length;
@@ -229,6 +228,7 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public double getSpeakerYDistance() {
+        updatePose();
         if (m_isTargetDetected) {
             return m_speakerPosition - m_fieldPose.getX();
         }
