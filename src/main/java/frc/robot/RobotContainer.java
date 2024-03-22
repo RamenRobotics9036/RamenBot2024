@@ -61,7 +61,7 @@ public class RobotContainer {
             OperatorConstants.armControllerPort);
 
     private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
-    private VisionSystem m_visionSystem = new VisionSystem();
+    // private VisionSystem m_visionSystem = new VisionSystem();
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
@@ -87,7 +87,7 @@ public class RobotContainer {
 
         m_autoChooser.addOption("Move 2 Meters", "Move 2 Meters");
 
-        // Shuffleboard.getTab("Auto").add(m_autoChooser);
+        Shuffleboard.getTab("Auto").add(m_autoChooser);
         // Shuffleboard.getTab("Swerve")
         // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
@@ -226,15 +226,15 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
 
         // One robot away preset
-        new Trigger(() -> m_armController.getBButton()).onTrue(
-                new SetArmToAngleCommand(m_armSystem,
-                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
-                                new PullBackCommand(m_intakeSystem)
-                                        .andThen(new WaitCommand(waitTime))
-                                        .andThen(
-                                                new IntakeRevCommand(m_intakeSystem,
-                                                        m_shooterSystem,
-                                                        m_armController))));
+        // new Trigger(() -> m_armController.getBButton()).onTrue(
+        // new SetArmToAngleCommand(m_armSystem,
+        // m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
+        // new PullBackCommand(m_intakeSystem)
+        // .andThen(new WaitCommand(waitTime))
+        // .andThen(
+        // new IntakeRevCommand(m_intakeSystem,
+        // m_shooterSystem,
+        // m_armController))));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)
@@ -278,7 +278,7 @@ public class RobotContainer {
 
     public void stopRobot() {
         m_swerveDrive.stopSystem();
-        m_visionSystem.stopSystem();
+        // m_visionSystem.stopSystem();
 
         m_shooterSystem.stopSystem();
         m_armSystem.stopSystem();
