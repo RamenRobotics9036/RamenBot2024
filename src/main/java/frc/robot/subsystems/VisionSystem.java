@@ -17,6 +17,7 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.LimelightHelpers;
 
+import java.sql.Driver;
 import java.util.Map;
 
 public class VisionSystem extends SubsystemBase {
@@ -49,7 +50,7 @@ public class VisionSystem extends SubsystemBase {
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
             m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 16.47
-                    : 2.227;
+                    : -2.227 - 1.07;
             priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
                     : 7;
         }
@@ -100,7 +101,7 @@ public class VisionSystem extends SubsystemBase {
         tab.addDouble("ABC DAVID Robot Position Y", () -> m_fieldPose.getX()).withPosition(0, 1);
         tab.addDouble("ABC DAVID Speaker Position Y", () -> m_speakerPosition).withPosition(0, 2);
 
-        // tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
+        tab.addDouble("ABC DAVID Meters to Subwoofer", () -> getSpeakerYDistance() - 1.07);
 
         tab.addBoolean("Is Detecting", () -> isDetected())
                 .withPosition(1, 0);
@@ -230,7 +231,12 @@ public class VisionSystem extends SubsystemBase {
     public double getSpeakerYDistance() {
         updatePose();
         if (m_isTargetDetected) {
-            return m_speakerPosition - m_fieldPose.getX();
+            if (DriverStation.getAlliance().get().equals(Alliance.Red)) {
+                return m_speakerPosition - m_fieldPose.getX();
+            }
+            else {
+                return Math.abs(m_fieldPose.getX()) - m_speakerPosition;
+            }
         }
         else {
             return 0;

@@ -35,7 +35,7 @@ public class LEDSystem extends SubsystemBase {
 
     private DigitalInput beamBreak = new DigitalInput(1);
 
-    private boolean noteInIntake;
+    private boolean noteInIntake = false;
 
     private IntakeSystem m_intakeSystem;
 
@@ -46,13 +46,20 @@ public class LEDSystem extends SubsystemBase {
         // initShuffleBoard();
 
         m_ledLoop = 0;
-        m_ledR = 255;
-        m_ledG = 0;
-        m_ledB = 0;
+        m_ledR = 0;
+        m_ledG = 255;
+        m_ledB = 255;
         m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
         m_intakeSystem = intakeSystem;
+        for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+            m_LEDBuffer.setRGB(i, 255, 0, 255);
+        }
+        m_LEDLight.setData(m_LEDBuffer);
+
+        m_LEDLight.start();
+
     }
 
     /**
@@ -81,34 +88,30 @@ public class LEDSystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (beamBreak.get()) {
-            // if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
-            // the
-            // LED to Red
-            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
-                m_LEDBuffer.setRGB(i, 255, 0, 0);
-            }
-            // m_LEDLight.setData(m_LEDBuffer);
-            noteInIntake = false;
+            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
+                // LED to Red
+                for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                    m_LEDBuffer.setRGB(i, 255, 0, 255);
+                }
+                m_LEDLight.setData(m_LEDBuffer);
+                noteInIntake = false;
 
-            // }
+            }
             // otherwise, it wont do anything, so that it is not constantly running the for loop
 
             // m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
         // // Beam Break does not see the light (has the note)
         else {
-            // if (!noteInIntake) { // if note was just intaked, but changed, then it will run the
-            // LED
-            // to Green
-            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
-                m_LEDBuffer.setRGB(i, 0, 255, 0);
-                // }
+            if (!noteInIntake) { // if note was just intaked, but changed, then it will run the
+                // LED to Green
+                for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                    m_LEDBuffer.setRGB(i, 255, 255, 0);
+                }
+                m_LEDLight.setData(m_LEDBuffer);
                 noteInIntake = true;
             }
         }
-
-        m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
     }
 
     /**
