@@ -13,28 +13,28 @@ import frc.robot.commands.DefaultHookCommand;
 import frc.robot.util.AppliedController;
 
 public class HookSystem extends SubsystemBase {
-    private CANSparkMax rightHookMotor = new CANSparkMax(HookConstants.rightHookCANId,
+    private CANSparkMax m_followerMotor = new CANSparkMax(HookConstants.rightHookCANId,
             MotorType.kBrushless);
-    private CANSparkMax leftHookMotor = new CANSparkMax(HookConstants.leftHookCANId,
+    private CANSparkMax m_leaderMotor = new CANSparkMax(HookConstants.leftHookCANId,
             MotorType.kBrushless);
-    private RelativeEncoder m_lEncoder = leftHookMotor.getEncoder();
-    private RelativeEncoder m_rEncoder = rightHookMotor.getEncoder();
+    private RelativeEncoder m_lEncoder = m_leaderMotor.getEncoder();
+    private RelativeEncoder m_rEncoder = m_followerMotor.getEncoder();
     private AppliedController m_controller;
 
     public HookSystem(AppliedController controller) {
         m_controller = controller;
-        leftHookMotor.restoreFactoryDefaults();
-        rightHookMotor.restoreFactoryDefaults();
-        leftHookMotor.setIdleMode(IdleMode.kBrake);
-        rightHookMotor.setIdleMode(IdleMode.kBrake);
+        m_leaderMotor.restoreFactoryDefaults();
+        m_followerMotor.restoreFactoryDefaults();
+        m_leaderMotor.setIdleMode(IdleMode.kBrake);
+        m_followerMotor.setIdleMode(IdleMode.kBrake);
 
-        leftHookMotor.setSmartCurrentLimit(15);
-        rightHookMotor.setSmartCurrentLimit(15);
+        m_leaderMotor.setSmartCurrentLimit(15);
+        m_followerMotor.setSmartCurrentLimit(15);
 
-        leftHookMotor.setInverted(false);
-        rightHookMotor.setInverted(false);
+        m_leaderMotor.setInverted(false);
+        m_followerMotor.setInverted(false);
 
-        // rightHookMotor.follow(leftHookMotor);
+        // m_followerMotor.follow(m_leaderMotor);
 
         // initShuffleBoard();
         setDefaultCommand(new DefaultHookCommand(this, m_controller));
@@ -48,35 +48,34 @@ public class HookSystem extends SubsystemBase {
         return m_rEncoder.getPosition();
     }
 
-    // DOES NOT GET USED
-    // public void setHookSpeed(double speed) {
-    // speed = MathUtil
-    // .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
-    // leftHookMotor.set(speed);
-    // }
+    public void setHookSpeed(double speed) {
+        speed = MathUtil
+                .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
+        m_leaderMotor.set(speed);
+    }
 
     public void setHookSpeedRight(double speed) {
         speed = MathUtil
                 .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
-        leftHookMotor.set(speed);
+        m_leaderMotor.set(speed);
     }
 
     public void setHookSpeedLeft(double speed) {
         speed = MathUtil
                 .clamp(speed, -HookConstants.maxOutputPercent, HookConstants.maxOutputPercent);
-        rightHookMotor.set(speed);
+        m_followerMotor.set(speed);
     }
 
     public void setHookSpeedAdmin(double speed) {
-        leftHookMotor.set(speed);
+        m_leaderMotor.set(speed);
     }
 
     public double getLeadMotorSpeed() {
-        return leftHookMotor.get();
+        return m_leaderMotor.get();
     }
 
     public double getFollowMotorSpeed() {
-        return rightHookMotor.get();
+        return m_followerMotor.get();
     }
 
     public void initShuffleBoard() {
@@ -89,8 +88,7 @@ public class HookSystem extends SubsystemBase {
     }
 
     public void stopSystem() {
-        leftHookMotor.stopMotor();
-        rightHookMotor.stopMotor();
+        m_leaderMotor.stopMotor();
 
     }
 
