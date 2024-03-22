@@ -256,11 +256,9 @@ public class RobotContainer {
                 new RotatePIDCommand(m_swerveDrive, 1.5 * Math.PI));
 
         new Trigger(() -> m_armController.povRight(new EventLoop()).getAsBoolean()).onTrue(
-                new PullBackCommand(m_intakeSystem)
-                        .andThen(new WaitCommand(waitTime))
-                        .andThen(
-                                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                                        0.2)));
+
+                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                        0.2));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
