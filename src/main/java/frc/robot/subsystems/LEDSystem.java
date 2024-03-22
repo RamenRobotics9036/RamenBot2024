@@ -2,10 +2,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.OperatorConstants;
 
 public class LEDSystem extends SubsystemBase {
 
@@ -30,6 +32,10 @@ public class LEDSystem extends SubsystemBase {
     private int m_ledG;
     private int m_ledB;
     private int m_ledHue;
+
+    private DigitalInput beamBreak = new DigitalInput(1);
+
+    private boolean noteInIntake;
 
     private IntakeSystem m_intakeSystem;
 
@@ -74,25 +80,32 @@ public class LEDSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (beamBreak.get()) {
+            // if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
+            // the
+            // LED to Red
+            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                m_LEDBuffer.setRGB(i, 255, 0, 0);
+            }
+            // m_LEDLight.setData(m_LEDBuffer);
+            noteInIntake = false;
 
-        // FIND WHAT THE NORMALCURRENT OF THE MOTOR RUNS AT TOMORROW
-        // SEE IF THERE IS A SPIKE WHEN IT IS INTAKING A PIECE (HOLD THE PIECE SO THE INTAKE CANNOT
-        // FULLY GRAB IT)
-        if (m_intakeSystem.getOutputCurrent() > NORMALCURRENT) {
-            // m_LEDBuffer.setHSV()
-            m_LEDBuffer.setRGB(0, 0, 255, 0); // WILL ONLY CHANGE ONE LIGHT FOR NOW. ADD A FOR LOOP
-                                              // TO ACTUALLY CHANGE ALL OF THE LIGHTS LATER
+            // }
+            // otherwise, it wont do anything, so that it is not constantly running the for loop
 
+            // m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
-
-        // THINK ABOUT HOW IT WILL KNOW IF IT DOESNT HAVE A PIECE
-        // for now, when it shoots, thats when it will know that it used a piece. I can check this
-        // by other checking the velocity of the shoot motors or by seeing if the shoot command was
-        // run
-
-        // If shootsystem.usedcommand() == True {m_LEDBuffer.setRGB(0, 255, 0, 0)};
-
-        // I WILL ALSO HAVE TO THINK ABOUT THE INTERACTION WITH THE AMP LIGHT
+        // // Beam Break does not see the light (has the note)
+        else {
+            // if (!noteInIntake) { // if note was just intaked, but changed, then it will run the
+            // LED
+            // to Green
+            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                m_LEDBuffer.setRGB(i, 0, 255, 0);
+                // }
+                noteInIntake = true;
+            }
+        }
 
         m_LEDLight.setData(m_LEDBuffer);
         m_LEDLight.start();
