@@ -50,7 +50,7 @@ public class VisionSystem extends SubsystemBase {
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
             m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 16.47
-                    : -2.227 - 1.07;
+                    : 0.55;
             priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
                     : 7;
         }
@@ -235,7 +235,7 @@ public class VisionSystem extends SubsystemBase {
                 return m_speakerPosition - m_fieldPose.getX();
             }
             else {
-                return Math.abs(m_fieldPose.getX()) - m_speakerPosition;
+                return Math.abs(m_speakerPosition - m_fieldPose.getX());
             }
         }
         else {
