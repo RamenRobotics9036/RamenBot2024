@@ -30,7 +30,7 @@ public class PullBackCommand extends Command {
     public void execute() {
         // In case the motor is stil spinning in wrong direction on startup
         m_angle = Math.min(m_angle, m_intakeSystem.getIntakeAngle());
-        m_ShooterSystem.setShootSpeed(0.1);
+        m_ShooterSystem.setShootSpeed(-0.1);
     }
 
     @Override
