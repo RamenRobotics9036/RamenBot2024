@@ -4,15 +4,18 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ShooterSystem;
 
 public class PullBackCommand extends Command {
     private IntakeSystem m_intakeSystem;
+    private ShooterSystem m_ShooterSystem;
     private double m_angle;
     private Timer m_timer;
 
-    public PullBackCommand(IntakeSystem intakeSystem) {
+    public PullBackCommand(IntakeSystem intakeSystem, ShooterSystem shooterSystem) {
         m_intakeSystem = intakeSystem;
-        addRequirements(m_intakeSystem);
+        m_ShooterSystem = shooterSystem;
+        addRequirements(m_intakeSystem, m_ShooterSystem);
     }
 
     @Override
@@ -27,6 +30,7 @@ public class PullBackCommand extends Command {
     public void execute() {
         // In case the motor is stil spinning in wrong direction on startup
         m_angle = Math.min(m_angle, m_intakeSystem.getIntakeAngle());
+        m_ShooterSystem.setShootSpeed(0.1);
     }
 
     @Override

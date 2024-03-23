@@ -109,7 +109,7 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Shoot Note",
                 new ParallelDeadlineGroup(
-                        new PullBackCommand(m_intakeSystem)
+                        new PullBackCommand(m_intakeSystem, m_shooterSystem)
                                 .andThen(new WaitCommand(waitTime))
                                 .andThen(
                                         new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
@@ -123,7 +123,7 @@ public class RobotContainer {
                         new ParallelCommandGroup(
                                 new SetArmToAngleCommand(m_armSystem,
                                         PresetConstants.speakerPresetAngleAutoRadians),
-                                new PullBackCommand(m_intakeSystem)
+                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
                                         .andThen(new WaitCommand(0)))
                                 .andThen(
                                         new IntakeRevCommandAuto(m_intakeSystem,
@@ -212,7 +212,7 @@ public class RobotContainer {
                                // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
                                // TO REV UP ANYWAYS)
         new Trigger(() -> m_armController.getAButton()).onTrue(
-                new PullBackCommand(m_intakeSystem)
+                new PullBackCommand(m_intakeSystem, m_shooterSystem)
                         .andThen(new WaitCommand(waitTime))
                         .andThen(
                                 new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
@@ -230,7 +230,7 @@ public class RobotContainer {
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem,
                         m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
-                                new PullBackCommand(m_intakeSystem)
+                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
                                         .andThen(new WaitCommand(waitTime))
                                         .andThen(
                                                 new IntakeRevCommand(m_intakeSystem,
