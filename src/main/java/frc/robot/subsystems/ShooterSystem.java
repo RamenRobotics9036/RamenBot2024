@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -22,6 +23,7 @@ public class ShooterSystem extends SubsystemBase {
             MotorType.kBrushless);
     private CANSparkMax m_shooterMotorLeader = new CANSparkMax(ShooterConstants.shooterLeftMotorID,
             MotorType.kBrushless);
+    private RelativeEncoder m_encoder = m_shooterMotorLeader.getEncoder();
 
     private double maxOutputPercent = ShooterConstants.maxOutputPercent;
 
@@ -46,6 +48,10 @@ public class ShooterSystem extends SubsystemBase {
 
     public void initShuffleBoard() {
         Shuffleboard.getTab("Shooter").addDouble("Shooter Speed: ", () -> getShootSpeed());
+    }
+
+    public double getAngle() {
+        return m_encoder.getPosition();
     }
 
     @Override

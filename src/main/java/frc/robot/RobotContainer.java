@@ -42,6 +42,7 @@ import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.LEDResetCommand;
 import frc.robot.commands.PullBackCommand;
+import frc.robot.commands.PullBackShooterCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
@@ -259,6 +260,9 @@ public class RobotContainer {
 
                 new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
                         0.2));
+
+        new Trigger(() -> m_armController.povDown(new EventLoop()).getAsBoolean())
+                .onTrue(new PullBackShooterCommand(m_shooterSystem));
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
