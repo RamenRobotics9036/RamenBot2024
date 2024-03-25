@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +16,9 @@ public class HookSystem extends SubsystemBase {
             MotorType.kBrushless);
     private CANSparkMax m_leaderMotor = new CANSparkMax(HookConstants.leftHookCANId,
             MotorType.kBrushless);
+    @SuppressWarnings("MemberNameCheck")
     private RelativeEncoder m_lEncoder = m_leaderMotor.getEncoder();
+    @SuppressWarnings("MemberNameCheck")
     private RelativeEncoder m_rEncoder = m_followerMotor.getEncoder();
     private AppliedController m_controller;
 
