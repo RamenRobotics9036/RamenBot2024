@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
 
+@SuppressWarnings("AbbreviationAsWordInNameCheck")
 public class LEDSystem extends SubsystemBase {
 
     // I WANT TO USE THE TOP INTAKE MOTOR BECAUSE THAT WILL ONLY CHANGE IF IT ACTUALLY GRABS A PIECE
@@ -23,11 +24,11 @@ public class LEDSystem extends SubsystemBase {
     private AddressableLEDBuffer m_LEDBuffer = new AddressableLEDBuffer(
             Constants.OperatorConstants.kLEDLightsLength);
 
-    private int m_ledLoop;
-    private int m_ledR;
-    private int m_ledG;
-    private int m_ledB;
-    private int m_ledHue;
+    // private int m_ledLoop;
+    // private int m_ledR;
+    // private int m_ledG;
+    // private int m_ledB;
+    // private int m_ledHue;
 
     private DigitalInput beamBreak = new DigitalInput(1);
 
@@ -41,11 +42,11 @@ public class LEDSystem extends SubsystemBase {
         // intakeMotor.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // initShuffleBoard();
 
-        m_ledLoop = 0;
-        m_ledR = 0;
-        m_ledG = 255;
-        m_ledB = 255;
-        m_ledHue = 0;
+        // m_ledLoop = 0;
+        // m_ledR = 0;
+        // m_ledG = 255;
+        // m_ledB = 255;
+        // m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
         m_intakeSystem = intakeSystem;
@@ -62,15 +63,15 @@ public class LEDSystem extends SubsystemBase {
      * Sets the LED lights to yellow.
      */
     public void setLedsYellow() {
-        m_ledR = 255;
-        m_ledG = 255;
-        m_ledB = 0;
+        // m_ledR = 255;
+        // m_ledG = 255;
+        // m_ledB = 0;
     }
 
     public void resetLED() {
-        m_ledR = 255;
-        m_ledG = 0;
-        m_ledB = 0;
+        // m_ledR = 255;
+        // m_ledG = 0;
+        // m_ledB = 0;
     }
 
     public void initShuffleBoard() {
