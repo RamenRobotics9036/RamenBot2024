@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 
+@SuppressWarnings("AbbreviationAsWordInNameCheck")
 public class LEDSystem extends SubsystemBase {
 
     // I WANT TO USE THE TOP INTAKE MOTOR BECAUSE THAT WILL ONLY CHANGE IF IT ACTUALLY GRABS A PIECE
@@ -19,23 +19,23 @@ public class LEDSystem extends SubsystemBase {
     // MotorType.kBrushless);
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
 
-    // ARBITRARY NUMBER
-    private double NORMALCURRENT = Double.MAX_VALUE;
-
+    @SuppressWarnings("MemberNameCheck")
     private AddressableLED m_LEDLight = new AddressableLED(
             Constants.OperatorConstants.kLEDLightsChannel);
+
+    @SuppressWarnings("MemberNameCheck")
     private AddressableLEDBuffer m_LEDBuffer = new AddressableLEDBuffer(
             Constants.OperatorConstants.kLEDLightsLength);
 
-    private int m_ledLoop;
-    private int m_ledR;
-    private int m_ledG;
-    private int m_ledB;
-    private int m_ledHue;
+    // private int m_ledLoop;
+    // private int m_ledR;
+    // private int m_ledG;
+    // private int m_ledB;
+    // private int m_ledHue;
 
-    private DigitalInput beamBreak = new DigitalInput(1);
+    private DigitalInput m_beamBreak = new DigitalInput(1);
 
-    private boolean noteInIntake = false;
+    private boolean m_noteInIntake = false;
 
     private IntakeSystem m_intakeSystem;
 
@@ -45,11 +45,11 @@ public class LEDSystem extends SubsystemBase {
         // intakeMotor.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // initShuffleBoard();
 
-        m_ledLoop = 0;
-        m_ledR = 0;
-        m_ledG = 255;
-        m_ledB = 255;
-        m_ledHue = 0;
+        // m_ledLoop = 0;
+        // m_ledR = 0;
+        // m_ledG = 255;
+        // m_ledB = 255;
+        // m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
         m_intakeSystem = intakeSystem;
@@ -66,15 +66,15 @@ public class LEDSystem extends SubsystemBase {
      * Sets the LED lights to yellow.
      */
     public void setLedsYellow() {
-        m_ledR = 255;
-        m_ledG = 255;
-        m_ledB = 0;
+        // m_ledR = 255;
+        // m_ledG = 255;
+        // m_ledB = 0;
     }
 
     public void resetLED() {
-        m_ledR = 255;
-        m_ledG = 0;
-        m_ledB = 0;
+        // m_ledR = 255;
+        // m_ledG = 0;
+        // m_ledB = 0;
     }
 
     public void initShuffleBoard() {
@@ -87,14 +87,14 @@ public class LEDSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (beamBreak.get()) {
-            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
+        if (m_beamBreak.get()) {
+            if (m_noteInIntake) { // if note was just in intake, but shot it out, then it will run
                 // LED to Red
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 0, 255);
                 }
                 m_LEDLight.setData(m_LEDBuffer);
-                noteInIntake = false;
+                m_noteInIntake = false;
 
             }
             // otherwise, it wont do anything, so that it is not constantly running the for loop
@@ -103,13 +103,13 @@ public class LEDSystem extends SubsystemBase {
         }
         // // Beam Break does not see the light (has the note)
         else {
-            if (!noteInIntake) { // if note was just intaked, but changed, then it will run the
+            if (!m_noteInIntake) { // if note was just intaked, but changed, then it will run the
                 // LED to Green
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 255, 0);
                 }
                 m_LEDLight.setData(m_LEDBuffer);
-                noteInIntake = true;
+                m_noteInIntake = true;
             }
         }
     }

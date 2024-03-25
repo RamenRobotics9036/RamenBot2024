@@ -1,9 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import edu.wpi.first.math.Pair;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical.
@@ -165,6 +164,7 @@ public class Constants {
          * Distance is in meters
          * Measure every lookUpTableDistance
          */
+        @SuppressWarnings("LineLengthCheck")
         public static final ArrayList<Pair<Double, Double>> angleLookUpTable = new ArrayList<Pair<Double, Double>>(
                 Arrays.asList(
                         new Pair<Double, Double>(0., PresetConstants.speakerPresetAngleRadians),
@@ -275,15 +275,15 @@ public class Constants {
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
-        public static final double pivotHeightOverGround = 0.29;// The pivot height over ground
-                                                                // in
-                                                                // meters.
-        public static final double shootToPivotRadius = 0.549;// Radius from shooting point to
-                                                              // pivot
-                                                              // point in meters.
-        public static final double armAngleOffsetHorizontal = 0;// Offset bewteen sensor to
-                                                                // horizontal axis of arm in
-                                                                // degrees
+
+        // The pivot height over ground in meters.
+        public static final double pivotHeightOverGround = 0.29;
+
+        // Radius from shooting point to pivot point in meters.
+        public static final double shootToPivotRadius = 0.549;
+
+        // Offset bewteen sensor to horizontal axis of arm in degrees
+        public static final double armAngleOffsetHorizontal = 0;
 
         public static final double armSpeedFast = 1;
         public static final double maxOutputPercent = 0.6;
@@ -316,15 +316,10 @@ public class Constants {
 
     public static class PresetConstants {
         public static final double ampPresetAngleRadians = 3.7;
-        public static final double speakerPresetAngleAutoRadians = 5.03; // (TESTED, WORKS
-                                                                         // VERY
-        // WELL) a little
-        // lower because our
-        // current
-        // auto is consistently
-        // undershooting distance
-        // which means it needs a
-        // lower angle
+
+        // (TESTED, WORKS VERY WELL) a little lower because our current auto is consistently
+        // undershooting distance which means it needs a lower angle
+        public static final double speakerPresetAngleAutoRadians = 5.03;
         public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
         public static final double speakerPresetAngleAutoOneRobotAwayRadians = 4.907;

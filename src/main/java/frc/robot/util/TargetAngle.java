@@ -1,14 +1,8 @@
 package frc.robot.util;
 
-import java.util.Map;
-
 import edu.wpi.first.math.Pair;
-
-import java.util.HashMap;
-import java.util.ArrayList;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.PresetConstants;
-import frc.robot.Constants.VisionConstants;
+import java.util.ArrayList;
 
 /**
  * Figures out the angle to the target.
