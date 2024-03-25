@@ -20,6 +20,18 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Mid Sub D to Stage Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Raise Arm and Shoot Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Mid Sub to Mid Note"
           }
         },
@@ -33,18 +45,6 @@
           "type": "path",
           "data": {
             "pathName": "Mid Sub D to Amp Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Raise Arm and Shoot Note"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Mid Sub D to Stage Note"
           }
         },
         {
