@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings("all")
 public class LimelightHelpers {
 
     public static class LimelightTarget_Retro {
