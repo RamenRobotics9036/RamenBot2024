@@ -325,7 +325,7 @@ public class Constants {
         // undershooting distance
         // which means it needs a
         // lower angle
-        public static final double speakerPresetAngleRadians = 5.03 - 0.0349;
+        public static final double speakerPresetAngleRadians = 5.03;
         public static final double shooterSpeed = 0.7;
         public static final double speakerPresetAngleAutoOneRobotAwayRadians = 4.907;
     }
