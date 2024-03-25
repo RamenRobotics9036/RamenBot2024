@@ -4,10 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,7 +24,7 @@ public class ShooterSystem extends SubsystemBase {
             MotorType.kBrushless);
     private RelativeEncoder m_encoder = m_shooterMotorLeader.getEncoder();
 
-    private double maxOutputPercent = ShooterConstants.maxOutputPercent;
+    private double m_maxOutputPercent = ShooterConstants.maxOutputPercent;
 
     public ShooterSystem() {
         m_shooterMotorLeader.setInverted(false);
@@ -37,7 +37,7 @@ public class ShooterSystem extends SubsystemBase {
     }
 
     public void setShootSpeed(double speed) {
-        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
+        speed = MathUtil.clamp(speed, -m_maxOutputPercent, m_maxOutputPercent);
         m_shooterMotorLeader.set(speed);
     }
 

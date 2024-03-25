@@ -19,8 +19,11 @@ public class LEDSystem extends SubsystemBase {
     // MotorType.kBrushless);
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
 
+    @SuppressWarnings("MemberNameCheck")
     private AddressableLED m_LEDLight = new AddressableLED(
             Constants.OperatorConstants.kLEDLightsChannel);
+
+    @SuppressWarnings("MemberNameCheck")
     private AddressableLEDBuffer m_LEDBuffer = new AddressableLEDBuffer(
             Constants.OperatorConstants.kLEDLightsLength);
 
@@ -30,9 +33,9 @@ public class LEDSystem extends SubsystemBase {
     // private int m_ledB;
     // private int m_ledHue;
 
-    private DigitalInput beamBreak = new DigitalInput(1);
+    private DigitalInput m_beamBreak = new DigitalInput(1);
 
-    private boolean noteInIntake = false;
+    private boolean m_noteInIntake = false;
 
     private IntakeSystem m_intakeSystem;
 
@@ -84,14 +87,14 @@ public class LEDSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (beamBreak.get()) {
-            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
+        if (m_beamBreak.get()) {
+            if (m_noteInIntake) { // if note was just in intake, but shot it out, then it will run
                 // LED to Red
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 0, 255);
                 }
                 m_LEDLight.setData(m_LEDBuffer);
-                noteInIntake = false;
+                m_noteInIntake = false;
 
             }
             // otherwise, it wont do anything, so that it is not constantly running the for loop
@@ -100,13 +103,13 @@ public class LEDSystem extends SubsystemBase {
         }
         // // Beam Break does not see the light (has the note)
         else {
-            if (!noteInIntake) { // if note was just intaked, but changed, then it will run the
+            if (!m_noteInIntake) { // if note was just intaked, but changed, then it will run the
                 // LED to Green
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 255, 0);
                 }
                 m_LEDLight.setData(m_LEDBuffer);
-                noteInIntake = true;
+                m_noteInIntake = true;
             }
         }
     }

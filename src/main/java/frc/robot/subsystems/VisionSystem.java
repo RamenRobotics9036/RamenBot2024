@@ -13,49 +13,55 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.LimelightResults;
 
 public class VisionSystem extends SubsystemBase {
-    private final double limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
-    private final double limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
+    @SuppressWarnings("LineLengthCheck")
+    private final double m_limelightMountAngleRadiansY = VisionConstants.limelightMountAngleRadiansY;
+    private final double m_limelightMountAngleRadiansX = VisionConstants.limelightMountAngleRadiansX;
 
     private double m_speakerPosition;
     private boolean m_isTargetDetected = false;
 
-    private final double limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
-    private final double aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
+    private final double m_limelightLensHeightMeters = VisionConstants.limelightLensHeightMeters;
+    private final double m_aprilTagHeightMeters = VisionConstants.aprilTagHeightMeters;
 
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault()
+    private NetworkTable m_limelightTable = NetworkTableInstance.getDefault()
             .getTable(VisionConstants.limelightName);
-    private NetworkTableEntry tableX = limelightTable.getEntry("tx");
-    private NetworkTableEntry tableY = limelightTable.getEntry("ty");
-    private NetworkTableEntry tableArea = limelightTable.getEntry("ta");
-    private NetworkTableEntry tableID = limelightTable.getEntry("tid");
+    private NetworkTableEntry m_tableX = m_limelightTable.getEntry("tx");
+    private NetworkTableEntry m_tableY = m_limelightTable.getEntry("ty");
+    private NetworkTableEntry m_tableArea = m_limelightTable.getEntry("ta");
+
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
+    private NetworkTableEntry m_tableID = m_limelightTable.getEntry("tid");
 
     private final Field2d m_fieldSim = new Field2d();
     private int[] m_numTags = {
             0
     };
 
-    private int priorityTag;
+    private int m_priorityTag;
 
-    private final double EPSILON = 0.0000001;
+    @SuppressWarnings({
+            "AbbreviationAsWordInNameCheck", "MemberNameCheck"
+    })
+    private final double m_EPSILON = 0.0000001;
     private Pose2d m_fieldPose = new Pose2d();
 
     public VisionSystem() {
         if (DriverStation.getAlliance().isPresent()) {
             m_speakerPosition = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 16.47
                     : 0.55;
-            priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
+            m_priorityTag = (DriverStation.getAlliance().get().equals(Alliance.Red)) ? 4
                     : 7;
         }
         else {
             m_speakerPosition = 0;
-            priorityTag = 7;
+            m_priorityTag = 7;
         }
         displayToShuffleBoard();
-        LimelightHelpers.setPriorityTagID(VisionConstants.limelightName, priorityTag);
+        LimelightHelpers.setPriorityTagID(VisionConstants.limelightName, m_priorityTag);
         LimelightHelpers
                 .setCameraPose_RobotSpace(
                         VisionConstants.limelightName,
@@ -138,20 +144,22 @@ public class VisionSystem extends SubsystemBase {
      * X angle, left-right, from April tag. X cross-hair angle.
      */
     public double getX() {
-        return tableX.getDouble(0);
+        return m_tableX.getDouble(0);
     }
 
     /**
      * Y angle, up-down, to April tag. Y cross-hair angle.
      */
     public double getY() {
-        return tableY.getDouble(0);
+        return m_tableY.getDouble(0);
     }
 
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     public double getXRadians() {
         return Math.toRadians(getX());
     }
 
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     public double getYRadians() {
         return Math.toRadians(getY());
     }
@@ -160,7 +168,7 @@ public class VisionSystem extends SubsystemBase {
      * Area of April tag in view.
      */
     public double getArea() {
-        return tableArea.getDouble(0);
+        return m_tableArea.getDouble(0);
     }
 
     // $IDO - This seems like a strange way to see if any ID is detected
@@ -168,11 +176,13 @@ public class VisionSystem extends SubsystemBase {
         return getX() + getY() + getArea() != 0;
     }
 
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     public double getID() {
-        return tableID.getDouble(0);
+        return m_tableID.getDouble(0);
     }
 
     // $IDO - This isn't even used!
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     public boolean isDetectedIDValid() {
         double myID = getID();
         if (Constants.VisionConstants.targetedIDList.contains(myID)) {
@@ -188,9 +198,9 @@ public class VisionSystem extends SubsystemBase {
      */
     // $IDO - This is where the Y height is being calculated
     public double getDistanceMetersY() {
-        double angleToGoalRadians = limelightMountAngleRadiansY + getYRadians();
-        double distanceFromLimelightToGoalMeters = (aprilTagHeightMeters
-                - limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + EPSILON);
+        double angleToGoalRadians = m_limelightMountAngleRadiansY + getYRadians();
+        double distanceFromLimelightToGoalMeters = (m_aprilTagHeightMeters
+                - m_limelightLensHeightMeters) / (Math.tan(angleToGoalRadians) + m_EPSILON);
         return distanceFromLimelightToGoalMeters;
     }
 
@@ -199,7 +209,7 @@ public class VisionSystem extends SubsystemBase {
      */
     // $IDO - Is this right? It's calculating X meters from getDistanceMetersY()
     public double getDistanceMetersX() {
-        double angleToGoalRadians = limelightMountAngleRadiansX + getXRadians();
+        double angleToGoalRadians = m_limelightMountAngleRadiansX + getXRadians();
         double distanceFromLimelightToGoalMeters = getDistanceMetersY()
                 * Math.tan(angleToGoalRadians);
         return distanceFromLimelightToGoalMeters;
@@ -224,6 +234,7 @@ public class VisionSystem extends SubsystemBase {
         }
     }
 
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     public double getSpeakerYDistance() {
         updatePose();
         if (m_isTargetDetected) {

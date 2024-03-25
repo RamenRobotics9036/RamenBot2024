@@ -320,33 +320,35 @@ public class SwerveDriveSystem extends SubsystemBase {
     }
 
     public boolean resetGyroFieldRelative() {
-        return StatusCode.OK == m_gyro.setYaw(90.0); // Limelight should always be facing the driver
-                                                     // (changed from 270)
+        // Limelight should always be facing the driver (changed from 270)
+        return StatusCode.OK == m_gyro.setYaw(90.0);
     }
 
     public boolean resetGyroFieldRelativeRedTop() {
-        return StatusCode.OK == m_gyro.setYaw(120.0); // 0 for Swerve A
+        // 0 for Swerve A
+        return StatusCode.OK == m_gyro.setYaw(120.0);
     }
 
     public boolean resetGyroFieldRelativeRedBottom() {
-        return StatusCode.OK == m_gyro.setYaw(280.0); // 0 for Swerve A
+        // 0 for Swerve A
+        return StatusCode.OK == m_gyro.setYaw(280.0);
     }
 
     public boolean resetGyroFieldRelativeBlueTop() {
-        return StatusCode.OK == m_gyro.setYaw(120.0); //
+        return StatusCode.OK == m_gyro.setYaw(120.0);
     }
 
     public boolean resetGyroFieldRelativeAuto() {
-        return StatusCode.OK == m_gyro.setYaw(0.0); //
+        return StatusCode.OK == m_gyro.setYaw(0.0);
     }
 
     public boolean resetGyroFieldRelativeAutoRed() {
-        return StatusCode.OK == m_gyro.setYaw(180.0); //
+        return StatusCode.OK == m_gyro.setYaw(180.0);
     }
 
     public boolean resetGyroFieldRelativeBlueBottom() {
-        return StatusCode.OK == m_gyro.setYaw(280.0); // THIS ACTUALLY WORKS (Shlok and Xavier does
-                                                      // not know why)
+        // THIS ACTUALLY WORKS (Shlok and Xavier does // not know why)
+        return StatusCode.OK == m_gyro.setYaw(280.0);
     }
 
     public boolean resetGyroToAngle(double value) {

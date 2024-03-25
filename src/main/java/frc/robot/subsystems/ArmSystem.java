@@ -4,17 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.util.AppliedController;
 import frc.robot.util.TargetAngle;
@@ -27,14 +27,14 @@ public class ArmSystem extends SubsystemBase {
             MotorType.kBrushless);
     private final CANSparkMax m_armMotorLeader = new CANSparkMax(ArmConstants.armMotorIDLeader,
             MotorType.kBrushless);
-    private final DutyCycleEncoder m_ArmEncoder = new DutyCycleEncoder(
+    private final DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(
             ArmConstants.armEncoderChannel);
     private AppliedController m_controller;
     private RelativeEncoder m_relativeEncoder = m_armMotorLeader.getEncoder();
 
     private final TargetAngle m_targetAngle = new TargetAngle(VisionConstants.angleLookUpTable);
 
-    private double maxOutputPercent = ArmConstants.maxOutputPercent;
+    private double m_maxOutputPercent = ArmConstants.maxOutputPercent;
 
     public ArmSystem(AppliedController controller) {
         m_armMotorLeader.restoreFactoryDefaults();
@@ -59,12 +59,12 @@ public class ArmSystem extends SubsystemBase {
 
     public double getArmAngleRadians() {
         return 2 * Math.PI
-                - (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
+                - (m_armEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
     }
 
     public double getArmHeight() {
-        return ArmConstants.pivotHeightOverGround +
-                (ArmConstants.shootToPivotRadius * Math.sin(getArmAngleRadians()));
+        return ArmConstants.pivotHeightOverGround
+                + (ArmConstants.shootToPivotRadius * Math.sin(getArmAngleRadians()));
     }
 
     public double getShootingAngle(double distance) {
@@ -72,7 +72,7 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public void setArmSpeed(double speed) {
-        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
+        speed = MathUtil.clamp(speed, -m_maxOutputPercent, m_maxOutputPercent);
         if ((speed < 0 && getArmAngleRadians() < SetArmConstants.armMin)
                 || (speed > 0 && getArmAngleRadians() > SetArmConstants.armMax)) {
             m_armMotorLeader.set(speed);
@@ -83,7 +83,7 @@ public class ArmSystem extends SubsystemBase {
     }
 
     public void setArmSpeedAdmin(double speed) {
-        speed = MathUtil.clamp(speed, -maxOutputPercent, maxOutputPercent);
+        speed = MathUtil.clamp(speed, -m_maxOutputPercent, m_maxOutputPercent);
         m_armMotorLeader.set(speed);
     }
 

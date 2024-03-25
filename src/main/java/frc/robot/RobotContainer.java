@@ -18,15 +18,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.SwerveSystemConstants;
-import frc.robot.Constants.CommandsConstants.SetArmConstants;
-import frc.robot.subsystems.ArmSystem;
-import frc.robot.subsystems.HookSystem;
-import frc.robot.subsystems.IntakeSystem;
-import frc.robot.subsystems.ShooterSystem;
-import frc.robot.subsystems.LEDSystem;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.PullBackCommand;
@@ -35,6 +30,11 @@ import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
+import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.HookSystem;
+import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.LEDSystem;
+import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystem;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
@@ -60,6 +60,10 @@ public class RobotContainer {
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private IntakeSystem m_intakeSystem = new IntakeSystem();
     private HookSystem m_hookSystem = new HookSystem(m_armController);
+
+    @SuppressWarnings({
+            "AbbreviationAsWordInNameCheck", "MemberNameCheck"
+    })
     private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
@@ -84,6 +88,7 @@ public class RobotContainer {
         // Shuffleboard.getTab("Swerve")
         // .addDouble("Rotation Angle", () -> m_swerveDrive.getRotation2d().getRadians());
 
+        @SuppressWarnings("VariableDeclarationUsageDistanceCheck")
         double waitTime = 0.2;
         initShuffleBoard();
 
@@ -124,6 +129,7 @@ public class RobotContainer {
                         new StayCommand(m_swerveDrive)));
     }
 
+    @SuppressWarnings("AbbreviationAsWordInNameCheck")
     private JSONObject getAutoJSON(String autoName) {
         JSONObject json;
         try (BufferedReader br = new BufferedReader(
@@ -200,9 +206,11 @@ public class RobotContainer {
         // ARM CONTROLLER BINDINGS
 
         // Push note piece back on start up. May not need to happen when reflectometer is used.
-        double waitTime = 0.2; // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
-                               // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
-                               // TO REV UP ANYWAYS)
+        // Was 0.2, revert back if it does not work (I THINK I COULD PUT IT
+        // TO .01 BECAUSE THE MOTORS STOP RUNNING WHICH MEANS IT TAKES TIME
+        // TO REV UP ANYWAYS)
+        double waitTime = 0.2;
+
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new PullBackCommand(m_intakeSystem, m_shooterSystem)
                         .andThen(new WaitCommand(waitTime))
