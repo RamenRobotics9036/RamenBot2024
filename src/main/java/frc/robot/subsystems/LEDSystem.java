@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 
 public class LEDSystem extends SubsystemBase {
@@ -18,9 +17,6 @@ public class LEDSystem extends SubsystemBase {
     // IntakeConstants.intakeMotorRight
     // MotorType.kBrushless);
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
-
-    // ARBITRARY NUMBER
-    private double NORMALCURRENT = Double.MAX_VALUE;
 
     private AddressableLED m_LEDLight = new AddressableLED(
             Constants.OperatorConstants.kLEDLightsChannel);

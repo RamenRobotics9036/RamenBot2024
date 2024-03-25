@@ -1,9 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import edu.wpi.first.math.Pair;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical.
