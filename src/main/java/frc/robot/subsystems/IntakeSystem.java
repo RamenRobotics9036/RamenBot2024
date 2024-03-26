@@ -24,18 +24,24 @@ public class IntakeSystem extends SubsystemBase {
     private RelativeEncoder m_encoder = m_intakeMotorLeader.getEncoder();
     private double m_maxOutputPercent = IntakeConstants.maxOutputPercent;
 
-    public IntakeSystem() {
-        m_intakeMotorFollower.restoreFactoryDefaults();
+    private LEDSystem m_LedSystem;
+
+    private boolean useBeamBreak = true;
+
+    public IntakeSystem(LEDSystem ledSystem) {
+        m_IntakeMotorFollower.restoreFactoryDefaults();
         m_intakeMotorLeader.restoreFactoryDefaults();
         m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // This motor has a lot of friction in the mechanical system. Set this to the constant value
         // when this issue is fixed, increasing the current limit is a workaround for this issue.
-        m_intakeMotorFollower.setSmartCurrentLimit(20);
+        m_IntakeMotorFollower.setSmartCurrentLimit(20);
+
+        m_LedSystem = ledSystem;
         // initShuffleBoard();
         m_intakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
-        m_intakeMotorFollower.follow(m_intakeMotorLeader);
-        setDefaultCommand(new IntakeDefaultCommand(this));
+        m_IntakeMotorFollower.follow(m_intakeMotorLeader);
+        // setDefaultCommand(new IntakeDefaultCommand(this));
     }
 
     public double getIntakeSpeed() {
@@ -73,7 +79,41 @@ public class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setIntakeSpeed(IntakeConstants.speed);
+
+        boolean shotNote = true;
+
+        if (useBeamBreak) {
+            // No note
+            if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
+                setIntakeSpeed(IntakeConstants.intakeSpeed);
+                shotNote = true;
+            }
+            // Has note, but needs to be pulled back
+            else if (!m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
+                if (shotNote) {
+                    setIntakeSpeed(IntakeConstants.pullBackSpeed);
+                }
+                shotNote = false;
+                // Has note and is pulled back
+                if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()
+                        && shotNote == false) {
+                    setIntakeSpeed(0);
+
+                }
+
+            }
+
+        }
+        else {
+            setIntakeSpeed(IntakeConstants.intakeSpeed); // DAVID NEEDS TO MAKE A MANUAL PULLBACK
+                                                         // COMMAND for both shooter and intake
+        }
+
+        setOverride(false);
+    }
+
+    public void setOverride(boolean useSensors) {
+        useBeamBreak = useSensors;
     }
 
     /**
@@ -81,5 +121,9 @@ public class IntakeSystem extends SubsystemBase {
      */
     public void stopSystem() {
         m_intakeMotorLeader.stopMotor();
+    }
+
+    public void stopBeamBreakSystem() {
+        useBeamBreak = false;
     }
 }

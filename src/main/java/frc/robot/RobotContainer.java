@@ -58,7 +58,8 @@ public class RobotContainer {
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
-    private IntakeSystem m_intakeSystem = new IntakeSystem();
+    private LEDSystem m_LEDSystem = new LEDSystem();
+    private IntakeSystem m_intakeSystem = new IntakeSystem(m_LEDSystem);
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     @SuppressWarnings({
@@ -212,11 +213,8 @@ public class RobotContainer {
         double waitTime = 0.2;
 
         new Trigger(() -> m_armController.getAButton()).onTrue(
-                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                        .andThen(new WaitCommand(waitTime))
-                        .andThen(
-                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                        m_armController)));
+                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                        0.7));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(
@@ -263,6 +261,10 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.povDown(new EventLoop()).getAsBoolean())
                 .onTrue(new PullBackShooterCommand(m_shooterSystem));
+
+        // new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean())
+        // .onTrue(); // IS IT POSSIBLE TO CALL A METHOD INSTEAD OF A COMMAND? OR WHERE ELSE DO
+        // I CALL IT? (above is called bind commands, so probably not)
 
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(

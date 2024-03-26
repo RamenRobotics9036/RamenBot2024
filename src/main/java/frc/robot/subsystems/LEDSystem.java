@@ -33,13 +33,12 @@ public class LEDSystem extends SubsystemBase {
     // private int m_ledB;
     // private int m_ledHue;
 
-    private DigitalInput m_beamBreak = new DigitalInput(1);
+    private DigitalInput beamBreakPullBack = new DigitalInput(1);
+    private DigitalInput beamBreakIntake = new DigitalInput(0);
 
     private boolean m_noteInIntake = false;
 
-    private IntakeSystem m_intakeSystem;
-
-    public LEDSystem(IntakeSystem intakeSystem) {
+    public LEDSystem() {
 
         // intakeMotor.restoreFactoryDefaults();
         // intakeMotor.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
@@ -52,7 +51,6 @@ public class LEDSystem extends SubsystemBase {
         // m_ledHue = 0;
         m_LEDLight.setLength(m_LEDBuffer.getLength());
 
-        m_intakeSystem = intakeSystem;
         for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
             m_LEDBuffer.setRGB(i, 255, 0, 255);
         }
@@ -77,9 +75,12 @@ public class LEDSystem extends SubsystemBase {
         // m_ledB = 0;
     }
 
-    public void initShuffleBoard() {
-        Shuffleboard.getTab("Intake")
-                .add("Current Output: ", m_intakeSystem.getOutputCurrent());
+    public boolean getBeamBreakPullBack() {
+        return beamBreakPullBack.get();
+    }
+
+    public boolean getBeamBreakIntake() {
+        return beamBreakIntake.get();
     }
 
     // IF THIS DOES NOT WORK, ADD A VELOCITY METHOD (Look at encoder values in Intake System to see
@@ -87,8 +88,8 @@ public class LEDSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (m_beamBreak.get()) {
-            if (m_noteInIntake) { // if note was just in intake, but shot it out, then it will run
+        if (beamBreakIntake.get()) {
+            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
                 // LED to Red
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 0, 255);

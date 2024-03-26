@@ -271,7 +271,7 @@ public class Constants {
         public static final double gearRatio = 60 / 12;
         public static final int armMotorIDFollower = 22;
         public static final int armMotorIDLeader = 23;
-        public static final int armEncoderChannel = 0;
+        public static final int armEncoderChannel = 2;
         public static final double armSpeed = 0.1;
         public static final double armLegnth = 25.4;
         public static final double centerSpeakerHeight = 2.038;
@@ -291,13 +291,13 @@ public class Constants {
 
     public static class IntakeConstants {
         public static final double pullBackAmount = 4.5;
-        public static final double pullBackSpeed = 0.1;
+        public static final double pullBackSpeed = -0.01;
+        public static final double intakeSpeed = 0.3;
 
         public static final int smartCurrentLimit = 20;
         public static final int intakeMotorLeftID = 20;
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
-        public static final double intakeSpeed = 0.3;
         public static final double maxOutputPercent = 0.7;
 
         public static double speed = 0;
