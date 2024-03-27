@@ -4,11 +4,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandsConstants.VisionAutoAlignConstants;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.subsystems.VisionSystem;
 
 public class VisionAutoAlignCommand extends Command {
-    private SwerveDriveSystem m_swerveDrive;
+    private SwerveDriveSystemAbstract m_swerveDrive;
     private Timer m_timer;
     private PIDController m_translationXpid = new PIDController(
             VisionAutoAlignConstants.translationXPID_P, VisionAutoAlignConstants.translationXPID_I,
@@ -22,12 +22,14 @@ public class VisionAutoAlignCommand extends Command {
     private VisionSystem m_visionSystem;
     private double m_targetDistanceMeters = VisionAutoAlignConstants.targetDistanceMeters;
 
-    public VisionAutoAlignCommand(SwerveDriveSystem swerveDrive, VisionSystem visionSystem) {
+    public VisionAutoAlignCommand(
+            SwerveDriveSystemAbstract swerveDrive,
+            VisionSystem visionSystem) {
         this(swerveDrive, visionSystem, VisionAutoAlignConstants.targetDistanceMeters);
     }
 
     public VisionAutoAlignCommand(
-            SwerveDriveSystem swerveDrive,
+            SwerveDriveSystemAbstract swerveDrive,
             VisionSystem visionSystem,
             double targetDistanceMeters) {
         m_targetDistanceMeters = targetDistanceMeters;

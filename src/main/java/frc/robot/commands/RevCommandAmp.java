@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
@@ -44,6 +45,11 @@ public class RevCommandAmp extends Command {
 
     @Override
     public boolean isFinished() {
+        // $TODO - Remove this
+        if (RobotBase.isSimulation()) {
+            return true;
+        }
+
         if (m_timer.get() >= RevConstants.maxTime) {
             return true;
         }

@@ -1,20 +1,21 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.GrabChainConstants;
 import frc.robot.subsystems.HookSystem;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 
 public class GrabChainCommand extends Command {
 
-    private SwerveDriveSystem m_swerve;
+    private SwerveDriveSystemAbstract m_swerve;
     private HookSystem m_hookSystem;
     private Timer m_timer = new Timer();
-    private int phase = 1;
+    private int m_phase = 1;
     private double m_oldPos;
 
-    public GrabChainCommand(HookSystem hook, SwerveDriveSystem swerve) {
+    public GrabChainCommand(HookSystem hook, SwerveDriveSystemAbstract swerve) {
         m_hookSystem = hook;
         m_swerve = swerve;
         addRequirements(m_hookSystem, m_swerve);
@@ -29,27 +30,27 @@ public class GrabChainCommand extends Command {
 
     @Override
     public void execute() {
-        if (phase == 1) {
+        if (m_phase == 1) {
             m_hookSystem.setHookSpeed(GrabChainConstants.hookSpeed);
             if (m_hookSystem.getLeadEncoderValue() >= GrabChainConstants.hookRotationsNeeded) {
                 m_hookSystem.setHookSpeed(0);
-                phase += 1;
+                m_phase += 1;
                 m_oldPos = m_swerve.getFrontLeftDriveEncoder();
             }
         }
-        else if (phase == 2) {
+        else if (m_phase == 2) {
             m_swerve.drive(0, GrabChainConstants.swerveSpeed, 0, false);
             if (m_swerve.getFrontLeftDriveEncoder()
                     - m_oldPos >= GrabChainConstants.swerveRotationsNeeded) {
                 m_swerve.drive(0, 0, 0);
-                phase += 1;
+                m_phase += 1;
             }
         }
-        else if (phase == 3) {
+        else if (m_phase == 3) {
             m_hookSystem.setHookSpeed(-GrabChainConstants.hookSpeed);
             if (m_hookSystem.getLeadEncoderValue() >= GrabChainConstants.hookRotationsNeededFinal) {
                 m_hookSystem.setHookSpeed(0);
-                phase += 1;
+                m_phase += 1;
             }
         }
 
@@ -57,7 +58,12 @@ public class GrabChainCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= GrabChainConstants.maxTime || phase == 4) {
+        // $TODO - Remove this
+        if (RobotBase.isSimulation()) {
+            return true;
+        }
+
+        if (m_timer.get() >= GrabChainConstants.maxTime || m_phase == 4) {
             return true;
         }
         return false;

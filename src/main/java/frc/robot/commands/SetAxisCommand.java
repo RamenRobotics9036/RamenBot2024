@@ -6,14 +6,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CommandsConstants.SetAxisConstants;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.util.Coords;
 
 /**
  * SetAxisCommand.
  */
 public class SetAxisCommand extends Command {
-    private SwerveDriveSystem m_swerveDrive;
+    private SwerveDriveSystemAbstract m_swerveDrive;
     private Timer m_timer;
     private Coords m_coordinates;
     private PIDController m_translationXpid = new PIDController(SetAxisConstants.translationPID_P,
@@ -26,7 +26,7 @@ public class SetAxisCommand extends Command {
     /**
      * Constructor.
      */
-    public SetAxisCommand(Coords coordinates, SwerveDriveSystem swerveDrive) {
+    public SetAxisCommand(Coords coordinates, SwerveDriveSystemAbstract swerveDrive) {
 
         m_swerveDrive = swerveDrive;
         m_coordinates = coordinates;
@@ -66,9 +66,9 @@ public class SetAxisCommand extends Command {
         // double
         // rotSpeed=m_coordinates.getRotation()-m_swerveDrive.getAnglePositionAbsoluteRadians();
 
-        xspeed = MathUtil
+        xspeed = -1 * MathUtil
                 .clamp(xspeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
-        yspeed = MathUtil
+        yspeed = -1 * MathUtil
                 .clamp(yspeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
         rotSpeed = MathUtil
                 .clamp(rotSpeed, -SetAxisConstants.percentPower, SetAxisConstants.percentPower);
@@ -83,6 +83,8 @@ public class SetAxisCommand extends Command {
     @Override
     public boolean isFinished() {
         // $TODO - Can this be made more readable by breaking it up?
+        System.out.println(
+                "Swerve X: " + m_swerveDrive.getxPosition() + ", target: " + m_coordinates.getX());
         if (MathUtil.applyDeadband(
                 m_swerveDrive.getxPosition() - m_coordinates.getX(),
                 SetAxisConstants.errorMarginXY) == 0

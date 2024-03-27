@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.CommandsConstants.IntakeReleaseConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeRelease extends Command {
@@ -29,6 +30,11 @@ public class IntakeRelease extends Command {
 
     @Override
     public boolean isFinished() {
+        // $TODO - Remove this
+        if (RobotBase.isSimulation()) {
+            return true;
+        }
+
         if (m_timer.get() >= IntakeReleaseConstants.maxTime) {
             return true;
         }

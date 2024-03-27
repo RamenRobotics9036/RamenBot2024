@@ -6,6 +6,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,12 +32,15 @@ import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.StayCommand;
+import frc.robot.sim.DefaultSimLayout;
+import frc.robot.sim.PopulateSimShuffleboard;
+import frc.robot.sim.SwerveDriveSystemSim;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.LEDSystem;
 import frc.robot.subsystems.ShooterSystem;
-import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
 import java.io.BufferedReader;
@@ -53,7 +58,8 @@ public class RobotContainer {
     private final AppliedController m_armController = new AppliedController(
             OperatorConstants.armControllerPort);
 
-    private SwerveDriveSystem m_swerveDrive = new SwerveDriveSystem(m_driveController);
+    private SwerveDriveSystemAbstract m_swerveDrive = SwerveDriveSystemSim
+            .createSwerveDriveSystemInstance(m_driveController);
     private VisionSystem m_visionSystem = new VisionSystem();
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
@@ -67,6 +73,8 @@ public class RobotContainer {
     private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
+
+    private PopulateSimShuffleboard m_shuffleboardManager = null;
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("3 Note Auto High", "MID-AMP 3 NOTE");
@@ -127,6 +135,11 @@ public class RobotContainer {
                                                 m_shooterSystem,
                                                 m_armController)),
                         new StayCommand(m_swerveDrive)));
+
+        // This is only done in simulation
+        if (RobotBase.isSimulation()) {
+            initSimShuffleboard();
+        }
     }
 
     @SuppressWarnings("AbbreviationAsWordInNameCheck")
@@ -152,8 +165,61 @@ public class RobotContainer {
         return json;
     }
 
-    public void scheduleAutonomousCommand() {
+    private void initSimShuffleboard() {
+        // Now that all subsystems are created, print out the list of properties
+        // available for display in Shuffleboard.
+        printAvailableDashboardProperties();
 
+        m_shuffleboardManager = new PopulateSimShuffleboard(
+                new ShuffleboardHelpers(SupplierMapFactory.getGlobalInstance()),
+                new DefaultSimLayout(),
+                Shuffleboard.getTab("Simulation"));
+    }
+
+    private void printAvailableDashboardProperties() {
+        PrefixedConcurrentMap<Supplier<MultiType>> globalMap = SupplierMapFactory
+                .getGlobalInstance();
+
+        globalMap.prettyPrint();
+    }
+
+    public void updateSimShuffleboard() {
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.updateDashOnRobotPeriodic();
+        }
+    }
+
+    // Based on sample:
+    // https://docs.wpilib.org/en/stable/docs/software/basic-programming/alliancecolor.html
+    private boolean isRedHelper() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if (ally.isPresent()) {
+
+            if (ally.get() == Alliance.Red) {
+                return true;
+            }
+
+            // We explicitely check for blue in-case default is changed later
+            if (ally.get() == Alliance.Blue) {
+                return false;
+            }
+        }
+
+        // Returns "Blue" by default
+        return false;
+    }
+
+    private boolean isRedAlliance() {
+        boolean isRed = isRedHelper();
+        AllianceStationID stationId = DriverStation.getRawAllianceStation();
+
+        System.out.println("****Alliance is " + (isRed ? "Red" : "Blue"));
+        System.out.println("****Alliance is " + stationId.toString());
+
+        return isRed;
+    }
+
+    public void scheduleAutonomousCommand() {
         // Choose which Field relative to use
         // use a sendable chooser for which gyro to reset to
 
@@ -192,10 +258,15 @@ public class RobotContainer {
     }
 
     public void initShuffleBoard() {
-        // Shuffleboard.getTab("Vision").addDouble(
-        // "Angle to Shoot",
-        // () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
-        // + ShooterConstants.shootOffsetLimeLight);
+        Shuffleboard.getTab("Arm").addDouble(
+                "Angle to Shoot",
+                () -> m_armSystem.getShootingAngle(m_visionSystem.getDistanceMetersY())
+                        + ShooterConstants.shootOffsetLimeLight);
+
+        if (m_shuffleboardManager != null) {
+            m_shuffleboardManager.addShuffleboardWidgets();
+            m_shuffleboardManager.addMacros(m_armSystem);
+        }
     }
 
     /**
