@@ -57,6 +57,14 @@ public class ArmSystem extends SubsystemBase {
         m_relativeEncoder.setPosition(getArmAngleRadians());
     }
 
+    public void toTeleop() {
+        m_maxOutputPercent = ArmConstants.maxOutputPercentTeleop;
+    }
+
+    public void toAuto() {
+        m_maxOutputPercent = ArmConstants.maxOutputPercent;
+    }
+
     public double getArmAngleRadians() {
         return 2 * Math.PI
                 - (m_armEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;

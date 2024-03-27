@@ -289,6 +289,7 @@ public class Constants {
 
         public static final double armSpeedFast = 1;
         public static final double maxOutputPercent = 0.6;
+        public static final double maxOutputPercentTeleop = 0.8;
     }
 
     public static class IntakeConstants {

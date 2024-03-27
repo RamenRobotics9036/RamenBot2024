@@ -275,11 +275,13 @@ public class RobotContainer {
     public void toAuto() {
         ShooterConstants.shouldCharge = false;
         m_swerveDrive.toAuto();
+        m_armSystem.toAuto();
     }
 
     public void toTeleop() {
         ShooterConstants.shouldCharge = false;
         m_swerveDrive.toTeleop();
+        m_armSystem.toTeleop();
     }
 
     public void stopRobot() {
