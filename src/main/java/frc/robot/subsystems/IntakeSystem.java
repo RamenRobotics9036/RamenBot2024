@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.IntakeDefaultCommand;
 
 /**
@@ -37,6 +38,12 @@ public class IntakeSystem extends SubsystemBase {
         m_intakeMotorFollower.setSmartCurrentLimit(20);
 
         m_LedSystem = ledSystem;
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Should Charge", () -> ShooterConstants.shouldCharge);
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Beam Intake", () -> m_LedSystem.getBeamBreakIntake());
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Beam Back", () -> m_LedSystem.getBeamBreakPullBack());
         // initShuffleBoard();
         m_intakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
@@ -90,17 +97,15 @@ public class IntakeSystem extends SubsystemBase {
             }
             // Has note, but needs to be pulled back
             else if (!m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
+                ShooterConstants.shouldCharge = true;
                 if (shotNote) {
                     setIntakeSpeed(IntakeConstants.pullBackSpeed);
                 }
-                shotNote = false;
                 // Has note and is pulled back
                 if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()
-                        && shotNote == false) {
+                        && shotNote) {
                     setIntakeSpeed(0);
-
                 }
-
             }
 
         }
@@ -108,8 +113,6 @@ public class IntakeSystem extends SubsystemBase {
             setIntakeSpeed(IntakeConstants.intakeSpeed); // DAVID NEEDS TO MAKE A MANUAL PULLBACK
                                                          // COMMAND for both shooter and intake
         }
-
-        setOverride(false);
     }
 
     public void setOverride(boolean useSensors) {

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveSystemConstants;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.IntakeRevCommandAuto;
@@ -29,7 +30,9 @@ import frc.robot.commands.PullBackShooterCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.ShootCommandTele;
 import frc.robot.commands.StayCommand;
+import frc.robot.commands.ShootCommands.ChargeShootCommand;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -227,12 +230,7 @@ public class RobotContainer {
         new Trigger(() -> m_armController.getBButton()).onTrue(
                 new SetArmToAngleCommand(m_armSystem,
                         m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
-                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                        .andThen(new WaitCommand(waitTime))
-                                        .andThen(
-                                                new IntakeRevCommand(m_intakeSystem,
-                                                        m_shooterSystem,
-                                                        m_armController))));
+                                new ShootCommandTele(m_intakeSystem, m_armController)));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)
@@ -261,6 +259,9 @@ public class RobotContainer {
         new Trigger(() -> m_armController.povDown(new EventLoop()).getAsBoolean())
                 .onTrue(new PullBackShooterCommand(m_shooterSystem));
 
+        new Trigger(() -> ShooterConstants.shouldCharge)
+                .whileTrue(new ChargeShootCommand(m_shooterSystem, m_armController));
+
         // new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean())
         // .onTrue(); // IS IT POSSIBLE TO CALL A METHOD INSTEAD OF A COMMAND? OR WHERE ELSE DO
         // I CALL IT? (above is called bind commands, so probably not)
@@ -272,10 +273,12 @@ public class RobotContainer {
     }
 
     public void toAuto() {
+        ShooterConstants.shouldCharge = false;
         m_swerveDrive.toAuto();
     }
 
     public void toTeleop() {
+        ShooterConstants.shouldCharge = false;
         m_swerveDrive.toTeleop();
     }
 

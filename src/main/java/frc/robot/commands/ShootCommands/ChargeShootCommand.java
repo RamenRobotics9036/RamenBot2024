@@ -1,30 +1,34 @@
 package frc.robot.commands.ShootCommands;
 
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
+import frc.robot.util.AppliedController;
 
 public class ChargeShootCommand extends Command {
-    private IntakeSystem m_intakeSystem;
     private ShooterSystem m_shooterSystem;
-    private PullIntakeCommand m_pullCmd = new PullIntakeCommand(m_intakeSystem);
-    private ShootCommand m_shootCmd = new ShootCommand(m_intakeSystem, m_shooterSystem);
+    private AppliedController m_controller;
+    private EventLoop eventLoop = new EventLoop();
 
-    public ChargeShootCommand(IntakeSystem intake, ShooterSystem shooter) {
-        m_intakeSystem = intake;
+    public ChargeShootCommand(ShooterSystem shooter, AppliedController controller) {
         m_shooterSystem = shooter;
-        addRequirements(m_intakeSystem, m_shooterSystem);
+        m_controller = controller;
+        addRequirements(m_shooterSystem);
     }
 
     @Override
     public void initialize() {
-        m_pullCmd.schedule();
     }
 
     @Override
     public void execute() {
-        m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
+        if (m_controller.povLeft(eventLoop).getAsBoolean()) {
+            m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
+        }
+        else {
+            m_shooterSystem.setShootSpeed(ShooterConstants.lowShooterSpeed);
+        }
     }
 
     @Override
@@ -34,6 +38,6 @@ public class ChargeShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_shootCmd.schedule();
+        m_shooterSystem.stopSystem();
     }
 }
