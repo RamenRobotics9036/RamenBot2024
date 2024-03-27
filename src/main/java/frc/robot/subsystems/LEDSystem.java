@@ -119,8 +119,8 @@ public class LEDSystem extends SubsystemBase {
      * Stop the intake system.
      */
     public void stopSystem() {
-        m_LEDBuffer.setRGB(0, 0, 0, 0);
-        m_LEDLight.setData(m_LEDBuffer);
-        m_LEDLight.start();
+        m_ledBuffer.setRGB(0, 0, 0, 0);
+        m_ledLight.setData(m_ledBuffer);
+        m_ledLight.start();
     }
 }

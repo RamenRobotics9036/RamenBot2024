@@ -32,7 +32,12 @@ public class Constants {
     public static class SwerveSystemConstants {
         public static final boolean isPIDTuning = true;
 
-        public static final double frameDistanceToModulesMeters = 0.5461;
+        // Distance between the center of a wheel and the center of the drive train
+        public static final double frameDistanceToModulesMeters = 0.395; // 22in x 22in
+
+        // Remembrants is .285 even though their robot is as big as ours with a .82 meter drive
+        // width
+        // Test these numbers later if the current one feels weird.
         public static final double wheelRadiusMeters = 0.0508; // 2 inches
 
         public static final int gyroCanID = 7;
@@ -55,7 +60,7 @@ public class Constants {
 
         public static final double drivingFeedForward_S = 0.11095;
         public static final double drivingFeedForward_V = 2.3901;
-        public static final double drivingFeedForward_A = 0.1212;
+        // public static final double drivingFeedForward_A = 0.1212;
 
         public static final double maxSpeedMetersPerSecond = 5.06;
         public static final double maxSpeedMetersPerSecondAuto = 5.06;

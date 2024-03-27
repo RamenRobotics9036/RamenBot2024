@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.AllianceStationID;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -20,6 +23,16 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+
+        if (RobotBase.isSimulation()) {
+            m_robotContainer.updateSimShuffleboard();
+        }
+    }
+
+    @Override
+    public void simulationInit() {
+        DriverStationSim.setAllianceStationId(AllianceStationID.Red2);
+        DriverStationSim.notifyNewData();
     }
 
     @Override

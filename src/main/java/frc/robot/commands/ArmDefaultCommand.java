@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSystem;
@@ -35,6 +36,11 @@ public class ArmDefaultCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        // $TODO - Remove this
+        if (RobotBase.isSimulation()) {
+            return true;
+        }
+
         return false;
 
     }
