@@ -89,7 +89,7 @@ public class LEDSystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (beamBreakIntake.get()) {
-            if (noteInIntake) { // if note was just in intake, but shot it out, then it will run
+            if (m_noteInIntake) { // if note was just in intake, but shot it out, then it will run
                 // LED to Red
                 for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
                     m_LEDBuffer.setRGB(i, 255, 0, 255);

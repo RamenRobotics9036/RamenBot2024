@@ -65,7 +65,6 @@ public class RobotContainer {
     @SuppressWarnings({
             "AbbreviationAsWordInNameCheck", "MemberNameCheck"
     })
-    private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
