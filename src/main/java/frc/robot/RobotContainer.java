@@ -102,6 +102,17 @@ public class RobotContainer {
                 "Set Arm To Ground",
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
 
+        // THIS IS A TEST AND MIGHT BREAK THE CODE
+        NamedCommands.registerCommand(
+                "Raise Arm and Shoot Note WHILE MOVING",
+                new ParallelCommandGroup(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleAutoRadians),
+                        new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                0.65)) // THIS TIMING WILL NEED TO BE LOOKED AT WITH SET
+                                       // ARM TO ANGLE COMMAND
+        );
+
         // THIS COULD POTENTIALLY RAISE ARM AND DO PULL BACK AT THE SAME TIME
         NamedCommands.registerCommand(
                 "Raise Arm and Shoot Note",

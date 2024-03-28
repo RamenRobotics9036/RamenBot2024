@@ -1,0 +1,118 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.35,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3814347884647478,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer"
+    },
+    {
+      "anchor": {
+        "x": 2.613922488900611,
+        "y": 6.722020177278586
+      },
+      "prevControl": {
+        "x": 2.6041958343762106,
+        "y": 6.722020177278586
+      },
+      "nextControl": {
+        "x": 2.6356719496108236,
+        "y": 6.722020177278586
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.25,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.2049888444918162,
+        "y": 5.55
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Mid Subwoofer End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": 45.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Subwoofer",
+      "minWaypointRelativePos": 1.6,
+      "maxWaypointRelativePos": 1.8499999999999996,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Arm Down",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Raise Arm and Shoot While Moving",
+      "waypointRelativePos": 1.3,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Raise Arm and Shoot Note WHILE MOVING"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}
