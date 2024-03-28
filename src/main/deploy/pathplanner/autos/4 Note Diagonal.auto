@@ -52,6 +52,12 @@
           "data": {
             "name": "Raise Arm and Shoot Note"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Sub To C3"
+          }
         }
       ]
     }
