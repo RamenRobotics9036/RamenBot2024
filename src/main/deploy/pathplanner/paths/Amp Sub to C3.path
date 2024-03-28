@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 0.75,
-        "y": 4.40065649362068
+        "y": 6.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7934989214204249,
-        "y": 4.40065649362068
+        "x": 0.7870735579217703,
+        "y": 6.65
       },
       "isLocked": false,
-      "linkedName": "Bottom Subwoofer"
+      "linkedName": "Top Subwoofer"
     },
     {
       "anchor": {
-        "x": 8.340521559787769,
-        "y": 0.8080477216589235
+        "x": 8.129726501967138,
+        "y": 5.726599070888962
       },
       "prevControl": {
-        "x": 6.337968510459132,
-        "y": 0.6206743369264197
+        "x": 4.66331888441581,
+        "y": 6.195032532720222
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Set Arm to Ground",
-      "waypointRelativePos": 0.0,
+      "name": "Set Arm to Ground ",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -50,8 +50,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -61,7 +61,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Bottom Sub Centerlines",
-  "previewStartingState": null,
+  "folder": "Top Sub Centerlines",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }
