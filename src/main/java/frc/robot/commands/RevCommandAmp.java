@@ -39,7 +39,7 @@ public class RevCommandAmp extends Command {
 
         m_shooterSystem.setShootSpeed(m_shooterSpeed);
 
-        if (m_timer.get() >= 0.5) {
+        if (m_timer.get() >= 0.4) {
             m_intakeSystem.setIntakeSpeed(.6);
 
         }
@@ -47,7 +47,7 @@ public class RevCommandAmp extends Command {
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= 1.5) {
+        if (m_timer.get() >= 1.4) {
             return true;
         }
         if (m_controller.commandCancel()) {

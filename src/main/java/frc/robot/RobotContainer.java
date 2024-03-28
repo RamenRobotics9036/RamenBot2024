@@ -101,22 +101,6 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Set Arm To Ground",
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
-        NamedCommands.registerCommand(
-                "Set Arm To Shoot",
-                // new SetArmToAngleCommand(m_armSystem,
-                // PresetConstants.speakerPresetAngleRadians));
-                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleAutoRadians),
-                        new StayCommand(m_swerveDrive)));
-        NamedCommands.registerCommand(
-                "Shoot Note",
-                new ParallelDeadlineGroup(
-                        new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                .andThen(new WaitCommand(waitTime))
-                                .andThen(
-                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                                m_armController)),
-                        new StayCommand(m_swerveDrive)));
 
         // THIS COULD POTENTIALLY RAISE ARM AND DO PULL BACK AT THE SAME TIME
         NamedCommands.registerCommand(
@@ -125,12 +109,9 @@ public class RobotContainer {
                         new ParallelCommandGroup(
                                 new SetArmToAngleCommand(m_armSystem,
                                         PresetConstants.speakerPresetAngleAutoRadians),
-                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                        .andThen(new WaitCommand(0)))
-                                .andThen(
-                                        new IntakeRevCommandAuto(m_intakeSystem,
-                                                m_shooterSystem,
-                                                m_armController)),
+                                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                        0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT WITH SET
+                                                // ARM TO ANGLE COMMAND
                         new StayCommand(m_swerveDrive)));
     }
 
