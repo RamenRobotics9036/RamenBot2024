@@ -259,7 +259,7 @@ public class Constants {
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.7;
+        public static final double shooterSpeed = 0.5;
         public static final double lowShooterSpeed = 0.2;
         public static final double pullBackAmount = 4;
 

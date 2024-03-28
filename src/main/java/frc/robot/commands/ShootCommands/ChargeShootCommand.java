@@ -1,6 +1,5 @@
 package frc.robot.commands.ShootCommands;
 
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSystem;
@@ -9,7 +8,7 @@ import frc.robot.util.AppliedController;
 public class ChargeShootCommand extends Command {
     private ShooterSystem m_shooterSystem;
     private AppliedController m_controller;
-    private EventLoop eventLoop = new EventLoop();
+    private boolean revHighSpeed = false;
 
     public ChargeShootCommand(ShooterSystem shooter, AppliedController controller) {
         m_shooterSystem = shooter;
@@ -19,12 +18,14 @@ public class ChargeShootCommand extends Command {
 
     @Override
     public void initialize() {
+        revHighSpeed = false;
     }
 
     @Override
     public void execute() {
-        if (m_controller.povLeft(eventLoop).getAsBoolean()) {
+        if (m_controller.getBButton() || revHighSpeed) {
             m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
+            revHighSpeed = true;
         }
         else {
             m_shooterSystem.setShootSpeed(ShooterConstants.lowShooterSpeed);

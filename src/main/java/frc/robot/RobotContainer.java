@@ -23,6 +23,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveSystemConstants;
+import frc.robot.commands.ChargeShootForTimeCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.PullBackCommand;
@@ -227,10 +228,14 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
 
         // One robot away preset
-        new Trigger(() -> m_armController.getBButton()).onTrue(
+        new Trigger(() -> m_armController.getBButtonReleased()).onTrue(
                 new SetArmToAngleCommand(m_armSystem,
                         m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
                                 new ShootCommandTele(m_intakeSystem, m_armController)));
+
+        new Trigger(() -> m_armController.getBButtonPressed()).onTrue(
+                new SetArmToAngleCommand(m_armSystem,
+                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)
@@ -260,7 +265,8 @@ public class RobotContainer {
                 .onTrue(new PullBackShooterCommand(m_shooterSystem));
 
         new Trigger(() -> ShooterConstants.shouldCharge)
-                .whileTrue(new ChargeShootCommand(m_shooterSystem, m_armController));
+                .whileTrue(
+                        new ChargeShootCommand(m_shooterSystem, m_armController));
 
         // new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean())
         // .onTrue(); // IS IT POSSIBLE TO CALL A METHOD INSTEAD OF A COMMAND? OR WHERE ELSE DO
