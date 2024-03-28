@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -200,6 +201,11 @@ public class RobotContainer {
         // "Angle to Shoot",
         // () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
         // + ShooterConstants.shootOffsetLimeLight);
+        Shuffleboard.getTab("Charge Shot")
+                .addString(
+                        "Current Shooter Command",
+                        () -> (m_shooterSystem.getCurrentCommand() == null) ? "None"
+                                : m_shooterSystem.getCurrentCommand().getName());
     }
 
     /**
@@ -228,14 +234,23 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
 
         // One robot away preset
-        new Trigger(() -> m_armController.getBButtonReleased()).onTrue(
-                new SetArmToAngleCommand(m_armSystem,
-                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
-                                new ShootCommandTele(m_intakeSystem, m_armController)));
+        new Trigger(() -> m_armController.getBButton())
+                .onTrue(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleRadians))
+                .onFalse(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleRadians)
+                                .andThen(new ShootCommandTele(m_intakeSystem, m_armController)));
 
-        new Trigger(() -> m_armController.getBButtonPressed()).onTrue(
-                new SetArmToAngleCommand(m_armSystem,
-                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())));
+        // new Trigger(() -> m_armController.getBButtonReleased()).onTrue(
+        // new SetArmToAngleCommand(m_armSystem,
+        // m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
+        // new ShootCommandTele(m_intakeSystem, m_armController)));
+
+        // new Trigger(() -> m_armController.getBButtonPressed()).onTrue(
+        // new SetArmToAngleCommand(m_armSystem,
+        // m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)

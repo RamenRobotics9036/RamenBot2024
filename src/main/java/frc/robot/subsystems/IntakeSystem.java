@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -89,7 +90,7 @@ public class IntakeSystem extends SubsystemBase {
 
         boolean shotNote = true;
 
-        if (useBeamBreak) {
+        if (useBeamBreak || RobotState.isAutonomous()) {
             // No note
             if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
                 setIntakeSpeed(IntakeConstants.intakeSpeed);
