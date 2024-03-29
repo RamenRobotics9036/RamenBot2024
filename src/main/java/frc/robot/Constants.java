@@ -99,17 +99,6 @@ public class Constants {
             // are facing outwards when rotating
             public static final double rotationOffset = Math.PI / 2;
 
-            // NOTE: This makes the front of the robot the right side. (the side of the radio), but
-            // it does not neceassrily matter because of field relativity
-            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314
-                    + rotationOffset;
-            public static final double backLeftOffsetSwerveB = (Math.PI * 1.5) - 5.227 + Math.PI
-                    + rotationOffset;
-            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI
-                    + rotationOffset;
-            public static final double backRightOffsetSwerveB = (Math.PI * 1.5) - 0.835 + Math.PI
-                    + rotationOffset;
-
             // Different Swerve
 
             public static final double frontLeftOffsetSwerveA = -Math.PI + .1 + rotationOffset;
@@ -119,6 +108,15 @@ public class Constants {
                     + ((Math.PI * 2) - 4.708)
                     + 0.2 + rotationOffset;
             public static final double backRightOffsetSwerveA = 0.928 + rotationOffset;
+
+            // NOTE: This makes the front of the robot the right side. (the side of the radio), but
+            // it does not neceassrily matter because of field relativity
+            public static final double frontLeftOffsetSwerveB = (Math.PI * 1.5) - 3.314
+                    + rotationOffset;
+            public static final double backLeftOffsetSwerveB = frontRightOffsetSwerveA + Math.PI;
+            public static final double frontRightOffsetSwerveB = (Math.PI * 1.5) - 1.858 + Math.PI
+                    + rotationOffset;
+            public static final double backRightOffsetSwerveB = backRightOffsetSwerveA;
 
         }
     }
@@ -288,7 +286,7 @@ public class Constants {
         public static final double armAngleOffsetHorizontal = 0;
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.6;
+        public static final double maxOutputPercent = 0.8;
         public static final double maxOutputPercentTeleop = 0.8;
     }
 
