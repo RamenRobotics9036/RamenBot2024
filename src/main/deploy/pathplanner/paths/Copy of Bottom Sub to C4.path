@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 0.75,
+        "y": 4.40065649362068
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.118033988749895,
-        "y": 7.0
+        "x": 0.7934989214204249,
+        "y": 4.40065649362068
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Bottom Subwoofer"
     },
     {
       "anchor": {
-        "x": 5.0,
-        "y": 7.0
+        "x": 7.9774856268685435,
+        "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 4.646870698883775,
-        "y": 7.0
+        "x": 5.4830774426170805,
+        "y": -0.0351325096373456
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Set Arm to Ground",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -43,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Bottom Sub Centerlines",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

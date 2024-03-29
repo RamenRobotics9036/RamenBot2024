@@ -32,21 +32,56 @@
     },
     {
       "anchor": {
-        "x": 1.35,
+        "x": 1.25,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.4033825483961262,
+        "x": 1.303382548396126,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Mid Subwoofer"
+      "linkedName": "Mid Subwoofer End"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Arm to Ground",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Set Arm To Ground"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Raise Arm and Shoot While Moving",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Raise Arm and Shoot Note WHILE MOVING"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

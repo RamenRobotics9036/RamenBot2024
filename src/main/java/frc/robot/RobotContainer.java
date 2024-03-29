@@ -19,9 +19,12 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PresetConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveSystemConstants;
+import frc.robot.commands.ChargeShootForTimeCommand;
 import frc.robot.commands.IntakeRevCommand;
 import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.PullBackCommand;
@@ -29,7 +32,9 @@ import frc.robot.commands.PullBackShooterCommand;
 import frc.robot.commands.RevCommandAmp;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
+import frc.robot.commands.ShootCommandTele;
 import frc.robot.commands.StayCommand;
+import frc.robot.commands.ShootCommands.ChargeShootCommand;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -58,13 +63,13 @@ public class RobotContainer {
 
     private ShooterSystem m_shooterSystem = new ShooterSystem();
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
-    private IntakeSystem m_intakeSystem = new IntakeSystem();
+    private LEDSystem m_LEDSystem = new LEDSystem();
+    private IntakeSystem m_intakeSystem = new IntakeSystem(m_LEDSystem);
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     @SuppressWarnings({
             "AbbreviationAsWordInNameCheck", "MemberNameCheck"
     })
-    private LEDSystem m_LEDSystem = new LEDSystem(m_intakeSystem);
 
     SendableChooser<String> m_autoChooser = new SendableChooser<>();
 
@@ -96,22 +101,17 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Set Arm To Ground",
                 new SetArmToAngleCommand(m_armSystem, SetArmConstants.armMin));
+
+        // THIS IS A TEST AND MIGHT BREAK THE CODE
         NamedCommands.registerCommand(
-                "Set Arm To Shoot",
-                // new SetArmToAngleCommand(m_armSystem,
-                // PresetConstants.speakerPresetAngleRadians));
-                new ParallelDeadlineGroup(new SetArmToAngleCommand(m_armSystem,
-                        PresetConstants.speakerPresetAngleAutoRadians),
-                        new StayCommand(m_swerveDrive)));
-        NamedCommands.registerCommand(
-                "Shoot Note",
-                new ParallelDeadlineGroup(
-                        new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                .andThen(new WaitCommand(waitTime))
-                                .andThen(
-                                        new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                                m_armController)),
-                        new StayCommand(m_swerveDrive)));
+                "Raise Arm and Shoot Note WHILE MOVING",
+                new ParallelCommandGroup(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleAutoRadians),
+                        new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                0.65)) // THIS TIMING WILL NEED TO BE LOOKED AT WITH SET
+                                       // ARM TO ANGLE COMMAND
+        );
 
         // THIS COULD POTENTIALLY RAISE ARM AND DO PULL BACK AT THE SAME TIME
         NamedCommands.registerCommand(
@@ -120,12 +120,9 @@ public class RobotContainer {
                         new ParallelCommandGroup(
                                 new SetArmToAngleCommand(m_armSystem,
                                         PresetConstants.speakerPresetAngleAutoRadians),
-                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                        .andThen(new WaitCommand(0)))
-                                .andThen(
-                                        new IntakeRevCommandAuto(m_intakeSystem,
-                                                m_shooterSystem,
-                                                m_armController)),
+                                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                        0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT WITH SET
+                                                // ARM TO ANGLE COMMAND
                         new StayCommand(m_swerveDrive)));
     }
 
@@ -196,6 +193,11 @@ public class RobotContainer {
         // "Angle to Shoot",
         // () -> m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())
         // + ShooterConstants.shootOffsetLimeLight);
+        Shuffleboard.getTab("Charge Shot")
+                .addString(
+                        "Current Shooter Command",
+                        () -> (m_shooterSystem.getCurrentCommand() == null) ? "None"
+                                : m_shooterSystem.getCurrentCommand().getName());
     }
 
     /**
@@ -212,11 +214,8 @@ public class RobotContainer {
         double waitTime = 0.2;
 
         new Trigger(() -> m_armController.getAButton()).onTrue(
-                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                        .andThen(new WaitCommand(waitTime))
-                        .andThen(
-                                new IntakeRevCommand(m_intakeSystem, m_shooterSystem,
-                                        m_armController)));
+                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                        0.7));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(
@@ -227,15 +226,23 @@ public class RobotContainer {
                 new SetArmToAngleCommand(m_armSystem, PresetConstants.speakerPresetAngleRadians));
 
         // One robot away preset
-        new Trigger(() -> m_armController.getBButton()).onTrue(
-                new SetArmToAngleCommand(m_armSystem,
-                        m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
-                                new PullBackCommand(m_intakeSystem, m_shooterSystem)
-                                        .andThen(new WaitCommand(waitTime))
-                                        .andThen(
-                                                new IntakeRevCommand(m_intakeSystem,
-                                                        m_shooterSystem,
-                                                        m_armController))));
+        new Trigger(() -> m_armController.getBButton())
+                .onTrue(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleRadians))
+                .onFalse(
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleRadians)
+                                .andThen(new ShootCommandTele(m_intakeSystem, m_armController)));
+
+        // new Trigger(() -> m_armController.getBButtonReleased()).onTrue(
+        // new SetArmToAngleCommand(m_armSystem,
+        // m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())).andThen(
+        // new ShootCommandTele(m_intakeSystem, m_armController)));
+
+        // new Trigger(() -> m_armController.getBButtonPressed()).onTrue(
+        // new SetArmToAngleCommand(m_armSystem,
+        // m_armSystem.getShootingAngle(m_visionSystem.getSpeakerYDistance())));
 
         // 62 inches away (around podium distance) //Good radians is 4.837, but the preset is not
         // hitting the right angle (basically an offset)
@@ -264,6 +271,14 @@ public class RobotContainer {
         new Trigger(() -> m_armController.povDown(new EventLoop()).getAsBoolean())
                 .onTrue(new PullBackShooterCommand(m_shooterSystem));
 
+        new Trigger(() -> ShooterConstants.shouldCharge)
+                .whileTrue(
+                        new ChargeShootCommand(m_shooterSystem, m_armController));
+
+        // new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean())
+        // .onTrue(); // IS IT POSSIBLE TO CALL A METHOD INSTEAD OF A COMMAND? OR WHERE ELSE DO
+        // I CALL IT? (above is called bind commands, so probably not)
+
         // Auto-align
         // new Trigger(() -> m_driveController.getAButton()).onTrue(
         // new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
@@ -271,11 +286,15 @@ public class RobotContainer {
     }
 
     public void toAuto() {
+        ShooterConstants.shouldCharge = false;
         m_swerveDrive.toAuto();
+        m_armSystem.toAuto();
     }
 
     public void toTeleop() {
+        ShooterConstants.shouldCharge = false;
         m_swerveDrive.toTeleop();
+        m_armSystem.toTeleop();
     }
 
     public void stopRobot() {

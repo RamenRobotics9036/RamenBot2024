@@ -5,9 +5,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.IntakeDefaultCommand;
 
 /**
@@ -24,18 +26,30 @@ public class IntakeSystem extends SubsystemBase {
     private RelativeEncoder m_encoder = m_intakeMotorLeader.getEncoder();
     private double m_maxOutputPercent = IntakeConstants.maxOutputPercent;
 
-    public IntakeSystem() {
+    private LEDSystem m_LedSystem;
+
+    private boolean useBeamBreak = true;
+
+    public IntakeSystem(LEDSystem ledSystem) {
         m_intakeMotorFollower.restoreFactoryDefaults();
         m_intakeMotorLeader.restoreFactoryDefaults();
         m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // This motor has a lot of friction in the mechanical system. Set this to the constant value
         // when this issue is fixed, increasing the current limit is a workaround for this issue.
         m_intakeMotorFollower.setSmartCurrentLimit(20);
+
+        m_LedSystem = ledSystem;
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Should Charge", () -> ShooterConstants.shouldCharge);
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Beam Intake", () -> m_LedSystem.getBeamBreakIntake());
+        Shuffleboard.getTab("Charge Shot")
+                .addBoolean("Beam Back", () -> m_LedSystem.getBeamBreakPullBack());
         // initShuffleBoard();
         m_intakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
         m_intakeMotorFollower.follow(m_intakeMotorLeader);
-        setDefaultCommand(new IntakeDefaultCommand(this));
+        // setDefaultCommand(new IntakeDefaultCommand(this));
     }
 
     public double getIntakeSpeed() {
@@ -73,7 +87,37 @@ public class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setIntakeSpeed(IntakeConstants.speed);
+
+        boolean shotNote = true;
+
+        if (useBeamBreak || RobotState.isAutonomous()) {
+            // No note
+            if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
+                setIntakeSpeed(IntakeConstants.intakeSpeed);
+                shotNote = true;
+            }
+            // Has note, but needs to be pulled back
+            else if (!m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
+                ShooterConstants.shouldCharge = true;
+                if (shotNote) {
+                    setIntakeSpeed(IntakeConstants.pullBackSpeed);
+                }
+                // Has note and is pulled back
+                if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()
+                        && shotNote) {
+                    setIntakeSpeed(0);
+                }
+            }
+
+        }
+        else {
+            setIntakeSpeed(IntakeConstants.intakeSpeed); // DAVID NEEDS TO MAKE A MANUAL PULLBACK
+                                                         // COMMAND for both shooter and intake
+        }
+    }
+
+    public void setOverride(boolean useSensors) {
+        useBeamBreak = useSensors;
     }
 
     /**
@@ -81,5 +125,9 @@ public class IntakeSystem extends SubsystemBase {
      */
     public void stopSystem() {
         m_intakeMotorLeader.stopMotor();
+    }
+
+    public void stopBeamBreakSystem() {
+        useBeamBreak = false;
     }
 }

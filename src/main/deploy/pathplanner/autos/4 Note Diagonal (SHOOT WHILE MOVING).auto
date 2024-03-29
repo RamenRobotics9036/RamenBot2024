@@ -20,37 +20,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Sub to Mid Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Raise Arm and Shoot Note"
+            "pathName": "Mid Sub to Mid Note (Move Shooting)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Sub D to Stage Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Raise Arm and Shoot Note"
+            "pathName": "Mid Sub D to Amp Note (Move Shooting)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Sub D to Amp Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Raise Arm and Shoot Note"
+            "pathName": "Mid Sub D to Stage Note (Move Shooting)"
           }
         },
         {

@@ -192,15 +192,15 @@ public class SwerveDriveSystem extends SubsystemBase {
      */
     public void drive(double xspeed, double yspeed, double rot, boolean fieldRelative) {
         // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rot: " + rot);
-
+        double speedMul = (m_controller.getLeftTriggerAxis() > 0.5) ? 0.3 : m_maxAngularSpeed;
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds
                         .fromFieldRelativeSpeeds(
                                 xspeed,
                                 yspeed,
-                                -rot * m_maxAngularSpeed,
+                                -rot * speedMul,
                                 getRotation2d())
-                        : new ChassisSpeeds(xspeed, yspeed, -rot * m_maxAngularSpeed));
+                        : new ChassisSpeeds(xspeed, yspeed, -rot * speedMul));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, m_maxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);

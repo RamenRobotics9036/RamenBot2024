@@ -56,5 +56,6 @@ public class IntakeRevCommand extends Command {
         m_intakeSystem.stopSystem();
         m_shooterSystem.stopSystem();
         IntakeConstants.speed = -IntakeConstants.intakeSpeed;
+        ShooterConstants.shouldCharge = false;
     }
 }

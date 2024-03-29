@@ -4,28 +4,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.RevConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.IntakeSystem;
-import frc.robot.subsystems.ShooterSystem;
 import frc.robot.util.AppliedController;
 
-public class RevCommandAmp extends Command {
-    private ShooterSystem m_shooterSystem;
+public class ShootCommandTele extends Command {
     private IntakeSystem m_intakeSystem;
     private Timer m_timer;
     private AppliedController m_controller;
-    private double m_shooterSpeed;
 
-    public RevCommandAmp(
+    public ShootCommandTele(
             IntakeSystem intakeSystem,
-            ShooterSystem shooterSystem,
-            AppliedController controller,
-            double shooterSpeed) {
-        m_shooterSpeed = shooterSpeed;
+            AppliedController controller) {
         m_intakeSystem = intakeSystem;
-        m_shooterSystem = shooterSystem;
         m_controller = controller;
 
-        addRequirements(m_intakeSystem, m_shooterSystem);
+        addRequirements(m_intakeSystem);
     }
 
     @Override
@@ -36,18 +30,12 @@ public class RevCommandAmp extends Command {
 
     @Override
     public void execute() {
-
-        m_shooterSystem.setShootSpeed(m_shooterSpeed);
-
-        if (m_timer.get() >= 0.45) {
-            m_intakeSystem.setIntakeSpeed(.6);
-
-        }
+        m_intakeSystem.setIntakeSpeed(IntakeConstants.maxOutputPercent);
     }
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= 1) {
+        if (m_timer.get() >= RevConstants.maxTime) {
             return true;
         }
         if (m_controller.commandCancel()) {
@@ -59,7 +47,7 @@ public class RevCommandAmp extends Command {
     @Override
     public void end(boolean interrupted) {
         m_intakeSystem.stopSystem();
-        m_shooterSystem.stopSystem();
         IntakeConstants.speed = -IntakeConstants.intakeSpeed;
+        ShooterConstants.shouldCharge = false;
     }
 }
