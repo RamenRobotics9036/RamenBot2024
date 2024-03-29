@@ -18,7 +18,7 @@ public class Constants {
 
         // Change this variable if you want to change exponent
         public static final double controllerExpoRatio = 0.6;
-        public static final double controllerExpoRatioRight = 0.85;
+        public static final double controllerExpoRatioRight = 0.90;
 
         public static final double controllerDeadbandPercent = 0.06; // 0.2
 
