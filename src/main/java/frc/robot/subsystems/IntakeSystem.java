@@ -6,11 +6,15 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.IntakeDefaultCommand;
+import frc.robot.util.AppliedController;
 
 /**
  * Stop the intake system.
@@ -30,14 +34,22 @@ public class IntakeSystem extends SubsystemBase {
 
     private boolean useBeamBreak = true;
 
-    public IntakeSystem(LEDSystem ledSystem) {
+    enum RumblingState {
+        NoCapture, Rumbling, HasRumbled
+    };
+
+    private RumblingState m_rumblingState = RumblingState.NoCapture;
+    private Timer m_rumblingTimer = new Timer();
+    private AppliedController m_Controller;
+
+    public IntakeSystem(LEDSystem ledSystem, AppliedController controller) {
+        m_Controller = controller;
         m_intakeMotorFollower.restoreFactoryDefaults();
         m_intakeMotorLeader.restoreFactoryDefaults();
         m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // This motor has a lot of friction in the mechanical system. Set this to the constant value
         // when this issue is fixed, increasing the current limit is a workaround for this issue.
         m_intakeMotorFollower.setSmartCurrentLimit(20);
-
         m_LedSystem = ledSystem;
         Shuffleboard.getTab("Charge Shot")
                 .addBoolean("Should Charge", () -> ShooterConstants.shouldCharge);
@@ -88,31 +100,60 @@ public class IntakeSystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        boolean shotNote = true;
-
         if (useBeamBreak || RobotState.isAutonomous()) {
             // No note
             if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
                 setIntakeSpeed(IntakeConstants.intakeSpeed);
-                shotNote = true;
+
             }
             // Has note, but needs to be pulled back
             else if (!m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
                 ShooterConstants.shouldCharge = true;
-                if (shotNote) {
-                    setIntakeSpeed(IntakeConstants.pullBackSpeed);
-                }
+
+                setIntakeSpeed(IntakeConstants.pullBackSpeed);
+
                 // Has note and is pulled back
-                if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()
-                        && shotNote) {
+                if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
                     setIntakeSpeed(0);
                 }
+
             }
 
         }
+
         else {
             setIntakeSpeed(IntakeConstants.intakeSpeed); // DAVID NEEDS TO MAKE A MANUAL PULLBACK
                                                          // COMMAND for both shooter and intake
+        }
+
+        if (useBeamBreak) {
+            boolean captured = !m_LedSystem.getBeamBreakPullBack()
+                    || !m_LedSystem.getBeamBreakIntake();
+            if (m_rumblingState == RumblingState.NoCapture) {
+                if (captured) {
+                    m_rumblingTimer.restart();
+                    m_rumblingState = RumblingState.Rumbling;
+                    m_Controller.setRumble(
+                            RumbleType.kBothRumble,
+                            Constants.IntakeConstants.rumbleIntensity);
+                }
+            }
+            else if (m_rumblingState == RumblingState.Rumbling) {
+                if (!captured || m_rumblingTimer.get() > Constants.IntakeConstants.rumbleTime) {
+                    m_Controller.setRumble(RumbleType.kBothRumble, 0.0);
+                    m_rumblingState = RumblingState.HasRumbled;
+                }
+                else {
+                    m_Controller.setRumble(
+                            RumbleType.kBothRumble,
+                            Constants.IntakeConstants.rumbleIntensity);
+                }
+            }
+            else if (m_rumblingState == RumblingState.HasRumbled) {
+                if (!captured) {
+                    m_rumblingState = RumblingState.NoCapture;
+                }
+            }
         }
     }
 

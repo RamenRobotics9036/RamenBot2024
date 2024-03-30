@@ -301,6 +301,8 @@ public class Constants {
         public static final int intakeMotorRightID = 21;
         public static final int reflectChannel = 4;
         public static final double maxOutputPercent = 0.7;
+        public static final double rumbleIntensity = 0.3;
+        public static final double rumbleTime = 0.5;
 
         public static double speed = 0;
     }
