@@ -258,7 +258,7 @@ public class Constants {
         public static final int shooterLeftMotorID = 18;
         public static final int shooterRightMotorID = 19;
         public static final double maxOutputPercent = 1;
-        public static final double shooterSpeed = 0.7;
+        public static final double shooterSpeed = 0.6;
         public static final double lowShooterSpeed = 0.2;
         public static final double pullBackAmount = 4;
 
@@ -287,7 +287,7 @@ public class Constants {
         public static final double armAngleOffsetHorizontal = 0;
 
         public static final double armSpeedFast = 1;
-        public static final double maxOutputPercent = 0.8;
+        public static final double maxOutputPercent = 1;
         public static final double maxOutputPercentTeleop = 0.8;
     }
 

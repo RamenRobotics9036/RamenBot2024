@@ -82,6 +82,9 @@ public class RobotContainer {
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
         m_autoChooser.addOption("4 Note Auto?????", "Potential 4 Note Auto");
         m_autoChooser.addOption("4 Note Auto Diagonal", "4 Note Diagonal");
+        m_autoChooser.addOption(
+                "4 Note Auto Diagonal While Moving",
+                "4 Note Diagonal (SHOOT WHILE MOVING)");
 
         m_autoChooser.addOption(
                 "Amp Sub 3 Note (Amp Note and Top Center Note)",
@@ -215,7 +218,7 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.getAButton()).onTrue(
                 new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                        0.7));
+                        0.6));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(
