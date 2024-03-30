@@ -8,14 +8,14 @@ import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import frc.robot.util.AppliedController;
 
-public class RevCommandAmp extends Command {
+public class RevCommandAuto extends Command {
     private ShooterSystem m_shooterSystem;
     private IntakeSystem m_intakeSystem;
     private Timer m_timer;
     private AppliedController m_controller;
     private double m_shooterSpeed;
 
-    public RevCommandAmp(
+    public RevCommandAuto(
             IntakeSystem intakeSystem,
             ShooterSystem shooterSystem,
             AppliedController controller,
@@ -39,8 +39,10 @@ public class RevCommandAmp extends Command {
 
         m_shooterSystem.setShootSpeed(m_shooterSpeed);
 
-        m_intakeSystem.setIntakeSpeed(.65);
+        if (m_timer.get() >= 0.625) {
+            m_intakeSystem.setIntakeSpeed(.65);
 
+        }
     }
 
     @Override
