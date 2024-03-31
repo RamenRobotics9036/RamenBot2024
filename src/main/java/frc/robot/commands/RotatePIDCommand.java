@@ -3,13 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDriveSystem;
+import frc.robot.subsystems.SwerveDriveSystemAbstract;
 
 public class RotatePIDCommand extends Command {
-    private SwerveDriveSystem m_swerveDrive;
+    private SwerveDriveSystemAbstract m_swerveDrive;
     private double m_targetAngle;
     private PIDController m_pidController;
 
-    public RotatePIDCommand(SwerveDriveSystem swerveDrive, double targetAngle) {
+    public RotatePIDCommand(SwerveDriveSystemAbstract swerveDrive, double targetAngle) {
         m_swerveDrive = swerveDrive;
         m_targetAngle = targetAngle;
         m_pidController = new PIDController(3,

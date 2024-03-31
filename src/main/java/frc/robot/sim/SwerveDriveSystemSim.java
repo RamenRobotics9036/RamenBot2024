@@ -19,6 +19,9 @@ import frc.robot.util.AppliedController;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+
+import com.ctre.phoenix6.StatusCode;
+
 import simulationlib.shuffle.MultiType;
 import simulationlib.shuffle.PrefixedConcurrentMap;
 import simulationlib.shuffle.PrefixedConcurrentMap.Client;
@@ -165,6 +168,12 @@ public class SwerveDriveSystemSim extends SwerveDriveSystemAbstract {
 
     @Override
     public boolean resetGyroFieldRelativeBlueBottom() {
+        return true;
+    }
+
+    // $TODO - This was a new one that was added
+    @Override
+    public boolean resetGyroToAngle(double value) {
         return true;
     }
 

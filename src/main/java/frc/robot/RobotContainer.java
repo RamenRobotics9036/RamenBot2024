@@ -12,6 +12,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -37,6 +39,9 @@ import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.ShootCommandTele;
 import frc.robot.commands.StayCommand;
 import frc.robot.commands.ShootCommands.ChargeShootCommand;
+import frc.robot.sim.DefaultSimLayout;
+import frc.robot.sim.PopulateSimShuffleboard;
+import frc.robot.sim.SwerveDriveSystemSim;
 import frc.robot.subsystems.ArmSystem;
 import frc.robot.subsystems.HookSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -45,9 +50,17 @@ import frc.robot.subsystems.ShooterSystem;
 import frc.robot.subsystems.SwerveDriveSystemAbstract;
 import frc.robot.subsystems.VisionSystem;
 import frc.robot.util.AppliedController;
+import simulationlib.shuffle.MultiType;
+import simulationlib.shuffle.PrefixedConcurrentMap;
+import simulationlib.shuffle.ShuffleboardHelpers;
+import simulationlib.shuffle.SupplierMapFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -261,7 +274,7 @@ public class RobotContainer {
             m_shuffleboardManager.addShuffleboardWidgets();
             m_shuffleboardManager.addMacros(m_armSystem);
         }
-        
+
         Shuffleboard.getTab("Charge Shot")
                 .addString(
                         "Current Shooter Command",

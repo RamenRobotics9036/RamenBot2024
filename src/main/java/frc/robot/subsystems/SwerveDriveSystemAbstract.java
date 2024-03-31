@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// $TODO - After the merge, there's probably a bunch of stuff here thats wrong
 public abstract class SwerveDriveSystemAbstract extends SubsystemBase {
     public abstract void toTeleop();
 
@@ -33,6 +34,8 @@ public abstract class SwerveDriveSystemAbstract extends SubsystemBase {
     public abstract boolean resetGyroFieldRelativeAutoRed();
 
     public abstract boolean resetGyroFieldRelativeBlueBottom();
+
+    public abstract boolean resetGyroToAngle(double value);
 
     public abstract double getAnglePosition();
 

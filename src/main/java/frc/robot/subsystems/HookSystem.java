@@ -42,11 +42,11 @@ public class HookSystem extends SubsystemBase {
     }
 
     public double getLeadEncoderValue() {
-        return m_leftEncoder.getPosition();
+        return m_lEncoder.getPosition();
     }
 
     public double getFollowEncoderValue() {
-        return m_rightEncoder.getPosition();
+        return m_rEncoder.getPosition();
     }
 
     public void setHookSpeed(double speed) {
