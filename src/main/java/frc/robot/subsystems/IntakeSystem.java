@@ -91,6 +91,10 @@ public class IntakeSystem extends SubsystemBase {
         boolean shotNote = true; // $TODO - This variable is never set to false! Needs logic cleanup
 
         if (useBeamBreak || RobotState.isAutonomous()) {
+            if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakPullBack()) {
+                ShooterConstants.shouldCharge = true;
+            }
+
             // No note
             if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
                 setIntakeSpeed(IntakeConstants.intakeSpeed);
