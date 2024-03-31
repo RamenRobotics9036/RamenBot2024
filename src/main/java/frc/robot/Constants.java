@@ -262,6 +262,7 @@ public class Constants {
         public static final double lowShooterSpeed = 0.2;
         public static final double pullBackAmount = 4;
 
+        // $TODO - This variable is NOT a constant. Let's move it elsewhere to reduce confusion.
         public static boolean shouldCharge = false;
     }
 
