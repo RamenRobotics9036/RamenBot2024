@@ -30,6 +30,7 @@ import frc.robot.commands.IntakeRevCommandAuto;
 import frc.robot.commands.PullBackCommand;
 import frc.robot.commands.PullBackShooterCommand;
 import frc.robot.commands.RevCommandAmp;
+import frc.robot.commands.RevCommandAuto;
 import frc.robot.commands.RotatePIDCommand;
 import frc.robot.commands.SetArmToAngleCommand;
 import frc.robot.commands.ShootCommandTele;
@@ -119,7 +120,7 @@ public class RobotContainer {
                 new ParallelDeadlineGroup(
                         new SetArmToAngleCommand(m_armSystem,
                                 PresetConstants.speakerPresetAngleAutoRadians).andThen(
-                                        new RevCommandAmp(m_intakeSystem, m_shooterSystem,
+                                        new RevCommandAuto(m_intakeSystem, m_shooterSystem,
                                                 m_armController,
                                                 0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT
                                                         // WITH SET
