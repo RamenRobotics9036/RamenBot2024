@@ -93,27 +93,67 @@ public class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (useBeamBreak || RobotState.isAutonomous()) {
-            // Note is detected by either beam breaks
-            if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakShooter()) {
-                ShooterConstants.shouldCharge = true;
-            }
+        if (RobotState.isAutonomous()) {
+            boolean shotNote = true; // $TODO - This variable is never set to false! Needs logic
+                                     // cleanup
 
-            // No note
-            if (m_LedSystem.getBeamBreakShooter() && m_LedSystem.getBeamBreakIntake()) {
-                setIntakeSpeed(IntakeConstants.intakeSpeed);
-                ShooterConstants.shouldCharge = false;
-            }
+            if (useBeamBreak || RobotState.isAutonomous()) {
+                if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakShooter()) {
+                    ShooterConstants.shouldCharge = true;
+                }
 
-            // Note blocking both beam breaks
-            if (!m_LedSystem.getBeamBreakShooter() && !m_LedSystem.getBeamBreakIntake()) {
-                // $TODO - Is this a bug? If we know we need to pull-back the note, then why is
-                // ShooterConstants.shouldCharge set to true? Wouldn't that potentially
-                // cause a weak shot? Or another way to put it - why are we needing
-                // to pull back the note here?
-                setIntakeSpeed(0);
+                // No note
+                if (m_LedSystem.getBeamBreakShooter() && m_LedSystem.getBeamBreakIntake()) {
+                    setIntakeSpeed(IntakeConstants.intakeSpeed);
+                    shotNote = true;
+                }
+                // Has note, but needs to be pulled back
+                else if (!m_LedSystem.getBeamBreakShooter() && !m_LedSystem.getBeamBreakIntake()) {
+                    // $TODO - Is this a bug? If we know we need to pull-back the note, then why is
+                    // ShooterConstants.shouldCharge set to true? Wouldn't that potentially
+                    // cause a weak shot? Or another way to put it - why are we needing
+                    // to pull back the note here?
+                    ShooterConstants.shouldCharge = true;
+                    if (shotNote) {
+                        setIntakeSpeed(IntakeConstants.pullBackSpeed);
+                    }
+                    // Has note and is pulled back
+                    // $TODO - This is a bug? There's no possible way for getBeamBreakPullBack to
+                    // become
+                    // TRUE since we're in the else if block that checks for it being FALSE.
+                    //
+                    // Some piece of code somowhere may be stopping the intake (by setting it to
+                    // speed
+                    // 0), but its clearly not this code...
+                    if (m_LedSystem.getBeamBreakShooter() && !m_LedSystem.getBeamBreakIntake()
+                            && shotNote) {
+                        setIntakeSpeed(0);
+                    }
+                }
             }
+        }
+        else if (RobotState.isTeleop() && useBeamBreak) {
+            if (useBeamBreak || RobotState.isAutonomous()) {
+                // Note is detected by either beam breaks
+                if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakShooter()) {
+                    ShooterConstants.shouldCharge = true;
+                }
 
+                // No note
+                if (m_LedSystem.getBeamBreakShooter() && m_LedSystem.getBeamBreakIntake()) {
+                    setIntakeSpeed(IntakeConstants.intakeSpeed);
+                    ShooterConstants.shouldCharge = false;
+                }
+
+                // Note blocking both beam breaks
+                if (!m_LedSystem.getBeamBreakShooter() && !m_LedSystem.getBeamBreakIntake()) {
+                    // $TODO - Is this a bug? If we know we need to pull-back the note, then why is
+                    // ShooterConstants.shouldCharge set to true? Wouldn't that potentially
+                    // cause a weak shot? Or another way to put it - why are we needing
+                    // to pull back the note here?
+                    setIntakeSpeed(0);
+                }
+            }
         }
         else {
             // $TODO - Note that right now, this code is never used, and the block of code above
