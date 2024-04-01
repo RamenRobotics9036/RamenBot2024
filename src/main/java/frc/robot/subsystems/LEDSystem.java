@@ -75,7 +75,7 @@ public class LEDSystem extends SubsystemBase {
         // m_ledB = 0;
     }
 
-    public boolean getBeamBreakPullBack() {
+    public boolean getBeamBreakShooter() {
         return beamBreakPullBack.get();
     }
 

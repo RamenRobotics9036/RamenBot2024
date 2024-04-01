@@ -117,12 +117,13 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "Raise Arm and Shoot Note",
                 new ParallelDeadlineGroup(
-                        new ParallelCommandGroup(
-                                new SetArmToAngleCommand(m_armSystem,
-                                        PresetConstants.speakerPresetAngleAutoRadians),
-                                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                                        0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT WITH SET
-                                                // ARM TO ANGLE COMMAND
+                        new SetArmToAngleCommand(m_armSystem,
+                                PresetConstants.speakerPresetAngleAutoRadians).andThen(
+                                        new RevCommandAmp(m_intakeSystem, m_shooterSystem,
+                                                m_armController,
+                                                0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT
+                                                        // WITH SET
+                                                        // ARM TO ANGLE COMMAND
                         new StayCommand(m_swerveDrive)));
     }
 
@@ -214,8 +215,9 @@ public class RobotContainer {
         double waitTime = 0.2;
 
         new Trigger(() -> m_armController.getAButton()).onTrue(
-                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                        0.7));
+                new PullBackCommand(m_intakeSystem, m_shooterSystem).andThen(
+                        new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
+                                0.7)));
 
         // Amp Preset
         new Trigger(() -> m_armController.getXButton()).onTrue(

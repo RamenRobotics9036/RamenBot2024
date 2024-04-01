@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotState;
@@ -33,6 +35,10 @@ public class IntakeSystem extends SubsystemBase {
     public IntakeSystem(LEDSystem ledSystem) {
         m_intakeMotorFollower.restoreFactoryDefaults();
         m_intakeMotorLeader.restoreFactoryDefaults();
+
+        m_intakeMotorLeader.setIdleMode(IdleMode.kBrake);
+        m_intakeMotorFollower.setIdleMode(IdleMode.kBrake);
+
         m_intakeMotorLeader.setSmartCurrentLimit(IntakeConstants.smartCurrentLimit);
         // This motor has a lot of friction in the mechanical system. Set this to the constant value
         // when this issue is fixed, increasing the current limit is a workaround for this issue.
@@ -44,7 +50,7 @@ public class IntakeSystem extends SubsystemBase {
         Shuffleboard.getTab("Charge Shot")
                 .addBoolean("Beam Intake", () -> m_LedSystem.getBeamBreakIntake());
         Shuffleboard.getTab("Charge Shot")
-                .addBoolean("Beam Back", () -> m_LedSystem.getBeamBreakPullBack());
+                .addBoolean("Beam Back", () -> m_LedSystem.getBeamBreakShooter());
         // initShuffleBoard();
         m_intakeMotorFollower.setInverted(true);
         m_intakeMotorLeader.setInverted(true);
@@ -87,39 +93,25 @@ public class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-        boolean shotNote = true; // $TODO - This variable is never set to false! Needs logic cleanup
-
         if (useBeamBreak || RobotState.isAutonomous()) {
-            if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakPullBack()) {
+            // Note is detected by either beam breaks
+            if (!m_LedSystem.getBeamBreakIntake() || !m_LedSystem.getBeamBreakShooter()) {
                 ShooterConstants.shouldCharge = true;
             }
 
             // No note
-            if (m_LedSystem.getBeamBreakPullBack() && m_LedSystem.getBeamBreakIntake()) {
+            if (m_LedSystem.getBeamBreakShooter() && m_LedSystem.getBeamBreakIntake()) {
                 setIntakeSpeed(IntakeConstants.intakeSpeed);
-                shotNote = true;
+                ShooterConstants.shouldCharge = false;
             }
-            // Has note, but needs to be pulled back
-            else if (!m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()) {
+
+            // Note blocking both beam breaks
+            if (!m_LedSystem.getBeamBreakShooter() && !m_LedSystem.getBeamBreakIntake()) {
                 // $TODO - Is this a bug? If we know we need to pull-back the note, then why is
                 // ShooterConstants.shouldCharge set to true? Wouldn't that potentially
                 // cause a weak shot? Or another way to put it - why are we needing
                 // to pull back the note here?
-                ShooterConstants.shouldCharge = true;
-                if (shotNote) {
-                    setIntakeSpeed(IntakeConstants.pullBackSpeed);
-                }
-                // Has note and is pulled back
-                // $TODO - This is a bug? There's no possible way for getBeamBreakPullBack to become
-                // TRUE since we're in the else if block that checks for it being FALSE.
-                //
-                // Some piece of code somowhere may be stopping the intake (by setting it to speed
-                // 0), but its clearly not this code...
-                if (m_LedSystem.getBeamBreakPullBack() && !m_LedSystem.getBeamBreakIntake()
-                        && shotNote) {
-                    setIntakeSpeed(0);
-                }
+                setIntakeSpeed(0);
             }
 
         }

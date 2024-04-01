@@ -53,9 +53,12 @@ public class AppliedController extends XboxController {
 
     @Override
     public double getRightX() {
-        return MathUtil.applyDeadband(
-                expo(super.getRightX(), m_controllerExponentRight),
-                m_controllerDeadband);
+        return MathUtil.clamp(
+                MathUtil.applyDeadband(
+                        expo(super.getRightX(), m_controllerExponentRight),
+                        m_controllerDeadband),
+                -0.2,
+                0.2);
     }
 
     @Override

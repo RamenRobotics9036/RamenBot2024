@@ -323,7 +323,7 @@ public class Constants {
         // (TESTED, WORKS VERY WELL) a little lower because our current auto is consistently
         // undershooting distance which means it needs a lower angle
         public static final double speakerPresetAngleAutoRadians = 5.03;
-        public static final double speakerPresetAngleRadians = 5.03;
+        public static final double speakerPresetAngleRadians = 5.03 + 0.05; // 5.03
         public static final double shooterSpeed = 0.7;
         public static final double speakerPresetAngleAutoOneRobotAwayRadians = 4.907;
     }
