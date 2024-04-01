@@ -6,6 +6,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -47,6 +49,8 @@ import frc.robot.util.AppliedController;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.function.BooleanSupplier;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -115,16 +119,22 @@ public class RobotContainer {
         );
 
         // THIS COULD POTENTIALLY RAISE ARM AND DO PULL BACK AT THE SAME TIME
+        BooleanSupplier atArmHeight = () -> MathUtil.applyDeadband(
+                m_armSystem.getArmAngleRadians() - PresetConstants.speakerPresetAngleAutoRadians,
+                0.05) == 0;
         NamedCommands.registerCommand(
                 "Raise Arm and Shoot Note",
                 new ParallelDeadlineGroup(
-                        new SetArmToAngleCommand(m_armSystem,
-                                PresetConstants.speakerPresetAngleAutoRadians).andThen(
-                                        new RevCommandAuto(m_intakeSystem, m_shooterSystem,
-                                                m_armController,
-                                                0.65)), // THIS TIMING WILL NEED TO BE LOOKED AT
-                                                        // WITH SET
-                                                        // ARM TO ANGLE COMMAND
+                        new ParallelCommandGroup(
+                                new SetArmToAngleCommand(m_armSystem,
+                                        PresetConstants.speakerPresetAngleAutoRadians),
+                                new RevCommandAuto(m_intakeSystem, m_shooterSystem,
+                                        m_armController,
+                                        0.65, atArmHeight)), // THIS TIMING WILL
+                                                             // NEED
+                                                             // TO BE LOOKED AT
+                        // WITH SET
+                        // ARM TO ANGLE COMMAND
                         new StayCommand(m_swerveDrive)));
     }
 
