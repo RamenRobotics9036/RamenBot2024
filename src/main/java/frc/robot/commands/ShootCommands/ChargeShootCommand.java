@@ -24,7 +24,7 @@ public class ChargeShootCommand extends Command {
     @Override
     public void execute() {
         if (m_controller.getBButton() || revHighSpeed) {
-            m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed * 0.7);
+            m_shooterSystem.setShootSpeed(ShooterConstants.shooterSpeed);
             revHighSpeed = true;
         }
         else {

@@ -14,13 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Set Arm To Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Note"
+            "name": "Raise Arm and Shoot Note"
           }
         },
         {
