@@ -16,7 +16,6 @@ public class RevCommandAuto extends Command {
     private Timer m_timer;
     private AppliedController m_controller;
     private double m_shooterSpeed;
-    BooleanSupplier m_atArmHeight;
 
     public RevCommandAuto(
             IntakeSystem intakeSystem,
@@ -28,7 +27,6 @@ public class RevCommandAuto extends Command {
         m_intakeSystem = intakeSystem;
         m_shooterSystem = shooterSystem;
         m_controller = controller;
-        m_atArmHeight = atArmHeight;
 
         addRequirements(m_intakeSystem, m_shooterSystem);
     }
@@ -44,7 +42,7 @@ public class RevCommandAuto extends Command {
 
         m_shooterSystem.setShootSpeed(m_shooterSpeed);
 
-        if (m_timer.get() >= 0.7 && m_atArmHeight.getAsBoolean()) {
+        if (m_timer.get() >= 1) {
             m_intakeSystem.setIntakeSpeed(1);
 
         }
@@ -52,10 +50,7 @@ public class RevCommandAuto extends Command {
 
     @Override
     public boolean isFinished() {
-        if (m_timer.get() >= .9) {
-            return true;
-        }
-        if (m_controller.commandCancel()) {
+        if (m_timer.get() >= 1.3) {
             return true;
         }
         return false;

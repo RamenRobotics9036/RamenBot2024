@@ -20,7 +20,7 @@ public class Constants {
         public static final double controllerExpoRatio = 0.6;
         public static final double controllerExpoRatioRight = 0.90;
 
-        public static final double controllerDeadbandPercent = 0.06; // 0.2
+        public static final double controllerDeadbandPercent = 0.12; // 0.2
 
         public static final int kLEDLightsChannel = 0;
         public static final int kLEDLightsLength = 34;

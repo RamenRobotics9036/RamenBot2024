@@ -79,16 +79,16 @@ public class AppliedController extends XboxController {
      * Returns true if any of the joystick axes are not zero.
      */
     public boolean commandCancel() {
-        if (getLeftY() != 0) {
+        if (getLeftY() > 0.8) {
             return true;
         }
-        if (getRightY() != 0) {
+        if (getRightY() > 0.8) {
             return true;
         }
-        if (getLeftX() != 0) {
+        if (getLeftX() > 0.8) {
             return true;
         }
-        if (getRightX() != 0) {
+        if (getRightX() > 0.8) {
             return true;
         }
         return false;
