@@ -104,6 +104,10 @@ public class IntakeSystem extends SubsystemBase {
                 .add("Current Velocity: ", m_encoder.getVelocity());
     }
 
+    public void setIntakeSpeedMax() {
+        m_intakeMotorLeader.set(1);
+    }
+
     @Override
     public void periodic() {
         if (RobotState.isAutonomous()) {
