@@ -16,6 +16,7 @@ public class MotorControllerGroup {
     }
 
     public void set(double speed) {
+        m_speed = speed;
         for (CANSparkMax motor : m_motors) {
             motor.set(speed);
         }
