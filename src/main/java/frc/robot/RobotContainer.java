@@ -262,9 +262,11 @@ public class RobotContainer {
                                 new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
                                         0.2)));
 
-        // Auto-align
-        // new Trigger(() -> m_driveController.getAButton()).onTrue(
-        // new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+        // UNTESTED Distance Shoot
+        new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean()).onTrue(
+                new SetArmToAngleCommand(m_armSystem,
+                        (m_visionSystem.CalculateDistanceShootingAngle()
+                                + ShooterConstants.distanceShootOffset)));
 
     }
 

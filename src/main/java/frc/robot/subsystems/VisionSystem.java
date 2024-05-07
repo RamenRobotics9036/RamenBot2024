@@ -244,8 +244,8 @@ public class VisionSystem extends SubsystemBase {
         return 2 * Math.atan(
                 (ArmConstants.centerSpeakerHeight - Math.sqrt(
                         Math.pow(ArmConstants.centerSpeakerHeight, 2)
-                                + Math.pow(getDistanceMetersY(), 2)
+                                + Math.pow(getSpeakerYDistance(), 2)
                                 - Math.pow(ArmConstants.shootToPivotRadius, 2)))
-                        / (ArmConstants.shootToPivotRadius - getDistanceMetersY()));
+                        / (ArmConstants.shootToPivotRadius - getSpeakerYDistance()));
     }
 }
