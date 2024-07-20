@@ -17,7 +17,8 @@ public class AppliedController extends XboxController {
     public AppliedController(int port) {
         super(port);
         this.m_controllerDeadband = OperatorConstants.controllerDeadbandPercent;
-        this.m_controllerExponent = Math.pow(OperatorConstants.controllerExpo,
+        this.m_controllerExponent = Math.pow(
+                OperatorConstants.controllerExpo,
                 OperatorConstants.controllerExpoRatio);
     }
 

@@ -13,6 +13,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.CommandsConstants.SetArmConstants;
@@ -43,6 +44,8 @@ public class ArmSystem extends SubsystemBase {
         m_armMotorLeader.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
         m_armMotorFollower.setSmartCurrentLimit(ArmConstants.smartCurrentLimit);
 
+        m_ArmEncoder.setPositionOffset(0.14);
+
         m_armMotorLeader.setInverted(true);
         m_armMotorFollower.setInverted(true);
 
@@ -52,8 +55,9 @@ public class ArmSystem extends SubsystemBase {
         m_controller = controller;
         // initShuffleBoard();
         Shuffleboard.getTab("Arm").addDouble("Arm Angle Absolute", () -> getArmAngleRadians());
+        Shuffleboard.getTab("Arm").addDouble("Arm Angle Zero To One", () -> getArmAngleZeroToOne());
         setDefaultCommand(new ArmDefaultCommand(this, m_controller));
-
+        m_ArmEncoder.setPositionOffset(0.14);
         m_relativeEncoder.setPositionConversionFactor((Math.PI * 2) / ArmConstants.gearRatio);
         m_relativeEncoder.setPosition(getArmAngleRadians());
     }
@@ -61,6 +65,12 @@ public class ArmSystem extends SubsystemBase {
     public double getArmAngleRadians() {
         return 2 * Math.PI
                 - (m_ArmEncoder.getAbsolutePosition() + ArmConstants.armAngleOffsetHorizontal) * 6;
+    }
+
+    public double getArmAngleZeroToOne() {
+        return (Constants.CommandsConstants.SetArmConstants.armMin - 6.28)
+                / (m_ArmEncoder.getAbsolutePosition() * 6);
+
     }
 
     public double getArmHeight() {
@@ -106,6 +116,8 @@ public class ArmSystem extends SubsystemBase {
         Shuffleboard.getTab("Arm").addDouble("Arm Speed", () -> getArmSpeed());
         Shuffleboard.getTab("Arm")
                 .addDouble("Arm Angle Relative", () -> getRelativeEncoderRadians());
+        // Shuffleboard.getTab("Arm").addDouble("Arm Angle Zero To One", () ->
+        // getArmAngleZeroToOne());
     }
 
     /**
