@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
@@ -251,5 +252,15 @@ public class VisionSystem extends SubsystemBase {
     }
 
     public void stopSystem() {
+    }
+
+    public double CalculateDistanceShootingAngle() {
+
+        return 2 * Math.atan(
+                (ArmConstants.centerSpeakerHeight - Math.sqrt(
+                        Math.pow(ArmConstants.centerSpeakerHeight, 2)
+                                + Math.pow(getSpeakerYDistance(), 2)
+                                - Math.pow(ArmConstants.shootToPivotRadius, 2)))
+                        / (ArmConstants.shootToPivotRadius - getSpeakerYDistance()));
     }
 }

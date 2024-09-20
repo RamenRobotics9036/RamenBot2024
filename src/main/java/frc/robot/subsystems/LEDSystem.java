@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 
 @SuppressWarnings("AbbreviationAsWordInNameCheck")
@@ -19,7 +22,11 @@ public class LEDSystem extends SubsystemBase {
     // MotorType.kBrushless);
     // private RelativeEncoder m_encoder = intakeMotor.getEncoder();
 
-    @SuppressWarnings("MemberNameCheck")
+    // ARBITRARY NUMBER
+    private double NORMALCURRENT = Double.MAX_VALUE;
+
+    private DigitalInput beamBreak = new DigitalInput(1);
+
     private AddressableLED m_LEDLight = new AddressableLED(
             Constants.OperatorConstants.kLEDLightsChannel);
 
@@ -75,8 +82,15 @@ public class LEDSystem extends SubsystemBase {
         // m_ledB = 0;
     }
 
-    public boolean getBeamBreakShooter() {
-        return beamBreakPullBack.get();
+    public void initShuffleBoard() {
+        // Shuffleboard.getTab("Intake")
+        // .add("Current Output: ", m_intakeSystem.getOutputCurrent());
+
+        Shuffleboard.getTab("Intake")
+                .add("Beam Break: ", beamBreak.get());
+
+        Shuffleboard.getTab("Intake").addBoolean("Note in? TEST", () -> true);
+
     }
 
     public boolean getBeamBreakIntake() {
@@ -97,10 +111,10 @@ public class LEDSystem extends SubsystemBase {
                 m_LEDLight.setData(m_LEDBuffer);
                 m_noteInIntake = false;
 
+        if (beamBreak.get()) {
+            for (int i = 0; i < OperatorConstants.kLEDLightsLength; i++) {
+                m_LEDBuffer.setRGB(i, 0, 255, 0);
             }
-            // otherwise, it wont do anything, so that it is not constantly running the for loop
-
-            // m_armController.setRumble(RumbleType.kBothRumble, 0);
         }
         // // Beam Break does not see the light (has the note)
         else {

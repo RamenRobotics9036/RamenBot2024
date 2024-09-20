@@ -71,6 +71,7 @@ public class RobotContainer {
     private LEDSystem m_LEDSystem = new LEDSystem();
     private IntakeSystem m_intakeSystem = new IntakeSystem(m_LEDSystem);
     private HookSystem m_hookSystem = new HookSystem(m_armController);
+    private LEDSystem m_LEDSystem = new LEDSystem();
 
     @SuppressWarnings({
             "AbbreviationAsWordInNameCheck", "MemberNameCheck"
@@ -278,23 +279,11 @@ public class RobotContainer {
 
         new Trigger(() -> m_armController.povRight(new EventLoop()).getAsBoolean()).onTrue(
 
-                new RevCommandAmp(m_intakeSystem, m_shooterSystem, m_armController,
-                        0.2));
-
-        new Trigger(() -> m_armController.povDown(new EventLoop()).getAsBoolean())
-                .onTrue(new PullBackShooterCommand(m_shooterSystem));
-
-        new Trigger(() -> ShooterConstants.shouldCharge)
-                .whileTrue(
-                        new ChargeShootCommand(m_shooterSystem, m_armController));
-
-        // new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean())
-        // .onTrue(); // IS IT POSSIBLE TO CALL A METHOD INSTEAD OF A COMMAND? OR WHERE ELSE DO
-        // I CALL IT? (above is called bind commands, so probably not)
-
-        // Auto-align
-        // new Trigger(() -> m_driveController.getAButton()).onTrue(
-        // new VisionAutoAlignCommand(m_swerveDrive, m_visionSystem));
+        // UNTESTED Distance Shoot
+        new Trigger(() -> m_armController.povLeft(new EventLoop()).getAsBoolean()).onTrue(
+                new SetArmToAngleCommand(m_armSystem,
+                        (m_visionSystem.CalculateDistanceShootingAngle()
+                                + ShooterConstants.distanceShootOffset)));
 
     }
 
@@ -318,5 +307,6 @@ public class RobotContainer {
         m_armSystem.stopSystem();
         m_intakeSystem.stopSystem();
         m_hookSystem.stopSystem();
+        m_LEDSystem.stopSystem();
     }
 }
