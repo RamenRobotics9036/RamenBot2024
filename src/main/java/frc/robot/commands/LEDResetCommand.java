@@ -14,6 +14,7 @@ public class LEDResetCommand extends Command {
     @Override
     public void initialize() {
         m_LEDSystem.resetLED();
+        System.out.println("Hello World");
     }
 
     @Override
