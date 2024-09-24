@@ -1,0 +1,9 @@
+Videos:
+Tutorial from team 2059, overview and getting started: https://www.youtube.com/watch?v=C5DqnIu6g8k
+Complete overview video series (long) from team 1923: https://www.youtube.com/watch?v=pcUj3GT_1LU&list=PLjuLcdW1ogBSBB6K4n_JxLnw_nst5V_Us&index=1
+Step by step video series from team 1796: https://www.youtube.com/watch?v=Utk0qHSTicw&list=PLLDODAGuIHqMZhsnM-rrvQrJZ1dHI1iom&index=3
+Java tutorial (super long): https://www.youtube.com/watch?v=grEKMHGYyns
+
+Documentation:
+Official documentation: https://docs.wpilib.org/en/stable/
+Team 3255 documentation: https://frcteam3255.github.io/FRC-Java-Tutorial/index.html
