@@ -87,6 +87,7 @@ public class RobotContainer {
         m_autoChooser.addOption("One Note Amp Auto (NO MOVEMENT)", "Amp Auto Stay");
         m_autoChooser.addOption("4 Note Auto?????", "Potential 4 Note Auto");
         m_autoChooser.addOption("4 Note Auto Diagonal", "4 Note Diagonal");
+        m_autoChooser.addOption("test", "auto test");
 
         m_autoChooser.addOption(
                 "Amp Sub 3 Note (Amp Note and Top Center Note)",
