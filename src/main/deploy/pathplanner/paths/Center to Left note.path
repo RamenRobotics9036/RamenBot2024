@@ -1,0 +1,84 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.383130458568611,
+        "y": 5.535354916863679
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3929974013752224,
+        "y": 5.495887145623541
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.383130458568611,
+        "y": 7.015396338488079
+      },
+      "prevControl": {
+        "x": 1.3239288016995616,
+        "y": 7.035130224109698
+      },
+      "nextControl": {
+        "x": 1.4271809101001487,
+        "y": 7.000712854645274
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8927727086181445,
+        "y": 7.015396338488079
+      },
+      "prevControl": {
+        "x": 2.8927727086181445,
+        "y": 7.054864109731313
+      },
+      "nextControl": {
+        "x": 2.8927727086181445,
+        "y": 6.91539633848808
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.383130458568611,
+        "y": 5.535354916863679
+      },
+      "prevControl": {
+        "x": 1.3633965729427968,
+        "y": 5.486020202812732
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Bordie 2024",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
