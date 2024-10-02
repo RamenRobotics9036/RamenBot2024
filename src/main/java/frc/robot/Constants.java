@@ -33,7 +33,7 @@ public class Constants {
         public static final boolean isPIDTuning = true;
 
         public static final double frameDistanceToModulesMeters = 0.5461;
-        public static final double wheelRadiusMeters = 0.0508; // 2 inches
+        public static final double wheelRadiusMeters = 0.0495; // for Andy Mark Colson Wheels
 
         public static final int gyroCanID = 7;
 
