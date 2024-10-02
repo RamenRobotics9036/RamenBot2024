@@ -30,7 +30,7 @@ public class ShootCommandTele extends Command {
 
     @Override
     public void execute() {
-        m_intakeSystem.setIntakeSpeed(IntakeConstants.maxOutputPercent);
+        m_intakeSystem.setIntakeSpeedMax();
     }
 
     @Override

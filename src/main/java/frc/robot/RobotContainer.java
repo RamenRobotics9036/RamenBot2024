@@ -69,7 +69,7 @@ public class RobotContainer {
     private ShooterSystem m_shooterSystem = new ShooterSystem();
     private ArmSystem m_armSystem = new ArmSystem(m_armController);
     private LEDSystem m_LEDSystem = new LEDSystem();
-    private IntakeSystem m_intakeSystem = new IntakeSystem(m_LEDSystem);
+    private IntakeSystem m_intakeSystem = new IntakeSystem(m_LEDSystem, m_driveController);
     private HookSystem m_hookSystem = new HookSystem(m_armController);
 
     @SuppressWarnings({

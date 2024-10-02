@@ -81,7 +81,10 @@ public class ArmSystem extends SubsystemBase {
 
     public void setArmSpeed(double speed) {
         speed = MathUtil.clamp(speed, -m_maxOutputPercent, m_maxOutputPercent);
-        if ((speed < 0 && getArmAngleRadians() < SetArmConstants.armMin)
+        if (MathUtil.applyDeadband(getArmAngleRadians() - 2 * Math.PI, 0.05) == 0) {
+            m_armMotorLeader.set(0);
+        }
+        else if ((speed < 0 && getArmAngleRadians() < SetArmConstants.armMin)
                 || (speed > 0 && getArmAngleRadians() > SetArmConstants.armMax)) {
             m_armMotorLeader.set(speed);
         }
