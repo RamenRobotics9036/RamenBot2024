@@ -20,7 +20,7 @@ public class Constants {
         public static final double controllerExpoRatio = 0.6;
         public static final double controllerExpoRatioRight = 0.90;
 
-        public static final double controllerDeadbandPercent = 0.12; // 0.2
+        public static final double controllerDeadbandPercent = 0.07; // 0.2
 
         public static final int kLEDLightsChannel = 0;
         public static final int kLEDLightsLength = 34;
@@ -41,7 +41,7 @@ public class Constants {
         // tested.
         // If you need to raise it higher, change it on your local code only
         public static final double maxOutputPercentage = 1;
-        public static final double autoSpeed = 0.6; // Trying to lower max auto speed
+        public static final double autoSpeed = 1; // Trying to lower max auto speed
 
         // PID tunes for 51.5 pounds
         public static final double drivingPID_P = 5;
